@@ -4,4 +4,5 @@ module mainTER {
     requires hsqldb;
     requires java.sql;
     exports mainTER;
+    opens mainTER.Menu;
 }

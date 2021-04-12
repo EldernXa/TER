@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import mainTER.Menu.MainMenu;
 
 /**
  * JavaFX App
@@ -13,15 +14,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        String version = "";
-        try{
-            version = Version.getVersion();
-        }catch(Exception exception){
-            exception.printStackTrace();
-        }
 
-        var label = new Label("The version is " + version + ".");
-        var scene = new Scene(new StackPane(label), 640, 480);
+        MainMenu mainMenu = new MainMenu();
+        var scene = new Scene(mainMenu, 640, 480);
         stage.setScene(scene);
         stage.show();
     }

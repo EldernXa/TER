@@ -7,16 +7,17 @@ import java.util.Properties;
 
 public class Version {
 
-    public static String getVersion() throws IOException {
+    public static String getVersion() {
         Properties properties = new Properties();
         InputStream inputStreamProperties = Version.class.getClassLoader().getResourceAsStream("app.properties");
-        if(inputStreamProperties != null)
-        {
-            properties.load(inputStreamProperties);
+        try {
+            if (inputStreamProperties != null) {
+                properties.load(inputStreamProperties);
+            } else
+                throw new FileNotFoundException();
+        }catch(IOException ioException){
+            ioException.printStackTrace();
         }
-        else
-            throw new FileNotFoundException();
-
         return properties.getProperty("applicationVersion");
 
     }
