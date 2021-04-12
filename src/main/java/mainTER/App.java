@@ -15,7 +15,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
 
-        MainMenu mainMenu = new MainMenu();
+        MainMenu mainMenu = new MainMenu(stage);
         var scene = new Scene(mainMenu, 640, 480);
         stage.setScene(scene);
         stage.show();
