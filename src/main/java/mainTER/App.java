@@ -13,8 +13,14 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
+        String version = "";
+        try{
+            version = Version.getVersion();
+        }catch(Exception exception){
+            exception.printStackTrace();
+        }
 
-        var label = new Label("Hello, JavaFX " + "..." + ", running on Java " + "..." + ".");
+        var label = new Label("The version is " + version + ".");
         var scene = new Scene(new StackPane(label), 640, 480);
         stage.setScene(scene);
         stage.show();
