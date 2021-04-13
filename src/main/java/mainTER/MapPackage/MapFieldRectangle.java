@@ -2,7 +2,7 @@ package mainTER.MapPackage;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import mainTER.CharacterGameplay.Coordinate;
+import mainTER.Tools.Coordinate;
 
 public class MapFieldRectangle extends MapFieldForm {
 
@@ -15,6 +15,9 @@ public class MapFieldRectangle extends MapFieldForm {
         this.rectangle = new Rectangle(coordinate.getX(),coordinate.getY(),width,height);
         this.rectangle.setFill(Color.BLACK);
 
+        this.rectangle.setX(coordinate.getX());
+        this.rectangle.setY(coordinate.getY());
+        System.out.println("x : "+rectangle.getX() + " y : " +rectangle.getY()  +" w :"+rectangle.getWidth() +" h:"+rectangle.getHeight());
     }
 
     public Rectangle getRectangle() {

@@ -1,8 +1,6 @@
 package mainTER.MapPackage;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import mainTER.CharacterGameplay.Coordinate;
+import mainTER.Tools.Coordinate;
 
 public abstract class MapFieldForm {
 

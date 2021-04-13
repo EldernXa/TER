@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Objects;
 
+import mainTER.Tools.Coordinate;
+
 public class Character {
     private String name;
     private Coordinate initialCoordinate;

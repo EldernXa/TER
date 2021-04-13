@@ -1,4 +1,4 @@
-package mainTER.CharacterGameplay;
+package mainTER.Tools;
 
 public class Coordinate {
 

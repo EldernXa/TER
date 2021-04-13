@@ -14,7 +14,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import mainTER.MapPackage.MapFieldFromLilPict;
+import mainTER.MapPackage.MapFieldFromSprite;
+import mainTER.Tools.Coordinate;
 import mainTER.LoadOfFXML;
+import mainTER.MapPackage.MapFieldRectangle;
 
 public class MenuItem extends StackPane {
 
@@ -69,7 +73,17 @@ public class MenuItem extends StackPane {
 
                     Scene scene = new Scene(pane,300,600);
                     Stage mainStage = new Stage();
+                    MapFieldRectangle mapFieldRectangle = new MapFieldRectangle(new Coordinate(150,150),125,100);
+                    MapFieldRectangle mapFieldRectangle2 = new MapFieldRectangle(new Coordinate(10,10),32,35);
+                    mapFieldRectangle2.getRectangle().setFill(Color.BLUE);
+                    MapFieldFromSprite mapFieldFromSprite = new MapFieldFromSprite("d:/Users/user1/Documents/travaille/l3/Projet/LaveMapSprites/test/test0.png",new Coordinate(10,10),100);
 
+
+
+
+                    MapFieldFromLilPict mapFieldFromLilPict = new MapFieldFromLilPict("d:/Users/user1/Documents/travaille/l3/Projet/LaveMapSprites/test/test0.png",new Coordinate(150,150),125,100);
+
+                    pane.getChildren().addAll(mapFieldRectangle2.getRectangle(),mapFieldFromSprite.getImageViewSizePos().getImageView(),mapFieldRectangle.getRectangle(),mapFieldFromLilPict.getPane());
 
                     mainStage.setScene(scene);
                     mainStage.centerOnScreen();
