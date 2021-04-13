@@ -1,5 +1,6 @@
 package mainTER.Menu;
 
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -13,6 +14,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import mainTER.LoadOfFXML;
 import mainTER.Version;
 
@@ -58,14 +60,26 @@ public class MenuItem extends StackPane {
     public void clickOn(Rectangle bg,Stage stage,String name){
         setOnMousePressed(event -> {
             bg.setFill(Color.DARKVIOLET);
+
+        });
+
+
+        setOnMouseClicked(event -> {
+
             switch (name){
                 case "SINGLEPLAYER" : {
                     Pane pane = new Pane();
 
                     Scene scene = new Scene(pane,300,600);
-                    stage.setMaximized(false);
-                    stage.setScene(scene);
-                    stage.centerOnScreen();
+                    Stage mainStage = new Stage();
+
+
+                    mainStage.setScene(scene);
+                    mainStage.centerOnScreen();
+                    stage.close();
+                    mainStage.show();
+
+
 
                 }
                 break;
@@ -75,10 +89,19 @@ public class MenuItem extends StackPane {
                 break;
                 case "OPTIONS" : {
 
+                    Pane pane = new Pane();
+
+                    Scene scene = new Scene(pane,500,600);
+                    Stage mainStage = new Stage();
+
+
+                    mainStage.setScene(scene);
+                    mainStage.centerOnScreen();
+                    mainStage.show();
                 }
                 break;
                 case "QUIT":{
-                    stage.close();
+                    Platform.exit();
                 }
             }
         });

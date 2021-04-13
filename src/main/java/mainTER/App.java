@@ -1,6 +1,7 @@
 package mainTER;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -78,9 +79,8 @@ public class App extends Application {
         //MainMenu mainMenu = new MainMenu(stage);
         var scene = new Scene(createContent(stage));
         stage.setScene(scene);
-        stage.initStyle(StageStyle.UTILITY);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
-        //stage.setMaximized(true);
     }
 
     public static void main(String[] args) {
