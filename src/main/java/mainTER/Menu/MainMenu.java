@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 import javafx.stage.Stage;
 import mainTER.Version;
 
@@ -39,8 +41,13 @@ public class MainMenu {
             img.setFitWidth(860);
             img.setFitHeight(600);
 
+            Rectangle rect = new Rectangle(860,600);
+            rect.setStroke(Color.BLACK);
+            rect.setStrokeWidth(5);
+            rect.setStrokeType(StrokeType.INSIDE);
+            rect.setFill(null);
 
-            pane.getChildren().add(img);
+            pane.getChildren().addAll(img,rect);
         }catch (IOException e){
             System.out.println("ouverture d'image impossible");
         }
@@ -60,6 +67,8 @@ public class MainMenu {
         vbox.setSpacing(5);
         label.setTranslateX(4);
         label.setTranslateY(4);
+
+
 
         pane.getChildren().addAll(title,vbox,label);
         return pane;
