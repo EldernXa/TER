@@ -25,7 +25,11 @@ import java.nio.file.Paths;
 public class App extends Application {
 
 
-
+    /**
+     * Creation of the content of main scene
+     * @param stage is the current stage
+     * @return
+     */
     private Parent createContent(Stage stage){
         Pane pane = new Pane();
         Label label = new Label();

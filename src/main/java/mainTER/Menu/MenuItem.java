@@ -18,6 +18,11 @@ import mainTER.Version;
 
 public class MenuItem extends StackPane {
 
+    /**
+     * Constructor to create items
+     * @param name is the name of the item
+     * @param stage is the current stage
+     */
     public MenuItem(String name, Stage stage){
 
         LinearGradient gradient = new LinearGradient(0,0,1,0,true, CycleMethod.NO_CYCLE,
@@ -39,6 +44,55 @@ public class MenuItem extends StackPane {
         setAlignment(Pos.CENTER);
         getChildren().addAll(bg,text);
 
+        setUpMouse(bg,stage,text,name,gradient);
+
+
+    }
+
+    /**
+     * When we click on the rectangle
+     * @param bg is the rectangle background
+     * @param stage current stage which we are going to change his scene
+     * @param name name of the item
+     */
+    public void clickOn(Rectangle bg,Stage stage,String name){
+        setOnMousePressed(event -> {
+            bg.setFill(Color.DARKVIOLET);
+            switch (name){
+                case "SINGLEPLAYER" : {
+                    Pane pane = new Pane();
+
+                    Scene scene = new Scene(pane,300,600);
+                    stage.setMaximized(false);
+                    stage.setScene(scene);
+                    stage.centerOnScreen();
+
+                }
+                break;
+                case "MULTIPLAYER": {
+
+                }
+                break;
+                case "OPTIONS" : {
+
+                }
+                break;
+            }
+        });
+        
+        
+       
+    }
+
+    /**
+     * Set up for the mouse controller
+     * @param bg is the rectangle background
+     * @param stage is the current stage
+     * @param text is the text that contains name
+     * @param name is the name of the rectangle
+     * @param gradient is the gradient color
+     */
+    public void setUpMouse(Rectangle bg,Stage stage, Text text, String name, LinearGradient gradient){
 
 
         setOnMouseEntered(event -> {
@@ -51,21 +105,8 @@ public class MenuItem extends StackPane {
             text.setFill(Color.DARKGREY);
         });
 
-        setOnMousePressed(event -> {
-            bg.setFill(Color.DARKVIOLET);
-            switch (name){
-                case "SINGLEPLAYER" : {
-                    System.out.println("one rentre dedans");
-                    Pane pane = new Pane();
+        clickOn(bg,stage,name);
 
-                    Scene scene = new Scene(pane,300,600);
-                    stage.setMaximized(false);
-                        stage.setScene(scene);
-                        stage.centerOnScreen();
-
-                }
-            }
-        });
         setOnMouseReleased(event ->{
 
             bg.setFill(gradient);
