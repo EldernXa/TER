@@ -37,7 +37,6 @@ public class MenuItem extends StackPane {
         text.setFill(Color.DARKGREY);
         text.setFont(Font.font("Tw Cen Mt Condensed", FontWeight.SEMI_BOLD,22));
 
-
         LoadOfFXML.loadFXML("/mainTER/Menu/FXML/MainMenu.fxml", this, this);
         setMaxSize(200,30);
 
@@ -63,7 +62,7 @@ public class MenuItem extends StackPane {
 
 
         setOnMouseClicked(event -> {
-
+            stage.close();
             switch (name){
                 case "SINGLEPLAYER" : {
                     Pane pane = new Pane();
@@ -74,7 +73,6 @@ public class MenuItem extends StackPane {
 
                     mainStage.setScene(scene);
                     mainStage.centerOnScreen();
-                    stage.close();
                     mainStage.show();
 
 
@@ -103,9 +101,7 @@ public class MenuItem extends StackPane {
                 }
             }
         });
-        
-        
-       
+
     }
 
     /**
