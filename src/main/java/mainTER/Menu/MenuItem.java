@@ -14,9 +14,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import mainTER.LoadOfFXML;
-import mainTER.Version;
 
 public class MenuItem extends StackPane {
 
@@ -40,7 +38,7 @@ public class MenuItem extends StackPane {
         text.setFont(Font.font("Tw Cen Mt Condensed", FontWeight.SEMI_BOLD,22));
 
 
-        LoadOfFXML.loadFXML("/mainTER/Menu/MainMenu.fxml", this, this);
+        LoadOfFXML.loadFXML("/mainTER/Menu/FXML/MainMenu.fxml", this, this);
         setMaxSize(200,30);
 
         setAlignment(Pos.CENTER);
