@@ -11,8 +11,11 @@ public class ReadFileMap {
     private ArrayList<String> type;
     private ArrayList<Integer> xCoord;
     private ArrayList<Integer> yCoord;
+    private ArrayList<Integer> height;
+    private ArrayList<Integer> width;
     private String file[];
     private String pathName;
+
 
 
     public ReadFileMap(String pathName) {
@@ -20,6 +23,7 @@ public class ReadFileMap {
         type = new ArrayList<>();
         xCoord = new ArrayList<>();
         yCoord = new ArrayList<>();
+
         Path path = Paths.get(pathName);
         try {
             this.file = Files.readString(path).split("\n");
