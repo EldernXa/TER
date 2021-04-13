@@ -7,9 +7,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import mainTER.Menu.MenuBox;
 import mainTER.Menu.MenuItem;
 import mainTER.Menu.Title;
@@ -35,27 +37,34 @@ public class App extends Application {
         Label label = new Label();
         label.setTextFill(Color.WHITE);
 
+
+
         label.setText(Version.getVersion());
         try(InputStream is = Files.newInputStream(Paths.get("src/main/resources/mainTER/Menu/background.png"))){
             ImageView img = new ImageView(new Image(is));
-            img.setFitHeight(800);
-            img.setFitWidth(1540);
+
+
+            img.setFitWidth(860);
+            img.setFitHeight(600);
+
+
             pane.getChildren().add(img);
         }catch (IOException e){
             System.out.println("ouverture d'image impossible");
         }
 
         Title title =  new Title("NAMELESS TITLE");
-        title.setTranslateX(590);
+        title.setTranslateX(270);
         title.setTranslateY(100);
 
         MenuBox vbox = new MenuBox(
                 new MenuItem("SINGLEPLAYER",stage),
                 new MenuItem("MULTIPLAYER",stage),
-                new MenuItem("OPTIONS",stage)
+                new MenuItem("OPTIONS",stage),
+                new MenuItem("QUIT",stage)
         );
-        vbox.setTranslateX(610);
-        vbox.setTranslateY(330);
+        vbox.setTranslateX(320);
+        vbox.setTranslateY(250);
         vbox.setSpacing(5);
         label.setTranslateX(4);
         label.setTranslateY(4);
@@ -69,8 +78,9 @@ public class App extends Application {
         //MainMenu mainMenu = new MainMenu(stage);
         var scene = new Scene(createContent(stage));
         stage.setScene(scene);
+        stage.initStyle(StageStyle.UTILITY);
         stage.show();
-        stage.setMaximized(true);
+        //stage.setMaximized(true);
     }
 
     public static void main(String[] args) {

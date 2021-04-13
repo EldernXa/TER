@@ -77,6 +77,9 @@ public class MenuItem extends StackPane {
 
                 }
                 break;
+                case "QUIT":{
+                    stage.close();
+                }
             }
         });
         
