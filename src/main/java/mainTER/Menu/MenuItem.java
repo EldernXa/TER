@@ -1,6 +1,7 @@
 package mainTER.Menu;
 
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -15,13 +16,15 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import mainTER.MapPackage.Map;
-import mainTER.MapPackage.MapFieldFromLilPict;
-import mainTER.MapPackage.MapFieldFromSprite;
-import mainTER.Tools.Coordinate;
 import mainTER.LoadOfFXML;
-import mainTER.MapPackage.MapFieldRectangle;
 
 public class MenuItem extends StackPane {
+
+    @FXML
+    private Rectangle rectangleText;
+    
+    @FXML
+    private Text textMenu;
 
     /**
      * Constructor to create items
@@ -30,38 +33,21 @@ public class MenuItem extends StackPane {
      */
     public MenuItem(String name, Stage stage){
 
-        LinearGradient gradient = new LinearGradient(0,0,1,0,true, CycleMethod.NO_CYCLE,
-                new Stop(0, Color.DARKVIOLET),
-                new Stop(0.1,Color.BLACK),
-                new Stop(0.9,Color.BLACK),
-                new Stop(1,Color.DARKVIOLET));
-
-        Rectangle bg = new Rectangle(200,30);
-        bg.setOpacity(0.4);
-        Text text = new Text(name);
-        text.setFill(Color.DARKGREY);
-        text.setFont(Font.font("Tw Cen Mt Condensed", FontWeight.SEMI_BOLD,22));
-
-        LoadOfFXML.loadFXML("/mainTER/Menu/FXML/MainMenu.fxml", this, this);
-        setMaxSize(200,30);
-
-        setAlignment(Pos.CENTER);
-        getChildren().addAll(bg,text);
-
-        setUpMouse(bg,stage,text,name,gradient);
+        LoadOfFXML.loadFXML("/mainTER/Menu/FXML/MenuItem.fxml", this, this);
+        textMenu.setText(name);
+        setUpMouse(stage,name);
 
 
     }
 
     /**
      * When we click on the rectangle
-     * @param bg is the rectangle background
      * @param stage current stage which we are going to change his scene
      * @param name name of the item
      */
-    public void clickOn(Rectangle bg,Stage stage,String name){
+    public void clickOn(Stage stage,String name){
         setOnMousePressed(event -> {
-            bg.setFill(Color.DARKVIOLET);
+            rectangleText.setFill(Color.DARKVIOLET);
 
         });
 
@@ -130,30 +116,31 @@ public class MenuItem extends StackPane {
 
     /**
      * Set up for the mouse controller
-     * @param bg is the rectangle background
      * @param stage is the current stage
-     * @param text is the text that contains name
      * @param name is the name of the rectangle
-     * @param gradient is the gradient color
      */
-    public void setUpMouse(Rectangle bg,Stage stage, Text text, String name, LinearGradient gradient){
-
+    public void setUpMouse(Stage stage, String name){
+        LinearGradient gradient = new LinearGradient(0,0,1,0,true, CycleMethod.NO_CYCLE,
+                new Stop(0, Color.DARKVIOLET),
+                new Stop(0.1,Color.BLACK),
+                new Stop(0.9,Color.BLACK),
+                new Stop(1,Color.DARKVIOLET));
 
         setOnMouseEntered(event -> {
-            bg.setFill(gradient);
-            text.setFill(Color.WHITE);
+            rectangleText.setFill(gradient);
+            textMenu.setFill(Color.WHITE);
         });
 
         setOnMouseExited(event -> {
-            bg.setFill(Color.BLACK);
-            text.setFill(Color.DARKGREY);
+            rectangleText.setFill(Color.BLACK);
+            textMenu.setFill(Color.DARKGREY);
         });
 
-        clickOn(bg,stage,name);
+        clickOn(stage,name);
 
         setOnMouseReleased(event ->{
 
-            bg.setFill(gradient);
+            rectangleText.setFill(gradient);
         });
     }
 }

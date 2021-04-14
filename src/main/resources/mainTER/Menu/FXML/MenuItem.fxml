@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root maxHeight="30.0" maxWidth="200.0" type="javafx.scene.layout.StackPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Rectangle fx:id="rectangleText" arcHeight="5.0" arcWidth="5.0" height="30.0" opacity="0.4" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+       <Text fx:id="textMenu" fill="DARKGREY">
+         <font>
+            <Font name="Tw Cen Mt Condensed" size="22.0" />
+         </font></Text>
+   </children>
+</fx:root>
