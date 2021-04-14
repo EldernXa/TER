@@ -3,6 +3,9 @@ package mainTER.MapPackage;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.*;
 import javafx.scene.layout.Pane;
+import java.awt.image.BufferedImage;
+import javafx.embed.swing.SwingFXUtils;
+
 import javafx.scene.paint.Color;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
@@ -36,7 +39,9 @@ public class MapFieldFromLilPict extends MapFieldForm {
                     System.out.println("AAAAAAAAA");
                     System.out.println((coordinate.getX() + width) +" "+ i +" "+ image.getHeight());/*
                     imageViewSizePos.getImageView().setViewport(new Rectangle2D(i,j,coordinate.getX() + width - i,image.getHeight()));*/
-
+                    BufferedImage bufferedImage = SwingFXUtils.fromFXImage(imageViewSizePos.getImageView().getImage(), null);
+                    BufferedImage dest = bufferedImage.getSubimage(0, 0, (int)(coordinate.getX() + width - i),(int)image.getHeight());
+                    imageViewSizePos.getImageView().setImage(SwingFXUtils.toFXImage(dest, null));
                     /*PixelReader reader = imageViewSizePos.getImageView().getImage().getPixelReader();
                     WritableImage newImage = new WritableImage(reader, (int)i, (int)j, (int)(coordinate.getX() + width - i), (int)(image.getHeight()));*/
 
