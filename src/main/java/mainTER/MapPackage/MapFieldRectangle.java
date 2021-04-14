@@ -17,7 +17,7 @@ public class MapFieldRectangle extends MapFieldForm {
 
         this.rectangle.setX(coordinate.getX());
         this.rectangle.setY(coordinate.getY());
-        System.out.println("x : "+rectangle.getX() + " y : " +rectangle.getY()  +" w :"+rectangle.getWidth() +" h:"+rectangle.getHeight());
+
     }
 
     public Rectangle getRectangle() {

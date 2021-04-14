@@ -11,18 +11,22 @@ public class Map {
     public static ArrayList<Object> visualObjects = new ArrayList<>();
     private Scene mapScene;
     private Pane mapPane;
+    private ReadFileMap readFileMap;
 
-
-    public Map(Stage stage, Scene mapScene, Pane mapPane) {
-        this.stage = stage;
+    public Map() {
+/*        this.stage = stage;
         this.mapScene = mapScene;
-        this.mapPane = mapPane;
+        this.mapPane = mapPane;*/
+
+        readFileMap = new ReadFileMap("./src/main/resources/mainTER/MapPackage/Files/Forest.txt");
+
 
 
 
 
     }
 
-
-
+    public ReadFileMap getReadFileMap() {
+        return readFileMap;
+    }
 }

@@ -27,8 +27,6 @@ public class MapFieldFromLilPict extends MapFieldForm {
         this.path = path;
         image = new Image(new File(path).toURI().toString());
 
-        double tempI = 0;
-        double tempJ = 0;
 
         for (double i = coordinate.getX(); i < (coordinate.getX() + width); i += image.getWidth()) {
             for (double j = coordinate.getY(); j < (coordinate.getY() + height); j += image.getHeight()) {
@@ -36,18 +34,17 @@ public class MapFieldFromLilPict extends MapFieldForm {
                 ImageViewSizePos imageViewSizePos = new ImageViewSizePos(path, new Coordinate(i, j));
 
                 if(i + image.getWidth() > coordinate.getX() +width){
-                    System.out.println("AAAAAAAAA");
-                    System.out.println((coordinate.getX() + width) +" "+ i +" "+ image.getHeight());/*
-                    imageViewSizePos.getImageView().setViewport(new Rectangle2D(i,j,coordinate.getX() + width - i,image.getHeight()));*/
+
                     BufferedImage bufferedImage = SwingFXUtils.fromFXImage(imageViewSizePos.getImageView().getImage(), null);
                     BufferedImage dest = bufferedImage.getSubimage(0, 0, (int)(coordinate.getX() + width - i),(int)image.getHeight());
                     imageViewSizePos.getImageView().setImage(SwingFXUtils.toFXImage(dest, null));
-                    /*PixelReader reader = imageViewSizePos.getImageView().getImage().getPixelReader();
-                    WritableImage newImage = new WritableImage(reader, (int)i, (int)j, (int)(coordinate.getX() + width - i), (int)(image.getHeight()));*/
+
 
                 }
                 if(j + image.getHeight() > coordinate.getY() +height){
-                    imageViewSizePos.getImageView().setViewport(new Rectangle2D(i,j,width,coordinate.getY() +height - j));
+                    BufferedImage bufferedImage = SwingFXUtils.fromFXImage(imageViewSizePos.getImageView().getImage(), null);
+                    BufferedImage dest = bufferedImage.getSubimage(0, 0, (int)(imageViewSizePos.getImageView().getImage().getWidth()),(int)(coordinate.getY() + height - j));
+                    imageViewSizePos.getImageView().setImage(SwingFXUtils.toFXImage(dest, null));
                 }
 
 
