@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root type="javafx.scene.layout.StackPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <Text fx:id="textTitle" fill="WHITE" StackPane.alignment="TOP_CENTER">
+      <font>
+         <Font name="Times New Roman Semi Bold" size="40.0" />
+      </font></Text>
+
+</fx:root>
