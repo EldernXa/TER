@@ -23,8 +23,9 @@ public class Title extends StackPane {
         LoadOfFXML.loadFXML("/mainTER/Menu/FXML/Title.fxml", this, this);
         textTitle.setText(name);
         /*Text text = new Text(name);
-        text.setFill(Color.WHITE);
-        text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD,40));
+        textTitle.setFill(Color.WHITE);
+        textTitle.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD,40));
+
 
 
         setAlignment(Pos.TOP_CENTER);
