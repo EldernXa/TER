@@ -3,7 +3,10 @@ package mainTER.Menu;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Camera;
+import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -18,6 +21,8 @@ import javafx.stage.Stage;
 import mainTER.MapPackage.InteractiveObject;
 import mainTER.MapPackage.Map;
 import mainTER.LoadOfFXML;
+
+
 
 public class MenuItem extends StackPane {
 
@@ -58,9 +63,10 @@ public class MenuItem extends StackPane {
             switch (name){
                 case "SINGLEPLAYER" : {
                     Pane pane = new Pane();
-
+                    Camera camera = new PerspectiveCamera( true);
                     Scene scene = new Scene(pane,1300,600);
                     Stage mainStage = new Stage();
+                    scene.setCamera(camera);
 
 
                     Map map = new Map();
@@ -72,6 +78,24 @@ public class MenuItem extends StackPane {
                         pane.getChildren().add(interactiveObject.getImageView());
                     }
 
+                    camera.setLayoutX(scene.getWidth()/2);
+                    camera.setLayoutY(scene.getHeight()/2);
+                    camera.setTranslateZ(-1200);
+                    camera.setNearClip(1);
+                    camera.setFarClip(100000);
+
+                    scene.addEventHandler(KeyEvent.KEY_PRESSED, event2 ->{
+                        switch (event2.getCode()){
+                            case W:
+                                System.out.println("AAAAAAAAAAA");
+                                camera.translateZProperty().set(camera.getTranslateZ()+100);
+                                break;
+                            case S:
+                                System.out.println("BBBBBBBBBBBBB");
+                                camera.translateZProperty().set(camera.getTranslateZ()-100);
+                                break;
+                        }
+                    });
 
                     mainStage.setScene(scene);
                     mainStage.centerOnScreen();
