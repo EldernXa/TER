@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import mainTER.MapPackage.InteractiveObject;
 import mainTER.MapPackage.Map;
 import mainTER.LoadOfFXML;
 
@@ -60,26 +61,17 @@ public class MenuItem extends StackPane {
 
                     Scene scene = new Scene(pane,1300,600);
                     Stage mainStage = new Stage();
-                   /* MapFieldRectangle mapFieldRectangle = new MapFieldRectangle(new Coordinate(150,150),130,130);
-                    MapFieldRectangle mapFieldRectangle2 = new MapFieldRectangle(new Coordinate(10,10),32,35);
-                    mapFieldRectangle2.getRectangle().setFill(Color.BLUE);*/
-                    //MapFieldFromSprite mapFieldFromSprite = new MapFieldFromSprite("./src/main/resources/mainTER/MapPackage/Front/Layer_0001_8.png",new Coordinate(0,530),100);
 
-                    //mapFieldFromSprite.getImageViewSizePos().getImageView(),
 
                     Map map = new Map();
-                    for (int i = 0; i < map.getReadFileMap().getMapFieldFromLilPictArrayList().size(); i++){
-                        pane.getChildren().add(map.getReadFileMap().getMapFieldFromLilPictArrayList().get(i).getPane());
+                    for (int i = 0; i < map.getReadFileMap().getMapFieldFormArrayList().size(); i++){
+                        pane.getChildren().add(map.getReadFileMap().getMapFieldFormArrayList().get(i).getAppropriateMap());
+                    }
+                    for (InteractiveObject interactiveObject : map.getReadFileMap().getInteractiveObjectArrayList()){
+
+                        pane.getChildren().add(interactiveObject.getImageView());
                     }
 
-                    for (int i = 0; i < map.getReadFileMap().getMapFieldFromSpriteArrayList().size(); i++){
-                        pane.getChildren().add(map.getReadFileMap().getMapFieldFromSpriteArrayList().get(i).getImageViewSizePos().getImageView());
-                    }
-
-
-                   // MapFieldFromLilPict mapFieldFromLilPict = new MapFieldFromLilPict("d:/Users/user1/Documents/travaille/l3/Projet/LaveMapSprites/test/test0.png",new Coordinate(0,500),1300,100);
-                    //MapFieldFromLilPict mapFieldFromLilPict2 = new MapFieldFromLilPict("./src/main/resources/mainTER/MapPackage/Sprites/Front/Layer_0001_8.png",new Coordinate(0,530),1300,100);
-                    //pane.getChildren().addAll(mapFieldFromLilPict2.getPane());
 
                     mainStage.setScene(scene);
                     mainStage.centerOnScreen();

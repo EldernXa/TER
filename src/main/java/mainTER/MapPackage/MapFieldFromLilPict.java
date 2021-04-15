@@ -1,6 +1,7 @@
 package mainTER.MapPackage;
 
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.image.*;
 import javafx.scene.layout.Pane;
 import java.awt.image.BufferedImage;
@@ -59,6 +60,12 @@ public class MapFieldFromLilPict extends MapFieldForm {
     }
 
     public Pane getPane() {
+        return pane;
+    }
+
+
+    @Override
+    public Node getAppropriateMap() {
         return pane;
     }
 }

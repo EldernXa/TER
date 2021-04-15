@@ -1,5 +1,6 @@
 package mainTER.MapPackage;
 
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import mainTER.Tools.Coordinate;
@@ -21,6 +22,11 @@ public class MapFieldRectangle extends MapFieldForm {
     }
 
     public Rectangle getRectangle() {
+        return rectangle;
+    }
+
+    @Override
+    public Node getAppropriateMap() {
         return rectangle;
     }
 }
