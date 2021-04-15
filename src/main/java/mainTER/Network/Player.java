@@ -1,5 +1,9 @@
 package mainTER.Network;
 
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -18,8 +22,8 @@ public class Player {
 
 
 
-    public void connectToServer(){
-        csc = new ClientSideConnection();
+    public void connectToServer(Stage stage, Scene scene){
+        csc = new ClientSideConnection(stage,scene);
     }
 
 
@@ -30,10 +34,16 @@ public class Player {
         private DataInputStream dis;
         private DataOutputStream dos;
 
-        public ClientSideConnection(){
+        public ClientSideConnection(Stage stage,Scene scene){
             System.out.println("----Client-----");
             try{
-                socket = new Socket("localhost",5134);
+                socket = new Socket("10.100.206.191",5134);
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        stage.setScene(scene);
+                    }
+                });
                 dis = new DataInputStream(socket.getInputStream());
                 dos = new DataOutputStream(socket.getOutputStream());
                 playerID = dis.readInt();

@@ -1,6 +1,9 @@
 package mainTER.Menu;
 
+import javafx.animation.AnimationTimer;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Camera;
 import javafx.scene.PerspectiveCamera;
@@ -8,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
@@ -15,6 +19,7 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import mainTER.MapPackage.InteractiveObject;
 import mainTER.MapPackage.Map;
 import mainTER.LoadOfFXML;
@@ -29,6 +34,8 @@ public class MenuItem extends StackPane {
     
     @FXML
     private Text textMenu;
+    Pane paneaa = new Pane();
+    Scene sceneaa = new Scene(paneaa,500,600);
 
     /**
      * Constructor to create items
@@ -130,18 +137,29 @@ public class MenuItem extends StackPane {
                 }
                 case "CREER":{
 
-                    Pane pane = new Pane();
 
-                    Scene scene = new Scene(pane,500,600);
-                    stage.setScene(scene);
 
-                    GameServer gs = new GameServer();
+
+                    stage.setScene(sceneaa);
+
+
+                    VBox vBox = new VBox(10);
+                    paneaa.getChildren().add(vBox);
+                    GameServer gs = new GameServer(vBox);
+
+                    stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                        @Override
+                        public void handle(WindowEvent event) {
+                            Platform.exit();
+                        }
+                    });
                     Thread t = new Thread(gs);
                     t.start();
+
                 }
                 case "REJOINDRE" : {
                     Player p = new Player();
-                    p.connectToServer();
+                    p.connectToServer(stage,sceneaa);
                 }
             }
         });

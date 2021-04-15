@@ -1,5 +1,9 @@
 package mainTER.Network;
 
+import javafx.application.Platform;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -13,12 +17,14 @@ public class GameServer implements Runnable{
     private int numPlayers;
     private int maxPlayers;
     ArrayList<ServerSideConnection> players = new ArrayList<>();
+    VBox vbox;
 
 
 
-    public GameServer(){
+    public GameServer(VBox vbox){
         System.out.println("------Game Server ------");
-        numPlayers = 1;
+        this.vbox = vbox;
+        numPlayers = 0;
         maxPlayers = 4;
 
     }
@@ -31,6 +37,13 @@ public class GameServer implements Runnable{
             while(numPlayers <= maxPlayers){
                 Socket s = ss.accept();
                 numPlayers++;
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        vbox.getChildren().add(new Text("Player #" +numPlayers));
+                    }
+                });
+
                 System.out.println("Player #" + numPlayers + " has connected.");
                 ServerSideConnection ssc = new ServerSideConnection(s,numPlayers);
                 players.add(ssc);
