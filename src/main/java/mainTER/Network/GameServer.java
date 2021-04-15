@@ -7,22 +7,20 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class GameServer {
+public class GameServer implements Runnable{
 
     private ServerSocket ss;
     private int numPlayers;
+    private int maxPlayers;
     ArrayList<ServerSideConnection> players = new ArrayList<>();
-    boolean accept = false;
+
 
 
     public GameServer(){
         System.out.println("------Game Server ------");
         numPlayers = 1;
-        try{
-            ss = new ServerSocket(5134);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        maxPlayers = 4;
+
     }
 
     public void acceptConnections(){
@@ -30,24 +28,32 @@ public class GameServer {
             System.out.println("Waiting for connections...");
 
 
-            while(!accept){
+            while(numPlayers <= maxPlayers){
                 Socket s = ss.accept();
                 numPlayers++;
                 System.out.println("Player #" + numPlayers + " has connected.");
                 ServerSideConnection ssc = new ServerSideConnection(s,numPlayers);
                 players.add(ssc);
-                if(numPlayers == 3){
-                    accept = true;
-                }
+
                 Thread t = new Thread(ssc);
                 t.start();
 
             }
-            System.out.println("Il y a deux personnes connectées");
+            System.out.println("Il y a assez de joueurs");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void run() {
+        try{
+            ss = new ServerSocket(5134);
+            acceptConnections();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private class ServerSideConnection implements Runnable{
@@ -83,8 +89,4 @@ public class GameServer {
         }
     }
 
-    public static void main(String[] args) {
-        GameServer gs = new GameServer();
-        gs.acceptConnections();
-    }
 }

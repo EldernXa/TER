@@ -2,7 +2,6 @@ package mainTER.Menu;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.Camera;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
@@ -14,14 +13,13 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import mainTER.MapPackage.InteractiveObject;
 import mainTER.MapPackage.Map;
 import mainTER.LoadOfFXML;
-
+import mainTER.Network.GameServer;
+import mainTER.Network.Player;
 
 
 public class MenuItem extends StackPane {
@@ -59,7 +57,7 @@ public class MenuItem extends StackPane {
 
 
         setOnMouseClicked(event -> {
-            stage.close();
+
             switch (name){
                 case "SINGLEPLAYER" : {
                     Pane pane = new Pane();
@@ -107,6 +105,11 @@ public class MenuItem extends StackPane {
                 break;
                 case "MULTIPLAYER": {
 
+                    MultiplayerMenu mpm = new MultiplayerMenu(stage);
+                    Scene scene = new Scene(mpm.getPane(),500,600);
+                    stage.setScene(scene);
+
+
                 }
                 break;
                 case "OPTIONS" : {
@@ -124,6 +127,21 @@ public class MenuItem extends StackPane {
                 break;
                 case "QUIT":{
                     Platform.exit();
+                }
+                case "CREER":{
+
+                    Pane pane = new Pane();
+
+                    Scene scene = new Scene(pane,500,600);
+                    stage.setScene(scene);
+
+                    GameServer gs = new GameServer();
+                    Thread t = new Thread(gs);
+                    t.start();
+                }
+                case "REJOINDRE" : {
+                    Player p = new Player();
+                    p.connectToServer();
                 }
             }
         });

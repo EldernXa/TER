@@ -37,15 +37,15 @@ public class Player {
                 dis = new DataInputStream(socket.getInputStream());
                 dos = new DataOutputStream(socket.getOutputStream());
                 playerID = dis.readInt();
+                if(playerID != 4){
+                    System.out.println("Waiting for other players");
+                }
                 System.out.println("Connected to Server as Player #" + playerID + ".");
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Aucun serveur n'a été trouvé");
             }
         }
     }
 
-    public static void main(String[] args) {
-        Player p = new Player();
-        p.connectToServer();
-    }
+
 }
