@@ -44,7 +44,7 @@ public class ReadFileMap {
         while(i < file.length){
             line = file[i].split("\\s+");
 
-            switch (line[0]){//add case if you add section
+            switch (line[0]){//Add case if you add section
                 case "floor":
                     lastCategorie = "floor";
                     i++;
@@ -53,7 +53,7 @@ public class ReadFileMap {
                     lastCategorie = "objects";
                     i++;
                     break;
-                default:
+                default: //Add else if if you add section
                     if(lastCategorie.equals("floor")){
                         line = file[i].split("\\s+");
                         spriteName = line[0];
