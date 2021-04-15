@@ -1,5 +1,6 @@
 package mainTER.MapPackage;
 
+import javafx.scene.Node;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
@@ -28,5 +29,8 @@ public class MapFieldFromSprite extends MapFieldForm {
         return imageViewSizePos;
     }
 
-
+    @Override
+    public Node getAppropriateMap() {
+        return imageViewSizePos.getImageView();
+    }
 }
