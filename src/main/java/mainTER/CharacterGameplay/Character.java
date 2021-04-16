@@ -64,4 +64,5 @@ public class Character {
     public void setInitialCoordinate(Coordinate initialCoordinate) {
         this.initialCoordinate = initialCoordinate;
     }
+
 }

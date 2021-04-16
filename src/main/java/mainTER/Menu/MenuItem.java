@@ -1,7 +1,5 @@
 package mainTER.Menu;
 
-import javafx.animation.AnimationTimer;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
+import mainTER.MapPackage.Collision;
 import mainTER.MapPackage.InteractiveObject;
 import mainTER.MapPackage.Map;
 import mainTER.LoadOfFXML;
@@ -76,10 +75,11 @@ public class MenuItem extends StackPane {
                     Stage mainStage = new Stage();
                     scene.setCamera(camera);
 
-
-                    Map map = new Map();
+                    Collision collision = new Collision();
+                    Map map = new Map(collision);
+                    System.out.println(collision.getInteractiveObjectArrayList().size());
                     for (int i = 0; i < map.getReadFileMap().getMapFieldFormArrayList().size(); i++){
-                        pane.getChildren().add(map.getReadFileMap().getMapFieldFormArrayList().get(i).getAppropriateMap());
+                        pane.getChildren().add(map.getReadFileMap().getMapFieldFormArrayList().get(i).getAppropriateNode());
                     }
                     for (InteractiveObject interactiveObject : map.getReadFileMap().getInteractiveObjectArrayList()){
 
@@ -106,7 +106,7 @@ public class MenuItem extends StackPane {
                     });
 
                     Character character = new Character("Paladin", new Coordinate(0, 0));
-                    DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, character);
+                    DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, character,collision);
                     mainStage.setScene(scene);
                     mainStage.centerOnScreen();
                     mainStage.show();

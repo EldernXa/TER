@@ -8,6 +8,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import mainTER.MapPackage.Collision;
 import mainTER.Tools.Coordinate;
 
 import java.util.ArrayList;
@@ -32,11 +33,12 @@ public class DisplayCharacter {
      * @param pane is the level of the game.
      * @param character is the character we will display.
      */
-    public DisplayCharacter(Scene scene, Pane pane, Character character){
+    public DisplayCharacter(Scene scene, Pane pane, Character character, Collision collision){
         this.lvlOfTheGame = scene;
         this.pane = pane;
         this.character = character;
-        currentCoordinateOfTheCharacter = new Coordinate(0, 0);
+        //TODO link coordinates with the character
+        currentCoordinateOfTheCharacter = new Coordinate(0, 530);
         animationForTheCharacter = new AnimationCharacter(character);
         ImageView initImgView = animationForTheCharacter.nextImage();
         initImgView.setX(currentCoordinateOfTheCharacter.getX());
@@ -47,18 +49,26 @@ public class DisplayCharacter {
                 Duration.millis(100),
                 tps->{
                     if(walkToRight){
-                        removeAllImgViewOfThePane();
-                        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+5);
-                        ImageView imgView = animationForTheCharacter.nextImage();
-                        imgView.setX(currentCoordinateOfTheCharacter.getX());
-                        pane.getChildren().add(imgView);
+                        //TODO Global variable for step
+                        if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()+10,currentCoordinateOfTheCharacter.getY()))){
+                            removeAllImgViewOfThePane();
+                            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+10);
+                            ImageView imgView = animationForTheCharacter.nextImage();
+                            imgView.setX(currentCoordinateOfTheCharacter.getX());
+                            imgView.setY(currentCoordinateOfTheCharacter.getY());
+                            pane.getChildren().add(imgView);
+                        }
+
                     }
                     else if(walkToLeft){
-                        removeAllImgViewOfThePane();
-                        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()-5);
-                        ImageView imgView = animationForTheCharacter.nextImage();
-                        imgView.setX(currentCoordinateOfTheCharacter.getX());
-                        pane.getChildren().add(imgView);
+                        if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()-10,currentCoordinateOfTheCharacter.getY()))){
+                            removeAllImgViewOfThePane();
+                            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()-10);
+                            ImageView imgView = animationForTheCharacter.nextImage();
+                            imgView.setX(currentCoordinateOfTheCharacter.getX());
+                            imgView.setY(currentCoordinateOfTheCharacter.getY());
+                            pane.getChildren().add(imgView);
+                        }
                     }
                 }));
         animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);

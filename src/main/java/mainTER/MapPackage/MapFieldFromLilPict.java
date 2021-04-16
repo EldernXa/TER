@@ -65,7 +65,7 @@ public class MapFieldFromLilPict extends MapFieldForm {
 
 
     @Override
-    public Node getAppropriateMap() {
+    public Node getAppropriateNode() {
         return pane;
     }
 }

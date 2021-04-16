@@ -19,7 +19,7 @@ public abstract class MapFieldForm {
     }
 
 
-    public abstract Node getAppropriateMap();
+    public abstract Node getAppropriateNode();
 
 
 

@@ -26,7 +26,7 @@ public class MapFieldRectangle extends MapFieldForm {
     }
 
     @Override
-    public Node getAppropriateMap() {
+    public Node getAppropriateNode() {
         return rectangle;
     }
 }

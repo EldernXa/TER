@@ -4,10 +4,11 @@ public class Map {
 
     private ReadFileMap readFileMap;
 
-    public Map() {
+    public Map(Collision collision) {
 
 
         readFileMap = new ReadFileMap("./src/main/resources/mainTER/MapPackage/Files/Forest.txt");
+        collision.setInteractiveObjectArrayList(readFileMap.getInteractiveObjectArrayList());
 
     }
 

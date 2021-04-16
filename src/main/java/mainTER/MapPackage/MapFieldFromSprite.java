@@ -30,7 +30,7 @@ public class MapFieldFromSprite extends MapFieldForm {
     }
 
     @Override
-    public Node getAppropriateMap() {
+    public Node getAppropriateNode() {
         return imageViewSizePos.getImageView();
     }
 }
