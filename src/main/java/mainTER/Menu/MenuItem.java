@@ -20,11 +20,14 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import mainTER.CharacterGameplay.Character;
+import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.MapPackage.InteractiveObject;
 import mainTER.MapPackage.Map;
 import mainTER.LoadOfFXML;
 import mainTER.Network.GameServer;
 import mainTER.Network.Player;
+import mainTER.Tools.Coordinate;
 
 
 public class MenuItem extends StackPane {
@@ -102,6 +105,8 @@ public class MenuItem extends StackPane {
                         }
                     });
 
+                    Character character = new Character("Paladin", new Coordinate(0, 0));
+                    DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, character);
                     mainStage.setScene(scene);
                     mainStage.centerOnScreen();
                     mainStage.show();

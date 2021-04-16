@@ -17,10 +17,9 @@ import mainTER.Tools.Coordinate;
 public class Character {
     private String name;
     private Coordinate initialCoordinate;
-    private AnimationCharacter Animation;
     private ArrayList<ArrayList<ImageView>> listOfPictureOfTheCharacter;
 
-    public Character(String name, Coordinate coordinate, AnimationCharacter animation) {
+    public Character(String name, Coordinate coordinate) {
         this.name = name;
         this.initialCoordinate = coordinate;
         listOfPictureOfTheCharacter = new ArrayList<>();
@@ -37,7 +36,6 @@ public class Character {
         }catch(URISyntaxException ioException){
             ioException.printStackTrace();
         }
-        Animation = animation;
     }
 
 
@@ -56,13 +54,5 @@ public class Character {
 
     public void setInitialCoordinate(Coordinate initialCoordinate) {
         this.initialCoordinate = initialCoordinate;
-    }
-
-    public AnimationCharacter getAnimation() {
-        return Animation;
-    }
-
-    public void setAnimation(AnimationCharacter animation) {
-        Animation = animation;
     }
 }

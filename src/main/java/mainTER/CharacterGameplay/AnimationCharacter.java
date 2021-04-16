@@ -25,6 +25,10 @@ public class AnimationCharacter {
         return listOfImageViewForTheAnimation.get(posToAnimate).get(ind);
     }
 
+    public ImageView actualImg(){
+        return listOfImageViewForTheAnimation.get(posToAnimate).get((indImgToAnimate-1)%listOfImageViewForTheAnimation.get(posToAnimate).size());
+    }
+
     public Timeline getTimeline(){
         return timeline;
     }

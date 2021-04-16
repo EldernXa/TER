@@ -42,7 +42,7 @@ public class DisplayCharacter {
                 Duration.millis(100),
                 tps->{
                     if(walkToRight){
-                        pane.getChildren().clear();
+                        pane.getChildren().remove(animationForTheCharacter.actualImg());
                         currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+5);
                         ImageView imgView = animationForTheCharacter.nextImage();
                         imgView.setX(currentCoordinateOfTheCharacter.getX());
