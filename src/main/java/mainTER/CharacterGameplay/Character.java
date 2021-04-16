@@ -24,13 +24,22 @@ public class Character {
         this.initialCoordinate = coordinate;
         listOfPictureOfTheCharacter = new ArrayList<>();
         try {
-            URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/Paladin");
+            URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/Paladin/Walk");
             File file2 = Paths.get(url.toURI()).toFile();
             if(file2.exists() && file2.isDirectory()) {
                 // TODO modify for the multiple direction of animation.
                 listOfPictureOfTheCharacter.add(new ArrayList<>());
                 for (File fileForOneSprite : Objects.requireNonNull(file2.listFiles())) {
                     listOfPictureOfTheCharacter.get(0).add(new ImageView(fileForOneSprite.toURI().toString()));
+                }
+            }
+
+            url = this.getClass().getResource("/mainTER/CharacterGameplay/images/Paladin/ReverseWalk");
+            file2 = Paths.get(url.toURI()).toFile();
+            if(file2.exists() && file2.isDirectory()){
+                listOfPictureOfTheCharacter.add(new ArrayList<>());
+                for (File fileForOneSprite : Objects.requireNonNull(file2.listFiles())) {
+                    listOfPictureOfTheCharacter.get(1).add(new ImageView(fileForOneSprite.toURI().toString()));
                 }
             }
         }catch(URISyntaxException ioException){

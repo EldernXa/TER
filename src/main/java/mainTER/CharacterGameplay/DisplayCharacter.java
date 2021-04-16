@@ -10,6 +10,8 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import mainTER.Tools.Coordinate;
 
+import java.util.ArrayList;
+
 
 /**
  * Class For the display of one character (with animation).
@@ -18,9 +20,11 @@ public class DisplayCharacter {
 
     private Coordinate currentCoordinateOfTheCharacter;
     private AnimationCharacter animationForTheCharacter;
+    private final Character character;
     private final Scene lvlOfTheGame;
     private final Pane pane;
     private boolean walkToRight = false;
+    private boolean walkToLeft = false;
 
     /**
      *
@@ -31,6 +35,7 @@ public class DisplayCharacter {
     public DisplayCharacter(Scene scene, Pane pane, Character character){
         this.lvlOfTheGame = scene;
         this.pane = pane;
+        this.character = character;
         currentCoordinateOfTheCharacter = new Coordinate(0, 0);
         animationForTheCharacter = new AnimationCharacter(character);
         ImageView initImgView = animationForTheCharacter.nextImage();
@@ -42,8 +47,15 @@ public class DisplayCharacter {
                 Duration.millis(100),
                 tps->{
                     if(walkToRight){
-                        pane.getChildren().remove(animationForTheCharacter.actualImg());
+                        removeAllImgViewOfThePane();
                         currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+5);
+                        ImageView imgView = animationForTheCharacter.nextImage();
+                        imgView.setX(currentCoordinateOfTheCharacter.getX());
+                        pane.getChildren().add(imgView);
+                    }
+                    else if(walkToLeft){
+                        removeAllImgViewOfThePane();
+                        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()-5);
                         ImageView imgView = animationForTheCharacter.nextImage();
                         imgView.setX(currentCoordinateOfTheCharacter.getX());
                         pane.getChildren().add(imgView);
@@ -51,6 +63,14 @@ public class DisplayCharacter {
                 }));
         animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
         animationForTheCharacter.getTimeline().play();
+    }
+
+    public void removeAllImgViewOfThePane(){
+        for(ArrayList<ImageView> listImg : character.getListOfPictureOfTheCharacter()) {
+            for (ImageView imageView : listImg) {
+                pane.getChildren().remove(imageView);
+            }
+        }
     }
 
     /**
@@ -64,6 +84,7 @@ public class DisplayCharacter {
 
         lvlOfTheGame.setOnKeyReleased(event -> {
             walkToRight = false;
+            walkToLeft = false;
         });
     }
 
@@ -74,8 +95,14 @@ public class DisplayCharacter {
     private void eventForMovement(KeyEvent eventForPressedKey){
         if(eventForPressedKey.getCode() == KeyCode.D){
             //System.out.println("okok");
+            walkToLeft = false;
             walkToRight = true;
-
+            animationForTheCharacter.setWalk();
+        }
+        else if(eventForPressedKey.getCode() == KeyCode.Q){
+            walkToRight = false;
+            walkToLeft = true;
+            animationForTheCharacter.setReverseWalk();
         }
     }
 

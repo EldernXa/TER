@@ -11,12 +11,19 @@ public class AnimationCharacter {
 
     private final ArrayList<ArrayList<ImageView>> listOfImageViewForTheAnimation;
     private final Timeline timeline = new Timeline();
-    private int indImgToAnimate;
+    private int indImgToAnimate = 0;
     private int posToAnimate = 0;
-    private boolean walkToRight = false;
 
     public AnimationCharacter(Character characterToAnimate){
         listOfImageViewForTheAnimation = characterToAnimate.getListOfPictureOfTheCharacter();
+    }
+
+    public void setWalk(){
+        posToAnimate = 0;
+    }
+
+    public void setReverseWalk(){
+        posToAnimate = 1;
     }
 
     public ImageView nextImage(){
