@@ -139,6 +139,7 @@ public class MenuItem extends StackPane {
                 break;
                 case "QUIT":{
                     Platform.exit();
+                    break;
                 }
                 case "CREER":{
 
@@ -160,11 +161,13 @@ public class MenuItem extends StackPane {
                     });
                     Thread t = new Thread(gs);
                     t.start();
+                    break;
 
                 }
                 case "REJOINDRE" : {
                     Player p = new Player();
                     p.connectToServer(stage,sceneaa);
+                    break;
                 }
             }
         });
