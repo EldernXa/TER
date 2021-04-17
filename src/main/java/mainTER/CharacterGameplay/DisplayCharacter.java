@@ -37,8 +37,7 @@ public class DisplayCharacter {
         this.lvlOfTheGame = scene;
         this.pane = pane;
         this.character = character;
-        //TODO link coordinates with the character
-        currentCoordinateOfTheCharacter = new Coordinate(0, 530);
+        currentCoordinateOfTheCharacter = new Coordinate(character.getInitialCoordinate().getX(), character.getInitialCoordinate().getY());
         animationForTheCharacter = new AnimationCharacter(character);
         ImageView initImgView = animationForTheCharacter.nextImage();
         initImgView.setX(currentCoordinateOfTheCharacter.getX());

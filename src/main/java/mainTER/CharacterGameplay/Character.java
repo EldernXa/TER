@@ -15,9 +15,9 @@ import java.util.Objects;
 import mainTER.Tools.Coordinate;
 
 public class Character {
-    private String name;
-    private Coordinate initialCoordinate;
-    private ArrayList<ArrayList<ImageView>> listOfPictureOfTheCharacter;
+    private final String name;
+    private final Coordinate initialCoordinate;
+    private final ArrayList<ArrayList<ImageView>> listOfPictureOfTheCharacter;
 
     public Character(String name, Coordinate coordinate) {
         this.name = name;
@@ -61,8 +61,5 @@ public class Character {
         return initialCoordinate;
     }
 
-    public void setInitialCoordinate(Coordinate initialCoordinate) {
-        this.initialCoordinate = initialCoordinate;
-    }
 
 }

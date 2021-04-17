@@ -105,7 +105,7 @@ public class MenuItem extends StackPane {
                         }
                     });
 
-                    Character character = new Character("Paladin", new Coordinate(0, 0));
+                    Character character = new Character("Paladin", new Coordinate(0, 530));
                     DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, character,collision);
                     mainStage.setScene(scene);
                     mainStage.centerOnScreen();
