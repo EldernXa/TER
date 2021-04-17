@@ -10,6 +10,7 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Locale;
 import java.util.Objects;
 
 import mainTER.Tools.Coordinate;
@@ -25,27 +26,25 @@ public class Character {
         this.initialCoordinate = coordinate;
         listOfPictureOfTheCharacter = new ArrayList<>();
         this.speed = 10;
-        try {
-            URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/Paladin/Walk");
-            File file2 = Paths.get(url.toURI()).toFile();
-            if(file2.exists() && file2.isDirectory()) {
-                // TODO modify for the multiple direction of animation.
-                listOfPictureOfTheCharacter.add(new ArrayList<>());
-                for (File fileForOneSprite : Objects.requireNonNull(file2.listFiles())) {
-                    listOfPictureOfTheCharacter.get(0).add(new ImageView(fileForOneSprite.toURI().toString()));
-                }
-            }
+        initListAnimate();
+    }
 
-            url = this.getClass().getResource("/mainTER/CharacterGameplay/images/Paladin/ReverseWalk");
-            file2 = Paths.get(url.toURI()).toFile();
-            if(file2.exists() && file2.isDirectory()){
-                listOfPictureOfTheCharacter.add(new ArrayList<>());
-                for (File fileForOneSprite : Objects.requireNonNull(file2.listFiles())) {
-                    listOfPictureOfTheCharacter.get(1).add(new ImageView(fileForOneSprite.toURI().toString()));
+    private void initListAnimate(){
+        for(int i=0; i<Position.values().length; i++){
+            listOfPictureOfTheCharacter.add(new ArrayList<>());
+        }
+        try{
+            for(Position pos : Position.values()){
+                URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/" + name + "/" + pos.toString().toLowerCase().replace("_", ""));
+                File file = Paths.get(url.toURI()).toFile();
+                if(file.exists() && file.isDirectory()){
+                    for(File fileForOneSprite : Objects.requireNonNull(file.listFiles())){
+                        listOfPictureOfTheCharacter.get(pos.ordinal()).add(new ImageView(fileForOneSprite.toURI().toString()));
+                    }
                 }
             }
-        }catch(URISyntaxException ioException){
-            ioException.printStackTrace();
+        }catch(URISyntaxException uriSyntaxException){
+            uriSyntaxException.printStackTrace();
         }
     }
 

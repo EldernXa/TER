@@ -69,6 +69,9 @@ public class DisplayCharacter {
                             pane.getChildren().add(imgView);
                         }
                     }
+                    else{
+                        // TODO Animate when it doesn't move
+                    }
                 }));
         animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
         animationForTheCharacter.getTimeline().play();
