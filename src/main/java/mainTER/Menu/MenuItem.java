@@ -4,8 +4,11 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Camera;
+import javafx.scene.ParallelCamera;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -27,6 +30,8 @@ import mainTER.LoadOfFXML;
 import mainTER.Network.GameServer;
 import mainTER.Network.Player;
 import mainTER.Tools.Coordinate;
+
+import java.io.File;
 
 
 public class MenuItem extends StackPane {
@@ -70,14 +75,23 @@ public class MenuItem extends StackPane {
             switch (name){
                 case "SINGLEPLAYER" : {
                     Pane pane = new Pane();
-                    Camera camera = new PerspectiveCamera( true);
-                    Scene scene = new Scene(pane,1300,600);
-                    Stage mainStage = new Stage();
-                    scene.setCamera(camera);
 
+
+                    Scene scene = new Scene(pane,5548,788);
+
+                    Stage mainStage = new Stage();
+                    mainStage.setHeight(5548);
+                    mainStage.setWidth(788);
+                    mainStage.setMaximized(true);
+                    //mainStage.setFullScreen(true);
+                    mainStage.sizeToScene();
+
+/*
+                    mainStage.setWidth(3000);
+                    mainStage.setHeight(500);*/
                     Collision collision = new Collision();
-                    Map map = new Map(collision);
-                    System.out.println(collision.getInteractiveObjectArrayList().size());
+                    ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/Background.png").toURI().toString()));
+                    Map map = new Map(collision,pane,background);
                     for (int i = 0; i < map.getReadFileMap().getMapFieldFormArrayList().size(); i++){
                         pane.getChildren().add(map.getReadFileMap().getMapFieldFormArrayList().get(i).getAppropriateNode());
                     }
@@ -86,21 +100,30 @@ public class MenuItem extends StackPane {
                         pane.getChildren().add(interactiveObject.getImageView());
                     }
 
-                    camera.setLayoutX(scene.getWidth()/2);
+                  ;
+
+
+
+
+                    Camera camera = new PerspectiveCamera();
+                    camera.maxHeight(500);
+                    camera.maxWidth(1300);
+                    scene.setCamera(camera);
+/*                    camera.setLayoutX(scene.getWidth()/2);
                     camera.setLayoutY(scene.getHeight()/2);
-                    camera.setTranslateZ(-1200);
+                    camera.setTranslateZ(-2500);
                     camera.setNearClip(1);
-                    camera.setFarClip(100000);
+                    camera.setFarClip(100000);*/
+
+
 
                     scene.addEventHandler(KeyEvent.KEY_PRESSED, event2 ->{
                         switch (event2.getCode()){
                             case W:
-                                System.out.println("AAAAAAAAAAA");
-                                camera.translateZProperty().set(camera.getTranslateZ()+100);
+                                camera.translateXProperty().set(camera.getTranslateX()+100);
                                 break;
                             case S:
-                                System.out.println("BBBBBBBBBBBBB");
-                                camera.translateZProperty().set(camera.getTranslateZ()-100);
+                                camera.translateXProperty().set(camera.getTranslateX()-100);
                                 break;
                         }
                     });

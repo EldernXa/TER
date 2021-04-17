@@ -1,7 +1,11 @@
 package mainTER.MapPackage;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import mainTER.Tools.Coordinate;
+import mainTER.Tools.ImageViewSizePos;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -68,7 +72,10 @@ public class ReadFileMap {
                             mapFieldFormArrayList.add(fieldFromLilPict);
                         }
                         else {
-                            fieldFromSprite = new MapFieldFromSprite("./src/main/resources/mainTER/MapPackage/Sprites/Front/" + spriteName, new Coordinate(doubles[2], doubles[3]), 100);
+
+                            ImageView picture = new ImageView();
+                            picture.setImage(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Front/" + spriteName).toURI().toString()));
+                            fieldFromSprite = new MapFieldFromSprite("./src/main/resources/mainTER/MapPackage/Sprites/Front/" + spriteName, new Coordinate(doubles[2], doubles[3]-picture.getImage().getHeight()), doubles[4]);
                             mapFieldFormArrayList.add(fieldFromSprite);
                         }
                     }
