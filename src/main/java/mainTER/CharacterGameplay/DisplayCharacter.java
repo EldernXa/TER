@@ -64,6 +64,8 @@ public class DisplayCharacter {
                         imgView.setX(currentCoordinateOfTheCharacter.getX());
                         imgView.setY(currentCoordinateOfTheCharacter.getY());
                         pane.getChildren().add(imgView);
+                    }else{
+                        timelineForMotionlessCharacter();
                     }
                 }
         ));
