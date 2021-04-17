@@ -24,8 +24,9 @@ public class DisplayCharacter {
     private final Character character;
     private final Scene lvlOfTheGame;
     private final Pane pane;
-    private boolean walkToRight = false;
-    private boolean walkToLeft = false;
+    private boolean walkToRight = true;
+    private final Collision collision;
+    private KeyCode currentKeyCode;
 
     /**
      *
@@ -37,6 +38,7 @@ public class DisplayCharacter {
         this.lvlOfTheGame = scene;
         this.pane = pane;
         this.character = character;
+        this.collision = collision;
         currentCoordinateOfTheCharacter = new Coordinate(character.getInitialCoordinate().getX(), character.getInitialCoordinate().getY());
         animationForTheCharacter = new AnimationCharacter(character);
         ImageView initImgView = animationForTheCharacter.nextImage();
@@ -44,40 +46,73 @@ public class DisplayCharacter {
         initImgView.setY(currentCoordinateOfTheCharacter.getY());
         pane.getChildren().add(initImgView);
         enableEvent();
+        timelineForMotionlessCharacter();
+
+    }
+
+    private void timelineForWalk(){
+        animationForTheCharacter.getTimeline().stop();
+        animationForTheCharacter.getTimeline().getKeyFrames().clear();
         animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
                 Duration.millis(100),
                 tps->{
-                    // TODO Try to generalise it
-                    if(walkToRight){
-                        if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()+character.getSpeed(),currentCoordinateOfTheCharacter.getY()))){
-                            removeAllImgViewOfThePane();
-                            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+character.getSpeed());
-                            ImageView imgView = animationForTheCharacter.nextImage();
-                            imgView.setX(currentCoordinateOfTheCharacter.getX());
-                            imgView.setY(currentCoordinateOfTheCharacter.getY());
-                            pane.getChildren().add(imgView);
-                        }
-
-                    }
-                    else if(walkToLeft){
-                        if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()-character.getSpeed(),currentCoordinateOfTheCharacter.getY()))){
-                            removeAllImgViewOfThePane();
-                            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()-character.getSpeed());
-                            ImageView imgView = animationForTheCharacter.nextImage();
-                            imgView.setX(currentCoordinateOfTheCharacter.getX());
-                            imgView.setY(currentCoordinateOfTheCharacter.getY());
-                            pane.getChildren().add(imgView);
-                        }
-                    }
-                    else{
+                    if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()+character.getSpeed(), currentCoordinateOfTheCharacter.getY()))){
                         removeAllImgViewOfThePane();
-                        animationForTheCharacter.setMotionless();
+                        animationForTheCharacter.setWalk();
+                        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+character.getSpeed());
                         ImageView imgView = animationForTheCharacter.nextImage();
                         imgView.setX(currentCoordinateOfTheCharacter.getX());
                         imgView.setY(currentCoordinateOfTheCharacter.getY());
                         pane.getChildren().add(imgView);
                     }
-                }));
+                }
+        ));
+
+        animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
+        animationForTheCharacter.getTimeline().play();
+    }
+
+    private void timelineForReverseWalk(){
+        animationForTheCharacter.getTimeline().stop();
+        animationForTheCharacter.getTimeline().getKeyFrames().clear();
+        animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
+                Duration.millis(100),
+                tps->{
+                    if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()-character.getSpeed(), currentCoordinateOfTheCharacter.getY()))){
+                        removeAllImgViewOfThePane();
+                        animationForTheCharacter.setReverseWalk();
+                        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()-character.getSpeed());
+                        ImageView imgView = animationForTheCharacter.nextImage();
+                        imgView.setX(currentCoordinateOfTheCharacter.getX());
+                        imgView.setY(currentCoordinateOfTheCharacter.getY());
+                        pane.getChildren().add(imgView);
+                    }
+                    else{
+                        timelineForMotionlessCharacter();
+                    }
+                }
+        ));
+        animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
+        animationForTheCharacter.getTimeline().play();
+    }
+
+    private void timelineForMotionlessCharacter(){
+        animationForTheCharacter.getTimeline().stop();
+        animationForTheCharacter.getTimeline().getKeyFrames().clear();
+        animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
+                Duration.millis(100),
+                tps->{
+                    removeAllImgViewOfThePane();
+                    if(walkToRight)
+                        animationForTheCharacter.setMotionless();
+                    else
+                        animationForTheCharacter.setReverseMotionLess();
+                    ImageView imgView = animationForTheCharacter.nextImage();
+                    imgView.setX(currentCoordinateOfTheCharacter.getX());
+                    imgView.setY(currentCoordinateOfTheCharacter.getY());
+                    pane.getChildren().add(imgView);
+                }
+        ));
         animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
         animationForTheCharacter.getTimeline().play();
     }
@@ -100,8 +135,8 @@ public class DisplayCharacter {
         });
 
         lvlOfTheGame.setOnKeyReleased(event -> {
-            walkToRight = false;
-            walkToLeft = false;
+            currentKeyCode = null;
+            timelineForMotionlessCharacter();
         });
     }
 
@@ -110,15 +145,15 @@ public class DisplayCharacter {
      * @param eventForPressedKey the event who can say what key is pressed.
      */
     private void eventForMovement(KeyEvent eventForPressedKey){
-        if(eventForPressedKey.getCode() == KeyCode.D){
-            walkToLeft = false;
+        if(eventForPressedKey.getCode() == KeyCode.D && eventForPressedKey.getCode()!=currentKeyCode){
             walkToRight = true;
-            animationForTheCharacter.setWalk();
+            currentKeyCode = eventForPressedKey.getCode();
+            timelineForWalk();
         }
-        else if(eventForPressedKey.getCode() == KeyCode.Q){
+        else if(eventForPressedKey.getCode() == KeyCode.Q && eventForPressedKey.getCode() != currentKeyCode){
             walkToRight = false;
-            walkToLeft = true;
-            animationForTheCharacter.setReverseWalk();
+            currentKeyCode = eventForPressedKey.getCode();
+            timelineForReverseWalk();
         }
     }
 
