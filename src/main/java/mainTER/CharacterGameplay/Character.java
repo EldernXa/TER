@@ -18,11 +18,13 @@ public class Character {
     private final String name;
     private final Coordinate initialCoordinate;
     private final ArrayList<ArrayList<ImageView>> listOfPictureOfTheCharacter;
+    private final int speed;
 
     public Character(String name, Coordinate coordinate) {
         this.name = name;
         this.initialCoordinate = coordinate;
         listOfPictureOfTheCharacter = new ArrayList<>();
+        this.speed = 10;
         try {
             URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/Paladin/Walk");
             File file2 = Paths.get(url.toURI()).toFile();
@@ -47,6 +49,9 @@ public class Character {
         }
     }
 
+    public int getSpeed(){
+        return speed;
+    }
 
     public String getName() {
         return name;

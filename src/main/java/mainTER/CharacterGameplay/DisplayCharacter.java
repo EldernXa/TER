@@ -47,11 +47,11 @@ public class DisplayCharacter {
         animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
                 Duration.millis(100),
                 tps->{
+                    // TODO Try to generalise it
                     if(walkToRight){
-                        //TODO Global variable for step
-                        if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()+10,currentCoordinateOfTheCharacter.getY()))){
+                        if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()+character.getSpeed(),currentCoordinateOfTheCharacter.getY()))){
                             removeAllImgViewOfThePane();
-                            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+10);
+                            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+character.getSpeed());
                             ImageView imgView = animationForTheCharacter.nextImage();
                             imgView.setX(currentCoordinateOfTheCharacter.getX());
                             imgView.setY(currentCoordinateOfTheCharacter.getY());
@@ -60,9 +60,9 @@ public class DisplayCharacter {
 
                     }
                     else if(walkToLeft){
-                        if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()-10,currentCoordinateOfTheCharacter.getY()))){
+                        if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()-character.getSpeed(),currentCoordinateOfTheCharacter.getY()))){
                             removeAllImgViewOfThePane();
-                            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()-10);
+                            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()-character.getSpeed());
                             ImageView imgView = animationForTheCharacter.nextImage();
                             imgView.setX(currentCoordinateOfTheCharacter.getX());
                             imgView.setY(currentCoordinateOfTheCharacter.getY());
