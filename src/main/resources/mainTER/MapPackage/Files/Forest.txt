@@ -1,5 +1,16 @@
 floor
-Layer_0001_8.png L 0 530 1300 70
-Layer_0001_8.png N 100 0 1300 100
+trunk.png N 1693 738 100
+rock.png N 1995 734 100
+herbe0.png N 0 788 100
+herbe1.png N 996 788 100
+herbe2.png N 2875 788 100
+herbe3.png N 3918 788 100
+plateforme1.png N 583 640 100
+plateforme2.png N 809 721 100
+spikes.png N 930 788 100
+plateforme3.png N 1584 564 100
+plateforme4.png N 1806 478 100
+eau1.png N 2767 788 100
+eau1.png N 3810 788 100
 objects
 crate 300 530
