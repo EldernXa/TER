@@ -12,18 +12,27 @@ public class AnimationCharacter {
     private final ArrayList<ArrayList<ImageView>> listOfImageViewForTheAnimation;
     private final Timeline timeline = new Timeline();
     private int indImgToAnimate = 0;
-    private int posToAnimate = 0;
+    private int posToAnimate;
 
     public AnimationCharacter(Character characterToAnimate){
+        setMotionless();
         listOfImageViewForTheAnimation = characterToAnimate.getListOfPictureOfTheCharacter();
     }
 
     public void setWalk(){
-        posToAnimate = 0;
+        posToAnimate = Position.WALK.ordinal();
     }
 
     public void setReverseWalk(){
-        posToAnimate = 1;
+        posToAnimate = Position.REVERSE_WALK.ordinal();
+    }
+
+    public void setMotionless(){
+        posToAnimate = Position.MOTIONLESS.ordinal();
+    }
+
+    public void setReverseMotionLess(){
+        posToAnimate = Position.REVERSE_MOTIONLESS.ordinal();
     }
 
     public ImageView nextImage(){

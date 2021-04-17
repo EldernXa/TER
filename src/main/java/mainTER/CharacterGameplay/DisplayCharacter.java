@@ -70,7 +70,12 @@ public class DisplayCharacter {
                         }
                     }
                     else{
-                        // TODO Animate when it doesn't move
+                        removeAllImgViewOfThePane();
+                        animationForTheCharacter.setMotionless();
+                        ImageView imgView = animationForTheCharacter.nextImage();
+                        imgView.setX(currentCoordinateOfTheCharacter.getX());
+                        imgView.setY(currentCoordinateOfTheCharacter.getY());
+                        pane.getChildren().add(imgView);
                     }
                 }));
         animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
@@ -106,7 +111,6 @@ public class DisplayCharacter {
      */
     private void eventForMovement(KeyEvent eventForPressedKey){
         if(eventForPressedKey.getCode() == KeyCode.D){
-            //System.out.println("okok");
             walkToLeft = false;
             walkToRight = true;
             animationForTheCharacter.setWalk();
