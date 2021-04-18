@@ -33,6 +33,7 @@ import mainTER.Network.Player;
 import mainTER.Tools.Coordinate;
 
 import java.io.File;
+import java.util.ArrayList;
 
 
 public class MenuItem extends StackPane {
@@ -128,8 +129,11 @@ public class MenuItem extends StackPane {
                         }
                     });
 
-                    Character character = new Character("Paladin", new Coordinate(1200, 630));
-                    DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, character,collision);
+                    ArrayList<Character> listCharacter = new ArrayList<>();
+                    listCharacter.add(new Character("Paladin", new Coordinate(1200, 630)));
+                    listCharacter.add(new Character("Serpent", new Coordinate(1200, 630)));
+                    listCharacter.add(new Character("Demon", new Coordinate(1100, 530)));
+                    new DisplayCharacter(scene, pane, listCharacter.get(0),collision);
                     mainStage.setScene(scene);
                     mainStage.centerOnScreen();
                     mainStage.show();

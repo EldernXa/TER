@@ -18,7 +18,6 @@ public class Collision {
         ImageView imageView = new ImageView(image);
         imageView.setX(coordinate.getX());
         imageView.setY(coordinate.getY());
-        System.out.println(collisionObjectArrayList.size());
         for(CollisionObject collisionObject : collisionObjectArrayList){
             if(imageView.getBoundsInParent().intersects(collisionObject.getAppropriateNode().getBoundsInParent())){
                 return false;
