@@ -24,6 +24,7 @@ import javafx.stage.WindowEvent;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.MapPackage.Collision;
+import mainTER.MapPackage.CollisionObject;
 import mainTER.MapPackage.InteractiveObject;
 import mainTER.MapPackage.Map;
 import mainTER.LoadOfFXML;
@@ -83,7 +84,7 @@ public class MenuItem extends StackPane {
                     mainStage.setHeight(5548);
                     mainStage.setWidth(788);
                     mainStage.setMaximized(true);
-                    //mainStage.setFullScreen(true);
+//                    mainStage.setFullScreen(true);
                     mainStage.sizeToScene();
 
 /*
@@ -92,12 +93,11 @@ public class MenuItem extends StackPane {
                     Collision collision = new Collision();
                     ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/Background.png").toURI().toString()));
                     Map map = new Map(collision,pane,background);
-                    for (int i = 0; i < map.getReadFileMap().getMapFieldFormArrayList().size(); i++){
+                    /*for (int i = 0; i < map.getReadFileMap().getMapFieldFormArrayList().size(); i++){
                         pane.getChildren().add(map.getReadFileMap().getMapFieldFormArrayList().get(i).getAppropriateNode());
-                    }
-                    for (InteractiveObject interactiveObject : map.getReadFileMap().getInteractiveObjectArrayList()){
-
-                        pane.getChildren().add(interactiveObject.getImageView());
+                    }*/
+                    for (CollisionObject collisionObject : map.getReadFileMap().getCollisionObjectArrayList()){
+                        pane.getChildren().add(collisionObject.getAppropriateNode());
                     }
 
                   ;
@@ -128,7 +128,7 @@ public class MenuItem extends StackPane {
                         }
                     });
 
-                    Character character = new Character("Paladin", new Coordinate(0, 530));
+                    Character character = new Character("Paladin", new Coordinate(1200, 630));
                     DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, character,collision);
                     mainStage.setScene(scene);
                     mainStage.centerOnScreen();
