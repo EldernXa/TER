@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Collision {
 
-    private  ArrayList<InteractiveObject> interactiveObjectArrayList = new ArrayList<>();
+    private  ArrayList<CollisionObject> collisionObjectArrayList = new ArrayList<>();
 
     public Collision(){
     }
@@ -18,19 +18,16 @@ public class Collision {
         ImageView imageView = new ImageView(image);
         imageView.setX(coordinate.getX());
         imageView.setY(coordinate.getY());
-        for(InteractiveObject interactiveObject : interactiveObjectArrayList){
-            if(imageView.getBoundsInParent().intersects(interactiveObject.getImageView().getBoundsInParent())){
+        System.out.println(collisionObjectArrayList.size());
+        for(CollisionObject collisionObject : collisionObjectArrayList){
+            if(imageView.getBoundsInParent().intersects(collisionObject.getAppropriateNode().getBoundsInParent())){
                 return false;
             }
         }
         return true;
     }
 
-    public void setInteractiveObjectArrayList(ArrayList<InteractiveObject> interactiveObjectArrayList) {
-        this.interactiveObjectArrayList = interactiveObjectArrayList;
-    }
-
-    public ArrayList<InteractiveObject> getInteractiveObjectArrayList() {
-        return interactiveObjectArrayList;
+    public void setCollisionObjectArrayList(ArrayList<CollisionObject> collisionObjectArrayList) {
+        this.collisionObjectArrayList = collisionObjectArrayList;
     }
 }

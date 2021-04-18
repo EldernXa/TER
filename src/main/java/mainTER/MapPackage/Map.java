@@ -19,7 +19,7 @@ public class Map {
 
 
         readFileMap = new ReadFileMap("./src/main/resources/mainTER/MapPackage/Files/Forest.txt");
-        collision.setInteractiveObjectArrayList(readFileMap.getInteractiveObjectArrayList());
+        collision.setCollisionObjectArrayList(readFileMap.getCollisionObjectArrayList());
 
     }
 
