@@ -1,10 +1,10 @@
 floor
 trunk.png N 1693 738 100
 rock.png N 1995 734 100
-herbe0.png N 0 788 100
-herbe1.png N 996 788 100
-herbe2.png N 2875 788 100
-herbe3.png N 3918 788 100
+herbe0-1.png N 0 788 100
+herbe1-1.png N 996 788 100
+herbe2-1.png N 2875 788 100
+herbe3-1.png N 3918 788 100
 plateforme1.png N 583 640 100
 plateforme2.png N 809 721 100
 spikes.png N 930 788 100

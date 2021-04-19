@@ -86,9 +86,10 @@ public class MenuItem extends StackPane {
                     Scene scene = new Scene(pane, 5548, Screen.getPrimary().getBounds().getHeight());
 
                     Stage mainStage = new Stage();
-                    mainStage.setHeight(Screen.getPrimary().getBounds().getHeight());
-                    mainStage.setWidth(5548);
+/*                    mainStage.setHeight(Screen.getPrimary().getBounds().getHeight());
+                    mainStage.setWidth(5548);*/
                     mainStage.setFullScreen(true);
+                    //mainStage.setMaximized(true);
                     mainStage.setResizable(false);
                     mainStage.sizeToScene();
                     mainStage.setMinWidth(mainStage.getWidth());
@@ -99,7 +100,7 @@ public class MenuItem extends StackPane {
 
 
                     Collide collide = new Collide();
-                    ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/Background.png").toURI().toString()));
+                    ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/Background-1.png").toURI().toString()));
                     Map map = new Map(collide, pane, background);
                     map.addCollisionObject();
 
@@ -112,8 +113,8 @@ public class MenuItem extends StackPane {
 
 
                     //Make the scene scale if the screen is larger
-                    Dimension resolution = Toolkit.getDefaultToolkit().getScreenSize();
-                    double height = resolution.getHeight();
+
+                    double height = Screen.getPrimary().getBounds().getHeight();
                     double h = height/background.getImage().getHeight();
                     Scale scale = new Scale(h, h, 0, 0);
                     scene.getRoot().getTransforms().add(scale);
@@ -127,6 +128,8 @@ public class MenuItem extends StackPane {
                     //A voir pour les Y quand la map monte ou decend
                     AtomicBoolean isZero = new AtomicBoolean(false);
                     final Coordinate saveCoord = new Coordinate(displayCharacter.getCurrentCoordinateOfTheCharacter().getX(), displayCharacter.getCurrentCoordinateOfTheCharacter().getY());
+
+
 
                     scene.addEventHandler(KeyEvent.KEY_PRESSED, event2 -> {
 
