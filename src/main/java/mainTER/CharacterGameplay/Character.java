@@ -12,14 +12,17 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 import mainTER.Tools.Coordinate;
+import mainTER.exception.CharacterImageFileDoesntExist;
 
 public class Character {
     private final String name;
     private final Coordinate initialCoordinate;
     private final ArrayList<ArrayList<ImageView>> listOfPictureOfTheCharacter;
     private final int speed;
+    private final Logger LOGGER = Logger.getLogger(this.getClass().getName());
 
     public Character(String name, Coordinate coordinate) {
         this.name = name;
@@ -35,6 +38,11 @@ public class Character {
         }
         try{
             for(Position pos : Position.values()){
+                URL urlCharacter = this.getClass().getResource("/mainTER/CharacterGameplay/images/"+name);
+                if(urlCharacter==null){
+                    throw new CharacterImageFileDoesntExist(name);
+                }
+                // TODO create personalized exception
                 URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/" + name + "/" + pos.toString().toLowerCase().replace("_", ""));
                 File file = Paths.get(url.toURI()).toFile();
                 if(file.exists() && file.isDirectory()){
@@ -45,6 +53,8 @@ public class Character {
             }
         }catch(URISyntaxException uriSyntaxException){
             uriSyntaxException.printStackTrace();
+        }catch(CharacterImageFileDoesntExist characterImageFileDoesntExist){
+            LOGGER.info("Le dossier du personnage n'existe pas !");
         }
     }
 
