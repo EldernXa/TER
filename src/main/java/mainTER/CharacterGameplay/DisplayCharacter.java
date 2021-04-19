@@ -27,6 +27,9 @@ public class DisplayCharacter {
     private boolean walkToRight = true;
     private final Collision collision;
     private KeyCode currentKeyCode;
+    private double fallingStep = 1;
+    private boolean isJumping = false;
+    private int height = 0;
 
     /**
      *
@@ -56,7 +59,31 @@ public class DisplayCharacter {
         animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
                 Duration.millis(100),
                 tps->{
-                    if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()+character.getSpeed(), currentCoordinateOfTheCharacter.getY()))){
+                    if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1))){
+                        if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()+character.getSpeed(), currentCoordinateOfTheCharacter.getY()))){
+                            removeAllImgViewOfThePane();
+                            animationForTheCharacter.setWalk();
+                            ImageView imgView = animationForTheCharacter.nextImage();
+                            int pas = (int)fallingStep;
+                            boolean verif = false;
+                            while(!verif){
+                                if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+pas))){
+                                    verif=true;
+                                }else{
+                                    pas--;
+                                }
+
+                            }
+                            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+character.getSpeed());
+                            currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()+pas);
+                            imgView.setX(currentCoordinateOfTheCharacter.getX());
+                            imgView.setY(currentCoordinateOfTheCharacter.getY());
+                            pane.getChildren().add(imgView);
+                            fallingStep += 0.5 * fallingStep;
+                        }
+                    }
+                    else if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()+character.getSpeed(), currentCoordinateOfTheCharacter.getY()))){
+                        fallingStep = 1;
                         removeAllImgViewOfThePane();
                         animationForTheCharacter.setWalk();
                         currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+character.getSpeed());
@@ -80,7 +107,31 @@ public class DisplayCharacter {
         animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
                 Duration.millis(100),
                 tps->{
-                    if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()-character.getSpeed(), currentCoordinateOfTheCharacter.getY()))){
+                    if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1))){
+                        if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()-character.getSpeed(), currentCoordinateOfTheCharacter.getY()))){
+                            removeAllImgViewOfThePane();
+                            animationForTheCharacter.setReverseWalk();
+                            ImageView imgView = animationForTheCharacter.nextImage();
+                            int pas = (int)fallingStep;
+                            boolean verif = false;
+                            while(!verif){
+                                if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+pas))){
+                                    verif=true;
+                                }else{
+                                    pas--;
+                                }
+
+                            }
+                            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()-character.getSpeed());
+                            currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()+pas);
+                            imgView.setX(currentCoordinateOfTheCharacter.getX());
+                            imgView.setY(currentCoordinateOfTheCharacter.getY());
+                            pane.getChildren().add(imgView);
+                            fallingStep += 0.5 * fallingStep;
+                        }
+                    }
+                    else if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()-character.getSpeed(), currentCoordinateOfTheCharacter.getY()))){
+                        fallingStep = 1;
                         removeAllImgViewOfThePane();
                         animationForTheCharacter.setReverseWalk();
                         currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()-character.getSpeed());
@@ -113,18 +164,44 @@ public class DisplayCharacter {
                     imgView.setX(currentCoordinateOfTheCharacter.getX());
                     imgView.setY(currentCoordinateOfTheCharacter.getY());
                     pane.getChildren().add(imgView);
+                    if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1))){
+                        removeAllImgViewOfThePane();
+                        imgView = animationForTheCharacter.nextImage();
+                        int pas = (int)fallingStep;
+                        boolean verif = false;
+                        while(!verif){
+                            if(collision.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+pas))){
+                                verif=true;
+                            }else{
+                                pas--;
+                            }
+
+                        }
+                        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()+pas);
+                        imgView.setX(currentCoordinateOfTheCharacter.getX());
+                        imgView.setY(currentCoordinateOfTheCharacter.getY());
+                        pane.getChildren().add(imgView);
+                        fallingStep += 0.5 * fallingStep;
+                    }
+                    else{
+                        fallingStep = 1;
+                    }
                 }
         ));
         animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
         animationForTheCharacter.getTimeline().play();
     }
 
-    public void removeAllImgViewOfThePane(){
+    private void removeAllImgViewOfThePane(){
         for(List<ImageView> listImg : character.getListOfPictureOfTheCharacter()) {
             for (ImageView imageView : listImg) {
                 pane.getChildren().remove(imageView);
             }
         }
+    }
+
+    public Coordinate getCurrentCoordinateOfTheCharacter(){
+        return currentCoordinateOfTheCharacter;
     }
 
     /**
@@ -154,6 +231,9 @@ public class DisplayCharacter {
             walkToRight = false;
             currentKeyCode = eventForPressedKey.getCode();
             timelineForReverseWalk();
+        }else if(eventForPressedKey.getCode() == KeyCode.SPACE && eventForPressedKey.getCode() != currentKeyCode){
+            currentKeyCode=eventForPressedKey.getCode();
+            isJumping = true;
         }
     }
 
