@@ -11,7 +11,6 @@ import javafx.util.Duration;
 import mainTER.MapPackage.Collision;
 import mainTER.Tools.Coordinate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,8 +19,8 @@ import java.util.List;
  */
 public class DisplayCharacter {
 
-    private Coordinate currentCoordinateOfTheCharacter;
-    private AnimationCharacter animationForTheCharacter;
+    private final Coordinate currentCoordinateOfTheCharacter;
+    private final AnimationCharacter animationForTheCharacter;
     private final Character character;
     private final Scene lvlOfTheGame;
     private final Pane pane;
@@ -31,7 +30,7 @@ public class DisplayCharacter {
 
     /**
      *
-     * @param scene
+     * @param scene scene of the game.
      * @param pane is the level of the game.
      * @param character is the character we will display.
      */
@@ -133,9 +132,7 @@ public class DisplayCharacter {
      */
     private void enableEvent(){
 
-        lvlOfTheGame.setOnKeyPressed(eventKeyPressed->{
-            eventForMovement(eventKeyPressed);
-        });
+        lvlOfTheGame.setOnKeyPressed(this::eventForMovement);
 
         lvlOfTheGame.setOnKeyReleased(event -> {
             currentKeyCode = null;
