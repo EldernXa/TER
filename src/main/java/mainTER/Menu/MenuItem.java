@@ -118,7 +118,7 @@ public class MenuItem extends StackPane {
 
 
 
-                    scene.addEventHandler(KeyEvent.KEY_PRESSED, event2 ->{
+                    /*scene.addEventHandler(KeyEvent.KEY_PRESSED, event2 ->{
                         switch (event2.getCode()){
                             case W:
                                 camera.translateXProperty().set(camera.getTranslateX()+100);
@@ -127,7 +127,7 @@ public class MenuItem extends StackPane {
                                 camera.translateXProperty().set(camera.getTranslateX()-100);
                                 break;
                         }
-                    });
+                    });*/
 
                     ArrayList<Character> listCharacter = new ArrayList<>();
                     listCharacter.add(new Character("Paladin", new Coordinate(1200, 630)));

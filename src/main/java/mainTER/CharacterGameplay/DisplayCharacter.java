@@ -12,6 +12,7 @@ import mainTER.MapPackage.Collision;
 import mainTER.Tools.Coordinate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -120,7 +121,7 @@ public class DisplayCharacter {
     }
 
     public void removeAllImgViewOfThePane(){
-        for(ArrayList<ImageView> listImg : character.getListOfPictureOfTheCharacter()) {
+        for(List<ImageView> listImg : character.getListOfPictureOfTheCharacter()) {
             for (ImageView imageView : listImg) {
                 pane.getChildren().remove(imageView);
             }

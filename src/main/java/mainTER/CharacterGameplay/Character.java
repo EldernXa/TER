@@ -1,16 +1,13 @@
 package mainTER.CharacterGameplay;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Locale;
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -22,7 +19,9 @@ public class Character {
     private final Coordinate initialCoordinate;
     private final ArrayList<ArrayList<ImageView>> listOfPictureOfTheCharacter;
     private final int speed;
-    private final Logger LOGGER = Logger.getLogger(this.getClass().getName());
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
+
+    // TODO Put error on graphics interface.
 
     public Character(String name, Coordinate coordinate) {
         this.name = name;
@@ -54,7 +53,7 @@ public class Character {
         }catch(URISyntaxException uriSyntaxException){
             uriSyntaxException.printStackTrace();
         }catch(CharacterImageFileDoesntExist characterImageFileDoesntExist){
-            LOGGER.info("Le dossier du personnage n'existe pas !");
+            logger.info("Le dossier du personnage n'existe pas !");
         }
     }
 
@@ -66,7 +65,7 @@ public class Character {
         return name;
     }
 
-    public ArrayList<ArrayList<ImageView>> getListOfPictureOfTheCharacter(){
+    public List<ArrayList<ImageView>> getListOfPictureOfTheCharacter(){
         return listOfPictureOfTheCharacter;
     }
 

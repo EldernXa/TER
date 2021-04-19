@@ -6,10 +6,11 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AnimationCharacter {
 
-    private final ArrayList<ArrayList<ImageView>> listOfImageViewForTheAnimation;
+    private final List<ArrayList<ImageView>> listOfImageViewForTheAnimation;
     private final Timeline timeline = new Timeline();
     private int indImgToAnimate = 0;
     private int posToAnimate;
