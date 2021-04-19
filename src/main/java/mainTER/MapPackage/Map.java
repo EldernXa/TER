@@ -5,11 +5,11 @@ import javafx.scene.layout.*;
 
 public class Map {
 
-    private ReadFileMap readFileMap;
+    private MapFileReader mapFileReader;
     private Pane pane;
 
 
-    public Map(Collision collision, Pane pane,ImageView backgroundImage) {
+    public Map(Collide collide, Pane pane, ImageView backgroundImage) {
 
         this.pane = pane;
         this.pane.setBackground(new Background(new BackgroundImage(backgroundImage.getImage(),BackgroundRepeat.NO_REPEAT,
@@ -19,13 +19,13 @@ public class Map {
 
 
 
-        readFileMap = new ReadFileMap("./src/main/resources/mainTER/MapPackage/Files/Forest.txt");
-        collision.setCollisionObjectArrayList(readFileMap.getCollisionObjectArrayList());
+        mapFileReader = new MapFileReader("./src/main/resources/mainTER/MapPackage/Files/Forest.txt");
+        collide.setCollisionObjectArrayList(mapFileReader.getCollisionObjectArrayList());
 
     }
 
-    public ReadFileMap getReadFileMap() {
-        return readFileMap;
+    public MapFileReader getReadFileMap() {
+        return mapFileReader;
     }
 
     public void addCollisionObject(){

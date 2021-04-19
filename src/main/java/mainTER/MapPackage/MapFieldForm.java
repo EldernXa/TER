@@ -3,7 +3,7 @@ package mainTER.MapPackage;
 import javafx.scene.Node;
 import mainTER.Tools.Coordinate;
 
-public abstract class MapFieldForm implements CollisionObject{
+public abstract class MapFieldForm implements CollideObject {
 
     private Coordinate coordinate;
     private double width;

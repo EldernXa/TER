@@ -3,7 +3,6 @@ package mainTER.MapPackage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import mainTER.Tools.Coordinate;
-import mainTER.Tools.ImageViewSizePos;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,17 +11,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class ReadFileMap {
+public class MapFileReader {
 
-    private String spriteName;
-    private ArrayList<CollisionObject> collisionObjectArrayList;
+
+    private ArrayList<CollideObject> collideObjectArrayList;
     private String file[];
-    private String pathName;
 
 
-    public ReadFileMap(String pathName) {
-        this.pathName = pathName;
-        collisionObjectArrayList = new ArrayList<>();
+    public MapFileReader(String pathName) {
+        collideObjectArrayList = new ArrayList<>();
         Path path = Paths.get(pathName);
         try {
             this.file = Files.readString(path).split("\n");
@@ -36,7 +33,7 @@ public class ReadFileMap {
 
 
     private void read() {
-
+        String spriteName;
         String lastCategorie = "";
         int i = 0;
         String line[];
@@ -67,14 +64,14 @@ public class ReadFileMap {
 
                         if (line[1].equals("L")) {
                             fieldFromLilPict = new MapFieldFromLilPict("./src/main/resources/mainTER/MapPackage/Sprites/Front/" + spriteName, new Coordinate(doubles[2], doubles[3]), doubles[4], doubles[5]);
-                            collisionObjectArrayList.add(fieldFromLilPict);
+                            collideObjectArrayList.add(fieldFromLilPict);
                         }
                         else {
 
                             ImageView picture = new ImageView();
                             picture.setImage(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Front/" + spriteName).toURI().toString()));
                             fieldFromSprite = new MapFieldFromSprite("./src/main/resources/mainTER/MapPackage/Sprites/Front/" + spriteName, new Coordinate(doubles[2], doubles[3]-picture.getImage().getHeight()), doubles[4]);
-                            collisionObjectArrayList.add(fieldFromSprite);
+                            collideObjectArrayList.add(fieldFromSprite);
                         }
                     }
                     else if(lastCategorie.equals("objects")){
@@ -87,7 +84,7 @@ public class ReadFileMap {
                         }
                         switch (line[0]) {//Add case when new object
                             case "crate":
-                                collisionObjectArrayList.add(new Crate(new Coordinate(doubles[1], doubles[2])));
+                                collideObjectArrayList.add(new Crate(new Coordinate(doubles[1], doubles[2])));
                         }
                     }
                     else{
@@ -97,7 +94,7 @@ public class ReadFileMap {
         }
     }
 
-    public ArrayList<CollisionObject> getCollisionObjectArrayList() {
-        return collisionObjectArrayList;
+    public ArrayList<CollideObject> getCollisionObjectArrayList() {
+        return collideObjectArrayList;
     }
 }

@@ -1,12 +1,10 @@
 package mainTER.MapPackage;
 
-import javafx.scene.Node;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
-public abstract class InteractiveObject implements CollisionObject{
+public abstract class InteractiveObject implements CollideObject {
 
     private Coordinate coordinate;
     private ImageViewSizePos imageViewSizePos;
