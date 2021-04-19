@@ -94,17 +94,7 @@ public class MenuItem extends StackPane {
                     Collision collision = new Collision();
                     ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/Background.png").toURI().toString()));
                     Map map = new Map(collision,pane,background);
-                    /*for (int i = 0; i < map.getReadFileMap().getMapFieldFormArrayList().size(); i++){
-                        pane.getChildren().add(map.getReadFileMap().getMapFieldFormArrayList().get(i).getAppropriateNode());
-                    }*/
-                    for (CollisionObject collisionObject : map.getReadFileMap().getCollisionObjectArrayList()){
-                        pane.getChildren().add(collisionObject.getAppropriateNode());
-                    }
-
-                  ;
-
-
-
+                    map.addCollisionObject();
 
                     Camera camera = new PerspectiveCamera();
                     camera.maxHeight(500);

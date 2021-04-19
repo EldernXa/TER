@@ -6,12 +6,13 @@ import javafx.scene.layout.*;
 public class Map {
 
     private ReadFileMap readFileMap;
+    private Pane pane;
 
 
     public Map(Collision collision, Pane pane,ImageView backgroundImage) {
 
-
-        pane.setBackground(new Background(new BackgroundImage(backgroundImage.getImage(),BackgroundRepeat.NO_REPEAT,
+        this.pane = pane;
+        this.pane.setBackground(new Background(new BackgroundImage(backgroundImage.getImage(),BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT, new BackgroundSize(backgroundImage.getImage().getWidth(),
                 backgroundImage.getImage().getHeight(),false,false,false,false))));
 
@@ -25,5 +26,11 @@ public class Map {
 
     public ReadFileMap getReadFileMap() {
         return readFileMap;
+    }
+
+    public void addCollisionObject(){
+        for (CollisionObject collisionObject : this.getReadFileMap().getCollisionObjectArrayList()){
+            pane.getChildren().add(collisionObject.getAppropriateNode());
+        }
     }
 }
