@@ -7,6 +7,7 @@ import javafx.scene.text.Text;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -59,10 +60,14 @@ public class GameServer implements Runnable{
 
     }
 
+    public ServerSocket getSs() {
+        return ss;
+    }
+
     @Override
     public void run() {
         try{
-            ss = new ServerSocket(5134);
+            ss = new ServerSocket(5134,5);
             acceptConnections();
         } catch (IOException e) {
             e.printStackTrace();
