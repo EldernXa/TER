@@ -13,4 +13,4 @@ plateforme4.png N 1806 478 100
 eau1.png N 2767 788 100
 eau1.png N 3810 788 100
 objects
-crate 300 530
+crate 1300 693

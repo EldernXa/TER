@@ -1,7 +1,9 @@
 package mainTER.MapPackage;
 
 import javafx.scene.Node;
+import mainTER.CharacterGameplay.DisplayCharacter;
 
-public interface CollideObject {
-    Node getAppropriateNode();
+public abstract class CollideObject {
+    public abstract Node getAppropriateNode();
+    public void interaction(DisplayCharacter displayCharacter){}
 }

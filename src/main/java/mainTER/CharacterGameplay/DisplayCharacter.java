@@ -59,14 +59,14 @@ public class DisplayCharacter {
         animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
                 Duration.millis(100),
                 tps->{
-                    if(collide.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1))){
-                        if(collide.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()+character.getSpeed(), currentCoordinateOfTheCharacter.getY()))){
+                    if(collide.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1),this)){
+                        if(collide.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()+character.getSpeed(), currentCoordinateOfTheCharacter.getY()),this)){
                             animationForTheCharacter.setWalk();
                             currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+character.getSpeed());
                             fallingCharacter();
                         }
                     }
-                    else if(collide.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()+character.getSpeed(), currentCoordinateOfTheCharacter.getY()))){
+                    else if(collide.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()+character.getSpeed(), currentCoordinateOfTheCharacter.getY()),this)){
                         fallingStep = 1;
                         removeAllImgViewOfThePane();
                         animationForTheCharacter.setWalk();
@@ -91,14 +91,14 @@ public class DisplayCharacter {
         animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
                 Duration.millis(100),
                 tps->{
-                    if(collide.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1))){
-                        if(collide.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()-character.getSpeed(), currentCoordinateOfTheCharacter.getY()))){
+                    if(collide.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1),this)){
+                        if(collide.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()-character.getSpeed(), currentCoordinateOfTheCharacter.getY()),this)){
                             animationForTheCharacter.setReverseWalk();
                             currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()-character.getSpeed());
                             fallingCharacter();
                         }
                     }
-                    else if(collide.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()-character.getSpeed(), currentCoordinateOfTheCharacter.getY()))){
+                    else if(collide.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX()-character.getSpeed(), currentCoordinateOfTheCharacter.getY()),this)){
                         fallingStep = 1;
                         removeAllImgViewOfThePane();
                         animationForTheCharacter.setReverseWalk();
@@ -132,7 +132,7 @@ public class DisplayCharacter {
                     imgView.setX(currentCoordinateOfTheCharacter.getX());
                     imgView.setY(currentCoordinateOfTheCharacter.getY());
                     pane.getChildren().add(imgView);
-                    if(collide.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1))){
+                    if(collide.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1),this)){
                         fallingCharacter();
                     }
                     else{
@@ -153,7 +153,7 @@ public class DisplayCharacter {
         int pas = (int)fallingStep;
         boolean verif = false;
         while(!verif){
-            if(collide.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+pas))){
+            if(collide.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+pas),this)){
                 verif = true;
             }else{
                 pas--;

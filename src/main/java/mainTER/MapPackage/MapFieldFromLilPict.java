@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import javafx.embed.swing.SwingFXUtils;
 
 import javafx.scene.paint.Color;
+import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
@@ -68,4 +69,5 @@ public class MapFieldFromLilPict extends MapFieldForm {
     public Node getAppropriateNode() {
         return pane;
     }
+
 }
