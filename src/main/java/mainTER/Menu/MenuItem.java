@@ -25,7 +25,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
-import mainTER.MapPackage.Collision;
+import mainTER.MapPackage.Collide;
 import mainTER.MapPackage.Map;
 import mainTER.LoadOfFXML;
 import mainTER.Network.GameServer;
@@ -98,9 +98,9 @@ public class MenuItem extends StackPane {
 
 
 
-                    Collision collision = new Collision();
+                    Collide collide = new Collide();
                     ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/Background.png").toURI().toString()));
-                    Map map = new Map(collision, pane, background);
+                    Map map = new Map(collide, pane, background);
                     map.addCollisionObject();
 
 
@@ -108,7 +108,7 @@ public class MenuItem extends StackPane {
                     listCharacter.add(new Character("Paladin", new Coordinate(1200, 630)));
                     listCharacter.add(new Character("Serpent", new Coordinate(1200, 630)));
                     listCharacter.add(new Character("Demon", new Coordinate(1100, 530)));
-                    DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0), collision);
+                    DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0), collide);
 
 
                     //Make the scene scale if the screen is larger
