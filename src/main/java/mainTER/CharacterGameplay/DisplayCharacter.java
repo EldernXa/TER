@@ -9,7 +9,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import mainTER.MapPackage.Collide;
-import mainTER.MapPackage.Collision;
 import mainTER.Tools.Coordinate;
 
 import java.util.List;
