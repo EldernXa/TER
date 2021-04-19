@@ -29,8 +29,8 @@ public class Map {
     }
 
     public void addCollisionObject(){
-        for (CollisionObject collisionObject : this.getReadFileMap().getCollisionObjectArrayList()){
-            pane.getChildren().add(collisionObject.getAppropriateNode());
+        for (CollideObject collideObject : this.getReadFileMap().getCollisionObjectArrayList()){
+            pane.getChildren().add(collideObject.getAppropriateNode());
         }
     }
 }
