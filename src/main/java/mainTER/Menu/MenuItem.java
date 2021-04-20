@@ -142,6 +142,7 @@ public class MenuItem extends StackPane {
                                     camera.translateXProperty().set(displayCharacter.getCurrentCoordinateOfTheCharacter().getX()*h - Screen.getPrimary().getBounds().getWidth() / 2);
                                     isZero.set(false);
                                 }
+                                break;
 
                             case Q:
                                 if (camera.getTranslateX() != 0) {

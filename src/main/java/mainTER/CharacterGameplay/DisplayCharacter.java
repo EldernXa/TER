@@ -29,7 +29,7 @@ public class DisplayCharacter {
     private KeyCode currentKeyCode;
     private double fallingStep = 1;
     private boolean isJumping = false;
-    private int height = 0;
+    private int jumpStrength;
 
     /**
      *
@@ -132,7 +132,18 @@ public class DisplayCharacter {
                     imgView.setX(currentCoordinateOfTheCharacter.getX());
                     imgView.setY(currentCoordinateOfTheCharacter.getY());
                     pane.getChildren().add(imgView);
-                    if(verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1)){
+                    if(isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()-1)){
+                        removeAllImgViewOfThePane();
+                        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()-jumpStrength);
+                        jumpStrength-= character.getWeight();
+                        if(jumpStrength<=0)
+                            isJumping = false;
+                        imgView = animationForTheCharacter.nextImage();
+                        imgView.setX(currentCoordinateOfTheCharacter.getX());
+                        imgView.setY(currentCoordinateOfTheCharacter.getY());
+                        pane.getChildren().add(imgView);
+                    }
+                    else if(verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1)){
                         fallingCharacter();
                     }
                     else{
@@ -218,6 +229,7 @@ public class DisplayCharacter {
         }else if(eventForPressedKey.getCode() == KeyCode.SPACE && eventForPressedKey.getCode() != currentKeyCode){
             currentKeyCode=eventForPressedKey.getCode();
             isJumping = true;
+            this.jumpStrength = character.getJumpStrength();
         }
     }
 

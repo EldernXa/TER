@@ -19,14 +19,19 @@ public class Character {
     private final Coordinate initialCoordinate;
     private final ArrayList<ArrayList<ImageView>> listOfPictureOfTheCharacter;
     private final int speed;
+    private final int weight;
+    private final int jumpStrength;
 
     // TODO Put error on graphics interface.
+    // TODO get characteristics from name in database.
 
     public Character(String name, Coordinate coordinate) {
         this.name = name;
         this.initialCoordinate = coordinate;
         listOfPictureOfTheCharacter = new ArrayList<>();
         this.speed = 10;
+        this.weight = 5;
+        this.jumpStrength = 20;
         initListAnimate();
     }
 
@@ -76,6 +81,14 @@ public class Character {
 
     public Coordinate getInitialCoordinate() {
         return initialCoordinate;
+    }
+
+    public int getWeight(){
+        return weight;
+    }
+
+    public int getJumpStrength(){
+        return jumpStrength;
     }
 
 
