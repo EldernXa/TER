@@ -108,7 +108,7 @@ public class MenuItem extends StackPane {
 
                     ArrayList<Character> listCharacter = new ArrayList<>();
                     listCharacter.add(new Character("Paladin", new Coordinate(1200, 630)));
-                    listCharacter.add(new Character("Serpent", new Coordinate(1200, 630)));
+                    //listCharacter.add(new Character("Serpent", new Coordinate(1200, 630)));
                     listCharacter.add(new Character("Demon", new Coordinate(1100, 530)));
                     DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0), collide);
 

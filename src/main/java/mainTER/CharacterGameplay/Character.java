@@ -21,6 +21,7 @@ public class Character {
     private final int speed;
     private final int weight;
     private final int jumpStrength;
+    private final boolean canJump = true;
 
     // TODO Put error on graphics interface.
     // TODO get characteristics from name in database.
@@ -33,6 +34,10 @@ public class Character {
         this.weight = 5;
         this.jumpStrength = 20;
         initListAnimate();
+    }
+
+    public boolean canJump(){
+        return canJump;
     }
 
     private void initListAnimate(){

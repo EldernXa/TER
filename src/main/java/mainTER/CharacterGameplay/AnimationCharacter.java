@@ -34,6 +34,14 @@ public class AnimationCharacter {
         posToAnimate = Position.REVERSE_MOTIONLESS.ordinal();
     }
 
+    public void setJump(){
+        posToAnimate = Position.JUMP.ordinal();
+    }
+
+    public void setReverseJump(){
+        posToAnimate = Position.REVERSE_JUMP.ordinal();
+    }
+
     public ImageView nextImage(){
         int ind = (indImgToAnimate)%listOfImageViewForTheAnimation.get(posToAnimate).size();
         indImgToAnimate++;

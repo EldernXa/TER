@@ -165,6 +165,10 @@ public class DisplayCharacter extends CollideObject {
                     imgView.setY(currentCoordinateOfTheCharacter.getY());
                     pane.getChildren().add(imgView);
                     if(isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()-1)){
+                        if(walkToRight)
+                            animationForTheCharacter.setJump();
+                        else
+                            animationForTheCharacter.setReverseJump();
                         removeAllImgViewOfThePane();
                         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()-jumpStrength);
                         jumpStrength-= character.getWeight();
@@ -258,7 +262,7 @@ public class DisplayCharacter extends CollideObject {
             walkToRight = false;
             currentKeyCode = eventForPressedKey.getCode();
             timelineForReverseWalk();
-        }else if(eventForPressedKey.getCode() == KeyCode.SPACE && eventForPressedKey.getCode() != currentKeyCode){
+        }else if(eventForPressedKey.getCode() == KeyCode.SPACE && eventForPressedKey.getCode() != currentKeyCode && character.canJump()){
             currentKeyCode=eventForPressedKey.getCode();
             isJumping = true;
             this.jumpStrength = character.getJumpStrength();

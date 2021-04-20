@@ -4,5 +4,7 @@ public enum Position {
     WALK,
     REVERSE_WALK,
     MOTIONLESS,
-    REVERSE_MOTIONLESS
+    REVERSE_MOTIONLESS,
+    JUMP,
+    REVERSE_JUMP
 }
