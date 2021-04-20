@@ -53,8 +53,16 @@ public class AnimationCharacter {
 
     public ImageView nextImage(){
         int ind = (indImgToAnimate)%listOfImageViewForTheAnimation.get(posToAnimate).size();
+        ImageView imgView = listOfImageViewForTheAnimation.get(posToAnimate).get(ind);
+        if(ind == listOfImageViewForTheAnimation.get(posToAnimate).size()-1){
+            if(posToAnimate == Position.JUMP.ordinal()){
+                setMotionless();
+            }else if(posToAnimate == Position.REVERSE_JUMP.ordinal()){
+                setReverseMotionLess();
+            }
+        }
         indImgToAnimate++;
-        return listOfImageViewForTheAnimation.get(posToAnimate).get(ind);
+        return imgView;
     }
 
     public ImageView actualImg(){
