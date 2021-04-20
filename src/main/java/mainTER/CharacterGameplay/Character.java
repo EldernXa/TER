@@ -40,7 +40,6 @@ public class Character {
                 if(urlCharacter==null){
                     throw new CharacterImageFileDoesntExist(name);
                 }
-                // TODO create personalized exception
                 final String replace = pos.toString().toLowerCase().replace("_", "");
                 URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/" + name + "/" + replace);
                 File file = Paths.get(url.toURI()).toFile();
