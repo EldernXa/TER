@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 import mainTER.Tools.Coordinate;
+import mainTER.Tools.ImageViewSizePos;
 import mainTER.exception.CharacterImageFileDoesntExist;
 import mainTER.exception.PositionDirectoryDoesntExist;
 
@@ -23,6 +24,7 @@ public class Character {
     private final int weight;
     private final int jumpStrength;
     private final boolean canJump = true;
+    private ImageViewSizePos logo ;
 
     // TODO Put error on graphics interface.
     // TODO get characteristics from name in database.
@@ -34,6 +36,7 @@ public class Character {
         this.speed = 10;
         this.weight = 5;
         this.jumpStrength = 20;
+        this.logo = new ImageViewSizePos("src/main/resources/mainTER/CharacterGameplay/Logo/" + name +".png",60,60);
         initListAnimate();
     }
 
@@ -98,4 +101,7 @@ public class Character {
     }
 
 
+    public ImageViewSizePos getLogo() {
+        return logo;
+    }
 }

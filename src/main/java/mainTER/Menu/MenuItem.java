@@ -3,6 +3,7 @@ package mainTER.Menu;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Camera;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
@@ -22,12 +23,14 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.MapPackage.Collide;
 import mainTER.MapPackage.Map;
 import mainTER.LoadOfFXML;
+import mainTER.MapPackage.SwitchCharacter;
 import mainTER.Music.Music;
 import mainTER.Network.GameServer;
 import mainTER.Network.Player;
@@ -81,10 +84,16 @@ public class MenuItem extends StackPane {
 
             switch (name) {
                 case "SINGLEPLAYER": {
+
+                    StackPane stackPane = new StackPane();
+
+
                     Pane pane = new Pane();
 
 
-                    Scene scene = new Scene(pane, 5548, Screen.getPrimary().getBounds().getHeight());
+                    stackPane.getChildren().add(pane);
+
+                    Scene scene = new Scene(stackPane, 5548, Screen.getPrimary().getBounds().getHeight());
 
                     Stage mainStage = new Stage();
 /*                    mainStage.setHeight(Screen.getPrimary().getBounds().getHeight());
@@ -106,6 +115,7 @@ public class MenuItem extends StackPane {
                     map.addCollisionObject();
 
 
+
                     ArrayList<Character> listCharacter = new ArrayList<>();
                     listCharacter.add(new Character("Paladin", new Coordinate(1200, 630)));
                     //listCharacter.add(new Character("Serpent", new Coordinate(1200, 630)));
@@ -113,7 +123,14 @@ public class MenuItem extends StackPane {
                     DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0), collide);
 
 
+
+                    SwitchCharacter sc = new SwitchCharacter(listCharacter);
+
                     //Make the scene scale if the screen is larger
+                    sc.setTranslateY(displayCharacter.getCurrentCoordinateOfTheCharacter().getY()-Screen.getPrimary().getBounds().getHeight()/7 * 5);
+                    sc.setTranslateX(displayCharacter.getCurrentCoordinateOfTheCharacter().getX()-Screen.getPrimary().getBounds().getWidth()/2.5);
+                    stackPane.getChildren().add(sc);
+
 
                     double height = Screen.getPrimary().getBounds().getHeight();
                     double h = height/background.getImage().getHeight();
@@ -124,6 +141,9 @@ public class MenuItem extends StackPane {
                     //Set the camera on the player
                     Camera camera = new PerspectiveCamera();
                     scene.setCamera(camera);
+
+
+
                     camera.translateXProperty().set(displayCharacter.getCurrentCoordinateOfTheCharacter().getX()*h - Screen.getPrimary().getBounds().getWidth() / 2);
 
                     //A voir pour les Y quand la map monte ou decend
@@ -140,6 +160,7 @@ public class MenuItem extends StackPane {
 
                                 } else {
                                     camera.translateXProperty().set(displayCharacter.getCurrentCoordinateOfTheCharacter().getX()*h - Screen.getPrimary().getBounds().getWidth() / 2);
+                                    sc.setTranslateX(displayCharacter.getCurrentCoordinateOfTheCharacter().getX()-Screen.getPrimary().getBounds().getWidth()/2.5);
                                     isZero.set(false);
                                 }
                                 break;
@@ -147,6 +168,8 @@ public class MenuItem extends StackPane {
                             case Q:
                                 if (camera.getTranslateX() != 0) {
                                     camera.translateXProperty().set(displayCharacter.getCurrentCoordinateOfTheCharacter().getX()*h - Screen.getPrimary().getBounds().getWidth() / 2);
+                                    sc.setTranslateX(displayCharacter.getCurrentCoordinateOfTheCharacter().getX()-Screen.getPrimary().getBounds().getWidth()/2.5);
+
                                 } else {
                                     if (!isZero.get()) {
                                         saveCoord.setX(displayCharacter.getCurrentCoordinateOfTheCharacter().getX()*h);
@@ -155,7 +178,29 @@ public class MenuItem extends StackPane {
                                 }
                                 break;
                             case A:
-                                displayCharacter.setCharacter(listCharacter.get(1));
+                                int k = 0;
+                                for(int i = 0;i<listCharacter.size();i++){
+                                    if(listCharacter.get(i) == displayCharacter.getCharacter()){
+                                        k = i;
+                                    }
+                                }
+                                displayCharacter.setCharacter(listCharacter.get((k+1)%listCharacter.size()));
+                                sc.changeToDown();
+                                break;
+
+                            case E:
+                                 k = 0;
+                                for(int i = 0;i<listCharacter.size();i++){
+                                    if(listCharacter.get(i) == displayCharacter.getCharacter()){
+                                        k = i;
+                                    }
+                                }
+                                if(k == 0){
+                                    displayCharacter.setCharacter(listCharacter.get(listCharacter.size()-1));
+                                }else{
+                                    displayCharacter.setCharacter(listCharacter.get((k-1)%listCharacter.size()));
+                                }
+                                sc.changeToUp();
                                 break;
                         }
                     });
@@ -164,6 +209,7 @@ public class MenuItem extends StackPane {
                     mainStage.setScene(scene);
                     mainStage.centerOnScreen();
                     mainStage.show();
+
 
 
                 }
