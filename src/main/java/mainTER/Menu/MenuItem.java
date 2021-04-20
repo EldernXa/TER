@@ -215,6 +215,10 @@ public class MenuItem extends StackPane {
                     p.connectToServer(stage, sceneaa);
                     break;
                 }
+                case "SOUND SETTINGS": {
+                    MenuSound menuSound = new MenuSound(stage);
+                    stage.setScene(menuSound.getScene());
+                }
             }
         });
 

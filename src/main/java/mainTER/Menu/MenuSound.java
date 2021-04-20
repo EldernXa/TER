@@ -33,7 +33,7 @@ public class MenuSound {
     private final Label labelSon = new Label("Régler le niveau du son :");
 
 
-    public MenuSound(Stage stage, Scene sceneBack) {
+    public MenuSound(Stage stage) {
         pane.setStyle("-fx-background-color: lightgray");
         setVolumeSlider();
         styleLabelSon();
@@ -61,7 +61,7 @@ public class MenuSound {
         volumeSlider.setStyle("-fx-control-inner-background: gray!important;");
         //Pane thumb = (Pane) volumeSlider.lookup(".thumb");
         //thumb.setStyle("-fx-background-color: #1354cb!important;");
-        volumeSlider.getStyleClass().add("slider");
+        //volumeSlider.getStyleClass().add("slider");
         StackPane.setAlignment(volumeSlider, Pos.CENTER_RIGHT);
 
     }

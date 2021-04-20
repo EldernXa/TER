@@ -24,7 +24,11 @@ public class MenuSettings {
     private Button boutonSon= new Button("Réglage son");
     //private Button boutonCommande = new Button("Réglage commandes");
     private final Label titre = new Label("Paramètres");
-    VBox vBox = new VBox(10);
+    MenuBox vbox = new MenuBox(
+            new MenuItem("SOUND SETTINGS",stage),
+            new MenuItem("CONTROLERS SETTINGS",stage)
+    );
+
     MenuSound menuSound;
     //MenuParametresCommandes menuParametresCommandes;
 
@@ -37,9 +41,13 @@ public class MenuSettings {
 
 
 
-            setButton();
+
             pane.setStyle("-fx-background-color: lightgray");
             pane.getChildren().addAll(titre,revenir.getImageView());
+            vbox.setTranslateX(290);
+            vbox.setTranslateY(170);
+            vbox.setSpacing(5);
+            pane.getChildren().add(vbox);
             //setRevenir();
 
             StackPane.setAlignment(revenir.getImageView(),Pos.TOP_LEFT);
@@ -52,11 +60,11 @@ public class MenuSettings {
 
 
 
-    public void setButton(){
+   /* public void setButton(){
         boutonSon.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                menuSound = new MenuSound(stage,scene);
+                menuSound = new MenuSound(stage);
                 stage.setScene(menuSound.getScene());
             }
         });
@@ -67,11 +75,10 @@ public class MenuSettings {
                 menuParametresCommandes = new MenuParametresCommandes(stage,scene,game);
                 stage.setScene(menuParametresCommandes.getScene());
             }
-        }); */
-        vBox.getChildren().addAll(boutonSon);
-        vBox.setAlignment(Pos.CENTER_LEFT);
-        pane.getChildren().add(vBox);
-    }
+        });
+
+
+    }*/
     public Scene getScene() {
         return scene;
     }

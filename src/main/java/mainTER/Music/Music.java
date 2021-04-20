@@ -29,7 +29,7 @@ public class Music {
     {
         if(!playing) {
             mediaPlayer.play();
-            mediaPlayer.setVolume(0.3);
+            mediaPlayer.setVolume(0.2);
             mediaPlayer.setOnEndOfMedia(() -> {
                 mediaPlayer.stop();
                 mediaPlayer.play();
