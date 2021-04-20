@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.stage.Stage;
+import mainTER.Music.Music;
 import mainTER.Version;
 
 import java.io.IOException;
@@ -55,11 +56,12 @@ public class MainMenu {
         Title title =  new Title("NAMELESS TITLE");
         title.setTranslateX(270);
         title.setTranslateY(100);
-
+        Music music = new Music("src/main/resources/mainTER/Sound/sardoche.wav");
+        music.lancerMusique();
         MenuBox vbox = new MenuBox(
                 new MenuItem("SINGLEPLAYER",stage),
                 new MenuItem("MULTIPLAYER",stage),
-                new MenuItem("OPTIONS",stage),
+                new MenuItem("SETTINGS",stage),
                 new MenuItem("QUIT",stage)
         );
         vbox.setTranslateX(320);

@@ -28,6 +28,7 @@ import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.MapPackage.Collide;
 import mainTER.MapPackage.Map;
 import mainTER.LoadOfFXML;
+import mainTER.Music.Music;
 import mainTER.Network.GameServer;
 import mainTER.Network.Player;
 import mainTER.Tools.Coordinate;
@@ -172,15 +173,14 @@ public class MenuItem extends StackPane {
 
                 }
                 break;
-                case "OPTIONS": {
+                case "SETTINGS": {
 
-                    Pane pane = new Pane();
 
-                    Scene scene = new Scene(pane, 500, 600);
                     Stage mainStage = new Stage();
 
+                    MenuSettings menuSettings = new MenuSettings();
 
-                    mainStage.setScene(scene);
+                    mainStage.setScene(menuSettings.getScene());
                     mainStage.centerOnScreen();
                     mainStage.show();
                 }

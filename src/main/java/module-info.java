@@ -5,6 +5,7 @@ module mainTER {
     requires hsqldb;
     requires java.sql;
     requires java.desktop;
+    requires javafx.media;
     exports mainTER;
     opens mainTER.Menu;
 }
