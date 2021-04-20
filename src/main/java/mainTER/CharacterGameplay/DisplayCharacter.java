@@ -2,6 +2,7 @@ package mainTER.CharacterGameplay;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -9,6 +10,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import mainTER.MapPackage.Collide;
+import mainTER.MapPackage.CollideObject;
 import mainTER.Tools.Coordinate;
 
 import java.util.List;
@@ -17,7 +19,7 @@ import java.util.List;
 /**
  * Class For the display of one character (with animation).
  */
-public class DisplayCharacter {
+public class DisplayCharacter extends CollideObject {
 
     private final Coordinate currentCoordinateOfTheCharacter;
     private final AnimationCharacter animationForTheCharacter;
@@ -263,4 +265,13 @@ public class DisplayCharacter {
         }
     }
 
+    @Override
+    public Node getAppropriateNode() {
+        return animationForTheCharacter.actualImg();
+    }
+
+    @Override
+    public CollideObject clone() {
+        return null;
+    }
 }
