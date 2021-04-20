@@ -78,9 +78,10 @@ public class DisplayCharacter extends CollideObject {
                 tps->{
                     if(isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()-1)){
                         if(verifyCollision(currentCoordinateOfTheCharacter.getX()+character.getSpeed(), currentCoordinateOfTheCharacter.getY())){
+                            double height = animationForTheCharacter.actualImg().getImage().getHeight();
                             animationForTheCharacter.setWalk();
                             currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+character.getSpeed());
-                            doJump();
+                            doJump(height);
                         }
                     }
                     else if(verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1)){
@@ -117,13 +118,15 @@ public class DisplayCharacter extends CollideObject {
         return newHeight;
     }
 
-    private void doJump() {
+    private void doJump(double height) {
         removeAllImgViewOfThePane();
         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()-jumpStrength);
         jumpStrength-= character.getWeight();
         if(jumpStrength<=0)
             isJumping = false;
         ImageView imgView = animationForTheCharacter.nextImage();
+        double newHeight = height-imgView.getImage().getHeight();
+        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()-newHeight);
         imgView.setX(currentCoordinateOfTheCharacter.getX());
         imgView.setY(currentCoordinateOfTheCharacter.getY());
         pane.getChildren().add(imgView);
@@ -137,9 +140,10 @@ public class DisplayCharacter extends CollideObject {
                 tps->{
                     if(isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()-1)){
                         if(verifyCollision(currentCoordinateOfTheCharacter.getX()-character.getSpeed(), currentCoordinateOfTheCharacter.getY())){
+                            double height = animationForTheCharacter.actualImg().getImage().getHeight();
                             animationForTheCharacter.setReverseWalk();
                             currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()-character.getSpeed());
-                            doJump();
+                            doJump(height);
                         }
                     }
                     else if(verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1)){
