@@ -59,7 +59,22 @@ public class DisplayCharacter {
         animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
                 Duration.millis(100),
                 tps->{
-                    if(verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1)){
+                    if(isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()-1)){
+                        if(verifyCollision(currentCoordinateOfTheCharacter.getX()+character.getSpeed(), currentCoordinateOfTheCharacter.getY())){
+                            animationForTheCharacter.setWalk();
+                            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+character.getSpeed());
+                            removeAllImgViewOfThePane();
+                            currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()-jumpStrength);
+                            jumpStrength-= character.getWeight();
+                            if(jumpStrength<=0)
+                                isJumping = false;
+                            ImageView imgView = animationForTheCharacter.nextImage();
+                            imgView.setX(currentCoordinateOfTheCharacter.getX());
+                            imgView.setY(currentCoordinateOfTheCharacter.getY());
+                            pane.getChildren().add(imgView);
+                        }
+                    }
+                    else if(verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1)){
                         if(verifyCollision(currentCoordinateOfTheCharacter.getX()+character.getSpeed(), currentCoordinateOfTheCharacter.getY())){
                             animationForTheCharacter.setWalk();
                             currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+character.getSpeed());
@@ -91,7 +106,22 @@ public class DisplayCharacter {
         animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
                 Duration.millis(100),
                 tps->{
-                    if(verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1)){
+                    if(isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()-1)){
+                        if(verifyCollision(currentCoordinateOfTheCharacter.getX()-character.getSpeed(), currentCoordinateOfTheCharacter.getY())){
+                            animationForTheCharacter.setReverseWalk();
+                            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()-character.getSpeed());
+                            removeAllImgViewOfThePane();
+                            currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()-jumpStrength);
+                            jumpStrength-= character.getWeight();
+                            if(jumpStrength<=0)
+                                isJumping = false;
+                            ImageView imgView = animationForTheCharacter.nextImage();
+                            imgView.setX(currentCoordinateOfTheCharacter.getX());
+                            imgView.setY(currentCoordinateOfTheCharacter.getY());
+                            pane.getChildren().add(imgView);
+                        }
+                    }
+                    else if(verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1)){
                         if(verifyCollision(currentCoordinateOfTheCharacter.getX()-character.getSpeed(), currentCoordinateOfTheCharacter.getY())){
                             animationForTheCharacter.setReverseWalk();
                             currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()-character.getSpeed());
