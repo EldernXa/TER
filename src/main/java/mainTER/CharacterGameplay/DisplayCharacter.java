@@ -262,7 +262,7 @@ public class DisplayCharacter extends CollideObject {
             walkToRight = false;
             currentKeyCode = eventForPressedKey.getCode();
             timelineForReverseWalk();
-        }else if(eventForPressedKey.getCode() == KeyCode.SPACE && eventForPressedKey.getCode() != currentKeyCode && character.canJump()){
+        }else if(eventForPressedKey.getCode() == KeyCode.SPACE && !verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1) && eventForPressedKey.getCode() != currentKeyCode && character.canJump()){
             currentKeyCode=eventForPressedKey.getCode();
             isJumping = true;
             this.jumpStrength = character.getJumpStrength();
