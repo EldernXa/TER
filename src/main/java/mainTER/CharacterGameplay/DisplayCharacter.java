@@ -282,7 +282,6 @@ public class DisplayCharacter extends CollideObject {
             currentKeyCode = eventForPressedKey.getCode();
             timelineForReverseWalk();
         }else if(eventForPressedKey.getCode() == KeyCode.SPACE && !verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1) && eventForPressedKey.getCode() != currentKeyCode && character.canJump()){
-            // TODO try to animate only one time
             currentKeyCode=eventForPressedKey.getCode();
             isJumping = true;
             this.jumpStrength = character.getJumpStrength();
