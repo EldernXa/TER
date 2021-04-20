@@ -8,6 +8,8 @@ public class MapFieldFromSprite extends MapFieldForm {
 
     private ImageViewSizePos imageViewSizePos;
     private String path;
+    private Coordinate coordinate;
+    private double percent;
 
 
 
@@ -15,6 +17,8 @@ public class MapFieldFromSprite extends MapFieldForm {
 
         super(coordinate, 0, 0);
         this.path = path;
+        this.coordinate = coordinate;
+        this.percent = percent;
         imageViewSizePos = new ImageViewSizePos(path,coordinate);
 
 
@@ -32,5 +36,30 @@ public class MapFieldFromSprite extends MapFieldForm {
     @Override
     public Node getAppropriateNode() {
         return imageViewSizePos.getImageView();
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public Coordinate getCoordinate() {
+        return coordinate;
+    }
+
+    public double getX(){
+        return this.getCoordinate().getX();
+    }
+
+    public double getY(){
+        return this.getCoordinate().getY();
+    }
+
+    public double getPercent() {
+        return percent;
+    }
+
+    @Override
+    public CollideObject clone() {
+        return new MapFieldFromSprite(this.getPath(),new Coordinate(getX(),getY()),this.getPercent());
     }
 }

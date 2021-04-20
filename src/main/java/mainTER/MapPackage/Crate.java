@@ -27,4 +27,9 @@ public class Crate extends InteractiveObject {
     public Node getAppropriateNode() {
         return super.getImageView();
     }
+
+    @Override
+    public CollideObject clone() {
+        return null;
+    }
 }
