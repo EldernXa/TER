@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 import mainTER.Tools.Coordinate;
 import mainTER.exception.CharacterImageFileDoesntExist;
