@@ -1,5 +1,6 @@
 package mainTER.CharacterGameplay;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
@@ -55,7 +56,7 @@ public class Character {
                 File file = Paths.get(url.toURI()).toFile();
                 if(file.exists() && file.isDirectory()){
                     for(File fileForOneSprite : Objects.requireNonNull(file.listFiles())){
-                        listOfPictureOfTheCharacter.get(pos.ordinal()).add(new ImageView(fileForOneSprite.toURI().toString()));
+                        listOfPictureOfTheCharacter.get(pos.ordinal()).add(new ImageView(new Image(fileForOneSprite.toURI().toString())));
                     }
                 }
                 else{

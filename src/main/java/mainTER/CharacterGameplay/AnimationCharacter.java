@@ -8,7 +8,7 @@ import java.util.List;
 
 public class AnimationCharacter {
 
-    private final List<ArrayList<ImageView>> listOfImageViewForTheAnimation;
+    private List<ArrayList<ImageView>> listOfImageViewForTheAnimation;
     private final Timeline timeline = new Timeline();
     private int indImgToAnimate = 0;
     private int posToAnimate;
@@ -16,6 +16,15 @@ public class AnimationCharacter {
     public AnimationCharacter(Character characterToAnimate){
         setMotionless();
         listOfImageViewForTheAnimation = characterToAnimate.getListOfPictureOfTheCharacter();
+    }
+
+    public void changeCharacter(Character character){
+        listOfImageViewForTheAnimation = character.getListOfPictureOfTheCharacter();
+        indImgToAnimate = 0;
+    }
+
+    public double getHeightMotionless(){
+        return listOfImageViewForTheAnimation.get(Position.MOTIONLESS.ordinal()).get(0).getImage().getHeight();
     }
 
     public void setWalk(){

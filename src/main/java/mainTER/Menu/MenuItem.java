@@ -154,6 +154,9 @@ public class MenuItem extends StackPane {
                                     }
                                 }
                                 break;
+                            case A:
+                                displayCharacter.setCharacter(listCharacter.get(1));
+                                break;
                         }
                     });
 
