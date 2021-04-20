@@ -13,13 +13,13 @@ import java.util.logging.Logger;
 
 import mainTER.Tools.Coordinate;
 import mainTER.exception.CharacterImageFileDoesntExist;
+import mainTER.exception.PositionDirectoryDoesntExist;
 
 public class Character {
     private final String name;
     private final Coordinate initialCoordinate;
     private final ArrayList<ArrayList<ImageView>> listOfPictureOfTheCharacter;
     private final int speed;
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     // TODO Put error on graphics interface.
 
@@ -42,18 +42,24 @@ public class Character {
                     throw new CharacterImageFileDoesntExist(name);
                 }
                 // TODO create personalized exception
-                URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/" + name + "/" + pos.toString().toLowerCase().replace("_", ""));
+                final String replace = pos.toString().toLowerCase().replace("_", "");
+                URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/" + name + "/" + replace);
                 File file = Paths.get(url.toURI()).toFile();
                 if(file.exists() && file.isDirectory()){
                     for(File fileForOneSprite : Objects.requireNonNull(file.listFiles())){
                         listOfPictureOfTheCharacter.get(pos.ordinal()).add(new ImageView(fileForOneSprite.toURI().toString()));
                     }
                 }
+                else{
+                    throw new PositionDirectoryDoesntExist(replace);
+                }
             }
         }catch(URISyntaxException uriSyntaxException){
             uriSyntaxException.printStackTrace();
         }catch(CharacterImageFileDoesntExist characterImageFileDoesntExist){
-            logger.info("Le dossier du personnage n'existe pas !");
+            System.out.println("Le dossier du personnage n'existe pas !");
+        }catch(PositionDirectoryDoesntExist positionDirectoryDoesntExist){
+            System.out.println(positionDirectoryDoesntExist.getMessage());
         }
     }
 
