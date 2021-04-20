@@ -20,14 +20,20 @@ public class MapFieldFromLilPict extends MapFieldForm {
     private Image image;
     private String path;
     private Pane pane;
+    private Coordinate coordinate;
+    private double width;
+    private double height;
 
 
     public MapFieldFromLilPict(String path, Coordinate coordinate, double width, double height) {
 
         super(coordinate, width, height);
-        pane = new Pane();
-        this.path = path;
         image = new Image(new File(path).toURI().toString());
+        this.path = path;
+        pane = new Pane();
+        this.coordinate = coordinate;
+        this.width = width;
+        this.height = height;
 
 
         for (double i = coordinate.getX(); i < (coordinate.getX() + width); i += image.getWidth()) {
@@ -64,10 +70,39 @@ public class MapFieldFromLilPict extends MapFieldForm {
         return pane;
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public Coordinate getCoordinate() {
+        return coordinate;
+    }
+
+    public double getX(){
+        return this.getCoordinate().getX();
+    }
+
+    public double getY(){
+        return this.getCoordinate().getY();
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
 
     @Override
     public Node getAppropriateNode() {
         return pane;
+    }
+
+    @Override
+    public CollideObject clone() {
+        MapFieldFromLilPict mapFieldFromLilPict = new MapFieldFromLilPict(this.getPath(),new Coordinate(getX(),getY()),this.getWidth(),getHeight());
+        return mapFieldFromLilPict;
     }
 
 }
