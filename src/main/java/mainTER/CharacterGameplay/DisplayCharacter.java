@@ -32,6 +32,7 @@ public class DisplayCharacter extends CollideObject {
     private double fallingStep = 1;
     private boolean isJumping = false;
     private int jumpStrength;
+    private static final int TPS_DURATION_TIMELINE = 100;
 
     /**
      *
@@ -66,15 +67,13 @@ public class DisplayCharacter extends CollideObject {
         imgView.setY(currentCoordinateOfTheCharacter.getY()-5);
         pane.getChildren().add(imgView);
         this.character = characterToSwitch;
-        lvlOfTheGame.setOnKeyPressed(null);
-        enableEvent();
     }
 
     private void timelineForWalk(){
         animationForTheCharacter.getTimeline().stop();
         animationForTheCharacter.getTimeline().getKeyFrames().clear();
         animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
-                Duration.millis(100),
+                Duration.millis(TPS_DURATION_TIMELINE),
                 tps->{
                     if(isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()-1)){
                         if(verifyCollision(currentCoordinateOfTheCharacter.getX()+character.getSpeed(), currentCoordinateOfTheCharacter.getY())){
@@ -136,7 +135,7 @@ public class DisplayCharacter extends CollideObject {
         animationForTheCharacter.getTimeline().stop();
         animationForTheCharacter.getTimeline().getKeyFrames().clear();
         animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
-                Duration.millis(100),
+                Duration.millis(TPS_DURATION_TIMELINE),
                 tps->{
                     if(isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()-1)){
                         if(verifyCollision(currentCoordinateOfTheCharacter.getX()-character.getSpeed(), currentCoordinateOfTheCharacter.getY())){
@@ -175,7 +174,7 @@ public class DisplayCharacter extends CollideObject {
         animationForTheCharacter.getTimeline().stop();
         animationForTheCharacter.getTimeline().getKeyFrames().clear();
         animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
-                Duration.millis(100),
+                Duration.millis(TPS_DURATION_TIMELINE),
                 tps->{
                     removeAllImgViewOfThePane();
                     double height = animationForTheCharacter.actualImg().getImage().getHeight();

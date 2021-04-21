@@ -24,7 +24,7 @@ public class Character {
     private final int weight;
     private final int jumpStrength;
     private final boolean canJump = true;
-    private ImageViewSizePos logo ;
+    private final ImageViewSizePos logo ;
 
     // TODO Put error on graphics interface.
     // TODO get characteristics from name in database.
