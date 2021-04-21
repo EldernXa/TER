@@ -61,7 +61,6 @@ public class DBManager {
             statement.executeUpdate("TRUNCATE TABLE " + strDropTable.toUpperCase());
             statement.executeUpdate(strSql);
             connection.commit();
-            System.out.println("Table " + strDropTable + " droppée.");
             connection.close();
             connection = null;
         }catch(SQLException sqlException){

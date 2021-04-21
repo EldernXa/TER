@@ -1,9 +1,8 @@
 package mainTER.DBManage;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.sql.ResultSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,11 +15,15 @@ class TestPersonDBManager {
         personDBManager.dropCascade();
     }
 
+    @AfterEach
+    public void afterTest(){
+        personDBManager.removeTablePerson();
+    }
+
     @Test
     void testCreateTablePerson(){
         try {
             personDBManager.createTablePerson();
-            personDBManager.removeTablePerson();
             assertTrue(true);
         }catch(Exception exception){
             fail();
@@ -32,7 +35,6 @@ class TestPersonDBManager {
         try {
             personDBManager.createTablePerson();
             personDBManager.insertIntoTablePerson("Paladin", 5.0, 20.0, 5.0, true);
-            personDBManager.removeTablePerson();
         }catch(Exception exception){
             fail();
         }
@@ -42,18 +44,50 @@ class TestPersonDBManager {
     @Test
     void testGettingSpeedFromTablePerson(){
         try {
-            personDBManager.createTablePerson();
-            personDBManager.insertIntoTablePerson("Paladin", 5.0, 20.0, 5.0, true);
-            personDBManager.toStringPerson("Paladin");
-            assertEquals(5.0, personDBManager.getSpeed("Paladin"));
-            personDBManager.removeTablePerson();
+            insertValuesIntoPerson();
+            assertEquals(5, personDBManager.getSpeed("Paladin"));
         }catch(Exception exception){
-            exception.printStackTrace();
             fail();
         }
     }
 
-    // TODO add more test
+    @Test
+    void testGettingWeightFromTablePerson(){
+        try{
+            insertValuesIntoPerson();
+            assertEquals(2, personDBManager.getWeight("Paladin"));
+        }catch(Exception exception){
+            fail();
+        }
+    }
 
+    @Test
+    void testGettingJumpStrengthFromTablePerson(){
+        try{
+            insertValuesIntoPerson();
+            assertEquals(5, personDBManager.getJumpStrength("Paladin"));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    void testGettingCanJump(){
+        try{
+            insertValuesIntoPerson();
+            assertTrue(personDBManager.getCanJump("Paladin"));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    private void insertValuesIntoPerson(){
+        try{
+            personDBManager.createTablePerson();
+            personDBManager.insertIntoTablePerson("Paladin", 5.0, 2.0, 5.0, true);
+        }catch(Exception sqlException){
+            fail();
+        }
+    }
 
 }
