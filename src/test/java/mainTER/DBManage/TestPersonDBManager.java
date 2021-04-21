@@ -9,6 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class TestPersonDBManager {
 
     private final PersonDBManager personDBManager = new PersonDBManager("testDB");
+    private final String nameCharacter = "Paladin";
+    private final double speed = 5;
+    private final double weight = 20;
+    private final double jumpStrength = 5;
+    private final boolean canJump = true;
 
     @BeforeEach
     public void init(){
@@ -34,7 +39,7 @@ class TestPersonDBManager {
     void testInsertDataIntoTablePerson(){
         try {
             personDBManager.createTablePerson();
-            personDBManager.insertIntoTablePerson("Paladin", 5.0, 20.0, 5.0, true);
+            personDBManager.insertIntoTablePerson(nameCharacter, speed, weight, jumpStrength, canJump);
         }catch(Exception exception){
             fail();
         }
@@ -45,7 +50,7 @@ class TestPersonDBManager {
     void testGettingSpeedFromTablePerson(){
         try {
             insertValuesIntoPerson();
-            assertEquals(5, personDBManager.getSpeed("Paladin"));
+            assertEquals(speed, personDBManager.getSpeed(nameCharacter));
         }catch(Exception exception){
             fail();
         }
@@ -55,7 +60,7 @@ class TestPersonDBManager {
     void testGettingWeightFromTablePerson(){
         try{
             insertValuesIntoPerson();
-            assertEquals(2, personDBManager.getWeight("Paladin"));
+            assertEquals(weight, personDBManager.getWeight(nameCharacter));
         }catch(Exception exception){
             fail();
         }
@@ -65,7 +70,7 @@ class TestPersonDBManager {
     void testGettingJumpStrengthFromTablePerson(){
         try{
             insertValuesIntoPerson();
-            assertEquals(5, personDBManager.getJumpStrength("Paladin"));
+            assertEquals(jumpStrength, personDBManager.getJumpStrength(nameCharacter));
         }catch(Exception exception){
             fail();
         }
@@ -75,7 +80,7 @@ class TestPersonDBManager {
     void testGettingCanJump(){
         try{
             insertValuesIntoPerson();
-            assertTrue(personDBManager.getCanJump("Paladin"));
+            assertEquals(canJump, personDBManager.getCanJump(nameCharacter));
         }catch(Exception exception){
             fail();
         }
@@ -84,7 +89,7 @@ class TestPersonDBManager {
     private void insertValuesIntoPerson(){
         try{
             personDBManager.createTablePerson();
-            personDBManager.insertIntoTablePerson("Paladin", 5.0, 2.0, 5.0, true);
+            personDBManager.insertIntoTablePerson(nameCharacter, speed, weight, jumpStrength, canJump);
         }catch(Exception sqlException){
             fail();
         }
