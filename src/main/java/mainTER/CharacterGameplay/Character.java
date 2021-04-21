@@ -20,9 +20,9 @@ public class Character {
     private final String name;
     private final Coordinate initialCoordinate;
     private final ArrayList<ArrayList<ImageView>> listOfPictureOfTheCharacter;
-    private final int speed;
-    private final int weight;
-    private final int jumpStrength;
+    private final double speed;
+    private final double weight;
+    private final double jumpStrength;
     private final boolean canJump = true;
     private final ImageViewSizePos logo ;
 
@@ -75,7 +75,7 @@ public class Character {
         }
     }
 
-    public int getSpeed(){
+    public double getSpeed(){
         return speed;
     }
 
@@ -92,11 +92,11 @@ public class Character {
         return initialCoordinate;
     }
 
-    public int getWeight(){
+    public double getWeight(){
         return weight;
     }
 
-    public int getJumpStrength(){
+    public double getJumpStrength(){
         return jumpStrength;
     }
 

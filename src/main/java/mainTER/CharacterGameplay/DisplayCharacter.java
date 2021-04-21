@@ -32,7 +32,7 @@ public class DisplayCharacter extends CollideObject {
     private KeyCode currentKeyCode;
     private double fallingStep = 1;
     private boolean isJumping = false;
-    private int jumpStrength;
+    private double jumpStrength;
     private static final int TPS_DURATION_TIMELINE = 100;
 
     /**

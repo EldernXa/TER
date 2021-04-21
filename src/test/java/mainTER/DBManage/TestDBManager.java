@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestDBManager {
 
-    private DBManager dbManager = new DBManager("testDB");
+    private final DBManager dbManager = new DBManager("testDB");
 
     @BeforeEach
     public void init(){
