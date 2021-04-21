@@ -2,6 +2,7 @@ package mainTER.CharacterGameplay;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
@@ -261,10 +262,9 @@ public class DisplayCharacter extends CollideObject {
      * Enable event for the key on the level of the game
      */
     private void enableEvent(){
+        lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForMovement);
 
-        lvlOfTheGame.setOnKeyPressed(this::eventForMovement);
-
-        lvlOfTheGame.setOnKeyReleased(event -> {
+        lvlOfTheGame.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
             currentKeyCode = null;
             timelineForMotionlessCharacter();
         });
