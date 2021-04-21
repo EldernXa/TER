@@ -51,4 +51,5 @@ public abstract class CollideObject {
     }
     //TODO Forsee if the the movement cause an interaction
     //TODO généraliser au CollideObjects
+    //TODO arranger les clones les getter et setters de coord
 }

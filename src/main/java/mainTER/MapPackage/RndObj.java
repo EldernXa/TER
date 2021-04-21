@@ -12,7 +12,7 @@ public class RndObj extends CollideObject {
 
 
 
-    public RndObj(String path, Coordinate coordinate) {
+    public RndObj(String path, Coordinate coordinate) { //TODO implicite name
 
         this.path = path;
         this.coordinate = coordinate;

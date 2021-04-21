@@ -9,7 +9,7 @@ import mainTER.Tools.Coordinate;
 
 import java.util.ArrayList;
 
-public class Collide {
+public class Collide { //TODO la fusionner avec CollideObject
 
     public static  ArrayList<CollideObject> collideObjectArrayList = new ArrayList<>();
 
