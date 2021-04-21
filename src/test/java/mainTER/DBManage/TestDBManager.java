@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestDBManager {
+class TestDBManager {
 
     private final DBManager dbManager = new DBManager("testDB");
 
@@ -16,7 +16,7 @@ public class TestDBManager {
     }
 
     @Test
-    public void testCreateTable(){
+    void testCreateTable(){
         try {
             dbManager.createTableOrInsert("CREATE TABLE tutorials_tbl (" +
                     "id INT NOT NULL, title VARCHAR(50) NOT NULL," +
@@ -30,7 +30,7 @@ public class TestDBManager {
     }
 
     @Test
-    public void testInsertIntoTable(){
+    void testInsertIntoTable(){
         try {
             dbManager.createTableOrInsert("CREATE TABLE tutorials_tbl (" +
                     "id INT NOT NULL, title VARCHAR(50) NOT NULL," +
