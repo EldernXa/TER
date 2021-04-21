@@ -297,7 +297,28 @@ public class DisplayCharacter extends CollideObject {
     }
 
     @Override
-    public CollideObject clone() {
-        return null;
+    public Node clone() {
+        return new ImageView(animationForTheCharacter.actualImg().getImage());
+    }
+
+    @Override
+    public double getHMouvementSpan() {
+        return this.getCharacter().getSpeed();
+    }
+
+    @Override
+    public double getVMouvementSpan() {
+        return this.jumpStrength;
+    }
+
+    @Override
+    public Coordinate getCoordinate() {
+        return new Coordinate(this.animationForTheCharacter.actualImg().getX(), this.animationForTheCharacter.actualImg().getY());//TODO a voir
+    }
+
+    @Override
+    public void setCoordinate(Coordinate coordinate) {
+        this.getCoordinate().setX(coordinate.getX());
+        this.getCoordinate().setY(coordinate.getY());
     }
 }

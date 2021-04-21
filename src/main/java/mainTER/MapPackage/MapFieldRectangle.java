@@ -57,7 +57,22 @@ public class MapFieldRectangle extends MapFieldForm {
     }
 
     @Override
-    public CollideObject clone() {
-        return new MapFieldRectangle(new Coordinate(getX(),getY()),this.getWidth(),this.getHeight());
+    public Node clone() {
+       return new Rectangle(this.rectangle.getWidth(),this.rectangle.getHeight(),this.rectangle.getFill());
+    }
+
+    @Override
+    public double getVMouvementSpan() {
+        return 0;
+    }
+
+    @Override
+    public double getHMouvementSpan() {
+        return 0;
+    }
+
+    @Override
+    public void setCoordinate(Coordinate coordinate) {
+        this.coordinate = coordinate;
     }
 }

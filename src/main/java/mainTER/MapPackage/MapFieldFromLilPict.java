@@ -100,9 +100,26 @@ public class MapFieldFromLilPict extends MapFieldForm {
     }
 
     @Override
-    public CollideObject clone() {
-        MapFieldFromLilPict mapFieldFromLilPict = new MapFieldFromLilPict(this.getPath(),new Coordinate(getX(),getY()),this.getWidth(),getHeight());
-        return mapFieldFromLilPict;
+    public Node clone() {
+        Pane pane = new Pane();
+        for(Node node : this.pane.getChildren()){
+            pane.getChildren().add(node);
+        }
+        return pane;
     }
 
+    @Override
+    public double getVMouvementSpan() {
+        return 0;
+    }
+
+    @Override
+    public double getHMouvementSpan() {
+        return 0;
+    }
+
+    @Override
+    public void setCoordinate(Coordinate coordinate) {
+        this.coordinate = coordinate;
+    }
 }

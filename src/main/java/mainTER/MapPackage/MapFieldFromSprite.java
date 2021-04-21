@@ -1,6 +1,7 @@
 package mainTER.MapPackage;
 
 import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
@@ -59,7 +60,22 @@ public class MapFieldFromSprite extends MapFieldForm {
     }
 
     @Override
-    public CollideObject clone() {
-        return new MapFieldFromSprite(this.getPath(),new Coordinate(getX(),getY()),this.getPercent());
+    public Node clone() {
+        return new ImageView(imageViewSizePos.getImageView().getImage());
+    }
+
+    @Override
+    public double getVMouvementSpan() {
+        return 0;
+    }
+
+    @Override
+    public double getHMouvementSpan() {
+        return 0;
+    }
+
+    @Override
+    public void setCoordinate(Coordinate coordinate) {
+        this.coordinate = coordinate;
     }
 }

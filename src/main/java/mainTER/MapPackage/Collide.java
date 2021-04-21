@@ -29,6 +29,8 @@ public class Collide {
         return true;
     }
 
+
+
     /*public boolean verify(CollideObject collideObject){ //C'est pas bon il faut adapter la méthode comme plus bas
         switch(collideObject.getClass()){
             case

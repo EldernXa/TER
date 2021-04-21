@@ -1,5 +1,4 @@
 floor
-trunk.png N 1693 738 100
 rock.png N 1995 734 100
 herbe0-1.png N 0 788 100
 herbe1-1.png N 996 788 100
@@ -13,4 +12,6 @@ plateforme4.png N 1806 478 100
 eau1.png N 2767 788 100
 eau1.png N 3810 788 100
 objects
-crate 1300 693
+crate 1400 693
+crate 1100 693
+rndobj 1693 738 100

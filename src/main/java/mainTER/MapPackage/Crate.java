@@ -2,6 +2,7 @@ package mainTER.MapPackage;
 
 import javafx.scene.Node;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
@@ -14,12 +15,15 @@ public class Crate extends InteractiveObject {
         super(coordinate, new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/crate.png",coordinate));
     }
 
-    public void interaction(DisplayCharacter displayCharacter) {
-        if(displayCharacter.getCurrentCoordinateOfTheCharacter().getX() < super.getCoordinate().getX()){
-            super.setCoordinate(new Coordinate(super.getCoordinate().getX()+displayCharacter.getCharacter().getSpeed(),super.getCoordinate().getY()));
-        }
-        else{
-            super.setCoordinate(new Coordinate(super.getCoordinate().getX()-displayCharacter.getCharacter().getSpeed(),super.getCoordinate().getY()));
+    public void interaction(CollideObject collideObject) {
+        if (collideObject.getCoordinate().getX() < super.getCoordinate().getX()) {
+            if(verify(CommingFrom.LEFT)){
+                super.setCoordinate(new Coordinate(super.getCoordinate().getX() + collideObject.getHMouvementSpan(), super.getCoordinate().getY()));
+            }
+        } else {
+            if(verify(CommingFrom.RIGHT)) {
+                super.setCoordinate(new Coordinate(super.getCoordinate().getX() - collideObject.getHMouvementSpan(), super.getCoordinate().getY()));
+            }
         }
     }
 
@@ -29,7 +33,27 @@ public class Crate extends InteractiveObject {
     }
 
     @Override
-    public CollideObject clone() {
-        return null;
+    public Node clone() {
+        return new ImageView(super.getImageView().getImage());
+    }
+
+    @Override
+    public double getHMouvementSpan() {
+        return 10;
+    }
+
+    @Override
+    public double getVMouvementSpan() {
+        return 0;
+    }
+
+    @Override
+    public Coordinate getCoordinate() {
+        return super.getCoordinate();
+    }
+
+    @Override
+    public void setCoordinate(Coordinate coordinate) {
+        super.setCoordinate(coordinate);
     }
 }

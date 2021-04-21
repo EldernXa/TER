@@ -5,7 +5,7 @@ import mainTER.Tools.Coordinate;
 
 public abstract class MapFieldForm extends CollideObject {
 
-    private Coordinate coordinate;
+    private Coordinate coordinate; // repetition des coordinates dans les classe filles
     private double width;
     private double height;
 

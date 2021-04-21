@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class MapFileReader {
 
 
-    private ArrayList<CollideObject> collideObjectArrayList;
+    public static ArrayList<CollideObject> collideObjectArrayList;
     private String file[];
 
 
@@ -82,9 +82,16 @@ public class MapFileReader {
                             doubles[j] = Integer.parseInt(line[j]);
 
                         }
+                        ImageView picture2 = new ImageView();
+                        picture2.setImage(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Front/trunk.png").toURI().toString()));
+
                         switch (line[0]) {//Add case when new object
                             case "crate":
                                 collideObjectArrayList.add(new Crate(new Coordinate(doubles[1], doubles[2])));
+                                break;
+                            case "rndobj" :
+                                collideObjectArrayList.add(new RndObj("./src/main/resources/mainTER/MapPackage/Sprites/Front/trunk.png",new Coordinate(doubles[1], doubles[2]-picture2.getImage().getHeight())));
+                                break;
                         }
                     }
                     else{
@@ -93,6 +100,8 @@ public class MapFileReader {
             }
         }
     }
+
+    //TODO generaliser le calcul des pos Y
 
     public ArrayList<CollideObject> getCollisionObjectArrayList() {
         return collideObjectArrayList;
