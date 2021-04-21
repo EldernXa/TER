@@ -36,7 +36,9 @@ public class Character {
         this.speed = 10;
         this.weight = 5;
         this.jumpStrength = 20;
-        this.logo = new ImageViewSizePos("src/main/resources/mainTER/CharacterGameplay/Logo/" + name +".png",60,60);
+        this.logo = new ImageViewSizePos(Objects.requireNonNull(this.getClass().getResource("/mainTER/CharacterGameplay/Logo/" + name + ".png")).getPath(),60,60);
+
+
         initListAnimate();
     }
 
