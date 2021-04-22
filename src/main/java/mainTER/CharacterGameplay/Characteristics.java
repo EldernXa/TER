@@ -6,7 +6,7 @@ public class Characteristics {
     private final double weight;
     private final double jumpStrength;
     private final double fallingSpeed;
-    private final boolean canJump;
+    private boolean canJump;
 
     public Characteristics(double speed, double weight, double jumpStrength, double fallingSpeed, boolean canJump){
         this.speed = speed;
@@ -30,6 +30,10 @@ public class Characteristics {
 
     public boolean canJump(){
         return canJump;
+    }
+
+    public void setCanJump(boolean canJump){
+        this.canJump = canJump;
     }
 
 }
