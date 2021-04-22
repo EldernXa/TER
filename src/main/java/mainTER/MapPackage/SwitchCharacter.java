@@ -14,10 +14,12 @@ public class SwitchCharacter extends VBox{
         this.characterList = characterList;
 
 
-            characterList.get(0).getLogo().getImageView().setFitHeight(100);
-            characterList.get(0).getLogo().getImageView().setFitWidth(100);
+
             getChildren().add(characterList.get(characterList.size()-1).getLogo().getImageView());
             getChildren().add(characterList.get(0).getLogo().getImageView());
+            getChildren().add(characterList.get(1).getLogo().getImageView());
+
+
             //getChildren().add(characterList.get(1).getLogo().getImageView());
 
 
@@ -28,11 +30,12 @@ public class SwitchCharacter extends VBox{
     public void changeToDown(){
         Node node0 = getChildren().get(0);
         Node node1  = getChildren().get(1);
+        Node node2 = getChildren().get(2);
 
-        getChildren().remove(1);
-        getChildren().remove(0);
-        getChildren().add(node1);
+        getChildren().clear();
+        getChildren().add(node2);
         getChildren().add(node0);
+        getChildren().add(node1);
 
     }
 
@@ -40,11 +43,12 @@ public class SwitchCharacter extends VBox{
     public void changeToUp(){
         Node node1 = getChildren().get(1);
         Node node0 = getChildren().get(0);
+        Node node2 = getChildren().get(2);
 
 
-        getChildren().remove(1);
-        getChildren().remove(0);
+        getChildren().clear();
         getChildren().add(node1);
+        getChildren().add(node2);
         getChildren().add(node0);
 
     }

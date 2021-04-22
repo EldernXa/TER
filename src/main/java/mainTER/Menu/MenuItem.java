@@ -188,7 +188,7 @@ public class MenuItem extends StackPane {
                                     }
                                 }
                                 displayCharacter.setCharacter(listCharacter.get((k+1)%listCharacter.size()));
-                                sc.changeToDown();
+                                sc.changeToUp();
                                 break;
 
                             case E:
@@ -203,7 +203,7 @@ public class MenuItem extends StackPane {
                                 }else{
                                     displayCharacter.setCharacter(listCharacter.get((k-1)%listCharacter.size()));
                                 }
-                                sc.changeToUp();
+                                sc.changeToDown();
                                 break;
                         }
                     });
