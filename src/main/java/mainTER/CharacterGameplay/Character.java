@@ -11,9 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import mainTER.DBManage.PersonDBManager;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 import mainTER.exception.CharacterImageFileDoesntExist;
+import mainTER.exception.PersonDataGetException;
 import mainTER.exception.PositionDirectoryDoesntExist;
 
 public class Character {
@@ -27,10 +29,20 @@ public class Character {
     // TODO get characteristics from name in database.
 
     public Character(String name, Coordinate coordinate) {
+        Characteristics characteristics1;
         this.name = name;
         this.initialCoordinate = coordinate;
         listOfPictureOfTheCharacter = new ArrayList<>();
-        this.characteristics = new Characteristics(10, 5, 20, 1, true);
+        PersonDBManager personDBManager = new PersonDBManager();
+        try {
+            characteristics1 = new Characteristics(personDBManager.getSpeed(name),
+                    personDBManager.getWeight(name), personDBManager.getJumpStrength(name), personDBManager.getFallingSpeed(name),
+                    personDBManager.getCanJump(name));
+        }catch(PersonDataGetException personDataGetException){
+            characteristics1 = null;
+            System.out.println("Ce personnage n'existe pas.");
+        }
+        this.characteristics = characteristics1;
         this.logo = new ImageViewSizePos(Objects.requireNonNull(this.getClass().getResource("/mainTER/CharacterGameplay/Logo/" + name + ".png")).getPath(),60,60);
 
 
@@ -50,13 +62,11 @@ public class Character {
                 final String replace = pos.toString().toLowerCase().replace("_", "");
                 URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/" + name + "/" + replace);
                 if(pos != Position.JUMP && pos != Position.REVERSE_JUMP) {
-                    File file = Paths.get(url.toURI()).toFile();
-                    if (file.exists() && file.isDirectory()) {
-                        for (File fileForOneSprite : Objects.requireNonNull(file.listFiles())) {
-                            listOfPictureOfTheCharacter.get(pos.ordinal()).add(new ImageView(new Image(fileForOneSprite.toURI().toString())));
-                        }
-                    } else {
-                        throw new PositionDirectoryDoesntExist(replace);
+                    extractImgFromPos(pos, replace, url);
+                }
+                if(pos==Position.JUMP || pos==Position.REVERSE_JUMP){
+                    if(canJump()){
+                        extractImgFromPos(pos, replace, url);
                     }
                 }
             }
@@ -66,6 +76,17 @@ public class Character {
             System.out.println("Le dossier du personnage n'existe pas !");
         }catch(PositionDirectoryDoesntExist positionDirectoryDoesntExist){
             System.out.println(positionDirectoryDoesntExist.getMessage());
+        }
+    }
+
+    private void extractImgFromPos(Position pos, String replace, URL url) throws URISyntaxException, PositionDirectoryDoesntExist {
+        File file = Paths.get(url.toURI()).toFile();
+        if (file.exists() && file.isDirectory()) {
+            for (File fileForOneSprite : Objects.requireNonNull(file.listFiles())) {
+                listOfPictureOfTheCharacter.get(pos.ordinal()).add(new ImageView(new Image(fileForOneSprite.toURI().toString())));
+            }
+        } else {
+            throw new PositionDirectoryDoesntExist(replace);
         }
     }
 
