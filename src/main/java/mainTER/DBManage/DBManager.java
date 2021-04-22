@@ -13,16 +13,16 @@ public class DBManager {
      * Constructor who take the database name for the project.
      */
     public DBManager(){
-        this("DatabasesProject");
+        this("DatabasesProject", "main");
     }
 
     /**
      * Constructor who take one database name for test principally (the file with this name must exist).
      * @param nameDB name for the database.
      */
-    public DBManager(String nameDB){
+    public DBManager(String nameDB, String path){
         // TODO Create the file with the name nameDB.db if it doesn't exist anymore.
-        this.nameDB = nameDB;
+        this.nameDB = "src/" + path + "/resources/" + nameDB;
     }
 
     /**

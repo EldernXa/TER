@@ -16,7 +16,7 @@ public class PersonDBManager {
     }
 
     public PersonDBManager(String nameFileDB){
-        this.dbManager = new DBManager(nameFileDB);
+        this.dbManager = new DBManager(nameFileDB, "main");
     }
 
     public void createTablePerson(){
