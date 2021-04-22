@@ -1,18 +1,17 @@
 package mainTER.Network;
 
 import javafx.application.Platform;
+import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class GameServer implements Runnable{
+public class GameServer implements Runnable, Serializable{
 
     private ServerSocket ss;
     private int numPlayers;
@@ -38,19 +37,13 @@ public class GameServer implements Runnable{
             while(numPlayers <= maxPlayers){
                 Socket s = ss.accept();
                 numPlayers++;
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        vbox.getChildren().add(new Text("Player #" +numPlayers));
-                    }
-                });
+
 
                 System.out.println("Player #" + numPlayers + " has connected.");
                 ServerSideConnection ssc = new ServerSideConnection(s,numPlayers);
                 players.add(ssc);
 
-                Thread t = new Thread(ssc);
-                t.start();
+
 
             }
             System.out.println("Il y a assez de joueurs");
@@ -58,6 +51,12 @@ public class GameServer implements Runnable{
             e.printStackTrace();
         }
 
+    }
+
+    public void sendToAll(){
+        for(ServerSideConnection ssc : players){
+
+        }
     }
 
     public ServerSocket getSs() {
@@ -74,12 +73,14 @@ public class GameServer implements Runnable{
         }
     }
 
-    private class ServerSideConnection implements Runnable{
+    private class ServerSideConnection {
 
         private Socket socket;
         private DataInputStream dis;
         private DataOutputStream dos;
+        ObjectOutputStream oos;
         private int playerID;
+        private ArrayList<Integer> playersId = new ArrayList<>();
 
 
         public ServerSideConnection(Socket s, int id){
@@ -88,23 +89,58 @@ public class GameServer implements Runnable{
             try{
                 dis = new DataInputStream(socket.getInputStream());
                 dos = new DataOutputStream(socket.getOutputStream());
+                oos = new ObjectOutputStream(dos);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        @Override
-        public void run() {
-            try{
-                dos.writeInt(playerID);
-                dos.flush();
 
-                while (true){
+            Thread send = new Thread(() -> {
+                try{
 
+                    dos.writeInt(playerID);
+
+
+                    //oos.writeObject(playersId);
+                    for(ServerSideConnection ssc : players){
+                        playersId.add(ssc.getPlayerID());
+                    }
+
+
+
+                    System.out.println(playersId);
+                    sendToAll(playersId);
+
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            });
+
+            send.setDaemon(true);
+            send.start();
+
         }
+
+        public void write(Object obj) {
+            try{
+                oos.writeObject(obj);
+            }
+            catch(IOException e){ e.printStackTrace(); }
+        }
+
+        public void sendToAll(Object message){
+            for(ServerSideConnection client : players)
+                client.write(message);
+        }
+
+
+        public int getPlayerID() {
+            return playerID;
+        }
+
+
     }
 
 }

@@ -260,12 +260,19 @@ public class MenuItem extends StackPane {
                     });
                     Thread t = new Thread(gs);
                     t.start();
+                    Player p = new Player();
+                    p.connectToServer(vBox);
                     break;
 
                 }
                 case "REJOINDRE": {
+                    stage.setScene(sceneaa);
+
+
+                    VBox vBox = new VBox(10);
+                    paneaa.getChildren().add(vBox);
                     Player p = new Player();
-                    p.connectToServer(stage, sceneaa);
+                    p.connectToServer(vBox);
                     break;
                 }
                 case "SOUND SETTINGS": {
