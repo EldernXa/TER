@@ -20,10 +20,7 @@ public class Character {
     private final String name;
     private final Coordinate initialCoordinate;
     private final ArrayList<ArrayList<ImageView>> listOfPictureOfTheCharacter;
-    private final double speed;
-    private final double weight;
-    private final double jumpStrength;
-    private final boolean canJump = true;
+    private final Characteristics characteristics;
     private final ImageViewSizePos logo ;
 
     // TODO Put error on graphics interface.
@@ -33,17 +30,11 @@ public class Character {
         this.name = name;
         this.initialCoordinate = coordinate;
         listOfPictureOfTheCharacter = new ArrayList<>();
-        this.speed = 10;
-        this.weight = 5;
-        this.jumpStrength = 20;
+        this.characteristics = new Characteristics(10, 5, 20, 1, true);
         this.logo = new ImageViewSizePos(Objects.requireNonNull(this.getClass().getResource("/mainTER/CharacterGameplay/Logo/" + name + ".png")).getPath(),60,60);
 
 
         initListAnimate();
-    }
-
-    public boolean canJump(){
-        return canJump;
     }
 
     private void initListAnimate(){
@@ -77,12 +68,24 @@ public class Character {
         }
     }
 
-    public double getSpeed(){
-        return speed;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public double getSpeed(){
+        return characteristics.getSpeed();
+    }
+
+    public double getWeight(){
+        return characteristics.getWeight();
+    }
+
+    public double getJumpStrength(){
+        return characteristics.getJumpStrength();
+    }
+
+    public boolean canJump(){
+        return characteristics.canJump();
     }
 
     public List<ArrayList<ImageView>> getListOfPictureOfTheCharacter(){
@@ -92,14 +95,6 @@ public class Character {
 
     public Coordinate getInitialCoordinate() {
         return initialCoordinate;
-    }
-
-    public double getWeight(){
-        return weight;
-    }
-
-    public double getJumpStrength(){
-        return jumpStrength;
     }
 
 
