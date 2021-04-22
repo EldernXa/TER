@@ -27,12 +27,15 @@ public class DBManager {
 
     /**
      * Connect to the databases (which is a file in this case).
-     * @throws SQLException when the file doesn't exist or if the user and/or the password is not good.
      */
-    private void getConnection() throws SQLException {
+    private void getConnection() {
         System.setProperty("hsqldb.reconfig_logging", "false");
         Logger.getLogger("hsqldb.db").setLevel(Level.WARNING);
-        connection = DriverManager.getConnection("jdbc:hsqldb:file:"+nameDB, "SA", "");
+        try {
+            connection = DriverManager.getConnection("jdbc:hsqldb:file:" + nameDB, "SA", "");
+        }catch(SQLException sqlException){
+            System.out.println("Problème de connexion");
+        }
     }
 
     /**
@@ -40,9 +43,8 @@ public class DBManager {
      * @param strCreateTable request for the databases (must be create table or select).
      */
     public void createTableOrInsert(String strCreateTable){
-        try {
-            this.getConnection();
-            Statement statement = connection.createStatement();
+        this.getConnection();
+        try(Statement statement = connection.createStatement()) {
             statement.executeUpdate(strCreateTable);
             connection.commit();
             connection.close();
@@ -58,11 +60,10 @@ public class DBManager {
      * @param strDropTable name of the table we want to delete.
      */
     public void dropTable(String strDropTable){
-        try{
-            this.getConnection();
-            Statement statement = connection.createStatement();
-            String strSql = "DROP TABLE " + strDropTable.toUpperCase();
-            statement.executeUpdate("TRUNCATE TABLE " + strDropTable.toUpperCase());
+        this.getConnection();
+        try(Statement statement = connection.createStatement()){
+            String strSql = String.format("DROP TABLE %s", strDropTable.toUpperCase());
+            statement.executeUpdate(String.format("TRUNCATE TABLE %s", strDropTable.toUpperCase()));
             statement.executeUpdate(strSql);
             connection.commit();
             connection.close();
@@ -79,10 +80,9 @@ public class DBManager {
      * @return a ResultSet who contains all result for the request.
      */
     public ResultSet selectIntoTable(String strSelect){
-        try{
-            this.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = null;
+        this.getConnection();
+        try(Statement statement = connection.createStatement()){
+            ResultSet resultSet;
             resultSet = statement.executeQuery(strSelect);
             connection.close();
             connection=null;
@@ -97,9 +97,8 @@ public class DBManager {
      * Drop all tables.
      */
     public void dropCascade(){
-        try {
-            this.getConnection();
-            Statement statement = connection.createStatement();
+        this.getConnection();
+        try(Statement statement = connection.createStatement()) {
             statement.executeUpdate("DROP SCHEMA PUBLIC CASCADE");
             connection.commit();
             connection.close();
