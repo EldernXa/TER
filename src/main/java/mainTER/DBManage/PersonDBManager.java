@@ -25,6 +25,7 @@ public class PersonDBManager {
                 "speed FLOAT(3)," +
                 "weight FLOAT(3)," +
                 "jumpStrength FLOAT(3)," +
+                "fallingSpeed FLOAT(3)," +
                 "canJump BOOLEAN" +
                 ");");
     }
@@ -37,12 +38,12 @@ public class PersonDBManager {
         dbManager.dropCascade();
     }
 
-    public void insertIntoTablePerson(String name, double speed, double weight, double jumpStrength, boolean canJump) {
+    public void insertIntoTablePerson(String name, double speed, double weight, double jumpStrength, double fallingSpeed, boolean canJump) {
         // TODO verify insert data
         // TODO verify data doesn't exist already
         // TODO use PrepareStatement to insert
         String reqValues = "INSERT INTO Person VALUES (" +
-                "'" + name+"'" + "," + speed+","+weight+","+jumpStrength+","+"'"+(canJump?"true":"false")+"'"+
+                "'" + name+"'" + "," + speed+","+weight+","+jumpStrength+"," + fallingSpeed + ","+"'"+(canJump?"true":"false")+"'"+
                 ")";
         dbManager.createTableOrInsert(reqValues);
     }
@@ -106,6 +107,15 @@ public class PersonDBManager {
             return (double)rs.getObject("weight");
         }catch(SQLException sqlException)
         {
+            throw new PersonDataGetException(nameCharacter);
+        }
+    }
+
+    public double getFallingSpeed(String nameCharacter) throws PersonDataGetException{
+        ResultSet rs = selectIntoTablePerson(nameCharacter);
+        try{
+            return (double)rs.getObject("fallingSpeed");
+        }catch(SQLException sqlException){
             throw new PersonDataGetException(nameCharacter);
         }
     }

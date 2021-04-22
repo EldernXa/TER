@@ -13,6 +13,7 @@ class TestPersonDBManager {
     private final double speed = 5;
     private final double weight = 20;
     private final double jumpStrength = 5;
+    private final double fallingSpeed = 3;
     private final boolean canJump = true;
 
     @BeforeEach
@@ -39,7 +40,7 @@ class TestPersonDBManager {
     void testInsertDataIntoTablePerson(){
         try {
             personDBManager.createTablePerson();
-            personDBManager.insertIntoTablePerson(nameCharacter, speed, weight, jumpStrength, canJump);
+            personDBManager.insertIntoTablePerson(nameCharacter, speed, weight, jumpStrength, fallingSpeed, canJump);
         }catch(Exception exception){
             fail();
         }
@@ -77,6 +78,16 @@ class TestPersonDBManager {
     }
 
     @Test
+    void testGettingFallingSpeed(){
+        try{
+            insertValuesIntoPerson();
+            assertEquals(fallingSpeed, personDBManager.getFallingSpeed(nameCharacter));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
     void testGettingCanJump(){
         try{
             insertValuesIntoPerson();
@@ -86,17 +97,18 @@ class TestPersonDBManager {
         }
     }
 
+
     @Test
     void testGetListName(){
         insertValuesIntoPerson();
-        personDBManager.insertIntoTablePerson("Serpent", 5, 6, 4, false);
+        personDBManager.insertIntoTablePerson("Serpent", 5, 6, 4, 3, false);
         assertEquals(2, personDBManager.getListNameFromDatabase().size());
     }
 
     private void insertValuesIntoPerson(){
         try{
             personDBManager.createTablePerson();
-            personDBManager.insertIntoTablePerson(nameCharacter, speed, weight, jumpStrength, canJump);
+            personDBManager.insertIntoTablePerson(nameCharacter, speed, weight, jumpStrength, fallingSpeed, canJump);
         }catch(Exception sqlException){
             fail();
         }
