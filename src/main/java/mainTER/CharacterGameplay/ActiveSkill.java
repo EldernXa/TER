@@ -1,13 +1,16 @@
 package mainTER.CharacterGameplay;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyEvent;
+
 public class ActiveSkill {
-    private final char ctrlKey;
+    private final String ctrlKey;
     private final boolean isAnimate;
     private final String nameSkill;
     private final Characteristics characteristics;
     private final ActiveSkillEnum skill;
 
-    public ActiveSkill(String nameSkill, char ctrlKey, boolean isAnimate, Characteristics characteristics){
+    public ActiveSkill(String nameSkill, String ctrlKey, boolean isAnimate, Characteristics characteristics){
         this.nameSkill = nameSkill;
         this.ctrlKey = ctrlKey;
         this.isAnimate = isAnimate;
@@ -15,10 +18,14 @@ public class ActiveSkill {
         skill = ActiveSkillEnum.valueOf(this.nameSkill);
     }
 
-    public void enableSkill(){
-        if(skill == ActiveSkillEnum.SHIELD_MODE){
-            characteristics.setCanJump(false);
-        }
+    public EventHandler<KeyEvent> eventForSkill(){
+        return event -> {
+            if (event.getCode().getChar().equals(ctrlKey)){
+                if(skill == ActiveSkillEnum.SHIELD_MODE){
+                    characteristics.setCanJump(false);
+                }
+            }
+        };
     }
 
 }
