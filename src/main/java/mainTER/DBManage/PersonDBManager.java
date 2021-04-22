@@ -1,9 +1,12 @@
 package mainTER.DBManage;
 
+import mainTER.CharacterGameplay.Character;
 import mainTER.exception.PersonDataGetException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PersonDBManager {
     private final DBManager dbManager;
@@ -39,15 +42,29 @@ public class PersonDBManager {
         // TODO verify data doesn't exist already
         // TODO use PrepareStatement to insert
         String reqValues = "INSERT INTO Person VALUES (" +
-                "'" + name+"'" + "," + speed+","+weight+","+jumpStrength+","+"'"+(canJump?"true":"else")+"'"+
+                "'" + name+"'" + "," + speed+","+weight+","+jumpStrength+","+"'"+(canJump?"true":"false")+"'"+
                 ")";
         dbManager.createTableOrInsert(reqValues);
+    }
+
+    List<String> getListNameFromDatabase(){
+        ArrayList<String> listName = new ArrayList<>();
+        ResultSet rs;
+        try{
+            rs = dbManager.selectIntoTable("SELECT * FROM Person;");
+            while(rs.next()){
+                listName.add((String)rs.getObject("name"));
+            }
+        }catch(SQLException sqlException){
+            System.out.println("Problème dans la récupération de données.");
+        }
+        return listName;
     }
 
     private ResultSet selectIntoTablePerson(String nameCharacter){
         ResultSet rs = null;
         try {
-            rs = dbManager.selectIntoTable("SELECT name, speed, weight, jumpStrength, canJump" +
+            rs = dbManager.selectIntoTable("SELECT *" +
                     " FROM Person WHERE name = '" + nameCharacter + "'");
             rs.next();
         }catch(SQLException sqlException){

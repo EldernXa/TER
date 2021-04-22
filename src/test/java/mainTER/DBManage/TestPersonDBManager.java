@@ -86,6 +86,13 @@ class TestPersonDBManager {
         }
     }
 
+    @Test
+    void testGetListName(){
+        insertValuesIntoPerson();
+        personDBManager.insertIntoTablePerson("Serpent", 5, 6, 4, false);
+        assertEquals(2, personDBManager.getListNameFromDatabase().size());
+    }
+
     private void insertValuesIntoPerson(){
         try{
             personDBManager.createTablePerson();
