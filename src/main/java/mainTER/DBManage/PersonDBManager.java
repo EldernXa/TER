@@ -1,5 +1,7 @@
 package mainTER.DBManage;
 
+import mainTER.exception.PersonDataGetException;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -35,6 +37,7 @@ public class PersonDBManager {
     public void insertIntoTablePerson(String name, double speed, double weight, double jumpStrength, boolean canJump) {
         // TODO verify insert data
         // TODO verify data doesn't exist already
+        // TODO use PrepareStatement to insert
         String reqValues = "INSERT INTO Person VALUES (" +
                 "'" + name+"'" + "," + speed+","+weight+","+jumpStrength+","+"'"+(canJump?"true":"else")+"'"+
                 ")";
@@ -44,7 +47,6 @@ public class PersonDBManager {
     private ResultSet selectIntoTablePerson(String nameCharacter){
         ResultSet rs = null;
         try {
-            // TODO use PrepareStatement to insert
             rs = dbManager.selectIntoTable("SELECT name, speed, weight, jumpStrength, canJump" +
                     " FROM Person WHERE name = '" + nameCharacter + "'");
             rs.next();
@@ -54,41 +56,40 @@ public class PersonDBManager {
         return rs;
     }
 
-    public double getSpeed(String nameCharacter){
+    public double getSpeed(String nameCharacter) throws PersonDataGetException{
         ResultSet rs = selectIntoTablePerson(nameCharacter);
         try {
             return (double)rs.getObject("speed");
         }catch(SQLException sqlException){
-            // TODO add personalised exception.
-            return 0.0;
+            throw new PersonDataGetException(nameCharacter);
         }
     }
 
-    public boolean getCanJump(String nameCharacter){
+    public boolean getCanJump(String nameCharacter) throws PersonDataGetException{
         ResultSet rs = selectIntoTablePerson(nameCharacter);
         try{
             return (boolean) rs.getObject("canJump");
         }catch(SQLException sqlException){
-            return false;
+            throw new PersonDataGetException(nameCharacter);
         }
     }
 
-    public double getJumpStrength(String nameCharacter){
+    public double getJumpStrength(String nameCharacter) throws PersonDataGetException{
         ResultSet rs = selectIntoTablePerson(nameCharacter);
         try{
             return (double) rs.getObject("jumpStrength");
         }catch(SQLException sqlException){
-            return 0.0;
+            throw new PersonDataGetException(nameCharacter);
         }
     }
 
-    public double getWeight(String nameCharacter){
+    public double getWeight(String nameCharacter) throws PersonDataGetException{
         ResultSet rs = selectIntoTablePerson(nameCharacter);
         try{
             return (double)rs.getObject("weight");
         }catch(SQLException sqlException)
         {
-            return 0.0;
+            throw new PersonDataGetException(nameCharacter);
         }
     }
 
