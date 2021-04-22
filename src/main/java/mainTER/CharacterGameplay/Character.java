@@ -26,7 +26,6 @@ public class Character {
     private final ImageViewSizePos logo ;
 
     // TODO Put error on graphics interface.
-    // TODO get characteristics from name in database.
 
     public Character(String name, Coordinate coordinate) {
         Characteristics characteristics1;
