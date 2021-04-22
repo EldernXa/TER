@@ -49,14 +49,15 @@ public class Character {
                 }
                 final String replace = pos.toString().toLowerCase().replace("_", "");
                 URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/" + name + "/" + replace);
-                File file = Paths.get(url.toURI()).toFile();
-                if(file.exists() && file.isDirectory()){
-                    for(File fileForOneSprite : Objects.requireNonNull(file.listFiles())){
-                        listOfPictureOfTheCharacter.get(pos.ordinal()).add(new ImageView(new Image(fileForOneSprite.toURI().toString())));
+                if(pos != Position.JUMP && pos != Position.REVERSE_JUMP) {
+                    File file = Paths.get(url.toURI()).toFile();
+                    if (file.exists() && file.isDirectory()) {
+                        for (File fileForOneSprite : Objects.requireNonNull(file.listFiles())) {
+                            listOfPictureOfTheCharacter.get(pos.ordinal()).add(new ImageView(new Image(fileForOneSprite.toURI().toString())));
+                        }
+                    } else {
+                        throw new PositionDirectoryDoesntExist(replace);
                     }
-                }
-                else{
-                    throw new PositionDirectoryDoesntExist(replace);
                 }
             }
         }catch(URISyntaxException uriSyntaxException){

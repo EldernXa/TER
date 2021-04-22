@@ -48,7 +48,7 @@ public class PersonDBManager {
         dbManager.createTableOrInsert(reqValues);
     }
 
-    List<String> getListNameFromDatabase(){
+    public List<String> getListNameFromDatabase(){
         ArrayList<String> listName = new ArrayList<>();
         ResultSet rs;
         try{

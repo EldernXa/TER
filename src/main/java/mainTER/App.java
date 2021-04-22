@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import mainTER.Tools.DataInsert;
 
 import static mainTER.Menu.MainMenu.createContent;
 
@@ -16,7 +17,6 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-
         var scene = new Scene(createContent(stage));
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);

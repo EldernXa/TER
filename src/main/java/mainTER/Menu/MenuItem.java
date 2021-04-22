@@ -27,6 +27,7 @@ import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
+import mainTER.DBManage.PersonDBManager;
 import mainTER.MapPackage.Collide;
 import mainTER.MapPackage.Map;
 import mainTER.LoadOfFXML;
@@ -39,6 +40,7 @@ import mainTER.Tools.Coordinate;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
@@ -115,11 +117,12 @@ public class MenuItem extends StackPane {
                     map.addCollisionObject();
 
 
-
+                    PersonDBManager personDBManager = new PersonDBManager();
                     ArrayList<Character> listCharacter = new ArrayList<>();
-                    listCharacter.add(new Character("Paladin", new Coordinate(1200, 630)));
-                    //listCharacter.add(new Character("Serpent", new Coordinate(1200, 630)));
-                    listCharacter.add(new Character("Demon", new Coordinate(1100, 530)));
+                    List<String> listName = personDBManager.getListNameFromDatabase();
+                    for(String nameCharacter : listName){
+                        listCharacter.add(new Character(nameCharacter, new Coordinate(1200, 630)));
+                    }
                     DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0), collide);
 
 
