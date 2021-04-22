@@ -1,6 +1,8 @@
 package mainTER.DBManage;
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DBManager {
 
@@ -28,6 +30,8 @@ public class DBManager {
      * @throws SQLException when the file doesn't exist or if the user and/or the password is not good.
      */
     private void getConnection() throws SQLException {
+        System.setProperty("hsqldb.reconfig_logging", "false");
+        Logger.getLogger("hsqldb.db").setLevel(Level.WARNING);
         connection = DriverManager.getConnection("jdbc:hsqldb:file:"+nameDB, "SA", "");
     }
 
