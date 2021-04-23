@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Camera;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -25,6 +24,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import mainTER.CharacterGameplay.Camera;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.DBManage.PersonDBManager;
@@ -130,9 +130,7 @@ public class MenuItem extends StackPane {
                     SwitchCharacter sc = new SwitchCharacter(listCharacter);
 
                     //Make the scene scale if the screen is larger
-                    sc.setTranslateY(displayCharacter.getCurrentCoordinateOfTheCharacter().getY()-Screen.getPrimary().getBounds().getHeight()/7 * 5);
-                    sc.setTranslateX(displayCharacter.getCurrentCoordinateOfTheCharacter().getX()-Screen.getPrimary().getBounds().getWidth()/2.5);
-                    stackPane.getChildren().add(sc);
+
 
 
                     double height = Screen.getPrimary().getBounds().getHeight();
@@ -141,72 +139,12 @@ public class MenuItem extends StackPane {
                     scene.getRoot().getTransforms().add(scale);
 
 
-                    //Set the camera on the player
-                    Camera camera = new PerspectiveCamera();
-                    scene.setCamera(camera);
+                    sc.setTranslateY(displayCharacter.getCurrentCoordinateOfTheCharacter().getY() -Screen.getPrimary().getBounds().getHeight()/8.6* 5);
+                    sc.setTranslateX(displayCharacter.getCurrentCoordinateOfTheCharacter().getX() -Screen.getPrimary().getBounds().getWidth()/2.8);
+                    stackPane.getChildren().add(sc);
 
+                    Camera camera = new Camera(scene,displayCharacter,sc,listCharacter,h,background);
 
-
-                    camera.translateXProperty().set(displayCharacter.getCurrentCoordinateOfTheCharacter().getX()*h - Screen.getPrimary().getBounds().getWidth() / 2);
-
-                    //A voir pour les Y quand la map monte ou decend
-                    AtomicBoolean isZero = new AtomicBoolean(false);
-                    final Coordinate saveCoord = new Coordinate(displayCharacter.getCurrentCoordinateOfTheCharacter().getX(), displayCharacter.getCurrentCoordinateOfTheCharacter().getY());
-
-
-
-                    scene.addEventHandler(KeyEvent.KEY_PRESSED, event2 -> {
-
-                        switch (event2.getCode()) {
-                            case D:
-                                if (displayCharacter.getCurrentCoordinateOfTheCharacter().getX() < saveCoord.getX()) {
-
-                                } else {
-                                    camera.translateXProperty().set(displayCharacter.getCurrentCoordinateOfTheCharacter().getX()*h - Screen.getPrimary().getBounds().getWidth() / 2);
-                                    sc.setTranslateX(displayCharacter.getCurrentCoordinateOfTheCharacter().getX()-Screen.getPrimary().getBounds().getWidth()/2.5);
-                                    isZero.set(false);
-                                }
-                                break;
-
-                            case Q:
-                                if (camera.getTranslateX() != 0) {
-                                    camera.translateXProperty().set(displayCharacter.getCurrentCoordinateOfTheCharacter().getX()*h - Screen.getPrimary().getBounds().getWidth() / 2);
-                                    sc.setTranslateX(displayCharacter.getCurrentCoordinateOfTheCharacter().getX()-Screen.getPrimary().getBounds().getWidth()/2.5);
-
-                                } else {
-                                    if (!isZero.get()) {
-                                        saveCoord.setX(displayCharacter.getCurrentCoordinateOfTheCharacter().getX()*h);
-                                        isZero.set(true);
-                                    }
-                                }
-                                break;
-                            case A:
-                                int k = 0;
-                                for(int i = 0;i<listCharacter.size();i++){
-                                    if(listCharacter.get(i) == displayCharacter.getCharacter()){
-                                        k = i;
-                                    }
-                                }
-                                displayCharacter.setCharacter(listCharacter.get((k+1)%listCharacter.size()));
-                                sc.changeToUp();
-                                break;
-
-                            case E:
-                                 k = 0;
-                                for(int i = 0;i<listCharacter.size();i++){
-                                    if(listCharacter.get(i) == displayCharacter.getCharacter()){
-                                        k = i;
-                                    }
-                                }
-                                if(k == 0){
-                                    displayCharacter.setCharacter(listCharacter.get(listCharacter.size()-1));
-                                }else{
-                                    displayCharacter.setCharacter(listCharacter.get((k-1)%listCharacter.size()));
-                                }
-                                sc.changeToDown();
-                                break;
-                        }
-                    });
 
 
                     mainStage.setScene(scene);
