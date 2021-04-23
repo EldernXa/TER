@@ -60,10 +60,12 @@ public class DisplayCharacter extends CollideObject {
     public void setCharacter(Character characterToSwitch){
         animationForTheCharacter.getTimeline().stop();
         removeAllImgViewOfThePane();
+        double height = animationForTheCharacter.actualImg().getImage().getHeight();
         animationForTheCharacter.changeCharacter(characterToSwitch);
-        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX());
-        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()-50);
+
         ImageView imgView = animationForTheCharacter.nextImage();
+        double newHeight = height-imgView.getImage().getHeight();
+        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()+newHeight);
         imgView.setX(currentCoordinateOfTheCharacter.getX());
         imgView.setY(currentCoordinateOfTheCharacter.getY()-5);
         pane.getChildren().add(imgView);
