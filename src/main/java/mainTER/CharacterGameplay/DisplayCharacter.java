@@ -112,11 +112,8 @@ public class DisplayCharacter extends CollideObject {
 
     private double adaptYToHeight(double height) {
         ImageView imgView = animationForTheCharacter.nextImage();
-        double newHeight = imgView.getImage().getHeight()-height;
-        if(newHeight<0)
-            currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()+newHeight);
-        else
-            currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()-newHeight);
+        double newHeight = height - imgView.getImage().getHeight();
+        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()+newHeight);
         imgView.setX(currentCoordinateOfTheCharacter.getX());
         imgView.setY(currentCoordinateOfTheCharacter.getY());
         pane.getChildren().add(imgView);
@@ -195,15 +192,13 @@ public class DisplayCharacter extends CollideObject {
                             animationForTheCharacter.setJump();
                         else
                             animationForTheCharacter.setReverseJump();
+
                         removeAllImgViewOfThePane();
                         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()-jumpStrength-newHeight);
                         jumpStrength-= character.getWeight();
                         if(jumpStrength<=0)
                             isJumping = false;
-                        ImageView imgView = animationForTheCharacter.nextImage();
-                        imgView.setX(currentCoordinateOfTheCharacter.getX());
-                        imgView.setY(currentCoordinateOfTheCharacter.getY());
-                        pane.getChildren().add(imgView);
+                        adaptYToHeight(height);
                     }
                     else if(verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1)){
                         fallingCharacter();
@@ -273,8 +268,10 @@ public class DisplayCharacter extends CollideObject {
         lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForJumpMovement);
 
         lvlOfTheGame.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
-            currentKeyCode = null;
-            timelineForMotionlessCharacter();
+            if(event.getCode() == currentKeyCode) {
+                currentKeyCode = null;
+                timelineForMotionlessCharacter();
+            }
         });
     }
 
