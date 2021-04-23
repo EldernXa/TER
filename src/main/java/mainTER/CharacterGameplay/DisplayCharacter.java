@@ -112,8 +112,11 @@ public class DisplayCharacter extends CollideObject {
 
     private double adaptYToHeight(double height) {
         ImageView imgView = animationForTheCharacter.nextImage();
-        double newHeight = height-imgView.getImage().getHeight();
-        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()-newHeight);
+        double newHeight = imgView.getImage().getHeight()-height;
+        if(newHeight<0)
+            currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()+newHeight);
+        else
+            currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()-newHeight);
         imgView.setX(currentCoordinateOfTheCharacter.getX());
         imgView.setY(currentCoordinateOfTheCharacter.getY());
         pane.getChildren().add(imgView);
@@ -265,7 +268,6 @@ public class DisplayCharacter extends CollideObject {
      * Enable event for the key on the level of the game
      */
     private void enableEvent(){
-        //lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForMovement);
         lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForLeftMovement);
         lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForRightMovement);
         lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForJumpMovement);
@@ -275,27 +277,6 @@ public class DisplayCharacter extends CollideObject {
             timelineForMotionlessCharacter();
         });
     }
-
-    /**
-     * Function who will decide how character will move.
-     * @param eventForPressedKey the event who can say what key is pressed.
-     */
-/*    private void eventForMovement(KeyEvent eventForPressedKey){
-        if(eventForPressedKey.getCode() == KeyCode.D && eventForPressedKey.getCode()!=currentKeyCode){
-            walkToRight = true;
-            currentKeyCode = eventForPressedKey.getCode();
-            timelineForWalk();
-        }
-        else if(eventForPressedKey.getCode() == KeyCode.Q && eventForPressedKey.getCode() != currentKeyCode){
-            walkToRight = false;
-            currentKeyCode = eventForPressedKey.getCode();
-            timelineForReverseWalk();
-        }else if(eventForPressedKey.getCode() == KeyCode.SPACE && !verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1) && eventForPressedKey.getCode() != currentKeyCode && character.canJump()){
-            currentKeyCode=eventForPressedKey.getCode();
-            isJumping = true;
-            this.jumpStrength = character.getJumpStrength();
-        }
-    }*/
 
     private void eventForRightMovement(KeyEvent eventForPressedKey){
         if(eventForPressedKey.getCode() == KeyCode.D && KeyCode.D != currentKeyCode){
