@@ -63,10 +63,8 @@ public class Character {
                 if(pos != Position.JUMP && pos != Position.REVERSE_JUMP) {
                     extractImgFromPos(pos, replace, url);
                 }
-                if(pos==Position.JUMP || pos==Position.REVERSE_JUMP){
-                    if(canJump()){
-                        extractImgFromPos(pos, replace, url);
-                    }
+                if((pos==Position.JUMP || pos==Position.REVERSE_JUMP) && canJump()){
+                    extractImgFromPos(pos, replace, url);
                 }
             }
         }catch(URISyntaxException uriSyntaxException){
