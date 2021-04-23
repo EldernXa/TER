@@ -99,7 +99,7 @@ public class DisplayCharacter extends CollideObject {
                         double height = animationForTheCharacter.actualImg().getImage().getHeight();
                         animationForTheCharacter.setWalk();
                         currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+character.getSpeed());
-                        adapYToHeight(height);
+                        adaptYToHeight(height);
                     }else{
                         timelineForMotionlessCharacter();
                     }
@@ -110,10 +110,10 @@ public class DisplayCharacter extends CollideObject {
         animationForTheCharacter.getTimeline().play();
     }
 
-    private double adapYToHeight(double height) {
+    private double adaptYToHeight(double height) {
         ImageView imgView = animationForTheCharacter.nextImage();
         double newHeight = height-imgView.getImage().getHeight();
-        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()+newHeight);
+        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()-newHeight);
         imgView.setX(currentCoordinateOfTheCharacter.getX());
         imgView.setY(currentCoordinateOfTheCharacter.getY());
         pane.getChildren().add(imgView);
@@ -128,6 +128,7 @@ public class DisplayCharacter extends CollideObject {
             isJumping = false;
         ImageView imgView = animationForTheCharacter.nextImage();
         double newHeight = height-imgView.getImage().getHeight();
+        System.out.println(newHeight);
         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()-newHeight);
         imgView.setX(currentCoordinateOfTheCharacter.getX());
         imgView.setY(currentCoordinateOfTheCharacter.getY());
@@ -162,7 +163,7 @@ public class DisplayCharacter extends CollideObject {
                         animationForTheCharacter.setReverseWalk();
                         currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()-character.getSpeed());
 
-                        adapYToHeight(height);
+                        adaptYToHeight(height);
                     }
                     else{
                         timelineForMotionlessCharacter();
@@ -185,7 +186,7 @@ public class DisplayCharacter extends CollideObject {
                         animationForTheCharacter.setMotionless();
                     else
                         animationForTheCharacter.setReverseMotionLess();
-                    double newHeight = adapYToHeight(height);
+                    double newHeight = adaptYToHeight(height);
                     if(isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()-1)){
                         if(walkToRight)
                             animationForTheCharacter.setJump();
