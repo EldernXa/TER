@@ -61,6 +61,18 @@ public class TestControlsDBManager {
             fail();
         }
     }
+
+    @Test
+    void testSetRightFromTableControls(){
+        try {
+            insertValuesIntoControls();
+            controlsDBManager.setRight("Paladin","s");
+            assertEquals("s",controlsDBManager.getRight("Paladin"));
+        }catch (Exception e){
+            fail();
+        }
+    }
+
     @Test
     void testGettingLeftFromTableControls(){
         try {
@@ -71,6 +83,17 @@ public class TestControlsDBManager {
         }
     }
     @Test
+    void testSetLeftFromTableControls(){
+        try {
+            insertValuesIntoControls();
+            controlsDBManager.setLeft("Paladin","f");
+            assertEquals("f",controlsDBManager.getLeft("Paladin"));
+        }catch (Exception e){
+            fail();
+        }
+    }
+
+    @Test
     void testGettingJumpFromTableControls(){
         try {
             insertValuesIntoControls();
@@ -79,12 +102,35 @@ public class TestControlsDBManager {
             fail();
         }
     }
+
+    @Test
+    void testSetJumpFromTableControls(){
+        try {
+            insertValuesIntoControls();
+            controlsDBManager.setJump("Paladin","z");
+            assertEquals("z",controlsDBManager.getJump("Paladin"));
+        }catch (Exception e){
+            fail();
+        }
+    }
+
     @Test
     void testGettingSwitchUpFromTableControls(){
         try {
             insertValuesIntoControls();
             assertEquals(switchUp, controlsDBManager.getSwitchUp(nameCharacter));
         }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    void testSetSwitchUpFromTableControls(){
+        try {
+            insertValuesIntoControls();
+            controlsDBManager.setSwitchUp("Paladin","h");
+            assertEquals("h",controlsDBManager.getSwitchUp("Paladin"));
+        }catch (Exception e){
             fail();
         }
     }
@@ -98,6 +144,18 @@ public class TestControlsDBManager {
             fail();
         }
     }
+
+    @Test
+    void testSetSwitchDownFromTableControls(){
+        try {
+            insertValuesIntoControls();
+            controlsDBManager.setSwitchDown("Paladin","t");
+            assertEquals("t",controlsDBManager.getSwitchDown("Paladin"));
+        }catch (Exception e){
+            fail();
+        }
+    }
+
     @Test
     void testGettingSkill1FromTableControls(){
         try {
@@ -108,6 +166,17 @@ public class TestControlsDBManager {
         }
     }
     @Test
+    void testSetSkill1FromTableControls(){
+        try {
+            insertValuesIntoControls();
+            controlsDBManager.setSkill1("Paladin","j");
+            assertEquals("j",controlsDBManager.getSkill1("Paladin"));
+        }catch (Exception e){
+            fail();
+        }
+    }
+
+    @Test
     void testGettingSkill2FromTableControls(){
         try {
             insertValuesIntoControls();
@@ -117,11 +186,31 @@ public class TestControlsDBManager {
         }
     }
     @Test
+    void testSetSkill2FromTableControls(){
+        try {
+            insertValuesIntoControls();
+            controlsDBManager.setSkill2("Paladin","p");
+            assertEquals("p",controlsDBManager.getSkill2("Paladin"));
+        }catch (Exception e){
+            fail();
+        }
+    }
+    @Test
     void testGettingSkill3FromTableControls(){
         try {
             insertValuesIntoControls();
             assertEquals(skill3, controlsDBManager.getSkill3(nameCharacter));
         }catch(Exception exception){
+            fail();
+        }
+    }
+    @Test
+    void testSetSkill3FromTableControls(){
+        try {
+            insertValuesIntoControls();
+            controlsDBManager.setSkill3("Paladin","n");
+            assertEquals("n",controlsDBManager.getSkill3("Paladin"));
+        }catch (Exception e){
             fail();
         }
     }
@@ -136,7 +225,10 @@ public class TestControlsDBManager {
         try{
             controlsDBManager.createTableControls();
             controlsDBManager.insertIntoTableControls(nameCharacter,right,left,jump,switchUp,switchDown,skill1,skill2,skill3);
+
+            System.out.println(controlsDBManager.toArray(nameCharacter));
         }catch(Exception sqlException){
+            sqlException.printStackTrace();
             fail();
         }
     }

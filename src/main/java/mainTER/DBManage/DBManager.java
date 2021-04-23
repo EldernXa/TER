@@ -53,6 +53,18 @@ public class DBManager {
             exception.printStackTrace();
         }
     }
+    public void updateTable(String strCreateTable){
+        this.getConnection();
+        try(Statement statement = connection.createStatement()) {
+            statement.executeUpdate(strCreateTable);
+            connection.commit();
+            connection.close();
+            connection = null;
+        }catch(SQLException exception){
+            System.out.println("Problème dans l'update");
+            exception.printStackTrace();
+        }
+    }
 
     /**
      * Function who drop a table.

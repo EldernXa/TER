@@ -89,10 +89,20 @@ public class ControlsDBManager {
     public String getLeft(String nameCharacter) throws ControlsDataGetException {
         ResultSet rs = selectIntoTableControls(nameCharacter);
         try {
+
             return (String)rs.getObject("leftControl");
         }catch(SQLException sqlException){
             throw new ControlsDataGetException(nameCharacter);
         }
+    }
+
+    public void setLeft(String nameCharacter,String left) {
+        String request = "UPDATE Controls " +
+                "SET " +
+                "leftControl = '" + left +"' " +
+                "WHERE " +
+                "name = '" + nameCharacter + "';";
+        dbManager.updateTable(request);
     }
 
     public String getRight(String nameCharacter) throws ControlsDataGetException{
@@ -103,6 +113,14 @@ public class ControlsDBManager {
             throw new ControlsDataGetException(nameCharacter);
         }
     }
+    public void setRight(String nameCharacter,String right) {
+        String request = "UPDATE Controls " +
+                "SET " +
+                "rightControl = '" + right +"' " +
+                "WHERE " +
+                "name = '" + nameCharacter + "';";
+        dbManager.updateTable(request);
+    }
 
     public String getJump(String nameCharacter) throws ControlsDataGetException{
         ResultSet rs = selectIntoTableControls(nameCharacter);
@@ -111,6 +129,14 @@ public class ControlsDBManager {
         }catch(SQLException sqlException){
             throw new ControlsDataGetException(nameCharacter);
         }
+    }
+    public void setJump(String nameCharacter,String jump) {
+        String request = "UPDATE Controls " +
+                "SET " +
+                "jump = '" + jump +"' " +
+                "WHERE " +
+                "name = '" + nameCharacter + "';";
+        dbManager.updateTable(request);
     }
 
     public String getSwitchUp(String nameCharacter) throws ControlsDataGetException{
@@ -122,6 +148,14 @@ public class ControlsDBManager {
             throw new ControlsDataGetException(nameCharacter);
         }
     }
+    public void setSwitchUp(String nameCharacter,String switchUp) {
+        String request = "UPDATE Controls " +
+                "SET " +
+                "switchUp = '" + switchUp +"' " +
+                "WHERE " +
+                "name = '" + nameCharacter + "';";
+        dbManager.updateTable(request);
+    }
     public String getSwitchDown(String nameCharacter) throws ControlsDataGetException{
         ResultSet rs = selectIntoTableControls(nameCharacter);
         try{
@@ -129,6 +163,14 @@ public class ControlsDBManager {
         }catch(SQLException sqlException){
             throw new ControlsDataGetException(nameCharacter);
         }
+    }
+    public void setSwitchDown(String nameCharacter,String switchDown) {
+        String request = "UPDATE Controls " +
+                "SET " +
+                "switchDown = '" + switchDown +"' " +
+                "WHERE " +
+                "name = '" + nameCharacter + "';";
+        dbManager.updateTable(request);
     }
     public String getSkill1(String nameCharacter) throws ControlsDataGetException{
         ResultSet rs = selectIntoTableControls(nameCharacter);
@@ -138,6 +180,14 @@ public class ControlsDBManager {
             throw new ControlsDataGetException(nameCharacter);
         }
     }
+    public void setSkill1(String nameCharacter,String skill1) {
+        String request = "UPDATE Controls " +
+                "SET " +
+                "skill1 = '" + skill1 +"' " +
+                "WHERE " +
+                "name = '" + nameCharacter + "';";
+        dbManager.updateTable(request);
+    }
     public String getSkill2(String nameCharacter) throws ControlsDataGetException{
         ResultSet rs = selectIntoTableControls(nameCharacter);
         try{
@@ -146,6 +196,14 @@ public class ControlsDBManager {
             throw new ControlsDataGetException(nameCharacter);
         }
     }
+    public void setSkill2(String nameCharacter,String skill2) {
+        String request = "UPDATE Controls " +
+                "SET " +
+                "skill2 = '" + skill2 +"' " +
+                "WHERE " +
+                "name = '" + nameCharacter + "';";
+        dbManager.updateTable(request);
+    }
     public String getSkill3(String nameCharacter) throws ControlsDataGetException{
         ResultSet rs = selectIntoTableControls(nameCharacter);
         try{
@@ -153,6 +211,28 @@ public class ControlsDBManager {
         }catch(SQLException sqlException){
             throw new ControlsDataGetException(nameCharacter);
         }
+    }
+    public void setSkill3(String nameCharacter,String skill3) {
+        String request = "UPDATE Controls " +
+                "SET " +
+                "skill3 = '" + skill3 +"' " +
+                "WHERE " +
+                "name = '" + nameCharacter + "';";
+        dbManager.updateTable(request);
+    }
+
+
+    public ArrayList<String> toArray(String nameCharacter) throws  SQLException {
+        ArrayList<String> result = new ArrayList<>();
+        ResultSet rs = selectIntoTableControls(nameCharacter);
+
+        int columnCount = rs.getMetaData().getColumnCount();
+
+        for (int i = 0; i <columnCount ; i++)
+        {
+            result.add( rs.getString(i + 1) );
+        }
+        return result;
     }
 
    
