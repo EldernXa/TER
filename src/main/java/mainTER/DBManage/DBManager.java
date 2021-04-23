@@ -21,7 +21,6 @@ public class DBManager {
      * @param nameDB name for the database.
      */
     public DBManager(String nameDB, String path){
-        // TODO Create the file with the name nameDB.db if it doesn't exist anymore.
         this.nameDB = "src/" + path + "/resources/" + nameDB;
     }
 
