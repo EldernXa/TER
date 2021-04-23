@@ -265,7 +265,10 @@ public class DisplayCharacter extends CollideObject {
      * Enable event for the key on the level of the game
      */
     private void enableEvent(){
-        lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForMovement);
+        //lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForMovement);
+        lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForLeftMovement);
+        lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForRightMovement);
+        lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForJumpMovement);
 
         lvlOfTheGame.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
             currentKeyCode = null;
@@ -277,7 +280,7 @@ public class DisplayCharacter extends CollideObject {
      * Function who will decide how character will move.
      * @param eventForPressedKey the event who can say what key is pressed.
      */
-    private void eventForMovement(KeyEvent eventForPressedKey){
+/*    private void eventForMovement(KeyEvent eventForPressedKey){
         if(eventForPressedKey.getCode() == KeyCode.D && eventForPressedKey.getCode()!=currentKeyCode){
             walkToRight = true;
             currentKeyCode = eventForPressedKey.getCode();
@@ -289,6 +292,30 @@ public class DisplayCharacter extends CollideObject {
             timelineForReverseWalk();
         }else if(eventForPressedKey.getCode() == KeyCode.SPACE && !verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1) && eventForPressedKey.getCode() != currentKeyCode && character.canJump()){
             currentKeyCode=eventForPressedKey.getCode();
+            isJumping = true;
+            this.jumpStrength = character.getJumpStrength();
+        }
+    }*/
+
+    private void eventForRightMovement(KeyEvent eventForPressedKey){
+        if(eventForPressedKey.getCode() == KeyCode.D && KeyCode.D != currentKeyCode){
+            walkToRight = true;
+            currentKeyCode = eventForPressedKey.getCode();
+            timelineForWalk();
+        }
+    }
+
+    private void eventForLeftMovement(KeyEvent eventForPressedKey){
+        if(eventForPressedKey.getCode() == KeyCode.Q && KeyCode.Q != currentKeyCode){
+            walkToRight = false;
+            currentKeyCode = KeyCode.Q;
+            timelineForReverseWalk();
+        }
+    }
+
+    private void eventForJumpMovement(KeyEvent eventForPressedKey){
+        if(eventForPressedKey.getCode() == KeyCode.SPACE && !verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1) && eventForPressedKey.getCode() != currentKeyCode && character.canJump()){
+            currentKeyCode = eventForPressedKey.getCode();
             isJumping = true;
             this.jumpStrength = character.getJumpStrength();
         }
