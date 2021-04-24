@@ -2,7 +2,6 @@ package mainTER.CharacterGameplay;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
