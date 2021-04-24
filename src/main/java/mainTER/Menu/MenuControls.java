@@ -51,12 +51,12 @@ public class MenuControls {
 
     public void controlDisplay() {
 
-        for (int i = listControls.size() - 1; i >= 0; i--) {
+        for (int i = 0; i <listControls.size(); i++) {
             HBox hbox = new HBox(10);
             Label label = new Label();
             switch (i){
                 case 1 : {
-                    label.setText("leftControl");
+                    label.setText("left");
                     break;
                 }
                 case 2: {
@@ -71,7 +71,7 @@ public class MenuControls {
                     label.setText("switchDown");
                     break;
                 } case 0:{
-                    label.setText("rightControl");
+                    label.setText("right");
                     break;
                 }
 
@@ -92,6 +92,9 @@ public class MenuControls {
                 case "'":
                     button.setText("→");
                     break;
+                case " ":
+                    button.setText("space");
+                    break;
                 default:
                     button.setText(button.getText());
                     break;
@@ -110,7 +113,6 @@ public class MenuControls {
         button.setOnMouseClicked(mouseEvent -> {
 
             String text = button.getText();
-            System.out.println(text);
             labelTitre.setText("Cliquez sur un bouton et appuyez sur une touche.");
             button.setText("");
             button.setOnKeyPressed(keyEvent -> {
@@ -135,6 +137,9 @@ public class MenuControls {
                         case "'":
                             button.setText("→");
                             break;
+                        case " ":
+                            button.setText("space");
+                            break;
                         default:
                             if ((code <= 110 && code >= 97) || code == 10 || code == 20 || code == 9 || code == 0) {
                                 labelTitre.setText("Caractère non correct");
@@ -149,12 +154,11 @@ public class MenuControls {
 
                     } else {
                         switch (label.getText()) {
-                            case "rightControl": {
-                                System.out.println("coco");
+                            case "right": {
                                 controlsDBManager.setRight(control);
                                 break;
                             }
-                            case "leftControl": {
+                            case "left": {
                                 controlsDBManager.setLeft(control);
                                 break;
                             }
