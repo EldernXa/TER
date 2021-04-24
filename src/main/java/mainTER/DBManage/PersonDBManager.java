@@ -1,5 +1,6 @@
 package mainTER.DBManage;
 
+import mainTER.exception.PersonDataAlreadyExistException;
 import mainTER.exception.PersonDataGetException;
 
 import java.sql.ResultSet;
@@ -63,12 +64,18 @@ public class PersonDBManager {
      * @param fallingSpeed the fallingSpeed of the character.
      * @param canJump if the character can jump or not.
      */
-    public void insertIntoTablePerson(String name, double speed, double weight, double jumpStrength, double fallingSpeed, boolean canJump) {
+    public void insertIntoTablePerson(String name, double speed, double weight, double jumpStrength, double fallingSpeed, boolean canJump) throws PersonDataAlreadyExistException{
         // TODO verify insert data
-        // TODO verify data doesn't exist already
         // TODO use PrepareStatement to insert
+        ResultSet resultSet = selectIntoTablePerson(name);
+        try {
+            resultSet.getObject("weight");
+            throw new PersonDataAlreadyExistException(name);
+        } catch (SQLException ignored) {
+
+        }
         String reqValues = "INSERT INTO Person VALUES (" +
-                "'" + name+"'" + "," + speed+","+weight+","+jumpStrength+"," + fallingSpeed + ","+"'"+(canJump?"true":"false")+"'"+
+                "'" + name + "'" + "," + speed + "," + weight + "," + jumpStrength + "," + fallingSpeed + "," + "'" + (canJump ? "true" : "false") + "'" +
                 ")";
         dbManager.createTableOrInsert(reqValues);
     }
