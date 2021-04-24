@@ -1,5 +1,7 @@
 package mainTER.DBManage;
 
+import mainTER.exception.PersonDataAlreadyExistException;
+import mainTER.exception.PersonDataDoesntCorrectException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -101,8 +103,28 @@ class TestPersonDBManager {
     @Test
     void testGetListName(){
         insertValuesIntoPerson();
-        personDBManager.insertIntoTablePerson("Serpent", 5, 6, 4, 3, false);
-        assertEquals(2, personDBManager.getListNameFromDatabase().size());
+        try {
+            personDBManager.insertIntoTablePerson("Serpent", 5, 6, 4, 3, false);
+            assertEquals(2, personDBManager.getListNameFromDatabase().size());
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    void testInsertSamePerson(){
+        insertValuesIntoPerson();
+        assertThrows(PersonDataAlreadyExistException.class, ()->{
+            personDBManager.insertIntoTablePerson(nameCharacter, speed, weight, jumpStrength, fallingSpeed, canJump);
+        });
+    }
+
+    @Test
+    void testInsertIncorrectData(){
+        insertValuesIntoPerson();
+        assertThrows(PersonDataDoesntCorrectException.class, ()->{
+            personDBManager.insertIntoTablePerson("", 0, 0, 0, 0, true);
+        });
     }
 
     private void insertValuesIntoPerson(){
