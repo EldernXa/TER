@@ -28,6 +28,11 @@ public abstract class CollideObject {
 
     public abstract void setCoordinate(Coordinate coordinate);
 
+    public abstract double getX();
+    public abstract double getY();
+    public abstract void setX(double x);
+    public abstract void setY(double y);
+
     /**
      * Simulate the appropriate interaction between two objects
      * @param collideObject

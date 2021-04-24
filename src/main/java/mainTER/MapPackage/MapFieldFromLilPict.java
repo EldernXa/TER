@@ -64,14 +64,6 @@ public class MapFieldFromLilPict extends MapFieldForm {
         return this.path;
     }
 
-    public double getX(){
-        return this.getCoordinate().getX();
-    }
-
-    public double getY(){
-        return this.getCoordinate().getY();
-    }
-
     @Override
     public double getWidth() {
         return super.getWidth();

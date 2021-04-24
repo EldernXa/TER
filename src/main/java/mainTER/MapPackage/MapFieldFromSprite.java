@@ -39,14 +39,6 @@ public class MapFieldFromSprite extends MapFieldForm {
         return this.path;
     }
 
-    public double getX(){
-        return this.getCoordinate().getX();
-    }
-
-    public double getY(){
-        return this.getCoordinate().getY();
-    }
-
     public double getPercent() {
         return percent;
     }

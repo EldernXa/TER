@@ -25,16 +25,6 @@ public class MapFieldRectangle extends MapFieldForm {
         return rectangle;
     }
 
-
-
-    public double getX(){
-        return this.getCoordinate().getX();
-    }
-
-    public double getY(){
-        return this.getCoordinate().getY();
-    }
-
     @Override
     public double getWidth() {
         return super.getWidth();
