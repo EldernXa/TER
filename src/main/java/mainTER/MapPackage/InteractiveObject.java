@@ -31,7 +31,7 @@ public abstract class InteractiveObject extends CollideObject {
 
     @Override
     public void setX(double x) {
-        this.coordinate.setX(x);
+        setCoordinate(new Coordinate(x,getY()));
     }
 
     @Override
@@ -41,7 +41,7 @@ public abstract class InteractiveObject extends CollideObject {
 
     @Override
     public void setY(double y) {
-        this.coordinate.setY(y);
+        setCoordinate(new Coordinate(getX(),y));
     }
 
     public void setCoordinate(Coordinate coordinate) {
