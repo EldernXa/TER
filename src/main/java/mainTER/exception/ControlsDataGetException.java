@@ -4,8 +4,8 @@ public class ControlsDataGetException extends Exception {
 
     private final String message;
 
-    public ControlsDataGetException(String nameCharacter){
-        this.message = "Les informations du personnages " + nameCharacter + " n'existent pas !";
+    public ControlsDataGetException(){
+        this.message = "Les informations des controles n'existent pas !";
     }
 
     @Override

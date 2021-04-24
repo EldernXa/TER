@@ -9,15 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestControlsDBManager {
 
     private final ControlsDBManager controlsDBManager = new ControlsDBManager("test.db");
-    private final String nameCharacter = "Paladin";
     private final String right = "D";
     private final String left = "Q";
     private final String jump = " " ;
     private final String switchUp = "a";
     private final String switchDown = "e";
-    private final String skill1 = "w";
-    private final String skill2 = "x";
-    private final String skill3 = "c";
 
 
 
@@ -45,7 +41,7 @@ public class TestControlsDBManager {
     void testInsertDataIntoTablePerson(){
         try {
             controlsDBManager.createTableControls();
-            controlsDBManager.insertIntoTableControls(nameCharacter,right,left,jump,switchUp,switchDown,skill1,skill2,skill3);
+            controlsDBManager.insertIntoTableControls(right,left,jump,switchUp,switchDown);
         }catch(Exception exception){
             fail();
         }
@@ -56,7 +52,7 @@ public class TestControlsDBManager {
     void testGettingRightFromTableControls(){
         try {
             insertValuesIntoControls();
-            assertEquals(right, controlsDBManager.getRight(nameCharacter));
+            assertEquals(right, controlsDBManager.getRight());
         }catch(Exception exception){
             fail();
         }
@@ -66,8 +62,8 @@ public class TestControlsDBManager {
     void testSetRightFromTableControls(){
         try {
             insertValuesIntoControls();
-            controlsDBManager.setRight("Paladin","s");
-            assertEquals("s",controlsDBManager.getRight("Paladin"));
+            controlsDBManager.setRight("s");
+            assertEquals("s",controlsDBManager.getRight());
         }catch (Exception e){
             fail();
         }
@@ -77,7 +73,7 @@ public class TestControlsDBManager {
     void testGettingLeftFromTableControls(){
         try {
             insertValuesIntoControls();
-            assertEquals(left, controlsDBManager.getLeft(nameCharacter));
+            assertEquals(left, controlsDBManager.getLeft());
         }catch(Exception exception){
             fail();
         }
@@ -86,8 +82,8 @@ public class TestControlsDBManager {
     void testSetLeftFromTableControls(){
         try {
             insertValuesIntoControls();
-            controlsDBManager.setLeft("Paladin","f");
-            assertEquals("f",controlsDBManager.getLeft("Paladin"));
+            controlsDBManager.setLeft("f");
+            assertEquals("f",controlsDBManager.getLeft());
         }catch (Exception e){
             fail();
         }
@@ -97,7 +93,7 @@ public class TestControlsDBManager {
     void testGettingJumpFromTableControls(){
         try {
             insertValuesIntoControls();
-            assertEquals(jump, controlsDBManager.getJump(nameCharacter));
+            assertEquals(jump, controlsDBManager.getJump());
         }catch(Exception exception){
             fail();
         }
@@ -107,8 +103,8 @@ public class TestControlsDBManager {
     void testSetJumpFromTableControls(){
         try {
             insertValuesIntoControls();
-            controlsDBManager.setJump("Paladin","z");
-            assertEquals("z",controlsDBManager.getJump("Paladin"));
+            controlsDBManager.setJump("z");
+            assertEquals("z",controlsDBManager.getJump());
         }catch (Exception e){
             fail();
         }
@@ -118,7 +114,7 @@ public class TestControlsDBManager {
     void testGettingSwitchUpFromTableControls(){
         try {
             insertValuesIntoControls();
-            assertEquals(switchUp, controlsDBManager.getSwitchUp(nameCharacter));
+            assertEquals(switchUp, controlsDBManager.getSwitchUp());
         }catch(Exception exception){
             fail();
         }
@@ -128,8 +124,8 @@ public class TestControlsDBManager {
     void testSetSwitchUpFromTableControls(){
         try {
             insertValuesIntoControls();
-            controlsDBManager.setSwitchUp("Paladin","h");
-            assertEquals("h",controlsDBManager.getSwitchUp("Paladin"));
+            controlsDBManager.setSwitchUp("h");
+            assertEquals("h",controlsDBManager.getSwitchUp());
         }catch (Exception e){
             fail();
         }
@@ -138,7 +134,7 @@ public class TestControlsDBManager {
     void testGettingSwitchDownFromTableControls(){
         try {
             insertValuesIntoControls();
-            assertEquals(switchDown, controlsDBManager.getSwitchDown(nameCharacter));
+            assertEquals(switchDown, controlsDBManager.getSwitchDown());
         }catch(Exception exception){
             exception.printStackTrace();
             fail();
@@ -149,84 +145,20 @@ public class TestControlsDBManager {
     void testSetSwitchDownFromTableControls(){
         try {
             insertValuesIntoControls();
-            controlsDBManager.setSwitchDown("Paladin","t");
-            assertEquals("t",controlsDBManager.getSwitchDown("Paladin"));
+            controlsDBManager.setSwitchDown("t");
+            assertEquals("t",controlsDBManager.getSwitchDown());
         }catch (Exception e){
             fail();
         }
     }
 
-    @Test
-    void testGettingSkill1FromTableControls(){
-        try {
-            insertValuesIntoControls();
-            assertEquals(skill1, controlsDBManager.getSkill1(nameCharacter));
-        }catch(Exception exception){
-            fail();
-        }
-    }
-    @Test
-    void testSetSkill1FromTableControls(){
-        try {
-            insertValuesIntoControls();
-            controlsDBManager.setSkill1("Paladin","j");
-            assertEquals("j",controlsDBManager.getSkill1("Paladin"));
-        }catch (Exception e){
-            fail();
-        }
-    }
-
-    @Test
-    void testGettingSkill2FromTableControls(){
-        try {
-            insertValuesIntoControls();
-            assertEquals(skill2, controlsDBManager.getSkill2(nameCharacter));
-        }catch(Exception exception){
-            fail();
-        }
-    }
-    @Test
-    void testSetSkill2FromTableControls(){
-        try {
-            insertValuesIntoControls();
-            controlsDBManager.setSkill2("Paladin","p");
-            assertEquals("p",controlsDBManager.getSkill2("Paladin"));
-        }catch (Exception e){
-            fail();
-        }
-    }
-    @Test
-    void testGettingSkill3FromTableControls(){
-        try {
-            insertValuesIntoControls();
-            assertEquals(skill3, controlsDBManager.getSkill3(nameCharacter));
-        }catch(Exception exception){
-            fail();
-        }
-    }
-    @Test
-    void testSetSkill3FromTableControls(){
-        try {
-            insertValuesIntoControls();
-            controlsDBManager.setSkill3("Paladin","n");
-            assertEquals("n",controlsDBManager.getSkill3("Paladin"));
-        }catch (Exception e){
-            fail();
-        }
-    }
-    @Test
-    void testGetListName(){
-        insertValuesIntoControls();
-        controlsDBManager.insertIntoTableControls("Serpent","d","q"," ","a","e","w","x","c");
-        assertEquals(2, controlsDBManager.getListNameFromDatabase().size());
-    }
 
     private void insertValuesIntoControls(){
         try{
             controlsDBManager.createTableControls();
-            controlsDBManager.insertIntoTableControls(nameCharacter,right,left,jump,switchUp,switchDown,skill1,skill2,skill3);
+            controlsDBManager.insertIntoTableControls(right,left,jump,switchUp,switchDown);
 
-            System.out.println(controlsDBManager.toArray(nameCharacter));
+            System.out.println(controlsDBManager.toArray());
         }catch(Exception sqlException){
             sqlException.printStackTrace();
             fail();

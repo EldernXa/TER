@@ -16,21 +16,15 @@ public class ControlsDBManager {
         this.dbManager = new DBManager(nameFileDB,"test");
     }
 
-    public ControlsDBManager(DBManager dbManager) {
-        this.dbManager = dbManager;
-    }
+    public ControlsDBManager(){this.dbManager = new DBManager(); };
 
     public void createTableControls(){
         dbManager.createTableOrInsert("CREATE TABLE Controls (" +
-                "name VARCHAR(30) PRIMARY KEY,"+
                 "rightControl VARCHAR(30)," +
                 "leftControl VARCHAR(30)," +
                 "jump VARCHAR(30)," +
                 "switchUp VARCHAR(30)," +
-                "switchDown VARCHAR(30)," +
-                "skill1 VARCHAR(30)," +
-                "skill2 VARCHAR(30),"+
-                "skill3 VARCHAR(30)"+
+                "switchDown VARCHAR(30)" +
                 ");");
     }
     public void removeTableControls(){
@@ -42,189 +36,118 @@ public class ControlsDBManager {
     }
 
 
-    public void insertIntoTableControls(String name, String... characters) {
+    public void insertIntoTableControls(String... controls) {
         // TODO verify insert data
         // TODO verify data doesn't exist already
-        // TODO use PrepareStatement to insert
 
 
 
-        String reqValues = "INSERT INTO Controls VALUES (" +
-                "'" + name+"'";
-                for(String character : characters){
-                    reqValues += ",'" + character +"'";
+        String reqValues = "INSERT INTO Controls VALUES (";
+
+                for(String control : controls){
+                    reqValues += "'" + control +"',";
                 }
+                reqValues = reqValues.substring(0,reqValues.length()-1);
                  reqValues += ")";
         dbManager.createTableOrInsert(reqValues);
     }
 
 
-    public List<String> getListNameFromDatabase(){
-        ArrayList<String> listName = new ArrayList<>();
-        ResultSet rs;
-        try{
-            rs = dbManager.selectIntoTable("SELECT * FROM Controls;");
-            while(rs.next()){
-                listName.add((String)rs.getObject("name"));
-            }
-        }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données.");
-        }
-        return listName;
-    }
 
-    private ResultSet selectIntoTableControls(String nameCharacter){
+    private ResultSet selectIntoTableControls(){
         ResultSet rs = null;
         try {
-            rs = dbManager.selectIntoTable("SELECT *" +
-                    " FROM Controls WHERE name = '" + nameCharacter + "'");
+            rs = dbManager.selectIntoTable("SELECT * FROM Controls");
             rs.next();
         }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données du controlsnages " + nameCharacter);
+            System.out.println("Problème dans la récupération de données des controls ");
         }
         return rs;
     }
 
 
-    public String getLeft(String nameCharacter) throws ControlsDataGetException {
-        ResultSet rs = selectIntoTableControls(nameCharacter);
+    public String getLeft() throws ControlsDataGetException {
+        ResultSet rs = selectIntoTableControls();
         try {
 
             return (String)rs.getObject("leftControl");
         }catch(SQLException sqlException){
-            throw new ControlsDataGetException(nameCharacter);
+            throw new ControlsDataGetException();
         }
     }
 
-    public void setLeft(String nameCharacter,String left) {
+    public void setLeft(String left) {
         String request = "UPDATE Controls " +
                 "SET " +
-                "leftControl = '" + left +"' " +
-                "WHERE " +
-                "name = '" + nameCharacter + "';";
+                "leftControl = '" + left + "';";
         dbManager.updateTable(request);
     }
 
-    public String getRight(String nameCharacter) throws ControlsDataGetException{
-        ResultSet rs = selectIntoTableControls(nameCharacter);
+    public String getRight() throws ControlsDataGetException{
+        ResultSet rs = selectIntoTableControls();
         try{
             return (String) rs.getObject("rightControl");
         }catch(SQLException sqlException){
-            throw new ControlsDataGetException(nameCharacter);
+            throw new ControlsDataGetException();
         }
     }
-    public void setRight(String nameCharacter,String right) {
+    public void setRight(String right) {
         String request = "UPDATE Controls " +
                 "SET " +
-                "rightControl = '" + right +"' " +
-                "WHERE " +
-                "name = '" + nameCharacter + "';";
+                "rightControl = '" + right + "';";
         dbManager.updateTable(request);
     }
 
-    public String getJump(String nameCharacter) throws ControlsDataGetException{
-        ResultSet rs = selectIntoTableControls(nameCharacter);
+    public String getJump() throws ControlsDataGetException{
+        ResultSet rs = selectIntoTableControls();
         try{
             return (String) rs.getObject("jump");
         }catch(SQLException sqlException){
-            throw new ControlsDataGetException(nameCharacter);
+            throw new ControlsDataGetException();
         }
     }
-    public void setJump(String nameCharacter,String jump) {
+    public void setJump(String jump) {
         String request = "UPDATE Controls " +
                 "SET " +
-                "jump = '" + jump +"' " +
-                "WHERE " +
-                "name = '" + nameCharacter + "';";
+                "jump = '" + jump + "';";
         dbManager.updateTable(request);
     }
 
-    public String getSwitchUp(String nameCharacter) throws ControlsDataGetException{
-        ResultSet rs = selectIntoTableControls(nameCharacter);
+    public String getSwitchUp() throws ControlsDataGetException{
+        ResultSet rs = selectIntoTableControls();
         try{
             return (String)rs.getObject("switchUp");
         }catch(SQLException sqlException)
         {
-            throw new ControlsDataGetException(nameCharacter);
+            throw new ControlsDataGetException();
         }
     }
-    public void setSwitchUp(String nameCharacter,String switchUp) {
+    public void setSwitchUp(String switchUp) {
         String request = "UPDATE Controls " +
                 "SET " +
-                "switchUp = '" + switchUp +"' " +
-                "WHERE " +
-                "name = '" + nameCharacter + "';";
+                "switchUp = '" + switchUp + "';";
         dbManager.updateTable(request);
     }
-    public String getSwitchDown(String nameCharacter) throws ControlsDataGetException{
-        ResultSet rs = selectIntoTableControls(nameCharacter);
+    public String getSwitchDown() throws ControlsDataGetException{
+        ResultSet rs = selectIntoTableControls();
         try{
             return (String) rs.getObject("switchDown");
         }catch(SQLException sqlException){
-            throw new ControlsDataGetException(nameCharacter);
+            throw new ControlsDataGetException();
         }
     }
-    public void setSwitchDown(String nameCharacter,String switchDown) {
+    public void setSwitchDown(String switchDown) {
         String request = "UPDATE Controls " +
                 "SET " +
-                "switchDown = '" + switchDown +"' " +
-                "WHERE " +
-                "name = '" + nameCharacter + "';";
-        dbManager.updateTable(request);
-    }
-    public String getSkill1(String nameCharacter) throws ControlsDataGetException{
-        ResultSet rs = selectIntoTableControls(nameCharacter);
-        try{
-            return (String) rs.getObject("skill1");
-        }catch(SQLException sqlException){
-            throw new ControlsDataGetException(nameCharacter);
-        }
-    }
-    public void setSkill1(String nameCharacter,String skill1) {
-        String request = "UPDATE Controls " +
-                "SET " +
-                "skill1 = '" + skill1 +"' " +
-                "WHERE " +
-                "name = '" + nameCharacter + "';";
-        dbManager.updateTable(request);
-    }
-    public String getSkill2(String nameCharacter) throws ControlsDataGetException{
-        ResultSet rs = selectIntoTableControls(nameCharacter);
-        try{
-            return (String) rs.getObject("skill2");
-        }catch(SQLException sqlException){
-            throw new ControlsDataGetException(nameCharacter);
-        }
-    }
-    public void setSkill2(String nameCharacter,String skill2) {
-        String request = "UPDATE Controls " +
-                "SET " +
-                "skill2 = '" + skill2 +"' " +
-                "WHERE " +
-                "name = '" + nameCharacter + "';";
-        dbManager.updateTable(request);
-    }
-    public String getSkill3(String nameCharacter) throws ControlsDataGetException{
-        ResultSet rs = selectIntoTableControls(nameCharacter);
-        try{
-            return (String) rs.getObject("skill3");
-        }catch(SQLException sqlException){
-            throw new ControlsDataGetException(nameCharacter);
-        }
-    }
-    public void setSkill3(String nameCharacter,String skill3) {
-        String request = "UPDATE Controls " +
-                "SET " +
-                "skill3 = '" + skill3 +"' " +
-                "WHERE " +
-                "name = '" + nameCharacter + "';";
+                "switchDown = '" + switchDown + "';";
         dbManager.updateTable(request);
     }
 
 
-    public ArrayList<String> toArray(String nameCharacter) throws  SQLException {
+
+    public ArrayList<String> toArray() throws  SQLException {
         ArrayList<String> result = new ArrayList<>();
-        ResultSet rs = selectIntoTableControls(nameCharacter);
+        ResultSet rs = selectIntoTableControls();
 
         int columnCount = rs.getMetaData().getColumnCount();
 
