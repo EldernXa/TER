@@ -334,7 +334,7 @@ public class DisplayCharacter extends CollideObject {
     }
 
     @Override
-    public void setX(double x) {
+    public void setX(double x) { //Ne devrait pas foncitonner
         this.currentCoordinateOfTheCharacter.setX(x);
     }
 
@@ -344,12 +344,12 @@ public class DisplayCharacter extends CollideObject {
     }
 
     @Override
-    public void setY(double y) {
+    public void setY(double y) { //Ne devrait pas foncitonner
         this.currentCoordinateOfTheCharacter.setY(y);
     }
 
     @Override
-    public void setCoordinate(Coordinate coordinate) {
+    public void setCoordinate(Coordinate coordinate) { //Ne devrait pas foncitonner
         this.getCoordinate().setX(coordinate.getX());
         this.getCoordinate().setY(coordinate.getY());
     }

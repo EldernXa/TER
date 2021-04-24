@@ -67,6 +67,19 @@ public class MapFieldRectangle extends MapFieldForm {
 
     @Override
     public void setCoordinate(Coordinate coordinate) {
-        super.setCoordinate(coordinate);
+        setX(coordinate.getY());
+        setY(coordinate.getY());
+    }
+
+    @Override
+    public void setX(double x) {
+        this.setCoordinate(new Coordinate(x, getY()));
+        rectangle.setX(getX());
+    }
+
+    @Override
+    public void setY(double y) {
+        this.setCoordinate(new Coordinate(getX(), y));
+        rectangle.setY(getY());
     }
 }

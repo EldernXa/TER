@@ -105,7 +105,20 @@ public class MapFieldFromLilPict extends MapFieldForm {
 
     @Override
     public void setCoordinate(Coordinate coordinate) {
-        super.setCoordinate(coordinate);
+        setX(coordinate.getX());
+        setY(coordinate.getY());
+    }
+
+    @Override
+    public void setX(double x) {
+        this.getCoordinate().setX(x);
+        pane.setLayoutX(getX());
+    }
+
+    @Override
+    public void setY(double y) {
+        this.getCoordinate().setY(y);
+        pane.setLayoutY(getY());
     }
 
     @Override
