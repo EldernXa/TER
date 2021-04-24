@@ -5,6 +5,8 @@ import javafx.scene.image.ImageView;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
+import java.security.cert.CertificateParsingException;
+
 public class MapFieldFromSprite extends MapFieldForm {
 
     private ImageViewSizePos imageViewSizePos;
@@ -85,6 +87,19 @@ public class MapFieldFromSprite extends MapFieldForm {
 
     @Override
     public void setCoordinate(Coordinate coordinate) {
-        super.setCoordinate(coordinate);
+        setX(coordinate.getX());
+        setY(coordinate.getY());
+    }
+
+    @Override
+    public void setX(double x) {
+        this.getCoordinate().setX(x);
+        this.imageViewSizePos.setCoordinate(new Coordinate(getX(),getY()));
+    }
+
+    @Override
+    public void setY(double y) {
+        this.getCoordinate().setY(y);
+        this.imageViewSizePos.setCoordinate(new Coordinate(getX(),getY()));
     }
 }
