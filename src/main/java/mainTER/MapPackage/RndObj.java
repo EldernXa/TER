@@ -12,13 +12,12 @@ public class RndObj extends CollideObject {
 
 
 
-    public RndObj(String rndObjName, Coordinate coordinate) { //TODO implicite name
+    public RndObj(String rndObjName, Coordinate coordinate) {
 
         this.rndObjName = rndObjName;
         this.coordinate = coordinate;
+
         imageViewSizePos = new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Sprites/Front" + rndObjName + ".png",coordinate);
-
-
         imageViewSizePos.getImageView().setFitHeight(imageViewSizePos.getImageView().getImage().getHeight());
         imageViewSizePos.getImageView().setFitWidth(imageViewSizePos.getImageView().getImage().getWidth());
 
@@ -41,6 +40,26 @@ public class RndObj extends CollideObject {
     @Override
     public Coordinate getCoordinate() {
         return this.coordinate;
+    }
+
+    @Override
+    public double getX() {
+        return this.coordinate.getX();
+    }
+
+    @Override
+    public void setX(double x) {
+        this.coordinate.setX(x);
+    }
+
+    @Override
+    public double getY() {
+        return this.coordinate.getY();
+    }
+
+    @Override
+    public void setY(double y) {
+        this.coordinate.setY(y);
     }
 
     @Override

@@ -69,7 +69,6 @@ public class MapFileReader {
                         else {
 
                             double imageHeight = heightFromName(spriteName);
-                            System.out.println(spriteName);
                             fieldFromSprite = new MapFieldFromSprite(spriteName, new Coordinate(doubles[2], doubles[3]-imageHeight), doubles[4]);
                             collideObjectArrayList.add(fieldFromSprite);
                         }

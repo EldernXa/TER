@@ -24,6 +24,26 @@ public abstract class InteractiveObject extends CollideObject {
         return coordinate;
     }
 
+    @Override
+    public double getX() {
+        return this.coordinate.getX();
+    }
+
+    @Override
+    public void setX(double x) {
+        this.coordinate.setX(x);
+    }
+
+    @Override
+    public double getY() {
+        return this.coordinate.getY();
+    }
+
+    @Override
+    public void setY(double y) {
+        this.coordinate.setY(y);
+    }
+
     public void setCoordinate(Coordinate coordinate) {
         this.coordinate = coordinate;
         this.imageViewSizePos.setCoordinate(coordinate);

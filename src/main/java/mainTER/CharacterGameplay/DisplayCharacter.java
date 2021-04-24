@@ -325,7 +325,27 @@ public class DisplayCharacter extends CollideObject {
 
     @Override
     public Coordinate getCoordinate() {
-        return new Coordinate(this.animationForTheCharacter.actualImg().getX(), this.animationForTheCharacter.actualImg().getY());//TODO a voir
+        return currentCoordinateOfTheCharacter;
+    }
+
+    @Override
+    public double getX() {
+        return this.currentCoordinateOfTheCharacter.getX();
+    }
+
+    @Override
+    public void setX(double x) {
+        this.currentCoordinateOfTheCharacter.setX(x);
+    }
+
+    @Override
+    public double getY() {
+        return this.currentCoordinateOfTheCharacter.getY();
+    }
+
+    @Override
+    public void setY(double y) {
+        this.currentCoordinateOfTheCharacter.setY(y);
     }
 
     @Override
