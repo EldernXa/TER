@@ -7,16 +7,16 @@ import mainTER.Tools.ImageViewSizePos;
 public class RndObj extends CollideObject {
 
     private ImageViewSizePos imageViewSizePos;
-    private String path;
+    private String rndObjName;
     private Coordinate coordinate;
 
 
 
-    public RndObj(String path, Coordinate coordinate) { //TODO implicite name
+    public RndObj(String rndObjName, Coordinate coordinate) { //TODO implicite name
 
-        this.path = path;
+        this.rndObjName = rndObjName;
         this.coordinate = coordinate;
-        imageViewSizePos = new ImageViewSizePos(path,coordinate);
+        imageViewSizePos = new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Sprites/Front" + rndObjName+".png",coordinate);
 
 
         imageViewSizePos.getImageView().setFitHeight(imageViewSizePos.getImageView().getImage().getHeight());

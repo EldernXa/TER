@@ -25,11 +25,11 @@ public class MapFieldFromLilPict extends MapFieldForm {
     private double height;
 
 
-    public MapFieldFromLilPict(String path, Coordinate coordinate, double width, double height) {
+    public MapFieldFromLilPict(String spriteName, Coordinate coordinate, double width, double height) {
 
         super(coordinate, width, height);
-        image = new Image(new File(path).toURI().toString());
-        this.path = path;
+        this.path = "./src/main/resources/mainTER/MapPackage/Sprites/Front/" + spriteName +".png";
+        image = new Image(new File(this.path).toURI().toString());
         pane = new Pane();
         this.coordinate = coordinate;
         this.width = width;
@@ -71,7 +71,7 @@ public class MapFieldFromLilPict extends MapFieldForm {
     }
 
     public String getPath() {
-        return path;
+        return this.path;
     }
 
     public Coordinate getCoordinate() {

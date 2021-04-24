@@ -63,14 +63,14 @@ public class MapFileReader {
                         }
 
                         if (line[1].equals("L")) {
-                            fieldFromLilPict = new MapFieldFromLilPict("./src/main/resources/mainTER/MapPackage/Sprites/Front/" + spriteName, new Coordinate(doubles[2], doubles[3]), doubles[4], doubles[5]);
+                            fieldFromLilPict = new MapFieldFromLilPict(spriteName, new Coordinate(doubles[2], doubles[3]), doubles[4], doubles[5]);
                             collideObjectArrayList.add(fieldFromLilPict);
                         }
                         else {
 
-                            ImageView picture = new ImageView();
-                            picture.setImage(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Front/" + spriteName).toURI().toString()));
-                            fieldFromSprite = new MapFieldFromSprite("./src/main/resources/mainTER/MapPackage/Sprites/Front/" + spriteName, new Coordinate(doubles[2], doubles[3]-picture.getImage().getHeight()), doubles[4]);
+                            double imageHeight = heightFromName(spriteName);
+                            System.out.println(spriteName);
+                            fieldFromSprite = new MapFieldFromSprite(spriteName, new Coordinate(doubles[2], doubles[3]-imageHeight), doubles[4]);
                             collideObjectArrayList.add(fieldFromSprite);
                         }
                     }
@@ -82,15 +82,16 @@ public class MapFileReader {
                             doubles[j] = Integer.parseInt(line[j]);
 
                         }
-                        ImageView picture2 = new ImageView();
-                        picture2.setImage(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Front/trunk.png").toURI().toString()));
+
+                        double imageHeight2;
 
                         switch (line[0]) {//Add case when new object
                             case "crate":
                                 collideObjectArrayList.add(new Crate(new Coordinate(doubles[1], doubles[2])));
                                 break;
-                            case "rndobj" :
-                                collideObjectArrayList.add(new RndObj("./src/main/resources/mainTER/MapPackage/Sprites/Front/trunk.png",new Coordinate(doubles[1], doubles[2]-picture2.getImage().getHeight())));
+                            case "trunk" :
+                                imageHeight2 = heightFromName(line[0]);
+                                collideObjectArrayList.add(new RndObj(line[0],new Coordinate(doubles[1], doubles[2]-imageHeight2)));
                                 break;
                         }
                     }
@@ -101,7 +102,10 @@ public class MapFileReader {
         }
     }
 
-    //TODO generaliser le calcul des pos Y
+    private double heightFromName(String name){
+        Image image = new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Front/"+name+".png").toURI().toString());
+        return image.getHeight();
+    }
 
     public ArrayList<CollideObject> getCollisionObjectArrayList() {
         return collideObjectArrayList;
