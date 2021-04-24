@@ -26,7 +26,7 @@ public class MenuSettings {
     private final Label titre = new Label("Paramètres");
     MenuBox vbox = new MenuBox(
             new MenuItem("SOUND SETTINGS",stage),
-            new MenuItem("CONTROLERS SETTINGS",stage)
+            new MenuItem("CONTROLS SETTINGS",stage)
     );
 
     MenuSound menuSound;
@@ -39,18 +39,15 @@ public class MenuSettings {
             //scene.getStylesheets().add(new File("./ressources/style.css").toURI().toString());
             titre.setStyle("-fx-font-size: 30px");
 
-
-
-
             pane.setStyle("-fx-background-color: lightgray");
-            pane.getChildren().addAll(titre,revenir.getImageView());
+            pane.getChildren().addAll(titre);
             vbox.setTranslateX(290);
             vbox.setTranslateY(170);
             vbox.setSpacing(5);
             pane.getChildren().add(vbox);
             //setRevenir();
 
-            StackPane.setAlignment(revenir.getImageView(),Pos.TOP_LEFT);
+           // StackPane.setAlignment(revenir.getImageView(),Pos.TOP_LEFT);
             StackPane.setAlignment(titre,Pos.TOP_CENTER);
 
             stage.setScene(scene);

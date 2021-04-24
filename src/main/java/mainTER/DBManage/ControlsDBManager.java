@@ -158,5 +158,13 @@ public class ControlsDBManager {
         return result;
     }
 
+    public void initializeControls(){
+        setJump(" ");
+        setLeft("q");
+        setSwitchUp("a");
+        setSwitchDown("e");
+        setRight("d");
+    }
+
    
 }

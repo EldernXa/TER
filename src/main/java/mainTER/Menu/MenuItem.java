@@ -39,6 +39,7 @@ import mainTER.Tools.Coordinate;
 
 import java.awt.*;
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -126,12 +127,9 @@ public class MenuItem extends StackPane {
                     DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0), collide);
 
 
-
                     SwitchCharacter sc = new SwitchCharacter(listCharacter);
 
                     //Make the scene scale if the screen is larger
-
-
 
                     double height = Screen.getPrimary().getBounds().getHeight();
                     double h = height/background.getImage().getHeight();
@@ -216,6 +214,15 @@ public class MenuItem extends StackPane {
                 case "SOUND SETTINGS": {
                     MenuSound menuSound = new MenuSound(stage);
                     stage.setScene(menuSound.getScene());
+                }
+                case "CONTROLS SETTINGS" : {
+
+                    try {
+                        MenuControls menuControls = new MenuControls();
+                        stage.setScene(menuControls.getScene());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
             }
         });
