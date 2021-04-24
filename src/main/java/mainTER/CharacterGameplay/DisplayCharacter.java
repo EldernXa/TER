@@ -123,9 +123,12 @@ public class DisplayCharacter extends CollideObject {
     private void doJump(double height) {
         removeAllImgViewOfThePane();
         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()-jumpStrength);
-        jumpStrength-= character.getWeight();
-        if(jumpStrength<=0)
+        jumpStrength-= character.getWeight()*0.2;
+        System.out.println(jumpStrength);
+        if(jumpStrength<=0) {
             isJumping = false;
+            jumpStrength = 0;
+        }
         ImageView imgView = animationForTheCharacter.nextImage();
         double newHeight = height-imgView.getImage().getHeight();
         System.out.println(newHeight);
@@ -195,9 +198,11 @@ public class DisplayCharacter extends CollideObject {
 
                         removeAllImgViewOfThePane();
                         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()-jumpStrength-newHeight);
-                        jumpStrength-= character.getWeight();
-                        if(jumpStrength<=0)
+                        jumpStrength-= character.getWeight()*0.2;
+                        if(jumpStrength<=0) {
                             isJumping = false;
+                            jumpStrength = 0;
+                        }
                         adaptYToHeight(height);
                     }
                     else if(verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1)){
