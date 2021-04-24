@@ -2,6 +2,7 @@ package mainTER.Tools;
 
 import mainTER.DBManage.PersonDBManager;
 import mainTER.exception.PersonDataAlreadyExistException;
+import mainTER.exception.PersonDataDoesntCorrectException;
 
 public class DataInsert {
 
@@ -20,6 +21,8 @@ public class DataInsert {
             personDBManager.insertIntoTablePerson("HommeDragon", 10, 5, 8, 2, true);
         }catch(PersonDataAlreadyExistException personDataAlreadyExistException){
             System.out.println("Problème dans l'insertion des données des Personnages.");
+        }catch(PersonDataDoesntCorrectException personDataDoesntCorrectException){
+            System.out.println("Les données inséres ne sont pas correcte.");
         }
     }
 

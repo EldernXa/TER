@@ -1,6 +1,7 @@
 package mainTER.DBManage;
 
 import mainTER.exception.PersonDataAlreadyExistException;
+import mainTER.exception.PersonDataDoesntCorrectException;
 import mainTER.exception.PersonDataGetException;
 
 import java.sql.ResultSet;
@@ -63,10 +64,11 @@ public class PersonDBManager {
      * @param jumpStrength jumpStrength of the character.
      * @param fallingSpeed the fallingSpeed of the character.
      * @param canJump if the character can jump or not.
+     * @throws PersonDataAlreadyExistException if the character is already in the databases.
+     * @throws PersonDataDoesntCorrectException if the data inserted isn't correct.
      */
-    public void insertIntoTablePerson(String name, double speed, double weight, double jumpStrength, double fallingSpeed, boolean canJump) throws PersonDataAlreadyExistException{
-        // TODO verify insert data
-        // TODO use PrepareStatement to insert
+    public void insertIntoTablePerson(String name, double speed, double weight, double jumpStrength, double fallingSpeed, boolean canJump)
+            throws PersonDataAlreadyExistException, PersonDataDoesntCorrectException{
         ResultSet resultSet = selectIntoTablePerson(name);
         try {
             resultSet.getObject("weight");
@@ -74,10 +76,14 @@ public class PersonDBManager {
         } catch (SQLException ignored) {
 
         }
-        String reqValues = "INSERT INTO Person VALUES (" +
-                "'" + name + "'" + "," + speed + "," + weight + "," + jumpStrength + "," + fallingSpeed + "," + "'" + (canJump ? "true" : "false") + "'" +
-                ")";
-        dbManager.createTableOrInsert(reqValues);
+        if(name.compareTo("")!=0 && speed>0 && weight>0 && jumpStrength>=0 &&fallingSpeed>=0) {
+            String reqValues = "INSERT INTO Person VALUES (" +
+                    "'" + name + "'" + "," + speed + "," + weight + "," + jumpStrength + "," + fallingSpeed + "," + "'" + (canJump ? "true" : "false") + "'" +
+                    ")";
+            dbManager.createTableOrInsert(reqValues);
+        }else{
+            throw new PersonDataDoesntCorrectException(name);
+        }
     }
 
     /**
