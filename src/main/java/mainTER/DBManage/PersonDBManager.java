@@ -1,6 +1,5 @@
 package mainTER.DBManage;
 
-import mainTER.CharacterGameplay.Character;
 import mainTER.exception.PersonDataGetException;
 
 import java.sql.ResultSet;
@@ -11,14 +10,25 @@ import java.util.List;
 public class PersonDBManager {
     private final DBManager dbManager;
 
+
+    /**
+     * Create or use (if already exist) file database for the application.
+     */
     public PersonDBManager(){
         this.dbManager = new DBManager();
     }
 
+    /**
+     * Create or use (if already exist) file database for the test here.
+     * @param nameFileDB name of the database.
+     */
     public PersonDBManager(String nameFileDB){
-        this.dbManager = new DBManager(nameFileDB, "main");
+        this.dbManager = new DBManager(nameFileDB, "test");
     }
 
+    /**
+     * Create a table Person.
+     */
     public void createTablePerson(){
         dbManager.createTableOrInsert("CREATE TABLE Person (" +
                 "name VARCHAR(30) PRIMARY KEY," +
@@ -30,14 +40,29 @@ public class PersonDBManager {
                 ");");
     }
 
+    /**
+     * Remove the table Person.
+     */
     public void removeTablePerson(){
         dbManager.dropTable("Person");
     }
 
+    /**
+     * remove all table.
+     */
     public void dropCascade(){
         dbManager.dropCascade();
     }
 
+    /**
+     * Insert values into table Person.
+     * @param name name of the character.
+     * @param speed speed of the character.
+     * @param weight weight of the character.
+     * @param jumpStrength jumpStrength of the character.
+     * @param fallingSpeed the fallingSpeed of the character.
+     * @param canJump if the character can jump or not.
+     */
     public void insertIntoTablePerson(String name, double speed, double weight, double jumpStrength, double fallingSpeed, boolean canJump) {
         // TODO verify insert data
         // TODO verify data doesn't exist already
@@ -48,6 +73,10 @@ public class PersonDBManager {
         dbManager.createTableOrInsert(reqValues);
     }
 
+    /**
+     *
+     * @return list of the name present in the table person.
+     */
     public List<String> getListNameFromDatabase(){
         ArrayList<String> listName = new ArrayList<>();
         ResultSet rs;
@@ -62,6 +91,11 @@ public class PersonDBManager {
         return listName;
     }
 
+    /**
+     *
+     * @param nameCharacter name of the character we want to get.
+     * @return the data of the character with nameCharacter as name.
+     */
     private ResultSet selectIntoTablePerson(String nameCharacter){
         ResultSet rs = null;
         try {
@@ -74,6 +108,12 @@ public class PersonDBManager {
         return rs;
     }
 
+    /**
+     *
+     * @param nameCharacter the name of the Character
+     * @return the speed of the character
+     * @throws PersonDataGetException if the data speed of the character doesn't exist or if the character doesn't exist.
+     */
     public double getSpeed(String nameCharacter) throws PersonDataGetException{
         ResultSet rs = selectIntoTablePerson(nameCharacter);
         try {
@@ -83,6 +123,12 @@ public class PersonDBManager {
         }
     }
 
+    /**
+     *
+     * @param nameCharacter the name of the Character.
+     * @return if the character can jump or not
+     * @throws PersonDataGetException if the data canJump of the character doesn't exist or if the character doesn't exist.
+     */
     public boolean getCanJump(String nameCharacter) throws PersonDataGetException{
         ResultSet rs = selectIntoTablePerson(nameCharacter);
         try{
@@ -92,6 +138,12 @@ public class PersonDBManager {
         }
     }
 
+    /**
+     *
+     * @param nameCharacter the name of the character.
+     * @return the JumpStrength of the character.
+     * @throws PersonDataGetException if the data jumpStrength of the character doesn't exist or if the character doesn't exist.
+     */
     public double getJumpStrength(String nameCharacter) throws PersonDataGetException{
         ResultSet rs = selectIntoTablePerson(nameCharacter);
         try{
@@ -101,6 +153,12 @@ public class PersonDBManager {
         }
     }
 
+    /**
+     *
+     * @param nameCharacter the name of the character.
+     * @return the weight of the character.
+     * @throws PersonDataGetException if the data weight of the character doesn't exist or if the character doesn't exist.
+     */
     public double getWeight(String nameCharacter) throws PersonDataGetException{
         ResultSet rs = selectIntoTablePerson(nameCharacter);
         try{
@@ -111,23 +169,18 @@ public class PersonDBManager {
         }
     }
 
+    /**
+     *
+     * @param nameCharacter the name of the character.
+     * @return the fallingSpeed of the character.
+     * @throws PersonDataGetException if the data fallingSpeed of the character doesn't exist or if the character doesn't exist.
+     */
     public double getFallingSpeed(String nameCharacter) throws PersonDataGetException{
         ResultSet rs = selectIntoTablePerson(nameCharacter);
         try{
             return (double)rs.getObject("fallingSpeed");
         }catch(SQLException sqlException){
             throw new PersonDataGetException(nameCharacter);
-        }
-    }
-
-    public void toStringPerson(String nameCharacter){
-        ResultSet resultSet = selectIntoTablePerson(nameCharacter);
-        try {
-            System.out.println("Personnage : " + resultSet.getObject("name") +", "+
-                    resultSet.getObject("speed")+ ", " + resultSet.getObject("weight")+
-                    ", " + resultSet.getObject("jumpStrength")+", "+resultSet.getObject("canJump"));
-        }catch(SQLException sqlException){
-            System.out.println("Problème dans l'affichage des données de " + nameCharacter);
         }
     }
 
