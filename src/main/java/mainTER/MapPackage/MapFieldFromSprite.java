@@ -9,7 +9,6 @@ public class MapFieldFromSprite extends MapFieldForm {
 
     private ImageViewSizePos imageViewSizePos;
     private String path;
-    private Coordinate coordinate;
     private double percent;
 
 
@@ -17,8 +16,9 @@ public class MapFieldFromSprite extends MapFieldForm {
     public MapFieldFromSprite(String spriteName, Coordinate coordinate, double percent) {
 
         super(coordinate, 0, 0);
-        this.path = "./src/main/resources/mainTER/MapPackage/Sprites/Front/"+ spriteName +".png";
-        this.coordinate = coordinate;
+        setWidth(imageViewSizePos.getImageView().getImage().getWidth());
+        setHeight(imageViewSizePos.getImageView().getImage().getHeight());
+        this.path = "./src/main/resources/mainTER/MapPackage/Sprites/Front/" + spriteName + ".png";
         this.percent = percent;
         imageViewSizePos = new ImageViewSizePos(this.path,coordinate);
 
@@ -34,17 +34,9 @@ public class MapFieldFromSprite extends MapFieldForm {
         return imageViewSizePos;
     }
 
-    @Override
-    public Node getAppropriateNode() {
-        return imageViewSizePos.getImageView();
-    }
 
     public String getPath() {
         return this.path;
-    }
-
-    public Coordinate getCoordinate() {
-        return coordinate;
     }
 
     public double getX(){
@@ -57,6 +49,31 @@ public class MapFieldFromSprite extends MapFieldForm {
 
     public double getPercent() {
         return percent;
+    }
+
+    @Override
+    public double getWidth() {
+        return super.getWidth();
+    }
+
+    @Override
+    public void setWidth(double width) {
+        super.setWidth(width);
+    }
+
+    @Override
+    public double getHeight() {
+        return super.getHeight();
+    }
+
+    @Override
+    public void setHeight(double height) {
+        super.setHeight(height);
+    }
+
+    @Override
+    public Node getAppropriateNode() {
+        return imageViewSizePos.getImageView();
     }
 
     @Override
@@ -76,6 +93,6 @@ public class MapFieldFromSprite extends MapFieldForm {
 
     @Override
     public void setCoordinate(Coordinate coordinate) {
-        this.coordinate = coordinate;
+        super.setCoordinate(coordinate);
     }
 }

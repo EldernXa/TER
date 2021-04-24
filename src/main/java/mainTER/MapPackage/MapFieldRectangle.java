@@ -8,17 +8,11 @@ import mainTER.Tools.Coordinate;
 public class MapFieldRectangle extends MapFieldForm {
 
     private Rectangle rectangle;
-    private Coordinate coordinate;
-    private double width;
-    private double height;
 
 
     public MapFieldRectangle(Coordinate coordinate, double width, double height) {
 
         super(coordinate, width, height);
-        this.coordinate = coordinate;
-        this.width = width;
-        this.height = height;
 
         this.rectangle = new Rectangle(coordinate.getX(),coordinate.getY(),width,height);
         this.rectangle.setFill(Color.BLACK);
@@ -31,14 +25,7 @@ public class MapFieldRectangle extends MapFieldForm {
         return rectangle;
     }
 
-    @Override
-    public Node getAppropriateNode() {
-        return rectangle;
-    }
 
-    public Coordinate getCoordinate() {
-        return coordinate;
-    }
 
     public double getX(){
         return this.getCoordinate().getX();
@@ -48,12 +35,29 @@ public class MapFieldRectangle extends MapFieldForm {
         return this.getCoordinate().getY();
     }
 
+    @Override
     public double getWidth() {
-        return width;
+        return super.getWidth();
     }
 
+    @Override
+    public void setWidth(double width) {
+        super.setWidth(width);
+    }
+
+    @Override
     public double getHeight() {
-        return height;
+        return super.getHeight();
+    }
+
+    @Override
+    public void setHeight(double height) {
+        super.setHeight(height);
+    }
+
+    @Override
+    public Node getAppropriateNode() {
+        return rectangle;
     }
 
     @Override
@@ -73,6 +77,6 @@ public class MapFieldRectangle extends MapFieldForm {
 
     @Override
     public void setCoordinate(Coordinate coordinate) {
-        this.coordinate = coordinate;
+        super.setCoordinate(coordinate);
     }
 }

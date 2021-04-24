@@ -20,20 +20,14 @@ public class MapFieldFromLilPict extends MapFieldForm {
     private Image image;
     private String path;
     private Pane pane;
-    private Coordinate coordinate;
-    private double width;
-    private double height;
 
 
     public MapFieldFromLilPict(String spriteName, Coordinate coordinate, double width, double height) {
 
         super(coordinate, width, height);
-        this.path = "./src/main/resources/mainTER/MapPackage/Sprites/Front/" + spriteName +".png";
+        this.path = "./src/main/resources/mainTER/MapPackage/Sprites/Front/" + spriteName + ".png";
         image = new Image(new File(this.path).toURI().toString());
         pane = new Pane();
-        this.coordinate = coordinate;
-        this.width = width;
-        this.height = height;
 
 
         for (double i = coordinate.getX(); i < (coordinate.getX() + width); i += image.getWidth()) {
@@ -47,17 +41,13 @@ public class MapFieldFromLilPict extends MapFieldForm {
                     BufferedImage dest = bufferedImage.getSubimage(0, 0, (int)(coordinate.getX() + width - i),(int)image.getHeight());
                     imageViewSizePos.getImageView().setImage(SwingFXUtils.toFXImage(dest, null));
 
-
                 }
                 if(j + image.getHeight() > coordinate.getY() +height){
                     BufferedImage bufferedImage = SwingFXUtils.fromFXImage(imageViewSizePos.getImageView().getImage(), null);
                     BufferedImage dest = bufferedImage.getSubimage(0, 0, (int)(imageViewSizePos.getImageView().getImage().getWidth()),(int)(coordinate.getY() + height - j));
                     imageViewSizePos.getImageView().setImage(SwingFXUtils.toFXImage(dest, null));
                 }
-
-
                 pane.getChildren().add(imageViewSizePos.getImageView());
-
 
             }
 
@@ -74,10 +64,6 @@ public class MapFieldFromLilPict extends MapFieldForm {
         return this.path;
     }
 
-    public Coordinate getCoordinate() {
-        return coordinate;
-    }
-
     public double getX(){
         return this.getCoordinate().getX();
     }
@@ -86,12 +72,24 @@ public class MapFieldFromLilPict extends MapFieldForm {
         return this.getCoordinate().getY();
     }
 
+    @Override
     public double getWidth() {
-        return width;
+        return super.getWidth();
     }
 
+    @Override
+    public void setWidth(double width) {
+        super.setWidth(width);
+    }
+
+    @Override
     public double getHeight() {
-        return height;
+        return super.getHeight();
+    }
+
+    @Override
+    public void setHeight(double height) {
+        super.setHeight(height);
     }
 
     @Override
@@ -114,12 +112,13 @@ public class MapFieldFromLilPict extends MapFieldForm {
     }
 
     @Override
+    public void setCoordinate(Coordinate coordinate) {
+        super.setCoordinate(coordinate);
+    }
+
+    @Override
     public double getHMouvementSpan() {
         return 0;
     }
 
-    @Override
-    public void setCoordinate(Coordinate coordinate) {
-        this.coordinate = coordinate;
-    }
 }
