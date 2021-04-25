@@ -18,6 +18,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         DataInsert.insertPerson();
+        DataInsert.insertSkill();
         var scene = new Scene(createContent(stage));
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);

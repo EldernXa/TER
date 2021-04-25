@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import mainTER.DBManage.ControlsDBManager;
 import mainTER.DBManage.PersonDBManager;
+import mainTER.exception.ControlsDataAlreadyExistsException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -36,7 +37,11 @@ public class MenuControls {
 
         controlsDBManager.dropCascade();
         controlsDBManager.createTableControls();
-        controlsDBManager.insertIntoTableControls("d","q", " ","a", "e");
+        try {
+            controlsDBManager.insertIntoTableControls("d","q", " ","a", "e");
+        } catch (ControlsDataAlreadyExistsException e) {
+            e.printStackTrace();
+        }
         listControls = controlsDBManager.toArray();
 
         pane.getChildren().addAll(vbox);

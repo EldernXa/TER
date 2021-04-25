@@ -3,7 +3,7 @@ package mainTER.CharacterGameplay;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 
-public class ActiveSkill {
+public class ActiveSkill implements Skill{
     private final String ctrlKey;
     private final boolean animateMvt;
     private final boolean animateAction;
@@ -21,7 +21,7 @@ public class ActiveSkill {
         this.isMode = isMode;
         this.characteristics = characteristics;
         isEnabled = false;
-        skill = ActiveSkillEnum.valueOf(this.nameSkill);
+        skill = ActiveSkillEnum.valueOf(this.nameSkill+(isMode?"_MODE":""));
     }
 
     public EventHandler<KeyEvent> eventForSkill(){
@@ -29,8 +29,10 @@ public class ActiveSkill {
             if (event.getCode().getChar().equals(ctrlKey)){
                 if(skill == ActiveSkillEnum.SHIELD_MODE){
                     if(!isEnabled) {
+                        isEnabled = true;
                         characteristics.setCanJump(false);
                     }else{
+                        isEnabled = false;
                         characteristics.setCanJump(true);
                     }
                 }

@@ -105,7 +105,11 @@ public class SkillDBManager {
     }
 
     public void removeTableSkill(){
-        dbManager.dropTable("Skill");
+        try {
+            dbManager.dropTable("Skill");
+        }catch(Exception ignored){
+
+        }
     }
 
     public void insertIntoTableSkill(String nameSkill, String ctrlKey, String nameCharacter, boolean animateMvt, boolean animateAction, boolean isMode){

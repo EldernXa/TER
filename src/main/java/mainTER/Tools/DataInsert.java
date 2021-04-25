@@ -2,6 +2,7 @@ package mainTER.Tools;
 
 import mainTER.DBManage.ControlsDBManager;
 import mainTER.DBManage.PersonDBManager;
+import mainTER.DBManage.SkillDBManager;
 import mainTER.exception.ControlsDataAlreadyExistsException;
 import mainTER.exception.PersonDataAlreadyExistException;
 import mainTER.exception.PersonDataDoesntCorrectException;
@@ -37,6 +38,14 @@ public class DataInsert {
         }catch (ControlsDataAlreadyExistsException controlsDataAlreadyExists){
             System.out.println("Probleme dans l'insertien de controles");
         }
+    }
+
+    public static void insertSkill(){
+        SkillDBManager skillDBManager = new SkillDBManager();
+        skillDBManager.removeTableSkill();
+        skillDBManager.createTableSkill();
+
+        skillDBManager.insertIntoTableSkill("SHIELD", "R", "Paladin", true, false, true);
     }
 
 }

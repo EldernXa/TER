@@ -24,6 +24,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import mainTER.CharacterGameplay.ActiveSkill;
 import mainTER.CharacterGameplay.Camera;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
@@ -123,6 +124,10 @@ public class MenuItem extends StackPane {
                     List<String> listName = personDBManager.getListNameFromDatabase();
                     for(String nameCharacter : listName){
                         listCharacter.add(new Character(nameCharacter, new Coordinate(1200, 630)));
+                        if(nameCharacter.equals("Paladin")){
+                            scene.addEventHandler(KeyEvent.KEY_PRESSED,
+                                    ((ActiveSkill)listCharacter.get(listCharacter.size()-1).getListSkill().get(0)).eventForSkill());
+                        }
                     }
                     DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0), collide);
 

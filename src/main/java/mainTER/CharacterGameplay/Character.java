@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 import mainTER.DBManage.PersonDBManager;
+import mainTER.DBManage.SkillDBManager;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 import mainTER.exception.CharacterImageFileDoesntExist;
@@ -21,17 +22,17 @@ import mainTER.exception.PositionDirectoryDoesntExist;
 public class Character {
     private final String name;
     private final Coordinate initialCoordinate;
-    private final ArrayList<ArrayList<ImageView>> listOfPictureOfTheCharacter;
     private final Characteristics characteristics;
     private final ImageViewSizePos logo ;
+    private ArrayList<Skill> listSkill;
 
     // TODO Put error on graphics interface.
 
     public Character(String name, Coordinate coordinate) {
         Characteristics characteristics1;
+        listSkill = new ArrayList<>();
         this.name = name;
         this.initialCoordinate = coordinate;
-        listOfPictureOfTheCharacter = new ArrayList<>();
         PersonDBManager personDBManager = new PersonDBManager();
         try {
             characteristics1 = new Characteristics(personDBManager.getSpeed(name),
@@ -44,13 +45,32 @@ public class Character {
         this.characteristics = characteristics1;
         this.logo = new ImageViewSizePos(Objects.requireNonNull(this.getClass().getResource("/mainTER/CharacterGameplay/Logo/" + name + ".png")).getPath(),60,60);
 
-
         initListAnimate();
+        initListSkill();
+    }
+
+    private void initListSkill(){
+        SkillDBManager skillDBManager = new SkillDBManager();
+        for(int i=1; i<=skillDBManager.getNumberSkillOfACharacter(name);i++){
+            if(skillDBManager.getCtrlKey(name, i).compareTo("")==0) {
+                listSkill.add(new PassiveSkill(characteristics));
+            }
+            else{
+                listSkill.add(new ActiveSkill(skillDBManager.getNameSkill(name, i),
+                        skillDBManager.getCtrlKey(name, i), skillDBManager.getAnimateMvt(name, i),
+                        skillDBManager.getAnimateAction(name, i),
+                        skillDBManager.getIsMode(name, i), characteristics));
+            }
+        }
+    }
+
+    public ArrayList<Skill> getListSkill(){
+        return listSkill;
     }
 
     private void initListAnimate(){
         for(int i=0; i<Position.values().length; i++){
-            listOfPictureOfTheCharacter.add(new ArrayList<>());
+            characteristics.getListOfPictureOfTheCharacter().add(new ArrayList<>());
         }
         try{
             for(Position pos : Position.values()){
@@ -80,7 +100,7 @@ public class Character {
         File file = Paths.get(url.toURI()).toFile();
         if (file.exists() && file.isDirectory()) {
             for (File fileForOneSprite : Objects.requireNonNull(file.listFiles())) {
-                listOfPictureOfTheCharacter.get(pos.ordinal()).add(new ImageView(new Image(fileForOneSprite.toURI().toString())));
+                characteristics.getListOfPictureOfTheCharacter().get(pos.ordinal()).add(new ImageView(new Image(fileForOneSprite.toURI().toString())));
             }
         } else {
             throw new PositionDirectoryDoesntExist(replace);
@@ -108,7 +128,7 @@ public class Character {
     }
 
     public List<ArrayList<ImageView>> getListOfPictureOfTheCharacter(){
-        return listOfPictureOfTheCharacter;
+        return characteristics.getListOfPictureOfTheCharacter();
     }
 
 
