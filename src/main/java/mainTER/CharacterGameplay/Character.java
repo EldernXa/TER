@@ -56,7 +56,7 @@ public class Character {
                 listSkill.add(new PassiveSkill(characteristics));
             }
             else{
-                listSkill.add(new ActiveSkill(skillDBManager.getNameSkill(name, i),
+                listSkill.add(new ActiveSkill(name, skillDBManager.getNameSkill(name, i),
                         skillDBManager.getCtrlKey(name, i), skillDBManager.getAnimateMvt(name, i),
                         skillDBManager.getAnimateAction(name, i),
                         skillDBManager.getIsMode(name, i), characteristics));
