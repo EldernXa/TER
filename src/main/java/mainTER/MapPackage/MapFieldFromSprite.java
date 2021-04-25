@@ -5,6 +5,9 @@ import javafx.scene.image.ImageView;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
+/**
+ * Create a MapFieldForm using one picture
+ */
 public class MapFieldFromSprite extends MapFieldForm {
 
     private final ImageViewSizePos imageViewSizePos;
@@ -43,6 +46,7 @@ public class MapFieldFromSprite extends MapFieldForm {
         return percent;
     }
 
+
     @Override
     public double getWidth() {
         return super.getWidth();
@@ -52,6 +56,7 @@ public class MapFieldFromSprite extends MapFieldForm {
     public void setWidth(double width) {
         super.setWidth(width);
     }
+
 
     @Override
     public double getHeight() {
@@ -63,6 +68,10 @@ public class MapFieldFromSprite extends MapFieldForm {
         super.setHeight(height);
     }
 
+    /**
+     * Return the ImageView as a Node
+     * @return ImageView
+     */
     @Override
     public Node getAppropriateNode() {
         return imageViewSizePos.getImageView();

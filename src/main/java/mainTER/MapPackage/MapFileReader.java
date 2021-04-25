@@ -10,13 +10,20 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+/**
+ * Read a file where you can data from map.
+ *
+ */
 public class MapFileReader {
 
 
     public static ArrayList<CollideObject> collideObjectArrayList;
     private String[] file;
 
-
+    /**
+     *
+     * @param pathName Map file path
+     */
     public MapFileReader(String pathName) {
         collideObjectArrayList = new ArrayList<>();
         Path path = Paths.get(pathName);
@@ -30,7 +37,9 @@ public class MapFileReader {
         }
     }
 
-
+    /**
+     * Read the file and put data in lists
+     */
     private void read() {
         String spriteName;
         String lastCategorie = "";
@@ -98,11 +107,20 @@ public class MapFileReader {
         }
     }
 
+    /**
+     *
+     * @param name Name of the picture
+     * @return Height of the picture
+     */
     private double heightFromName(String name){
         Image image = new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Front/"+name+".png").toURI().toString());
         return image.getHeight();
     }
 
+    /**
+     *
+     * @return ArrayList of CollideObject
+     */
     public ArrayList<CollideObject> getCollisionObjectArrayList() {
         return collideObjectArrayList;
     }
