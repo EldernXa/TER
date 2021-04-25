@@ -62,55 +62,37 @@ public class ActiveSkill implements Skill{
         };
     }
 
-    private void changeAnimateForWalk() throws URISyntaxException {
-        final String replace = nameSkill.toLowerCase()+Position.WALK.toString().toLowerCase().replace("_", "");
-        URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/" + nameCharacter + "/" + replace);
+    private void changeAnimate(String replace, Position pos) throws URISyntaxException {
+        URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/"+nameCharacter+"/"+replace);
 
         File file = Paths.get(url.toURI()).toFile();
-        if (file.exists() && file.isDirectory()) {
-            characteristics.getListOfPictureOfTheCharacter().get(Position.WALK.ordinal()).clear();
-            for (File fileForOneSprite : Objects.requireNonNull(file.listFiles())) {
-                characteristics.getListOfPictureOfTheCharacter().get(Position.WALK.ordinal()).add(new ImageView(new Image(fileForOneSprite.toURI().toString())));
+        if(file.exists() && file.isDirectory()){
+            characteristics.getListOfPictureOfTheCharacter().get(pos.ordinal()).clear();
+            for(File fileForOneSprite : Objects.requireNonNull(file.listFiles())){
+                characteristics.getListOfPictureOfTheCharacter().get(pos.ordinal()).add(new ImageView(new Image(fileForOneSprite.toURI().toString())));
             }
         }
     }
 
+    private void changeAnimateForWalk() throws URISyntaxException {
+        final String replace = nameSkill.toLowerCase()+Position.WALK.toString().toLowerCase().replace("_", "");
+        changeAnimate(replace, Position.WALK);
+    }
+
     private void changeAnimateForReverseWalk() throws URISyntaxException{
         final String replace = nameSkill.toLowerCase()+Position.REVERSE_WALK.toString().toLowerCase().replace("_", "");
-        URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/" + nameCharacter + "/" + replace);
-
-        File file = Paths.get(url.toURI()).toFile();
-        if(file.exists() && file.isDirectory()){
-            characteristics.getListOfPictureOfTheCharacter().get(Position.REVERSE_WALK.ordinal()).clear();
-            for(File fileForOneSprite : Objects.requireNonNull(file.listFiles())){
-                characteristics.getListOfPictureOfTheCharacter().get(Position.REVERSE_WALK.ordinal()).add(new ImageView(new Image(fileForOneSprite.toURI().toString())));
-            }
-        }
+        changeAnimate(replace, Position.REVERSE_WALK);
 
     }
 
     private void initAnimateForWalk() throws URISyntaxException {
         final String replace = Position.WALK.toString().toLowerCase().replace("_", "");
-        URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/" + nameCharacter + "/" + replace);
-        File file = Paths.get(url.toURI()).toFile();
-        if (file.exists() && file.isDirectory()) {
-            characteristics.getListOfPictureOfTheCharacter().get(Position.WALK.ordinal()).clear();
-            for (File fileForOneSprite : Objects.requireNonNull(file.listFiles())) {
-                characteristics.getListOfPictureOfTheCharacter().get(Position.WALK.ordinal()).add(new ImageView(new Image(fileForOneSprite.toURI().toString())));
-            }
-        }
+        changeAnimate(replace, Position.WALK);
     }
 
     private void initAnimateForReverseWalk() throws URISyntaxException {
         final String replace = Position.REVERSE_WALK.toString().toLowerCase().replace("_", "");
-        URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/" + nameCharacter + "/" + replace);
-        File file = Paths.get(url.toURI()).toFile();
-        if (file.exists() && file.isDirectory()) {
-            characteristics.getListOfPictureOfTheCharacter().get(Position.REVERSE_WALK.ordinal()).clear();
-            for (File fileForOneSprite : Objects.requireNonNull(file.listFiles())) {
-                characteristics.getListOfPictureOfTheCharacter().get(Position.REVERSE_WALK.ordinal()).add(new ImageView(new Image(fileForOneSprite.toURI().toString())));
-            }
-        }
+        changeAnimate(replace, Position.REVERSE_WALK);
     }
 
 }
