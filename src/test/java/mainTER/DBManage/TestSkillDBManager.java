@@ -9,6 +9,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class TestSkillDBManager {
 
     private final SkillDBManager skillDBManager = new SkillDBManager("testDB");
+    private final String nameSkill1 = "SHIELD";
+    private final int numSkill1 = 1;
+    private final String ctrlKey1 = "R";
+    private final String nameCharacter = "Paladin";
+    private final boolean animateMvt = true;
+    private final boolean animateAction = false;
+    private final boolean isMode = true;
+    private final String nameSkill2 = "Test";
+    private final int numSkill2 = 2;
+    private final String ctrlKey2 = "F";
 
     @BeforeEach
     public void init(){
@@ -34,7 +44,7 @@ class TestSkillDBManager {
     void testInsertIntoSkill(){
         try {
             skillDBManager.createTableSkill();
-            skillDBManager.insertIntoTableSkill("SHIELD", 1, "R", "Paladin", true, false, true);
+            skillDBManager.insertIntoTableSkill(nameSkill1, numSkill1, ctrlKey1, nameCharacter, animateMvt, animateAction, isMode);
             assertTrue(true);
         }catch(Exception exception)
         {
@@ -46,7 +56,7 @@ class TestSkillDBManager {
     void testGetListNameSkill(){
         insertValueIntoSkill();
         try{
-            skillDBManager.insertIntoTableSkill("Test", 2, "R", "Paladin", true, false, true);
+            skillDBManager.insertIntoTableSkill(nameSkill2, numSkill2, ctrlKey2, nameCharacter, animateMvt, animateAction, isMode);
             assertEquals(2, skillDBManager.getListSkillName().size());
         }catch(Exception exception){
             fail();
@@ -57,9 +67,9 @@ class TestSkillDBManager {
     void testGetListNameCharacter(){
         insertValueIntoSkill();
         try{
-            skillDBManager.insertIntoTableSkill("Test", 2, "R", "Paladin", true, false, true);
+            skillDBManager.insertIntoTableSkill(nameSkill2, numSkill2, ctrlKey2, nameCharacter, animateMvt, animateAction, isMode);
             assertEquals(1, skillDBManager.getListNameCharacterWithSkill().size());
-            assertEquals("Paladin", skillDBManager.getListNameCharacterWithSkill().get(0));
+            assertEquals(nameCharacter, skillDBManager.getListNameCharacterWithSkill().get(0));
         }catch(Exception exception){
             fail();
         }
@@ -69,8 +79,59 @@ class TestSkillDBManager {
     void testGetNumberOfSkillOfACharacter(){
         insertValueIntoSkill();
         try{
-            skillDBManager.insertIntoTableSkill("Test", 2, "R", "Paladin", true, false, true);
-            assertEquals(2, skillDBManager.getNumberSkillOfACharacter("Paladin"));
+            skillDBManager.insertIntoTableSkill(nameSkill2, numSkill2, ctrlKey2, nameCharacter, animateMvt, animateAction, isMode);
+            assertEquals(2, skillDBManager.getNumberSkillOfACharacter(nameCharacter));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    // TODO verify the opposite for test on getting.
+    @Test
+    void testGettingNameSkill(){
+        insertValueIntoSkill();
+        try{
+            assertEquals(nameSkill1, skillDBManager.getNameSkill(nameCharacter, numSkill1));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    void testGettingCtrlKey(){
+        insertValueIntoSkill();
+        try{
+            assertEquals(ctrlKey1, skillDBManager.getCtrlKey(nameCharacter, numSkill1));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    void testGettingAnimateMvt(){
+        insertValueIntoSkill();
+        try{
+            assertEquals(animateMvt, skillDBManager.getAnimateMvt(nameCharacter, numSkill1));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    void testGettingAnimateAction(){
+        insertValueIntoSkill();
+        try{
+            assertEquals(animateAction, skillDBManager.getAnimateAction(nameCharacter, numSkill1));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    void testGettingIsMode(){
+        insertValueIntoSkill();
+        try{
+            assertEquals(isMode, skillDBManager.getIsMode(nameCharacter, numSkill1));
         }catch(Exception exception){
             fail();
         }
@@ -78,7 +139,7 @@ class TestSkillDBManager {
 
     private void insertValueIntoSkill(){
         skillDBManager.createTableSkill();
-        skillDBManager.insertIntoTableSkill("SHIELD", 1, "R", "Paladin", true, false, true);
+        skillDBManager.insertIntoTableSkill(nameSkill1, numSkill1, ctrlKey1, nameCharacter, animateMvt, animateAction, isMode);
 
     }
 

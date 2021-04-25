@@ -29,6 +29,81 @@ public class SkillDBManager {
                 ");");
     }
 
+    public String getNameSkill(String nameCharacter, int numSkill){
+        // TODO add new exception
+        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+        try {
+            while (resultSet.next()) {
+                if(resultSet.getInt("numSkill")==numSkill){
+                    return resultSet.getString("nameSkill");
+                }
+            }
+        }catch(SQLException sqlException){
+            System.out.println("Problème dans la récupération de données.");
+        }
+        return "";
+    }
+
+    public String getCtrlKey(String nameCharacter, int numSkill){
+        // TODO add new exception
+        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+        try{
+            while(resultSet.next()){
+                if(resultSet.getInt("numSkill")==numSkill){
+                    return resultSet.getString("ctrlKey");
+                }
+            }
+        }catch(SQLException sqlException){
+            System.out.println("Problème dans la récupération de données.");
+        }
+        return "";
+    }
+
+    public boolean getAnimateMvt(String nameCharacter, int numSkill){
+        // TODO add new exception
+        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+        try{
+            while(resultSet.next()){
+                if(resultSet.getInt("numSkill")==numSkill){
+                    return resultSet.getBoolean("animateMvt");
+                }
+            }
+        }catch(SQLException sqlException){
+            System.out.println("Problème dans la récupération de données.");
+        }
+        return false;
+    }
+
+    public boolean getAnimateAction(String nameCharacter, int numSkill){
+        // TODO add new exception
+        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+        try{
+            while(resultSet.next()){
+                if(resultSet.getInt("numSkill")==numSkill){
+                    return resultSet.getBoolean("animateAction");
+                }
+            }
+        }catch(SQLException sqlException){
+            System.out.println("Problème dans la récupération de données.");
+        }
+        return false;
+    }
+
+    public boolean getIsMode(String nameCharacter, int numSkill){
+        // TODO add new exception
+        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+        try{
+            while(resultSet.next()){
+                if(resultSet.getInt("numSkill")==numSkill){
+                    return resultSet.getBoolean("isMode");
+                }
+            }
+        }catch(SQLException sqlException){
+            System.out.println("Problème dans la récupération de données.");
+        }
+        return false;
+    }
+
     public void removeTableSkill(){
         dbManager.dropTable("Skill");
     }
@@ -36,6 +111,7 @@ public class SkillDBManager {
     public void insertIntoTableSkill(String nameSkill,int numSkill, String ctrlKey, String nameCharacter, boolean animateMvt, boolean animateAction, boolean isMode){
         // TODO verify the skill doesn't exist.
         // TODO verify the data we want to insert.
+        // TODO verify ctrl is not already used by the same character.
 
         String reqValues = "INSERT INTO Skill VALUES (" +
                 "'"+ nameSkill + "'," + numSkill + ",'" + ctrlKey + "','" +nameCharacter +"',"
@@ -80,7 +156,6 @@ public class SkillDBManager {
 
         int nb = 0;
         try {
-            nb++;
             while(resultSet.next()){
                 nb++;
             }
@@ -90,14 +165,11 @@ public class SkillDBManager {
         return nb;
     }
 
+
+
     private ResultSet selectCharacterIntoTableSkill(String nameCharacter){
         ResultSet resultSet = null;
-        try{
-            resultSet = dbManager.selectIntoTable("SELECT * FROM Skill WHERE nameCharacter = '" + nameCharacter + "'");
-            resultSet.next();
-        }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données du personnages " + nameCharacter);
-        }
+        resultSet = dbManager.selectIntoTable("SELECT * FROM Skill WHERE nameCharacter = '" + nameCharacter + "'");
         return resultSet;
     }
 
