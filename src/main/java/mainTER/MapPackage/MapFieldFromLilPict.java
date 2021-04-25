@@ -1,32 +1,27 @@
 package mainTER.MapPackage;
 
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
-import javafx.scene.image.*;
-import javafx.scene.layout.Pane;
-import java.awt.image.BufferedImage;
 import javafx.embed.swing.SwingFXUtils;
-
-import javafx.scene.paint.Color;
-import mainTER.CharacterGameplay.DisplayCharacter;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class MapFieldFromLilPict extends MapFieldForm {
 
 
-    private Image image;
-    private String path;
-    private Pane pane;
+    private final String path;
+    private final Pane pane;
 
 
     public MapFieldFromLilPict(String spriteName, Coordinate coordinate, double width, double height) {
 
         super(coordinate, width, height);
         this.path = "./src/main/resources/mainTER/MapPackage/Sprites/Front/" + spriteName + ".png";
-        image = new Image(new File(this.path).toURI().toString());
+        Image image = new Image(new File(this.path).toURI().toString());
         pane = new Pane();
 
 
@@ -38,7 +33,7 @@ public class MapFieldFromLilPict extends MapFieldForm {
                 if(i + image.getWidth() > coordinate.getX() +width){
 
                     BufferedImage bufferedImage = SwingFXUtils.fromFXImage(imageViewSizePos.getImageView().getImage(), null);
-                    BufferedImage dest = bufferedImage.getSubimage(0, 0, (int)(coordinate.getX() + width - i),(int)image.getHeight());
+                    BufferedImage dest = bufferedImage.getSubimage(0, 0, (int)(coordinate.getX() + width - i),(int) image.getHeight());
                     imageViewSizePos.getImageView().setImage(SwingFXUtils.toFXImage(dest, null));
 
                 }

@@ -3,13 +3,10 @@ package mainTER.Menu;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -22,28 +19,24 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import mainTER.CharacterGameplay.ActiveSkill;
 import mainTER.CharacterGameplay.Camera;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.DBManage.PersonDBManager;
+import mainTER.LoadOfFXML;
 import mainTER.MapPackage.Collide;
 import mainTER.MapPackage.Map;
-import mainTER.LoadOfFXML;
 import mainTER.MapPackage.SwitchCharacter;
-import mainTER.Music.Music;
 import mainTER.Network.GameServer;
 import mainTER.Network.Player;
 import mainTER.Tools.Coordinate;
 
-import java.awt.*;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class MenuItem extends StackPane {
@@ -146,7 +139,7 @@ public class MenuItem extends StackPane {
                     sc.setTranslateX(displayCharacter.getCurrentCoordinateOfTheCharacter().getX() -Screen.getPrimary().getBounds().getWidth()/2.8);
                     stackPane.getChildren().add(sc);
 
-                    Camera camera = new Camera(scene,displayCharacter,sc,listCharacter,h,background);
+                    new Camera(scene,displayCharacter,sc,listCharacter,h,background);
 
 
 

@@ -1,7 +1,6 @@
 package mainTER.MapPackage;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import mainTER.Tools.Coordinate;
 
 import java.io.File;
@@ -15,7 +14,7 @@ public class MapFileReader {
 
 
     public static ArrayList<CollideObject> collideObjectArrayList;
-    private String file[];
+    private String[] file;
 
 
     public MapFileReader(String pathName) {
@@ -36,7 +35,7 @@ public class MapFileReader {
         String spriteName;
         String lastCategorie = "";
         int i = 0;
-        String line[];
+        String[] line;
         MapFieldFromSprite fieldFromSprite;
         MapFieldFromLilPict fieldFromLilPict;
 
@@ -93,8 +92,6 @@ public class MapFileReader {
                                 collideObjectArrayList.add(new RndObj(line[0],new Coordinate(doubles[1], doubles[2]-imageHeight2)));
                                 break;
                         }
-                    }
-                    else{
                     }
                     i++;
             }

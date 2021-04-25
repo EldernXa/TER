@@ -5,8 +5,8 @@ import javafx.scene.layout.*;
 
 public class Map {
 
-    private MapFileReader mapFileReader;
-    private Pane pane;
+    private final MapFileReader mapFileReader;
+    private final Pane pane;
 
 
     public Map(Collide collide, Pane pane, ImageView backgroundImage) {

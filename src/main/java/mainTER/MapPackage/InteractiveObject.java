@@ -7,7 +7,7 @@ import mainTER.Tools.ImageViewSizePos;
 public abstract class InteractiveObject extends CollideObject {
 
     private Coordinate coordinate;
-    private ImageViewSizePos imageViewSizePos;
+    private final ImageViewSizePos imageViewSizePos;
     Collide collide = new Collide();
 
     public InteractiveObject(Coordinate coordinate, ImageViewSizePos imageViewSizePos) {

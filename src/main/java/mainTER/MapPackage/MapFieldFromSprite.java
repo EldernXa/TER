@@ -5,13 +5,11 @@ import javafx.scene.image.ImageView;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
-import java.security.cert.CertificateParsingException;
-
 public class MapFieldFromSprite extends MapFieldForm {
 
-    private ImageViewSizePos imageViewSizePos;
-    private String path;
-    private double percent;
+    private final ImageViewSizePos imageViewSizePos;
+    private final String path;
+    private final double percent;
 
 
 
