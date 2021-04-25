@@ -22,6 +22,7 @@ public class Crate extends InteractiveObject {
         System.out.println("Pos verticale caisse = " + super.getY());
         System.out.println("Hauteur caisse = " + super.getHeight());
         System.out.println("Somme caisse = " + (super.getY() + super.getHeight()));*/
+        //TODO Solve the problem of the craft moving once in the wrong direction before it move in the right one
         if(collideObject.getY() + collideObject.getHeight() >= super.getY() + super.getHeight()) {
             if (collideObject.getCoordinate().getX() < super.getCoordinate().getX()) {
                 if (verify(CommingFrom.LEFT)) {
