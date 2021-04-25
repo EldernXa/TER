@@ -1,11 +1,11 @@
 package mainTER.DBManage;
 
+import mainTER.exception.ControlsDataAlreadyExistsException;
 import mainTER.exception.ControlsDataGetException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ControlsDBManager {
     private final DBManager dbManager;
@@ -36,11 +36,17 @@ public class ControlsDBManager {
     }
 
 
-    public void insertIntoTableControls(String... controls) {
+    public void insertIntoTableControls(String... controls) throws ControlsDataAlreadyExistsException {
         // TODO verify insert data
         // TODO verify data doesn't exist already
 
+        ResultSet resultSet = selectIntoTableControls();
+        try {
+            resultSet.getObject("jump");
+            throw new ControlsDataAlreadyExistsException("jump");
+        } catch (SQLException ignored) {
 
+        }
 
         String reqValues = "INSERT INTO Controls VALUES (";
 
