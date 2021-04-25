@@ -16,7 +16,7 @@ public class ControlsDBManager {
         this.dbManager = new DBManager(nameFileDB,"test");
     }
 
-    public ControlsDBManager(){this.dbManager = new DBManager(); };
+    public ControlsDBManager(){this.dbManager = new DBManager(); }
 
     public void createTableControls(){
         dbManager.createTableOrInsert("CREATE TABLE Controls (" +
@@ -48,14 +48,14 @@ public class ControlsDBManager {
 
         }
 
-        String reqValues = "INSERT INTO Controls VALUES (";
+        StringBuilder reqValues = new StringBuilder("INSERT INTO Controls VALUES (");
 
                 for(String control : controls){
-                    reqValues += "'" + control +"',";
+                    reqValues.append("'").append(control).append("',");
                 }
-                reqValues = reqValues.substring(0,reqValues.length()-1);
-                 reqValues += ")";
-        dbManager.createTableOrInsert(reqValues);
+                reqValues = new StringBuilder(reqValues.substring(0, reqValues.length() - 1));
+                 reqValues.append(")");
+        dbManager.createTableOrInsert(reqValues.toString());
     }
 
 
@@ -164,13 +164,6 @@ public class ControlsDBManager {
         return result;
     }
 
-    public void initializeControls(){
-        setJump(" ");
-        setLeft("q");
-        setSwitchUp("a");
-        setSwitchDown("e");
-        setRight("d");
-    }
 
    
 }

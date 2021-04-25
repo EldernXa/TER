@@ -179,35 +179,32 @@ public class MenuItem extends StackPane {
                 }
                 case "CREER": {
 
-
-                    stage.setScene(sceneaa);
+                    Stage newStage = new Stage();
+                    newStage.setScene(sceneaa);
 
 
                     VBox vBox = new VBox(10);
                     paneaa.getChildren().add(vBox);
-                    GameServer gs = new GameServer(vBox);
+                    GameServer gs = new GameServer();
 
-                    stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                        @Override
-                        public void handle(WindowEvent event) {
-                            Platform.exit();
-                        }
-                    });
+
                     Thread t = new Thread(gs);
                     t.start();
                     Player p = new Player();
                     p.connectToServer(vBox);
+                    newStage.show();
                     break;
 
                 }
                 case "REJOINDRE": {
-                    stage.setScene(sceneaa);
-
+                    Stage newStage = new Stage();
+                    newStage.setScene(sceneaa);
 
                     VBox vBox = new VBox(10);
                     paneaa.getChildren().add(vBox);
                     Player p = new Player();
                     p.connectToServer(vBox);
+                    newStage.show();
                     break;
                 }
                 case "SOUND SETTINGS": {
@@ -253,9 +250,6 @@ public class MenuItem extends StackPane {
 
         clickOn(stage, name);
 
-        setOnMouseReleased(event -> {
-
-            rectangleText.setFill(gradient);
-        });
+        setOnMouseReleased(event -> rectangleText.setFill(gradient));
     }
 }

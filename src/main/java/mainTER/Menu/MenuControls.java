@@ -1,24 +1,18 @@
 package mainTER.Menu;
 
-import javafx.event.EventHandler;
+
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import mainTER.DBManage.ControlsDBManager;
-import mainTER.DBManage.PersonDBManager;
-import mainTER.exception.ControlsDataAlreadyExistsException;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MenuControls {
@@ -27,7 +21,7 @@ public class MenuControls {
     List<String> listControls;
     Label labelTitre = new Label();
     private final StackPane pane = new StackPane();
-    private final Scene scene = new Scene(pane, Screen.getPrimary().getVisualBounds().getWidth()/1.5,Screen.getPrimary().getVisualBounds().getHeight()- (Screen.getPrimary().getVisualBounds().getHeight()/4));;
+    private final Scene scene = new Scene(pane, Screen.getPrimary().getVisualBounds().getWidth()/1.5,Screen.getPrimary().getVisualBounds().getHeight()- (Screen.getPrimary().getVisualBounds().getHeight()/4));
 
     VBox vbox = new VBox(20);
 
@@ -35,13 +29,9 @@ public class MenuControls {
 
     public MenuControls() throws SQLException {
 
-        controlsDBManager.dropCascade();
-        controlsDBManager.createTableControls();
-        try {
-            controlsDBManager.insertIntoTableControls("d","q", " ","a", "e");
-        } catch (ControlsDataAlreadyExistsException e) {
-            e.printStackTrace();
-        }
+        /*controlsDBManager.dropCascade();
+        /controlsDBManager.createTableControls();
+        //controlsDBManager.insertIntoTableControls("d","q", " ","a", "e"); */
         listControls = controlsDBManager.toArray();
 
         pane.getChildren().addAll(vbox);
@@ -129,6 +119,7 @@ public class MenuControls {
                     labelTitre.setText("Ce caractère est deja utilisé");
                     button.setText(text);
                 }else {
+                    boolean corectChar = (code <= 110 && code >= 97) || code == 10 || code == 20 || code == 9 || code == 0;
                     switch (control) {
                         case "&":
                             button.setText("↑");
@@ -146,7 +137,7 @@ public class MenuControls {
                             button.setText("space");
                             break;
                         default:
-                            if ((code <= 110 && code >= 97) || code == 10 || code == 20 || code == 9 || code == 0) {
+                            if (corectChar) {
                                 labelTitre.setText("Caractère non correct");
                             } else {
                                 button.setText(keyEvent.getCode().getChar().toLowerCase());
@@ -154,7 +145,7 @@ public class MenuControls {
 
                             break;
                     }
-                    if ((code <= 110 && code >= 97) || code == 10 || code == 20 || code == 9 || code == 0) {
+                    if (corectChar) {
                         labelTitre.setText("Caractère non correct");
 
                     } else {

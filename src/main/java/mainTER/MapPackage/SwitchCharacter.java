@@ -1,7 +1,5 @@
 package mainTER.MapPackage;
 
-
-import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import mainTER.CharacterGameplay.Character;
@@ -33,6 +31,9 @@ public class SwitchCharacter extends VBox{
 
     }
 
+    /**
+     * rotate the vbox to down
+     */
     public void changeToDown(){
         rotateDown();
 
@@ -41,6 +42,9 @@ public class SwitchCharacter extends VBox{
 
     }
 
+    /**
+     * rotate the vbox to up
+     */
 
     public void changeToUp(){
 
@@ -51,17 +55,29 @@ public class SwitchCharacter extends VBox{
 
     }
 
+
+    /**
+     * allow to rotate down the list of character
+     */
     public void rotateDown(){
         permute(1,2);
         permute(0,1);
         permute(0,3);
     }
-
+    /**
+     * allow to rotate up the list of character
+     */
     public void rotateUp(){
         permute(0,1);
         permute(1,2);
         permute(2,3);
     }
+
+    /**
+     *
+     * @param a index of the one of two values permuted
+     * @param b index of the one of two values permuted
+     */
 
     public void permute(int a, int b){
         ImageView temp = vBoxList.get(a);
