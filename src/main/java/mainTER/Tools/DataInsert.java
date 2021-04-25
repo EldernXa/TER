@@ -1,6 +1,8 @@
 package mainTER.Tools;
 
+import mainTER.DBManage.ControlsDBManager;
 import mainTER.DBManage.PersonDBManager;
+import mainTER.exception.ControlsDataAlreadyExistsException;
 import mainTER.exception.PersonDataAlreadyExistException;
 import mainTER.exception.PersonDataDoesntCorrectException;
 
@@ -23,6 +25,17 @@ public class DataInsert {
             System.out.println("Problème dans l'insertion des données des Personnages.");
         }catch(PersonDataDoesntCorrectException personDataDoesntCorrectException){
             System.out.println("Les données inséres ne sont pas correcte.");
+        }
+    }
+
+    public static void insertControls(){
+        ControlsDBManager controlsDBManager = new ControlsDBManager();
+        controlsDBManager.removeTableControls();
+        controlsDBManager.createTableControls();
+        try {
+            controlsDBManager.insertIntoTableControls("d","q"," ","a","e");
+        }catch (ControlsDataAlreadyExistsException controlsDataAlreadyExists){
+            System.out.println("Probleme dans l'insertien de controles");
         }
     }
 
