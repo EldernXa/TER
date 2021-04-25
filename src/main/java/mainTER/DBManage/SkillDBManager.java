@@ -108,10 +108,12 @@ public class SkillDBManager {
         dbManager.dropTable("Skill");
     }
 
-    public void insertIntoTableSkill(String nameSkill,int numSkill, String ctrlKey, String nameCharacter, boolean animateMvt, boolean animateAction, boolean isMode){
+    public void insertIntoTableSkill(String nameSkill, String ctrlKey, String nameCharacter, boolean animateMvt, boolean animateAction, boolean isMode){
         // TODO verify the skill doesn't exist.
         // TODO verify the data we want to insert.
         // TODO verify ctrl is not already used by the same character.
+
+        int numSkill = getNumberSkillOfACharacter(nameCharacter)+1;
 
         String reqValues = "INSERT INTO Skill VALUES (" +
                 "'"+ nameSkill + "'," + numSkill + ",'" + ctrlKey + "','" +nameCharacter +"',"
