@@ -349,6 +349,16 @@ public class DisplayCharacter extends CollideObject {
     }
 
     @Override
+    public double getWidth() {
+        return this.animationForTheCharacter.actualImg().getImage().getWidth();
+    }
+
+    @Override
+    public double getHeight() {
+        return this.animationForTheCharacter.actualImg().getImage().getHeight();
+    }
+
+    @Override
     public void setCoordinate(Coordinate coordinate) { //Ne devrait pas foncitonner
         this.getCoordinate().setX(coordinate.getX());
         this.getCoordinate().setY(coordinate.getY());

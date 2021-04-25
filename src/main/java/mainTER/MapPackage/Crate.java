@@ -16,13 +16,21 @@ public class Crate extends InteractiveObject {
     }
 
     public void interaction(CollideObject collideObject) {
-        if (collideObject.getCoordinate().getX() < super.getCoordinate().getX()) {
-            if(verify(CommingFrom.LEFT)){
-                super.setCoordinate(new Coordinate(super.getCoordinate().getX() + collideObject.getHMouvementSpan(), super.getCoordinate().getY()));
-            }
-        } else {
-            if(verify(CommingFrom.RIGHT)) {
-                super.setCoordinate(new Coordinate(super.getCoordinate().getX() - collideObject.getHMouvementSpan(), super.getCoordinate().getY()));
+        /*System.out.println("Pos verticale personnage = " + collideObject.getY());
+        System.out.println("Hauteur personnage = " + collideObject.getHeight());
+        System.out.println("Somme personnage = " + (collideObject.getY() + collideObject.getHeight()));
+        System.out.println("Pos verticale caisse = " + super.getY());
+        System.out.println("Hauteur caisse = " + super.getHeight());
+        System.out.println("Somme caisse = " + (super.getY() + super.getHeight()));*/
+        if(collideObject.getY() + collideObject.getHeight() >= super.getY() + super.getHeight()) {
+            if (collideObject.getCoordinate().getX() < super.getCoordinate().getX()) {
+                if (verify(CommingFrom.LEFT)) {
+                    super.setCoordinate(new Coordinate(super.getCoordinate().getX() + collideObject.getHMouvementSpan(), super.getCoordinate().getY()));
+                }
+            } else {
+                if (verify(CommingFrom.RIGHT)) {
+                    super.setCoordinate(new Coordinate(super.getCoordinate().getX() - collideObject.getHMouvementSpan(), super.getCoordinate().getY()));
+                }
             }
         }
     }

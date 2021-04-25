@@ -33,6 +33,10 @@ public abstract class CollideObject {
     public abstract void setX(double x);
     public abstract void setY(double y);
 
+    public abstract double getWidth();
+    public abstract double getHeight();
+
+
     /**
      * Simulate the appropriate interaction between two objects
      * @param collideObject

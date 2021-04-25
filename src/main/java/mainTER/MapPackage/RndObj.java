@@ -76,4 +76,14 @@ public class RndObj extends CollideObject {
     public void setCoordinate(Coordinate coordinate) {
         this.coordinate = coordinate;
     }
+
+    @Override
+    public double getWidth() {
+        return this.imageViewSizePos.getImageView().getImage().getWidth();
+    }
+
+    @Override
+    public double getHeight() {
+        return this.imageViewSizePos.getImageView().getImage().getHeight();
+    }
 }

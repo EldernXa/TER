@@ -49,6 +49,16 @@ public abstract class InteractiveObject extends CollideObject {
         this.imageViewSizePos.setCoordinate(coordinate);
     }
 
+    @Override
+    public double getWidth() {
+        return this.imageViewSizePos.getImageView().getImage().getWidth();
+    }
+
+    @Override
+    public double getHeight() {
+        return this.imageViewSizePos.getImageView().getImage().getWidth();
+    }
+
     public Collide getCollide() {
         return collide;
     }
