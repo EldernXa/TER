@@ -1,5 +1,10 @@
 package mainTER.DBManage;
 
+import mainTER.exception.SkillAlreadyExistException;
+import mainTER.exception.SkillDataGetException;
+import mainTER.exception.SkillCtrlAlreadyUsedException;
+import mainTER.exception.SkillDataDoesntCorrectException;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -8,6 +13,7 @@ import java.util.List;
 public class SkillDBManager {
 
     private final DBManager dbManager;
+    private static final String NAME_ATTRIBUTE_FOR_NUM_SKILL = "numSkill";
 
     public SkillDBManager(){
         this.dbManager = new DBManager();
@@ -29,79 +35,74 @@ public class SkillDBManager {
                 ");");
     }
 
-    public String getNameSkill(String nameCharacter, int numSkill){
-        // TODO add new exception
+    public String getNameSkill(String nameCharacter, int numSkill) throws SkillDataGetException {
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try {
             while (resultSet.next()) {
-                if(resultSet.getInt("numSkill")==numSkill){
+                if(resultSet.getInt(NAME_ATTRIBUTE_FOR_NUM_SKILL)==numSkill){
                     return resultSet.getString("nameSkill");
                 }
             }
         }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données.");
+            throw new SkillDataGetException(nameCharacter, numSkill);
         }
-        return "";
+        throw new SkillDataGetException(nameCharacter, numSkill);
     }
 
-    public String getCtrlKey(String nameCharacter, int numSkill){
-        // TODO add new exception
+    public String getCtrlKey(String nameCharacter, int numSkill) throws SkillDataGetException{
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{
             while(resultSet.next()){
-                if(resultSet.getInt("numSkill")==numSkill){
+                if(resultSet.getInt(NAME_ATTRIBUTE_FOR_NUM_SKILL)==numSkill){
                     return resultSet.getString("ctrlKey");
                 }
             }
         }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données.");
+            throw new SkillDataGetException(nameCharacter, numSkill);
         }
-        return "";
+        throw new SkillDataGetException(nameCharacter, numSkill);
     }
 
-    public boolean getAnimateMvt(String nameCharacter, int numSkill){
-        // TODO add new exception
+    public boolean getAnimateMvt(String nameCharacter, int numSkill) throws SkillDataGetException{
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{
             while(resultSet.next()){
-                if(resultSet.getInt("numSkill")==numSkill){
+                if(resultSet.getInt(NAME_ATTRIBUTE_FOR_NUM_SKILL)==numSkill){
                     return resultSet.getBoolean("animateMvt");
                 }
             }
         }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données.");
+            throw new SkillDataGetException(nameCharacter, numSkill);
         }
-        return false;
+        throw new SkillDataGetException(nameCharacter, numSkill);
     }
 
-    public boolean getAnimateAction(String nameCharacter, int numSkill){
-        // TODO add new exception
+    public boolean getAnimateAction(String nameCharacter, int numSkill) throws SkillDataGetException{
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{
             while(resultSet.next()){
-                if(resultSet.getInt("numSkill")==numSkill){
+                if(resultSet.getInt(NAME_ATTRIBUTE_FOR_NUM_SKILL)==numSkill){
                     return resultSet.getBoolean("animateAction");
                 }
             }
         }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données.");
+            throw new SkillDataGetException(nameCharacter, numSkill);
         }
-        return false;
+        throw new SkillDataGetException(nameCharacter, numSkill);
     }
 
-    public boolean getIsMode(String nameCharacter, int numSkill){
-        // TODO add new exception
+    public boolean getIsMode(String nameCharacter, int numSkill) throws SkillDataGetException{
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{
             while(resultSet.next()){
-                if(resultSet.getInt("numSkill")==numSkill){
+                if(resultSet.getInt(NAME_ATTRIBUTE_FOR_NUM_SKILL)==numSkill){
                     return resultSet.getBoolean("isMode");
                 }
             }
         }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données.");
+            throw new SkillDataGetException(nameCharacter, numSkill);
         }
-        return false;
+        throw new SkillDataGetException(nameCharacter, numSkill);
     }
 
     public void removeTableSkill(){
@@ -112,13 +113,27 @@ public class SkillDBManager {
         }
     }
 
-    public void insertIntoTableSkill(String nameSkill, String ctrlKey, String nameCharacter, boolean animateMvt, boolean animateAction, boolean isMode){
-        // TODO verify the skill doesn't exist.
-        // TODO verify the data we want to insert.
-        // TODO verify ctrl is not already used by the same character.
+    public void insertIntoTableSkill(String nameSkill, String ctrlKey, String nameCharacter, boolean animateMvt, boolean animateAction, boolean isMode) throws SkillAlreadyExistException, SkillCtrlAlreadyUsedException, SkillDataDoesntCorrectException {
+
+        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+        try {
+            while (resultSet.next()) {
+                if(resultSet.getString("nameSkill").compareTo(nameSkill)==0){
+                    throw new SkillAlreadyExistException(nameCharacter, nameSkill);
+                }
+                if(resultSet.getString("ctrlKey").compareTo(ctrlKey)==0){
+                    throw new SkillCtrlAlreadyUsedException(nameCharacter, ctrlKey);
+                }
+            }
+        }catch(SQLException ignored){
+
+        }
 
         int numSkill = getNumberSkillOfACharacter(nameCharacter)+1;
 
+        if(nameSkill.compareTo("") == 0 || ctrlKey.compareTo("")==0 || nameCharacter.compareTo("")==0){
+            throw new SkillDataDoesntCorrectException();
+        }
         String reqValues = "INSERT INTO Skill VALUES (" +
                 "'"+ nameSkill + "'," + numSkill + ",'" + ctrlKey + "','" +nameCharacter +"',"
                  + convertBoolToString(animateMvt) +"," + convertBoolToString(animateAction)
@@ -174,7 +189,7 @@ public class SkillDBManager {
 
 
     private ResultSet selectCharacterIntoTableSkill(String nameCharacter){
-        ResultSet resultSet = null;
+        ResultSet resultSet;
         resultSet = dbManager.selectIntoTable("SELECT * FROM Skill WHERE nameCharacter = '" + nameCharacter + "'");
         return resultSet;
     }

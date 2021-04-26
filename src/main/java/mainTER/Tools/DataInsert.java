@@ -3,9 +3,7 @@ package mainTER.Tools;
 import mainTER.DBManage.ControlsDBManager;
 import mainTER.DBManage.PersonDBManager;
 import mainTER.DBManage.SkillDBManager;
-import mainTER.exception.ControlsDataAlreadyExistsException;
-import mainTER.exception.PersonDataAlreadyExistException;
-import mainTER.exception.PersonDataDoesntCorrectException;
+import mainTER.exception.*;
 
 public class DataInsert {
 
@@ -45,7 +43,11 @@ public class DataInsert {
         skillDBManager.removeTableSkill();
         skillDBManager.createTableSkill();
 
-        skillDBManager.insertIntoTableSkill("SHIELD", "R", "Paladin", true, false, true);
+        try {
+            skillDBManager.insertIntoTableSkill("SHIELD", "R", "Paladin", true, false, true);
+        }catch(SkillAlreadyExistException | SkillCtrlAlreadyUsedException | SkillDataDoesntCorrectException exception){
+            System.out.println(exception.getMessage());
+        }
     }
 
 }

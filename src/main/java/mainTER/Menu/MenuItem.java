@@ -49,6 +49,7 @@ public class MenuItem extends StackPane {
     private Text textMenu;
     Pane paneaa = new Pane();
     Scene sceneaa = new Scene(paneaa, 500, 600);
+    private final ArrayList<Character> listCharacter;
 
     /**
      * Constructor to create items
@@ -60,7 +61,14 @@ public class MenuItem extends StackPane {
 
         LoadOfFXML.loadFXML("/mainTER/Menu/FXML/MenuItem.fxml", this, this);
         textMenu.setText(name);
+        PersonDBManager personDBManager = new PersonDBManager();
+        listCharacter = new ArrayList<>();
+        List<String> listName = personDBManager.getListNameFromDatabase();
+        for(String nameCharacter : listName){
+            listCharacter.add(new Character(nameCharacter, new Coordinate(1200, 630)));
+        }
         setUpMouse(stage, name);
+
 
 
     }
@@ -113,16 +121,8 @@ public class MenuItem extends StackPane {
                     map.addCollisionObject();
 
 
-                    PersonDBManager personDBManager = new PersonDBManager();
-                    ArrayList<Character> listCharacter = new ArrayList<>();
-                    List<String> listName = personDBManager.getListNameFromDatabase();
-                    for(String nameCharacter : listName){
-                        listCharacter.add(new Character(nameCharacter, new Coordinate(1200, 630)));
-                        if(nameCharacter.equals("Paladin")){
-                            scene.addEventHandler(KeyEvent.KEY_PRESSED,
-                                    ((ActiveSkill)listCharacter.get(listCharacter.size()-1).getListSkill().get(0)).eventForSkill());
-                        }
-                    }
+
+
                     DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0), collide);
 
 
