@@ -68,9 +68,13 @@ public class GameServer implements Runnable{
                         try {
                             String a = dis.readUTF();
                             System.out.println(a);
+
+                            wtc2.writeButtonReady();
+
                             Thread readThread1 = new Thread(rfc1);
                             Thread readThread2 = new Thread(rfc2);
                             readThread1.start();
+
                             readThread2.start();
                             Thread writeThread1 = new Thread(wtc1);
                             Thread writeThread2 = new Thread(wtc2);
@@ -87,7 +91,6 @@ public class GameServer implements Runnable{
                 }
 
             }
-            System.out.println("Il y a assez de joueurs");
 
 
         } catch (IOException e) {
@@ -143,17 +146,15 @@ public class GameServer implements Runnable{
         public void run() {
             try{
 
-                System.out.println("on passe ici 1 ");
+
 
                 while (true){
                     if(playerID == 1){
                         p1x = dis.readDouble();
                         p1y = dis.readDouble();
-                        System.out.println("p1-------"+p1x +" " + p1y);
                     }else{
                         p2x = dis.readDouble();
                         p2y = dis.readDouble();
-                        System.out.println("p2-----" + p2x +" " + p2y);
                     }
                 }
             }catch (IOException ex){
@@ -161,10 +162,6 @@ public class GameServer implements Runnable{
             }
         }
 
-        public void readButton() throws IOException, InterruptedException {
-
-
-        }
     }
 
     private class WriteToClient implements Runnable{
@@ -191,7 +188,7 @@ public class GameServer implements Runnable{
                         dos.flush();
                     }else{
                         dos.writeDouble(p1x);
-                        dos.writeDouble(p2y);
+                        dos.writeDouble(p1y);
                         dos.flush();
                     }
                     try {
@@ -205,10 +202,13 @@ public class GameServer implements Runnable{
             }
         }
 
-        public void sendStartMsg(){
+
+
+        public void writeButtonReady(){
             try{
-                dos.writeUTF("zé parti");
-            }catch (IOException e){
+                Thread.sleep(5000);
+                dos.write(4);
+            }catch (IOException | InterruptedException e){
                 e.printStackTrace();
             }
         }

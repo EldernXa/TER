@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -43,6 +44,16 @@ public class Player {
     Scene scene;
     Map map;
     Collide collide;
+    Button button = new Button("cliquer");
+    volatile boolean finito = false;
+
+
+
+
+
+
+
+
 
 
     public void connectToServer(Stage stage, Pane pane, List<Character> listCharacter) {
@@ -57,7 +68,7 @@ public class Player {
             this.pane = pane;
             this.stage = stage;
             scene = new Scene(new Pane());
-            Button button = new Button("cliquer");
+
             button.setTranslateX(60);
 
             pane.getChildren().add(button);
@@ -69,41 +80,45 @@ public class Player {
             collide = new Collide();
 
 
-            listenArrayPlayers(dis,button);
+
             if (playerID == 1) {
-                button.setDisable(true);
+                button.setDisable(false);
                 me = new DisplayCharacter(scene, pane, listCharacter.get(0), collide);
-                friend = new DisplayCharacter(scene,pane,listCharacter.get(1),collide);
-                System.out.println(me.getCurrentCoordinateOfTheCharacter().getX());
-                System.out.println(me.getCharacter().getName());
+                friend = new DisplayCharacter(scene,pane,listCharacter.get(2),collide);
                 System.out.println("Waiting for other player");
             } else {
-                me = new DisplayCharacter(scene, pane, listCharacter.get(1), collide);
+                me = new DisplayCharacter(scene, pane, listCharacter.get(2), collide);
                 friend = new DisplayCharacter(scene,pane,listCharacter.get(0),collide);
 
+                button.setDisable(true);
+
+
             }
+            button.setOnMouseClicked(mouseEvent -> {
+                try {
+                    dos.writeUTF("coco");
+                    finito = true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            });
+
+
+
 
 
             rfs = new ReadFromServer(dis);
             wts = new WriteToServer(dos);
-            button.setOnMouseClicked(mouseEvent -> {
-                try {
-                    dos.writeUTF("coco");
-                    Thread readThread = new Thread(rfs);
-                    Thread writeThread = new Thread(wts);
-                    readThread.start();
-                    writeThread.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
+            listenArrayPlayers(dis,rfs);
+
 
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public void listenArrayPlayers(DataInputStream dis,Button button) throws IOException {
+    public void listenArrayPlayers(DataInputStream dis,ReadFromServer rfs) throws IOException {
 
         Thread thread = new Thread(() ->{
             try {
@@ -111,7 +126,6 @@ public class Player {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("on passe la");
             AtomicReference<ArrayList<Integer>> otherPlayers = new AtomicReference<>(new ArrayList<>());
 
             while (otherPlayers.get().size() < 2) {
@@ -127,13 +141,15 @@ public class Player {
                             System.out.println(playerID + " ----" + id);
                             vBox.getChildren().add(new Text("Player #" + id));
                         }
-                        button.setDisable(false);
+
 
                     });
                 } catch (IOException | ClassNotFoundException ignored) {
-
                 }
         }
+
+            rfs.waitForStartMsg();
+
         });
         thread.start();
 
@@ -145,7 +161,6 @@ public class Player {
 
         public ReadFromServer(DataInputStream dataIn) throws IOException {
             dis = dataIn;
-            System.out.println("read from server");
         }
 
         @Override
@@ -153,7 +168,8 @@ public class Player {
             try {
                 ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/Background-1.png").toURI().toString()));
                 map = new Map(collide, pane, background);
-
+                scene.addEventFilter(KeyEvent.KEY_PRESSED,
+                        event -> System.out.println("Pressed: " + event.getCode()));
                 Platform.runLater(()->{
 
                     map.addCollisionObject();
@@ -164,6 +180,7 @@ public class Player {
 
                 while (true){
                     friend.setX(dis.readDouble());
+
                     friend.setY(dis.readDouble());
 
                 }
@@ -172,22 +189,38 @@ public class Player {
                 e.printStackTrace();
             }
         }
-       /* public void waitForStartMsg(){
-        Thread thread = new Thread( ()-> {
-            try{
+        public void waitForStartMsg(){
 
-                System.out.println("on veut etre ici");
-                String startMessage = dis.readUTF();
-                System.out.println("c'est parti " + startMessage);
+                try{
+
+                    while (!finito ){
+
+                        if(playerID == 2){
+                            int a ;
+                            a = dis.read();
+                            System.out.println(a);
+
+                            finito = true;
+                        }
+                    }
+
+                    Platform.runLater(()->{
+                        vBox.getChildren().clear();
+                        pane.getChildren().remove(button);
+                    });
+
+                    Thread readThread = new Thread(rfs);
+                    Thread writeThread = new Thread(wts);
+                    readThread.start();
+                    writeThread.start();
 
 
-            }catch (IOException e ){
-                e.printStackTrace();
-            }
-        });
-         thread.setDaemon(true);
-            thread.start();
-        }*/
+                }catch (IOException e ){
+                    e.printStackTrace();
+                }
+
+
+        }
 
 
     }
@@ -198,7 +231,6 @@ public class Player {
 
         public WriteToServer(DataOutputStream dataOut){
             dos = dataOut;
-            System.out.println("write to server");
 
         }
 
@@ -210,6 +242,7 @@ public class Player {
                 try{
                     dos.writeDouble(me.getCurrentCoordinateOfTheCharacter().getX());
                     dos.writeDouble(me.getCurrentCoordinateOfTheCharacter().getY());
+                    //System.out.println(me.getCurrentCoordinateOfTheCharacter().getX() + " " +me.getCurrentCoordinateOfTheCharacter().getY());
                     dos.flush();
                     try {
                         Thread.sleep(25);
