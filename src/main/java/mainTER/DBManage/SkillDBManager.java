@@ -3,6 +3,7 @@ package mainTER.DBManage;
 import mainTER.exception.SkillAlreadyExistException;
 import mainTER.exception.SkillDataGetException;
 import mainTER.exception.SkillCtrlAlreadyUsedException;
+import mainTER.exception.SkillDataDoesntCorrectException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -112,8 +113,7 @@ public class SkillDBManager {
         }
     }
 
-    public void insertIntoTableSkill(String nameSkill, String ctrlKey, String nameCharacter, boolean animateMvt, boolean animateAction, boolean isMode) throws SkillAlreadyExistException, SkillCtrlAlreadyUsedException {
-        // TODO verify the data we want to insert.
+    public void insertIntoTableSkill(String nameSkill, String ctrlKey, String nameCharacter, boolean animateMvt, boolean animateAction, boolean isMode) throws SkillAlreadyExistException, SkillCtrlAlreadyUsedException, SkillDataDoesntCorrectException {
 
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try {
@@ -131,6 +131,9 @@ public class SkillDBManager {
 
         int numSkill = getNumberSkillOfACharacter(nameCharacter)+1;
 
+        if(nameSkill.compareTo("") == 0 || ctrlKey.compareTo("")==0 || nameCharacter.compareTo("")==0){
+            throw new SkillDataDoesntCorrectException();
+        }
         String reqValues = "INSERT INTO Skill VALUES (" +
                 "'"+ nameSkill + "'," + numSkill + ",'" + ctrlKey + "','" +nameCharacter +"',"
                  + convertBoolToString(animateMvt) +"," + convertBoolToString(animateAction)

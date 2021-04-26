@@ -2,6 +2,7 @@ package mainTER.DBManage;
 
 import mainTER.exception.SkillAlreadyExistException;
 import mainTER.exception.SkillCtrlAlreadyUsedException;
+import mainTER.exception.SkillDataDoesntCorrectException;
 import mainTER.exception.SkillDataGetException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -208,7 +209,7 @@ class TestSkillDBManager {
         }
     }
 
-    private void insertValueIntoSkill() throws SkillAlreadyExistException, SkillCtrlAlreadyUsedException {
+    private void insertValueIntoSkill() throws SkillAlreadyExistException, SkillCtrlAlreadyUsedException, SkillDataDoesntCorrectException {
         skillDBManager.createTableSkill();
         skillDBManager.insertIntoTableSkill(nameSkill1, ctrlKey1, nameCharacter, animateMvt, animateAction, isMode);
 

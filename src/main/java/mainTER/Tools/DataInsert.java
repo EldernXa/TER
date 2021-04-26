@@ -45,7 +45,7 @@ public class DataInsert {
 
         try {
             skillDBManager.insertIntoTableSkill("SHIELD", "R", "Paladin", true, false, true);
-        }catch(SkillAlreadyExistException | SkillCtrlAlreadyUsedException exception){
+        }catch(SkillAlreadyExistException | SkillCtrlAlreadyUsedException | SkillDataDoesntCorrectException exception){
             System.out.println(exception.getMessage());
         }
     }
