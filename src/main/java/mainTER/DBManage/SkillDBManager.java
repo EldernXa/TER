@@ -1,5 +1,6 @@
 package mainTER.DBManage;
 
+import mainTER.exception.SkillAlreadyExistException;
 import mainTER.exception.SkillDataGetException;
 
 import java.sql.ResultSet;
@@ -110,10 +111,20 @@ public class SkillDBManager {
         }
     }
 
-    public void insertIntoTableSkill(String nameSkill, String ctrlKey, String nameCharacter, boolean animateMvt, boolean animateAction, boolean isMode){
-        // TODO verify the skill doesn't exist.
+    public void insertIntoTableSkill(String nameSkill, String ctrlKey, String nameCharacter, boolean animateMvt, boolean animateAction, boolean isMode) throws SkillAlreadyExistException {
         // TODO verify the data we want to insert.
         // TODO verify ctrl is not already used by the same character.
+
+        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+        try {
+            while (resultSet.next()) {
+                if(resultSet.getString("nameSkill").compareTo(nameSkill)==0){
+                    throw new SkillAlreadyExistException(nameCharacter, nameSkill);
+                }
+            }
+        }catch(SQLException ignored){
+
+        }
 
         int numSkill = getNumberSkillOfACharacter(nameCharacter)+1;
 

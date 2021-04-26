@@ -6,6 +6,7 @@ import mainTER.DBManage.SkillDBManager;
 import mainTER.exception.ControlsDataAlreadyExistsException;
 import mainTER.exception.PersonDataAlreadyExistException;
 import mainTER.exception.PersonDataDoesntCorrectException;
+import mainTER.exception.SkillAlreadyExistException;
 
 public class DataInsert {
 
@@ -45,7 +46,11 @@ public class DataInsert {
         skillDBManager.removeTableSkill();
         skillDBManager.createTableSkill();
 
-        skillDBManager.insertIntoTableSkill("SHIELD", "R", "Paladin", true, false, true);
+        try {
+            skillDBManager.insertIntoTableSkill("SHIELD", "R", "Paladin", true, false, true);
+        }catch(SkillAlreadyExistException skillAlreadyExistException){
+            System.out.println(skillAlreadyExistException.getMessage());
+        }
     }
 
 }
