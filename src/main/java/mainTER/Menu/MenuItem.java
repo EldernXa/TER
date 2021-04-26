@@ -30,6 +30,7 @@ import mainTER.LoadOfFXML;
 import mainTER.MapPackage.Collide;
 import mainTER.MapPackage.Map;
 import mainTER.MapPackage.SwitchCharacter;
+import mainTER.Music.Music;
 import mainTER.Network.GameServer;
 import mainTER.Network.Player;
 import mainTER.Tools.Coordinate;
@@ -47,8 +48,8 @@ public class MenuItem extends StackPane {
 
     @FXML
     private Text textMenu;
-    Pane paneaa = new Pane();
-    Scene sceneaa = new Scene(paneaa, Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
+
+    
     private final ArrayList<Character> listCharacter;
 
     /**
@@ -91,6 +92,8 @@ public class MenuItem extends StackPane {
             switch (name) {
                 case "SINGLEPLAYER": {
 
+
+                    Music.stopMusique();
                     StackPane stackPane = new StackPane();
 
 
@@ -179,7 +182,10 @@ public class MenuItem extends StackPane {
                 case "CREER": {
 
                     Stage newStage = new Stage();
-                    newStage.setScene(sceneaa);
+                    Pane pane = new Pane();
+                    Scene sceneServ = new Scene(pane, Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
+
+                    newStage.setScene(sceneServ);
 
                     GameServer gs = new GameServer();
 
@@ -187,18 +193,21 @@ public class MenuItem extends StackPane {
                     Thread t = new Thread(gs);
                     t.start();
                     Player p = new Player();
-                    p.connectToServer(stage,paneaa,listCharacter);
+                    p.connectToServer(stage,sceneServ,pane,listCharacter);
                     newStage.show();
+                    newStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
                     break;
 
                 }
                 case "REJOINDRE": {
                     Stage newStage = new Stage();
-                    newStage.setScene(sceneaa);
+                    Pane pane = new Pane();
+                    Scene sceneCli = new Scene(pane, Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
 
+                    newStage.setScene(sceneCli);
 
                     Player p = new Player();
-                    p.connectToServer(stage,paneaa,listCharacter);
+                    p.connectToServer(stage,sceneCli,pane,listCharacter);
                     newStage.show();
                     break;
                 }

@@ -8,7 +8,7 @@ public class Music {
 
     String path;
     public static MediaPlayer mediaPlayer;
-    boolean playing = false;
+    static boolean  playing = false;
 
 
     public Music(String path) {
@@ -28,11 +28,13 @@ public class Music {
     public void lancerMusique()
     {
         if(!playing) {
+            playing = true;
             mediaPlayer.play();
             mediaPlayer.setVolume(0.2);
             mediaPlayer.setOnEndOfMedia(() -> {
                 mediaPlayer.stop();
                 mediaPlayer.play();
+
             });
         }
     }
@@ -49,10 +51,15 @@ public class Music {
     /**
      * allows to stop the music
      */
-    public void stopMusique(){
-        mediaPlayer.stop();
-        playing=false;
-        mediaPlayer.setMute(false);
+    public static void stopMusique(){
+        if(playing){
+            mediaPlayer.stop();
+            playing=false;
+            mediaPlayer.setMute(false);
+        }else {
+            System.out.println("aucune musique n'est lancée");
+        }
+
     }
 
     /**
