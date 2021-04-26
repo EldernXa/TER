@@ -1,9 +1,5 @@
 package mainTER.Network;
 
-import javafx.application.Platform;
-import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -11,21 +7,28 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class GameServer implements Runnable, Serializable{
+public class GameServer implements Runnable{
 
     private ServerSocket ss;
     private int numPlayers;
     private int maxPlayers;
-    ArrayList<ServerSideConnection> players = new ArrayList<>();
-    VBox vbox;
+    //ArrayList<ServerSideConnection> players = new ArrayList<>();
 
+    private Socket player1;
+    private Socket player2;
+    private ReadFromClient rfc1;
+    private ReadFromClient rfc2;
+    private WriteToClient wtc1;
+    private WriteToClient wtc2;
+    private ArrayList<Socket> listOfPlayers = new ArrayList<>();
+    private ArrayList<Integer> listOfPlayersID = new ArrayList<>();
+    private ArrayList<ObjectOutputStream> oosList = new ArrayList<>();
 
-
-    public GameServer(VBox vbox){
+    public GameServer(){
         System.out.println("------Game Server ------");
-        this.vbox = vbox;
+
         numPlayers = 0;
-        maxPlayers = 4;
+        maxPlayers = 2;
 
     }
 
@@ -34,45 +37,118 @@ public class GameServer implements Runnable, Serializable{
             System.out.println("Waiting for connections...");
 
 
-            while(numPlayers <= maxPlayers){
+            while(numPlayers < maxPlayers){
                 Socket s = ss.accept();
                 numPlayers++;
+                listOfPlayers.add(s);
+                DataInputStream dis = new DataInputStream(s.getInputStream());
+                DataOutputStream dos = new DataOutputStream(s.getOutputStream());
 
+                listOfPlayersID.add(numPlayers);
+                dos.writeInt(numPlayers);
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(dos);
 
-                System.out.println("Player #" + numPlayers + " has connected.");
-                ServerSideConnection ssc = new ServerSideConnection(s,numPlayers);
-                players.add(ssc);
+                oosList.add(objectOutputStream);
+                ReadFromClient rfc =new ReadFromClient(numPlayers,dis);
+                WriteToClient wtc = new WriteToClient(numPlayers,dos);
+
+                if(numPlayers == 1 ){
+                    player1 = s;
+                    rfc1 = rfc;
+                    wtc1 = wtc;
+
+                }else{
+                    player2 = s;
+                    rfc2 = rfc;
+                    wtc2 = wtc;
+                }
+                sendToAll(listOfPlayersID);
 
 
 
             }
             System.out.println("Il y a assez de joueurs");
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
+    public void write(ObjectOutputStream oos,Object obj) {
+        try{
 
-    public void sendToAll(){
-        for(ServerSideConnection ssc : players){
-
+            oos.writeObject(obj);
+            oos.reset();
         }
+        catch(IOException e){ e.printStackTrace(); }
     }
 
-    public ServerSocket getSs() {
-        return ss;
+    public void sendToAll(Object message){
+
+        for(ObjectOutputStream oos : oosList)
+            write(oos,message);
+
+
     }
+
+
 
     @Override
     public void run() {
         try{
-            ss = new ServerSocket(5134,5);
+            ss = new ServerSocket(5134,2);
             acceptConnections();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+
+    private class ReadFromClient implements Runnable{
+
+
+        private DataInputStream dis;
+        private int playerID;
+
+
+        public ReadFromClient(int pid, DataInputStream dataIn){
+            this.playerID = pid;
+            this.dis = dataIn;
+
+            System.out.println("read from client create");
+
+        }
+
+        @Override
+        public void run() {
+
+        }
+    }
+
+    private class WriteToClient implements Runnable{
+        private DataOutputStream dos;
+        private int playerID;
+
+
+        public WriteToClient(int pid, DataOutputStream dataOut){
+            this.playerID = pid;
+            this.dos = dataOut;
+
+            System.out.println("Client thread create");
+
+        }
+
+        @Override
+        public void run() {
+
+
+        }
+
+    }
+
+
+/*
     private class ServerSideConnection {
 
         private Socket socket;
@@ -100,13 +176,9 @@ public class GameServer implements Runnable, Serializable{
 
                     dos.writeInt(playerID);
 
-
-                    //oos.writeObject(playersId);
                     for(ServerSideConnection ssc : players){
                         playersId.add(ssc.getPlayerID());
                     }
-
-
 
                     System.out.println(playersId);
                     sendToAll(playersId);
@@ -123,17 +195,21 @@ public class GameServer implements Runnable, Serializable{
 
         }
 
-        public void write(Object obj) {
-            try{
-                oos.writeObject(obj);
-            }
-            catch(IOException e){ e.printStackTrace(); }
+ public void write(Object obj) {
+        try{
+            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            oos.writeObject(obj);
+            oos.reset();
         }
+        catch(IOException e){ e.printStackTrace(); }
+    }
 
-        public void sendToAll(Object message){
-            for(ServerSideConnection client : players)
-                client.write(message);
+    public void sendToAll(Object message){
+        for(ServerSide client : listOfPlayers){
+            write(message);
+
         }
+    }
 
 
         public int getPlayerID() {
@@ -141,6 +217,6 @@ public class GameServer implements Runnable, Serializable{
         }
 
 
-    }
+    } */
 
 }

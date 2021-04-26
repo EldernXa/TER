@@ -184,14 +184,13 @@ public class MenuItem extends StackPane {
 
 
                     VBox vBox = new VBox(10);
-                    paneaa.getChildren().add(vBox);
                     GameServer gs = new GameServer();
 
 
                     Thread t = new Thread(gs);
                     t.start();
                     Player p = new Player();
-                    p.connectToServer(vBox);
+                    p.connectToServer(stage,paneaa);
                     newStage.show();
                     break;
 
@@ -200,10 +199,9 @@ public class MenuItem extends StackPane {
                     Stage newStage = new Stage();
                     newStage.setScene(sceneaa);
 
-                    VBox vBox = new VBox(10);
-                    paneaa.getChildren().add(vBox);
+
                     Player p = new Player();
-                    p.connectToServer(vBox);
+                    p.connectToServer(stage,paneaa);
                     newStage.show();
                     break;
                 }
