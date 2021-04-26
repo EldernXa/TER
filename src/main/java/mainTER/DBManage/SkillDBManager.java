@@ -10,6 +10,7 @@ import java.util.List;
 public class SkillDBManager {
 
     private final DBManager dbManager;
+    private static final String NAME_ATTRIBUTE_FOR_NUM_SKILL = "numSkill";
 
     public SkillDBManager(){
         this.dbManager = new DBManager();
@@ -35,7 +36,7 @@ public class SkillDBManager {
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try {
             while (resultSet.next()) {
-                if(resultSet.getInt("numSkill")==numSkill){
+                if(resultSet.getInt(NAME_ATTRIBUTE_FOR_NUM_SKILL)==numSkill){
                     return resultSet.getString("nameSkill");
                 }
             }
@@ -49,7 +50,7 @@ public class SkillDBManager {
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{
             while(resultSet.next()){
-                if(resultSet.getInt("numSkill")==numSkill){
+                if(resultSet.getInt(NAME_ATTRIBUTE_FOR_NUM_SKILL)==numSkill){
                     return resultSet.getString("ctrlKey");
                 }
             }
@@ -63,7 +64,7 @@ public class SkillDBManager {
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{
             while(resultSet.next()){
-                if(resultSet.getInt("numSkill")==numSkill){
+                if(resultSet.getInt(NAME_ATTRIBUTE_FOR_NUM_SKILL)==numSkill){
                     return resultSet.getBoolean("animateMvt");
                 }
             }
@@ -77,7 +78,7 @@ public class SkillDBManager {
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{
             while(resultSet.next()){
-                if(resultSet.getInt("numSkill")==numSkill){
+                if(resultSet.getInt(NAME_ATTRIBUTE_FOR_NUM_SKILL)==numSkill){
                     return resultSet.getBoolean("animateAction");
                 }
             }
@@ -91,7 +92,7 @@ public class SkillDBManager {
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{
             while(resultSet.next()){
-                if(resultSet.getInt("numSkill")==numSkill){
+                if(resultSet.getInt(NAME_ATTRIBUTE_FOR_NUM_SKILL)==numSkill){
                     return resultSet.getBoolean("isMode");
                 }
             }
