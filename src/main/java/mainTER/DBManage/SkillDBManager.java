@@ -172,7 +172,7 @@ public class SkillDBManager {
 
 
     private ResultSet selectCharacterIntoTableSkill(String nameCharacter){
-        ResultSet resultSet = null;
+        ResultSet resultSet;
         resultSet = dbManager.selectIntoTable("SELECT * FROM Skill WHERE nameCharacter = '" + nameCharacter + "'");
         return resultSet;
     }
