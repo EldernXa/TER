@@ -18,6 +18,7 @@ import mainTER.Tools.ImageViewSizePos;
 import mainTER.exception.CharacterImageFileDoesntExist;
 import mainTER.exception.PersonDataGetException;
 import mainTER.exception.PositionDirectoryDoesntExist;
+import mainTER.exception.SkillDataGetException;
 
 public class Character {
     private final String name;
@@ -52,14 +53,20 @@ public class Character {
     private void initListSkill(){
         SkillDBManager skillDBManager = new SkillDBManager();
         for(int i=1; i<=skillDBManager.getNumberSkillOfACharacter(name);i++){
-            if(skillDBManager.getCtrlKey(name, i).compareTo("")==0) {
-                listSkill.add(new PassiveSkill(characteristics));
-            }
-            else{
-                listSkill.add(new ActiveSkill(name, skillDBManager.getNameSkill(name, i),
-                        skillDBManager.getCtrlKey(name, i), skillDBManager.getAnimateMvt(name, i),
-                        skillDBManager.getAnimateAction(name, i),
-                        skillDBManager.getIsMode(name, i), characteristics));
+            try {
+                if(skillDBManager.getCtrlKey(name, i).compareTo("")==0) {
+                    listSkill.add(new PassiveSkill(characteristics));
+                }
+                else{
+
+                        listSkill.add(new ActiveSkill(name, skillDBManager.getNameSkill(name, i),
+                                skillDBManager.getCtrlKey(name, i), skillDBManager.getAnimateMvt(name, i),
+                                skillDBManager.getAnimateAction(name, i),
+                                skillDBManager.getIsMode(name, i), characteristics));
+
+                }
+            }catch(SkillDataGetException skillDataGetException){
+                System.out.println(skillDataGetException.getMessage());
             }
         }
     }

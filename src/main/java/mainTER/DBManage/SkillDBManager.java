@@ -1,5 +1,7 @@
 package mainTER.DBManage;
 
+import mainTER.exception.SkillDataGetException;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,8 +31,7 @@ public class SkillDBManager {
                 ");");
     }
 
-    public String getNameSkill(String nameCharacter, int numSkill){
-        // TODO add new exception
+    public String getNameSkill(String nameCharacter, int numSkill) throws SkillDataGetException {
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try {
             while (resultSet.next()) {
@@ -39,13 +40,12 @@ public class SkillDBManager {
                 }
             }
         }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données.");
+            throw new SkillDataGetException(nameCharacter, numSkill);
         }
-        return "";
+        throw new SkillDataGetException(nameCharacter, numSkill);
     }
 
-    public String getCtrlKey(String nameCharacter, int numSkill){
-        // TODO add new exception
+    public String getCtrlKey(String nameCharacter, int numSkill) throws SkillDataGetException{
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{
             while(resultSet.next()){
@@ -54,13 +54,12 @@ public class SkillDBManager {
                 }
             }
         }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données.");
+            throw new SkillDataGetException(nameCharacter, numSkill);
         }
-        return "";
+        throw new SkillDataGetException(nameCharacter, numSkill);
     }
 
-    public boolean getAnimateMvt(String nameCharacter, int numSkill){
-        // TODO add new exception
+    public boolean getAnimateMvt(String nameCharacter, int numSkill) throws SkillDataGetException{
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{
             while(resultSet.next()){
@@ -69,13 +68,12 @@ public class SkillDBManager {
                 }
             }
         }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données.");
+            throw new SkillDataGetException(nameCharacter, numSkill);
         }
-        return false;
+        throw new SkillDataGetException(nameCharacter, numSkill);
     }
 
-    public boolean getAnimateAction(String nameCharacter, int numSkill){
-        // TODO add new exception
+    public boolean getAnimateAction(String nameCharacter, int numSkill) throws SkillDataGetException{
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{
             while(resultSet.next()){
@@ -84,13 +82,12 @@ public class SkillDBManager {
                 }
             }
         }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données.");
+            throw new SkillDataGetException(nameCharacter, numSkill);
         }
-        return false;
+        throw new SkillDataGetException(nameCharacter, numSkill);
     }
 
-    public boolean getIsMode(String nameCharacter, int numSkill){
-        // TODO add new exception
+    public boolean getIsMode(String nameCharacter, int numSkill) throws SkillDataGetException{
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{
             while(resultSet.next()){
@@ -99,9 +96,9 @@ public class SkillDBManager {
                 }
             }
         }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données.");
+            throw new SkillDataGetException(nameCharacter, numSkill);
         }
-        return false;
+        throw new SkillDataGetException(nameCharacter, numSkill);
     }
 
     public void removeTableSkill(){
