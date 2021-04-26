@@ -11,6 +11,8 @@ public class SwitchCharacter extends VBox{
 
     ArrayList<Character> characterList;
     ArrayList<ImageView> vBoxList = new ArrayList<>();
+
+
     public SwitchCharacter(ArrayList<Character> characterList) {
         this.characterList = characterList;
 
