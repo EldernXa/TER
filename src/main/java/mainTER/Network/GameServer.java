@@ -41,6 +41,7 @@ public class GameServer implements Runnable{
 
             while(numPlayers < maxPlayers){
                 Socket s = ss.accept();
+
                 numPlayers++;
                 listOfPlayers.add(s);
                 DataInputStream dis = new DataInputStream(s.getInputStream());
@@ -48,13 +49,13 @@ public class GameServer implements Runnable{
 
                 listOfPlayersID.add(numPlayers);
                 dos.writeInt(numPlayers);
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(dos);
-
-                oosList.add(objectOutputStream);
+                System.out.println("on écrit l'id");
+                //ObjectOutputStream objectOutputStream = new ObjectOutputStream(dos);
+                //oosList.add(objectOutputStream);
                 ReadFromClient rfc =new ReadFromClient(numPlayers,dis);
                 WriteToClient wtc = new WriteToClient(numPlayers,dos);
 
-                sendToAll(listOfPlayersID);
+                //sendToAll(listOfPlayersID);
                 if(numPlayers == 1 ){
                     player1 = s;
                     rfc1 = rfc;
@@ -64,28 +65,19 @@ public class GameServer implements Runnable{
                     player2 = s;
                     rfc2 = rfc;
                     wtc2 = wtc;
-                    Thread thread = new Thread(() -> {
-                        try {
-                            String a = dis.readUTF();
-                            System.out.println(a);
 
-                            wtc2.writeButtonReady();
+                        wtc1.sendStartMsg();
+                        wtc2.sendStartMsg();
 
-                            Thread readThread1 = new Thread(rfc1);
-                            Thread readThread2 = new Thread(rfc2);
-                            readThread1.start();
+                        Thread readThread1 = new Thread(rfc1);
+                        Thread readThread2 = new Thread(rfc2);
+                        readThread1.start();
 
-                            readThread2.start();
-                            Thread writeThread1 = new Thread(wtc1);
-                            Thread writeThread2 = new Thread(wtc2);
-                            writeThread1.start();
-                            writeThread2.start();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                    thread.start();
-
+                        readThread2.start();
+                        Thread writeThread1 = new Thread(wtc1);
+                        Thread writeThread2 = new Thread(wtc2);
+                        writeThread1.start();
+                        writeThread2.start();
 
 
                 }
@@ -181,6 +173,7 @@ public class GameServer implements Runnable{
         @Override
         public void run() {
             try{
+                System.out.println("on écrit les coord");
                 while (true){
                     if(playerID == 1){
                         dos.writeDouble(p2x);
@@ -203,7 +196,14 @@ public class GameServer implements Runnable{
         }
 
 
-
+        public void sendStartMsg(){
+            System.out.println("on écrit le message de start");
+            try{
+                dos.writeUTF("c'est parti");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         public void writeButtonReady(){
             try{
                 Thread.sleep(5000);

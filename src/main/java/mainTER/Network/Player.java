@@ -56,24 +56,25 @@ public class Player {
 
 
 
-    public void connectToServer(Stage stage, Pane pane, List<Character> listCharacter) {
+    public void connectToServer(Stage stage, Scene scene,Pane pane, List<Character> listCharacter) {
         System.out.println("-----Client------------");
         try {
 
             socket = new Socket(InetAddress.getLocalHost(), 5134);
             DataInputStream dis = new DataInputStream(socket.getInputStream());
             playerID = dis.readInt();
+            System.out.println("on lit l'id");
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
 
             this.pane = pane;
             this.stage = stage;
-            scene = new Scene(new Pane());
+            this.scene = scene;
 
             button.setTranslateX(60);
 
-            pane.getChildren().add(button);
+           // pane.getChildren().add(button);
 
-            pane.getChildren().add(vBox);
+            //pane.getChildren().add(vBox);
             System.out.println("Connected to Server as Player #" + playerID + ".");
 
 
@@ -82,27 +83,22 @@ public class Player {
 
 
             if (playerID == 1) {
-                button.setDisable(false);
+                //button.setDisable(false);
                 me = new DisplayCharacter(scene, pane, listCharacter.get(0), collide);
                 friend = new DisplayCharacter(scene,pane,listCharacter.get(2),collide);
-                System.out.println("Waiting for other player");
+                System.out.println("Waiting for player 2");
             } else {
                 me = new DisplayCharacter(scene, pane, listCharacter.get(2), collide);
                 friend = new DisplayCharacter(scene,pane,listCharacter.get(0),collide);
 
-                button.setDisable(true);
+                //button.setDisable(true);
 
 
             }
-            button.setOnMouseClicked(mouseEvent -> {
-                try {
-                    dos.writeUTF("coco");
-                    finito = true;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            /*button.setOnMouseClicked(mouseEvent -> {
+                finito = true;
 
-            });
+            });*/
 
 
 
@@ -110,7 +106,8 @@ public class Player {
 
             rfs = new ReadFromServer(dis);
             wts = new WriteToServer(dos);
-            listenArrayPlayers(dis,rfs);
+            rfs.waitForStartMsg();
+            //listenArrayPlayers(dis,rfs);
 
 
 
@@ -118,7 +115,8 @@ public class Player {
             e.printStackTrace();
         }
     }
-    public void listenArrayPlayers(DataInputStream dis,ReadFromServer rfs) throws IOException {
+
+  /*  public void listenArrayPlayers(DataInputStream dis,ReadFromServer rfs) throws IOException {
 
         Thread thread = new Thread(() ->{
             try {
@@ -153,7 +151,7 @@ public class Player {
         });
         thread.start();
 
-        }
+        } */
 
     private class ReadFromServer implements Runnable{
 
@@ -168,15 +166,19 @@ public class Player {
             try {
                 ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/Background-1.png").toURI().toString()));
                 map = new Map(collide, pane, background);
-                scene.addEventFilter(KeyEvent.KEY_PRESSED,
-                        event -> System.out.println("Pressed: " + event.getCode()));
+
+               /* scene.addEventFilter(KeyEvent.KEY_PRESSED,
+                        event -> System.out.println("Pressed: " + event.getCode())); */
                 Platform.runLater(()->{
+
+                    System.out.println("on crée la map avec les collisions " +playerID );
 
                     map.addCollisionObject();
                     me.startDisplay();
-                    friend.startDisplay();
+                    friend.startDisplayFriend();
                 });
 
+                System.out.println("on lit les coord");
 
                 while (true){
                     friend.setX(dis.readDouble());
@@ -190,34 +192,28 @@ public class Player {
             }
         }
         public void waitForStartMsg(){
+            Thread t = new Thread(()->{
+                try {
 
-                try{
-
-                    while (!finito ){
-
-                        if(playerID == 2){
-                            int a ;
-                            a = dis.read();
-                            System.out.println(a);
-
-                            finito = true;
-                        }
-                    }
-
-                    Platform.runLater(()->{
-                        vBox.getChildren().clear();
-                        pane.getChildren().remove(button);
-                    });
-
-                    Thread readThread = new Thread(rfs);
-                    Thread writeThread = new Thread(wts);
-                    readThread.start();
-                    writeThread.start();
-
-
-                }catch (IOException e ){
+                    System.out.println("on lit le message start " + playerID);
+                    String startMsg = dis.readUTF();
+                    System.out.println("le message est " + startMsg + " " + playerID);
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
+/*
+            Platform.runLater(()->{
+                vBox.getChildren().clear();
+                pane.getChildren().remove(button);
+            });*/
+
+                Thread readThread = new Thread(rfs);
+                Thread writeThread = new Thread(wts);
+                readThread.start();
+                writeThread.start();
+
+            });
+            t.start();
 
 
         }
@@ -240,8 +236,8 @@ public class Player {
             while (true){
 
                 try{
-                    dos.writeDouble(me.getCurrentCoordinateOfTheCharacter().getX());
-                    dos.writeDouble(me.getCurrentCoordinateOfTheCharacter().getY());
+                    dos.writeDouble(me.getX());
+                    dos.writeDouble(me.getY());
                     //System.out.println(me.getCurrentCoordinateOfTheCharacter().getX() + " " +me.getCurrentCoordinateOfTheCharacter().getY());
                     dos.flush();
                     try {

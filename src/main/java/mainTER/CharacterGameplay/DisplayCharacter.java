@@ -58,6 +58,13 @@ public class DisplayCharacter extends CollideObject {
         enableEvent();
         timelineForMotionlessCharacter();
     }
+    public void startDisplayFriend(){
+        ImageView initImgView = animationForTheCharacter.nextImage();
+        initImgView.setX(currentCoordinateOfTheCharacter.getX());
+        initImgView.setY(currentCoordinateOfTheCharacter.getY());
+        pane.getChildren().add(initImgView);
+        timelineForMotionlessCharacter();
+    }
 
     public void setCharacter(Character characterToSwitch){
         animationForTheCharacter.getTimeline().stop();
