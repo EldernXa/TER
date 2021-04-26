@@ -47,13 +47,16 @@ public class DisplayCharacter extends CollideObject {
         this.collide = collide;
         currentCoordinateOfTheCharacter = new Coordinate(character.getInitialCoordinate().getX(), character.getInitialCoordinate().getY());
         animationForTheCharacter = new AnimationCharacter(character);
+
+    }
+
+    public void startDisplay(){
         ImageView initImgView = animationForTheCharacter.nextImage();
         initImgView.setX(currentCoordinateOfTheCharacter.getX());
         initImgView.setY(currentCoordinateOfTheCharacter.getY());
         pane.getChildren().add(initImgView);
         enableEvent();
         timelineForMotionlessCharacter();
-
     }
 
     public void setCharacter(Character characterToSwitch){
