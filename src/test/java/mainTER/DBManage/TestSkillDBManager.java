@@ -1,5 +1,6 @@
 package mainTER.DBManage;
 
+import mainTER.exception.SkillDataGetException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -85,7 +86,6 @@ class TestSkillDBManager {
         }
     }
 
-    // TODO verify the opposite for test on getting.
     @Test
     void testGettingNameSkill(){
         insertValueIntoSkill();
@@ -94,6 +94,12 @@ class TestSkillDBManager {
         }catch(Exception exception){
             fail();
         }
+    }
+
+    @Test
+    void testGettingFalseNameSkillThrowException(){
+        insertValueIntoSkill();
+        assertThrows(SkillDataGetException.class, ()-> skillDBManager.getNameSkill(nameCharacter, 5));
     }
 
     @Test
@@ -107,6 +113,12 @@ class TestSkillDBManager {
     }
 
     @Test
+    void testGettingFalseCtrlKeyThrowException(){
+        insertValueIntoSkill();
+        assertThrows(SkillDataGetException.class, ()-> skillDBManager.getCtrlKey(nameCharacter, 5));
+    }
+
+    @Test
     void testGettingAnimateMvt(){
         insertValueIntoSkill();
         try{
@@ -114,6 +126,12 @@ class TestSkillDBManager {
         }catch(Exception exception){
             fail();
         }
+    }
+
+    @Test
+    void testGettingFalseAnimateMvtThrowException(){
+        insertValueIntoSkill();
+        assertThrows(SkillDataGetException.class, ()-> skillDBManager.getAnimateMvt(nameCharacter, 5));
     }
 
     @Test
@@ -127,6 +145,12 @@ class TestSkillDBManager {
     }
 
     @Test
+    void testGettingFalseAnimateActionThrowException(){
+        insertValueIntoSkill();
+        assertThrows(SkillDataGetException.class, ()->skillDBManager.getAnimateAction(nameCharacter, 5));
+    }
+
+    @Test
     void testGettingIsMode(){
         insertValueIntoSkill();
         try{
@@ -134,6 +158,12 @@ class TestSkillDBManager {
         }catch(Exception exception){
             fail();
         }
+    }
+
+    @Test
+    void testGettingFalseIsModeThrowException(){
+        insertValueIntoSkill();
+        assertThrows(SkillDataGetException.class, ()->skillDBManager.getIsMode(nameCharacter, 5));
     }
 
     private void insertValueIntoSkill(){
