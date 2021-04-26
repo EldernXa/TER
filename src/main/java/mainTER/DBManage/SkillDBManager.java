@@ -121,7 +121,7 @@ public class SkillDBManager {
                 if(resultSet.getString("nameSkill").compareTo(nameSkill)==0){
                     throw new SkillAlreadyExistException(nameCharacter, nameSkill);
                 }
-                if(resultSet.getString("ctrlKey").compareTo("ctrlKey")==0){
+                if(resultSet.getString("ctrlKey").compareTo(ctrlKey)==0){
                     throw new SkillCtrlAlreadyUsedException(nameCharacter, ctrlKey);
                 }
             }

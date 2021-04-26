@@ -198,6 +198,16 @@ class TestSkillDBManager {
         }
     }
 
+    @Test
+    void testThrowSkillCtrlAlreadyUsed(){
+        try{
+            insertValueIntoSkill();
+            assertThrows(SkillCtrlAlreadyUsedException.class, ()->skillDBManager.insertIntoTableSkill("test", ctrlKey1, nameCharacter, animateMvt, animateAction, isMode));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
     private void insertValueIntoSkill() throws SkillAlreadyExistException, SkillCtrlAlreadyUsedException {
         skillDBManager.createTableSkill();
         skillDBManager.insertIntoTableSkill(nameSkill1, ctrlKey1, nameCharacter, animateMvt, animateAction, isMode);
