@@ -328,7 +328,7 @@ public class DisplayCharacter extends CollideObject {
 
     @Override
     public Coordinate getCoordinate() {
-        return currentCoordinateOfTheCharacter;
+        return getCurrentCoordinateOfTheCharacter();
     }
 
     @Override
