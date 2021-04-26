@@ -187,6 +187,16 @@ class TestSkillDBManager {
         }
     }
 
+    @Test
+    void testThrowSkillAlreadyExist(){
+        try{
+            insertValueIntoSkill();
+            assertThrows(SkillAlreadyExistException.class, ()->skillDBManager.insertIntoTableSkill(nameSkill1, "P", nameCharacter, animateMvt, animateAction, isMode));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
     private void insertValueIntoSkill() throws SkillAlreadyExistException {
         skillDBManager.createTableSkill();
         skillDBManager.insertIntoTableSkill(nameSkill1, ctrlKey1, nameCharacter, animateMvt, animateAction, isMode);
