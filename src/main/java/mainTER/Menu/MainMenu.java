@@ -56,8 +56,8 @@ public class MainMenu {
         Title title =  new Title("NAMELESS TITLE");
         title.setTranslateX(270);
         title.setTranslateY(100);
-        //Music music = new Music("src/main/resources/mainTER/Sound/sardoche.wav");
-        //music.lancerMusique();
+        Music music = new Music("src/main/resources/mainTER/Sound/music.wav");
+        music.lancerMusique();
         MenuBox vbox = new MenuBox(
                 new MenuItem("SINGLEPLAYER",stage),
                 new MenuItem("MULTIPLAYER",stage),
