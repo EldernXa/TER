@@ -48,7 +48,7 @@ public class MenuItem extends StackPane {
     @FXML
     private Text textMenu;
     Pane paneaa = new Pane();
-    Scene sceneaa = new Scene(paneaa, 500, 600);
+    Scene sceneaa = new Scene(paneaa, Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
     private final ArrayList<Character> listCharacter;
 
     /**
@@ -124,7 +124,7 @@ public class MenuItem extends StackPane {
 
 
                     DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0), collide);
-
+                    displayCharacter.startDisplay();
 
                     SwitchCharacter sc = new SwitchCharacter(listCharacter);
 
@@ -158,7 +158,6 @@ public class MenuItem extends StackPane {
                     Scene scene = new Scene(mpm.getPane(), 500, 600);
                     stage.setScene(scene);
 
-
                 }
                 break;
                 case "SETTINGS": {
@@ -182,15 +181,13 @@ public class MenuItem extends StackPane {
                     Stage newStage = new Stage();
                     newStage.setScene(sceneaa);
 
-
-                    VBox vBox = new VBox(10);
                     GameServer gs = new GameServer();
 
 
                     Thread t = new Thread(gs);
                     t.start();
                     Player p = new Player();
-                    p.connectToServer(stage,paneaa);
+                    p.connectToServer(stage,paneaa,listCharacter);
                     newStage.show();
                     break;
 
@@ -201,7 +198,7 @@ public class MenuItem extends StackPane {
 
 
                     Player p = new Player();
-                    p.connectToServer(stage,paneaa);
+                    p.connectToServer(stage,paneaa,listCharacter);
                     newStage.show();
                     break;
                 }

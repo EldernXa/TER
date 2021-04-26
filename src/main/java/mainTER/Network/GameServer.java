@@ -12,6 +12,7 @@ public class GameServer implements Runnable{
     private ServerSocket ss;
     private int numPlayers;
     private int maxPlayers;
+    private double p1x,p1y,p2x,p2y;
     //ArrayList<ServerSideConnection> players = new ArrayList<>();
 
     private Socket player1;
@@ -31,6 +32,7 @@ public class GameServer implements Runnable{
         maxPlayers = 2;
 
     }
+
 
     public void acceptConnections(){
         try{
@@ -52,6 +54,7 @@ public class GameServer implements Runnable{
                 ReadFromClient rfc =new ReadFromClient(numPlayers,dis);
                 WriteToClient wtc = new WriteToClient(numPlayers,dos);
 
+                sendToAll(listOfPlayersID);
                 if(numPlayers == 1 ){
                     player1 = s;
                     rfc1 = rfc;
@@ -61,10 +64,27 @@ public class GameServer implements Runnable{
                     player2 = s;
                     rfc2 = rfc;
                     wtc2 = wtc;
+                    Thread thread = new Thread(() -> {
+                        try {
+                            String a = dis.readUTF();
+                            System.out.println(a);
+                            Thread readThread1 = new Thread(rfc1);
+                            Thread readThread2 = new Thread(rfc2);
+                            readThread1.start();
+                            readThread2.start();
+                            Thread writeThread1 = new Thread(wtc1);
+                            Thread writeThread2 = new Thread(wtc2);
+                            writeThread1.start();
+                            writeThread2.start();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    thread.start();
+
+
+
                 }
-                sendToAll(listOfPlayersID);
-
-
 
             }
             System.out.println("Il y a assez de joueurs");
@@ -88,7 +108,6 @@ public class GameServer implements Runnable{
 
         for(ObjectOutputStream oos : oosList)
             write(oos,message);
-
 
     }
 
@@ -122,6 +141,28 @@ public class GameServer implements Runnable{
 
         @Override
         public void run() {
+            try{
+
+                System.out.println("on passe ici 1 ");
+
+                while (true){
+                    if(playerID == 1){
+                        p1x = dis.readDouble();
+                        p1y = dis.readDouble();
+                        System.out.println("p1-------"+p1x +" " + p1y);
+                    }else{
+                        p2x = dis.readDouble();
+                        p2y = dis.readDouble();
+                        System.out.println("p2-----" + p2x +" " + p2y);
+                    }
+                }
+            }catch (IOException ex){
+                ex.printStackTrace();
+            }
+        }
+
+        public void readButton() throws IOException, InterruptedException {
+
 
         }
     }
@@ -139,10 +180,37 @@ public class GameServer implements Runnable{
 
         }
 
+
         @Override
         public void run() {
+            try{
+                while (true){
+                    if(playerID == 1){
+                        dos.writeDouble(p2x);
+                        dos.writeDouble(p2y);
+                        dos.flush();
+                    }else{
+                        dos.writeDouble(p1x);
+                        dos.writeDouble(p2y);
+                        dos.flush();
+                    }
+                    try {
+                        Thread.sleep(25);
+                    }catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+                }
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
 
-
+        public void sendStartMsg(){
+            try{
+                dos.writeUTF("zé parti");
+            }catch (IOException e){
+                e.printStackTrace();
+            }
         }
 
     }
