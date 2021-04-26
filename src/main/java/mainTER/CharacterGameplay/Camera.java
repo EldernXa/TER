@@ -40,36 +40,18 @@ public class Camera {
         camera.translateXProperty().set(displayCharacter.getCurrentCoordinateOfTheCharacter().getX() * scalingValue - Screen.getPrimary().getBounds().getWidth() / 2);
 
         //A voir pour les Y quand la map monte ou decend
-        AtomicBoolean isZero = new AtomicBoolean(false);
-        final Coordinate saveCoord = new Coordinate(displayCharacter.getCurrentCoordinateOfTheCharacter().getX(), displayCharacter.getCurrentCoordinateOfTheCharacter().getY());
 
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, event2 -> {
 
             switch (event2.getCode()) {
                 case D:
-                    if (camera.getTranslateX() > background.getImage().getWidth()) {
-                        //isZero.set(true);
-                    } else {
-                        coordCamera();
-                        if (camera.getTranslateX() > background.getImage().getWidth()) {
-                            camera.translateXProperty().set(background.getImage().getWidth() - 1);
-                        }
-                        isZero.set(false);
-                    }
+                    coordCamera();
                     break;
 
                 case Q:
-                    if (camera.getTranslateX() > 1 && camera.getTranslateX() < background.getImage().getWidth()) {
+                    if (camera.getTranslateX() > 1 ) {
                         coordCamera();
-
-
-                    } else {
-                        if (!isZero.get()) {
-
-                            saveCoord.setX(displayCharacter.getCurrentCoordinateOfTheCharacter().getX() * scalingValue);
-                            isZero.set(true);
-                        }
                     }
                     break;
                 case A:
@@ -107,13 +89,15 @@ public class Camera {
 
 
         camera.translateXProperty().set(xCamera + (translateValue - xCamera) * 0.1);
-        if (camera.getTranslateX() > background.getImage().getWidth()) {
-            camera.translateXProperty().set(background.getImage().getWidth() - 1);
+        if (displayCharacter.getCurrentCoordinateOfTheCharacter().getX() + Screen.getPrimary().getBounds().getWidth()/2 >background.getImage().getWidth()) {
+            translateValue = background.getImage().getWidth() - 1;
+            camera.translateXProperty().set(xCamera + (translateValue - xCamera) * 0.1);
         }
         else if (camera.getTranslateX() < 1) {
             camera.translateXProperty().set(1);
         }
         else {
+
             double switchCharacterValue = displayCharacter.getCurrentCoordinateOfTheCharacter().getX()  -  Screen.getPrimary().getBounds().getWidth() / 2.8;
             double xSc = sc.getTranslateX();
             sc.setTranslateX(xSc + (switchCharacterValue - xSc)*0.1);
