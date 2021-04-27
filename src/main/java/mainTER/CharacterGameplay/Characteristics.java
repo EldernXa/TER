@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 public class Characteristics {
 
-    private final double speed;
+    private double speed;
+    private final double initSpeed;
     private final double weight;
     private final double jumpStrength;
     private final double fallingSpeed;
@@ -16,6 +17,7 @@ public class Characteristics {
     public Characteristics(double speed, double weight, double jumpStrength, double fallingSpeed, boolean canJump){
         listOfPictureOfTheCharacter = new ArrayList<>();
         this.speed = speed;
+        this.initSpeed = speed;
         this.weight = weight;
         this.jumpStrength = jumpStrength;
         this.fallingSpeed = fallingSpeed;
@@ -44,6 +46,13 @@ public class Characteristics {
 
     public void setCanJump(boolean canJump){
         this.canJump = canJump;
+    }
+
+    public void setSpeed(double speed){
+        this.speed = speed;
+    }
+    public void resetSpeed(){
+        speed = initSpeed;
     }
 
 }

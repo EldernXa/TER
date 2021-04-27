@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ActiveSkill implements Skill{
@@ -60,9 +61,64 @@ public class ActiveSkill implements Skill{
                     shieldSkill();
                 }else if(skill == ActiveSkillEnum.ATTACK){
                     attackSkill(animationCharacter, characterMovementAndDisplayManagement, tpsDuration);
+                } else if (skill == ActiveSkillEnum.BARRIER_MODE) {
+                    shieldSkill();
+
+                } else if (skill == ActiveSkillEnum.FLY_MODE) {
+                    flySkill();
+
+                }
+                else if(skill == ActiveSkillEnum.MOULT){
+
+
                 }
             }
         };
+    }
+
+    private void flySkill() {
+        //Bug quand on change de perso et qu'on revient sur le démon, il arrive plus a changer de compétence
+        if (!isEnabled) {
+            isEnabled = true;
+            try {
+                new Thread(() -> {
+                    try {
+                        changeAnimateForWalk();
+                        changeAnimateForReverseWalk();
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+
+                    character.getCharacteristics().setSpeed(character.getSpeed() * 3);
+                    try {
+                        TimeUnit.SECONDS.sleep(3);
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        initAnimateForReverseWalk();
+                        initAnimateForWalk();
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                    character.getCharacteristics().resetSpeed();
+                    isEnabled = false;
+                }).start();
+            } catch (Exception ignored) {
+            }
+        } else {
+            isEnabled = false;
+            try {
+                initAnimateForWalk();
+                initAnimateForReverseWalk();
+                character.getCharacteristics().resetSpeed();
+            } catch (Exception ignored) {
+
+            }
+        }
     }
 
     private void shieldSkill(){
@@ -72,6 +128,8 @@ public class ActiveSkill implements Skill{
             try {
                 changeAnimateForWalk();
                 changeAnimateForReverseWalk();
+                changeAnimateForMotionless();
+                changeAnimateForReverseMotionless();
             }catch(Exception ignored){
 
             }
@@ -81,6 +139,8 @@ public class ActiveSkill implements Skill{
             try {
                 initAnimateForWalk();
                 initAnimateForReverseWalk();
+                initAnimateForMotionless();
+                initAnimateForReverseMotionless();
             }catch(Exception ignored){
 
             }
@@ -149,6 +209,8 @@ public class ActiveSkill implements Skill{
         }
     }
 
+    /*** CHANGE ***/
+
     private void changeAnimateForWalk() throws URISyntaxException {
         final String replace = nameSkill.toLowerCase()+Position.WALK.toString().toLowerCase().replace("_", "");
         changeAnimate(replace, Position.WALK);
@@ -160,6 +222,21 @@ public class ActiveSkill implements Skill{
 
     }
 
+    private void changeAnimateForMotionless() throws URISyntaxException {
+        final String replace = nameSkill.toLowerCase() + Position.MOTIONLESS.toString().toLowerCase().replace("_", "");
+        changeAnimate(replace, Position.MOTIONLESS);
+
+    }
+
+
+    private void changeAnimateForReverseMotionless() throws URISyntaxException {
+        System.out.println(nameSkill);
+        final String replace = nameSkill.toLowerCase() + Position.REVERSE_MOTIONLESS.toString().toLowerCase().replace("_", "");
+        changeAnimate(replace, Position.REVERSE_MOTIONLESS);
+
+    }
+
+    /*** INIT ***/
     private void initAnimateForWalk() throws URISyntaxException {
         final String replace = Position.WALK.toString().toLowerCase().replace("_", "");
         changeAnimate(replace, Position.WALK);
@@ -169,5 +246,16 @@ public class ActiveSkill implements Skill{
         final String replace = Position.REVERSE_WALK.toString().toLowerCase().replace("_", "");
         changeAnimate(replace, Position.REVERSE_WALK);
     }
+
+    private void initAnimateForMotionless() throws URISyntaxException {
+        final String replace = Position.MOTIONLESS.toString().toLowerCase().replace("_", "");
+        changeAnimate(replace, Position.MOTIONLESS);
+    }
+
+    private void initAnimateForReverseMotionless() throws URISyntaxException {
+        final String replace = Position.REVERSE_MOTIONLESS.toString().toLowerCase().replace("_", "");
+        changeAnimate(replace, Position.REVERSE_MOTIONLESS);
+    }
+
 
 }

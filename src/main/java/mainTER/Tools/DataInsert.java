@@ -44,8 +44,11 @@ public class DataInsert {
         skillDBManager.createTableSkill();
 
         try {
-            skillDBManager.insertIntoTableSkill("SHIELD", "R", "Paladin", true, false, true);
-            skillDBManager.insertIntoTableSkill("ATTACK", "W", "Paladin", false, true, false);
+            skillDBManager.insertIntoTableSkill("SHIELD", "1", "Paladin", true, false, true);
+            skillDBManager.insertIntoTableSkill("ATTACK", "2", "Paladin", false, true, false);
+            skillDBManager.insertIntoTableSkill("BARRIER", "3", "Paladin", true, false, true);
+            skillDBManager.insertIntoTableSkill("FLY", "1", "Demon", true, false, true);
+            skillDBManager.insertIntoTableSkill("MOULT", "1", "Serpent", false, false, false);
         }catch(SkillAlreadyExistException | SkillCtrlAlreadyUsedException | SkillDataDoesntCorrectException exception){
             System.out.println(exception.getMessage());
         }
