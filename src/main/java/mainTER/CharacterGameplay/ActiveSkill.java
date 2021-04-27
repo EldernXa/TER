@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import mainTER.Tools.CharacterMovementAndDisplayManagement;
 import mainTER.Tools.Coordinate;
 
 import java.io.File;
@@ -52,7 +53,8 @@ public class ActiveSkill implements Skill{
         }
     }
 
-    public EventHandler<KeyEvent> eventForSkill(AnimationCharacter animationCharacter, Pane pane, int tpsDuration){
+    public EventHandler<KeyEvent> eventForSkill(AnimationCharacter animationCharacter,
+                                                CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement, int tpsDuration){
         return event -> {
             if (event.getCode().getChar().equals(ctrlKey)){
                 if(skill == ActiveSkillEnum.SHIELD_MODE){
@@ -76,7 +78,7 @@ public class ActiveSkill implements Skill{
                         }
                     }
                 }else if(skill == ActiveSkillEnum.ATTACK){
-                    animationCharacter.setCanMove(false);
+                    /*animationCharacter.setCanMove(false);
                     Coordinate c = new Coordinate(0, 0);
                     for(List<ImageView> list : character.getListOfPictureOfTheCharacter()){
                         for(ImageView imgView : list){
@@ -119,7 +121,7 @@ public class ActiveSkill implements Skill{
                         )
                     );
                     animationCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
-                    animationCharacter.getTimeline().play();
+                    animationCharacter.getTimeline().play();*/
 
                 }
             }

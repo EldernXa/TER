@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import mainTER.MapPackage.Collide;
 import mainTER.MapPackage.CollideObject;
+import mainTER.Tools.CharacterMovementAndDisplayManagement;
 import mainTER.Tools.Coordinate;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class DisplayCharacter extends CollideObject {
     private final AnimationCharacter animationForTheCharacter;
     private Character character;
     private final Scene lvlOfTheGame;
-    private final Pane pane;
+    private final CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement;
     private boolean walkToRight = true;
     private final Collide collide;
     private KeyCode currentKeyCode;
@@ -42,7 +43,7 @@ public class DisplayCharacter extends CollideObject {
      */
     public DisplayCharacter(Scene scene, Pane pane, Character character, Collide collide){
         this.lvlOfTheGame = scene;
-        this.pane = pane;
+        characterMovementAndDisplayManagement = new CharacterMovementAndDisplayManagement(pane);
         this.character = character;
         this.collide = collide;
         currentCoordinateOfTheCharacter = new Coordinate(character.getInitialCoordinate().getX(), character.getInitialCoordinate().getY());
@@ -51,24 +52,19 @@ public class DisplayCharacter extends CollideObject {
     }
 
     public void startDisplay(){
-        ImageView initImgView = animationForTheCharacter.nextImage();
-        initImgView.setX(currentCoordinateOfTheCharacter.getX());
-        initImgView.setY(currentCoordinateOfTheCharacter.getY());
-        pane.getChildren().add(initImgView);
+        characterMovementAndDisplayManagement.displayNode(animationForTheCharacter.nextImage(), currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY());
         enableEvent();
         for(Skill skill : character.getListSkill()){
             if(skill.getClass() == ActiveSkill.class){
                 ((ActiveSkill) skill).init();
-                lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, ((ActiveSkill)skill).eventForSkill(animationForTheCharacter, pane, TPS_DURATION_TIMELINE));
+                lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, ((ActiveSkill)skill).eventForSkill(animationForTheCharacter, characterMovementAndDisplayManagement, TPS_DURATION_TIMELINE));
             }
         }
         timelineForMotionlessCharacter();
     }
     public void startDisplayFriend(){
-        ImageView initImgView = animationForTheCharacter.nextImage();
-        initImgView.setX(currentCoordinateOfTheCharacter.getX());
-        initImgView.setY(currentCoordinateOfTheCharacter.getY());
-        pane.getChildren().add(initImgView);
+        characterMovementAndDisplayManagement.displayNode(animationForTheCharacter.nextImage(), currentCoordinateOfTheCharacter.getX(),
+                currentCoordinateOfTheCharacter.getY());
         timelineForMotionlessCharacter();
     }
 
@@ -76,79 +72,78 @@ public class DisplayCharacter extends CollideObject {
         for(Skill skill:character.getListSkill()){
             if(skill.getClass()==ActiveSkill.class){
                 ((ActiveSkill) skill).init();
-                lvlOfTheGame.removeEventHandler(KeyEvent.KEY_PRESSED, ((ActiveSkill)skill).eventForSkill(animationForTheCharacter, pane, TPS_DURATION_TIMELINE));
+                lvlOfTheGame.removeEventHandler(KeyEvent.KEY_PRESSED, ((ActiveSkill)skill).eventForSkill(animationForTheCharacter,
+                        characterMovementAndDisplayManagement, TPS_DURATION_TIMELINE));
             }
         }
         animationForTheCharacter.getTimeline().stop();
-        removeAllImgViewOfThePane();
         double height = animationForTheCharacter.actualImg().getImage().getHeight();
         animationForTheCharacter.changeCharacter(characterToSwitch);
 
         ImageView imgView = animationForTheCharacter.nextImage();
         double newHeight = height-imgView.getImage().getHeight();
         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()+newHeight);
-        imgView.setX(currentCoordinateOfTheCharacter.getX());
-        imgView.setY(currentCoordinateOfTheCharacter.getY()-5);
-        pane.getChildren().add(imgView);
+        characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
+                currentCoordinateOfTheCharacter.getY());
         this.character = characterToSwitch;
         for(Skill skill : character.getListSkill()){
             if(skill.getClass()==ActiveSkill.class){
                 ((ActiveSkill) skill).init();
-                lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, ((ActiveSkill)skill).eventForSkill(animationForTheCharacter, pane, TPS_DURATION_TIMELINE));
+                lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, ((ActiveSkill)skill).eventForSkill(animationForTheCharacter,
+                        characterMovementAndDisplayManagement, TPS_DURATION_TIMELINE));
             }
         }
     }
 
     private void timelineForWalk(){
-        animationForTheCharacter.getTimeline().stop();
-        animationForTheCharacter.getTimeline().getKeyFrames().clear();
-        animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
-                Duration.millis(TPS_DURATION_TIMELINE),
-                tps->{
-                    if(animationForTheCharacter.getCanMove()) {
-                        if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
-                            if (verifyCollision(currentCoordinateOfTheCharacter.getX() + character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
+        if(animationForTheCharacter.getCanMove()) {
+            animationForTheCharacter.getTimeline().stop();
+            animationForTheCharacter.getTimeline().getKeyFrames().clear();
+            animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
+                    Duration.millis(TPS_DURATION_TIMELINE),
+                    tps -> {
+                        if (animationForTheCharacter.getCanMove()) {
+                            if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
+                                if (verifyCollision(currentCoordinateOfTheCharacter.getX() + character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
+                                    double height = animationForTheCharacter.actualImg().getImage().getHeight();
+                                    animationForTheCharacter.setWalk();
+                                    currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() + character.getSpeed());
+                                    doJump(height);
+                                }
+                            } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)) {
+                                if (verifyCollision(currentCoordinateOfTheCharacter.getX() + character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
+                                    animationForTheCharacter.setWalk();
+                                    currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() + character.getSpeed());
+                                    fallingCharacter();
+                                }
+                            } else if (verifyCollision(currentCoordinateOfTheCharacter.getX() + character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
+                                fallingStep = 1;
                                 double height = animationForTheCharacter.actualImg().getImage().getHeight();
                                 animationForTheCharacter.setWalk();
                                 currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() + character.getSpeed());
-                                doJump(height);
+                                adaptYToHeight(height);
+                            } else {
+                                timelineForMotionlessCharacter();
                             }
-                        } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)) {
-                            if (verifyCollision(currentCoordinateOfTheCharacter.getX() + character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
-                                animationForTheCharacter.setWalk();
-                                currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() + character.getSpeed());
-                                fallingCharacter();
-                            }
-                        } else if (verifyCollision(currentCoordinateOfTheCharacter.getX() + character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
-                            fallingStep = 1;
-                            removeAllImgViewOfThePane();
-                            double height = animationForTheCharacter.actualImg().getImage().getHeight();
-                            animationForTheCharacter.setWalk();
-                            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() + character.getSpeed());
-                            adaptYToHeight(height);
-                        } else {
-                            timelineForMotionlessCharacter();
                         }
                     }
-                }
-        ));
+            ));
 
-        animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
-        animationForTheCharacter.getTimeline().play();
+            animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
+            animationForTheCharacter.getTimeline().play();
+        }
     }
 
     private double adaptYToHeight(double height) {
         ImageView imgView = animationForTheCharacter.nextImage();
         double newHeight = height - imgView.getImage().getHeight();
         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()+newHeight);
-        imgView.setX(currentCoordinateOfTheCharacter.getX());
-        imgView.setY(currentCoordinateOfTheCharacter.getY());
-        pane.getChildren().add(imgView);
+        characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
+                currentCoordinateOfTheCharacter.getY());
         return newHeight;
     }
 
     private void doJump(double height) {
-        removeAllImgViewOfThePane();
         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()-jumpStrength);
         jumpStrength-= character.getWeight()*0.2;
         System.out.println(jumpStrength);
@@ -158,96 +153,94 @@ public class DisplayCharacter extends CollideObject {
         }
         ImageView imgView = animationForTheCharacter.nextImage();
         double newHeight = height-imgView.getImage().getHeight();
-        System.out.println(newHeight);
         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()-newHeight);
-        imgView.setX(currentCoordinateOfTheCharacter.getX());
-        imgView.setY(currentCoordinateOfTheCharacter.getY());
-        pane.getChildren().add(imgView);
+        characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
+                currentCoordinateOfTheCharacter.getY());
     }
 
     private void timelineForReverseWalk(){
-        animationForTheCharacter.getTimeline().stop();
-        animationForTheCharacter.getTimeline().getKeyFrames().clear();
-        animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
-                Duration.millis(TPS_DURATION_TIMELINE),
-                tps->{
-                    if(animationForTheCharacter.getCanMove()) {
-                        if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
-                            if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
+        if(animationForTheCharacter.getCanMove()) {
+            animationForTheCharacter.getTimeline().stop();
+            animationForTheCharacter.getTimeline().getKeyFrames().clear();
+            animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
+                    Duration.millis(TPS_DURATION_TIMELINE),
+                    tps -> {
+                        if (animationForTheCharacter.getCanMove()) {
+                            if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
+                                if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
+                                    double height = animationForTheCharacter.actualImg().getImage().getHeight();
+                                    animationForTheCharacter.setReverseWalk();
+                                    currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - character.getSpeed());
+                                    doJump(height);
+                                }
+                            } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)) {
+                                if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
+                                    animationForTheCharacter.setReverseWalk();
+                                    currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - character.getSpeed());
+                                    fallingCharacter();
+                                }
+                            } else if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
+                                fallingStep = 1;
                                 double height = animationForTheCharacter.actualImg().getImage().getHeight();
                                 animationForTheCharacter.setReverseWalk();
                                 currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - character.getSpeed());
-                                doJump(height);
-                            }
-                        } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)) {
-                            if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
-                                animationForTheCharacter.setReverseWalk();
-                                currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - character.getSpeed());
-                                fallingCharacter();
-                            }
-                        } else if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
-                            fallingStep = 1;
-                            removeAllImgViewOfThePane();
-                            double height = animationForTheCharacter.actualImg().getImage().getHeight();
-                            animationForTheCharacter.setReverseWalk();
-                            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - character.getSpeed());
 
-                            adaptYToHeight(height);
-                        } else {
-                            timelineForMotionlessCharacter();
+                                adaptYToHeight(height);
+                            } else {
+                                timelineForMotionlessCharacter();
+                            }
                         }
                     }
-                }
-        ));
-        animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
-        animationForTheCharacter.getTimeline().play();
+            ));
+            animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
+            animationForTheCharacter.getTimeline().play();
+        }
     }
 
     private void timelineForMotionlessCharacter(){
-        animationForTheCharacter.getTimeline().stop();
-        animationForTheCharacter.getTimeline().getKeyFrames().clear();
-        animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
-                Duration.millis(TPS_DURATION_TIMELINE),
-                tps->{
-                    if (animationForTheCharacter.getCanMove()) {
-                        removeAllImgViewOfThePane();
-                        double height = animationForTheCharacter.actualImg().getImage().getHeight();
-                        if (walkToRight)
-                            animationForTheCharacter.setMotionless();
-                        else
-                            animationForTheCharacter.setReverseMotionLess();
-                        double newHeight = adaptYToHeight(height);
-                        if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
+        if(animationForTheCharacter.getCanMove()) {
+            animationForTheCharacter.getTimeline().stop();
+            animationForTheCharacter.getTimeline().getKeyFrames().clear();
+            animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
+                    Duration.millis(TPS_DURATION_TIMELINE),
+                    tps -> {
+                        if (animationForTheCharacter.getCanMove()) {
+                            double height = animationForTheCharacter.actualImg().getImage().getHeight();
                             if (walkToRight)
-                                animationForTheCharacter.setJump();
+                                animationForTheCharacter.setMotionless();
                             else
-                                animationForTheCharacter.setReverseJump();
+                                animationForTheCharacter.setReverseMotionLess();
+                            double newHeight = adaptYToHeight(height);
+                            if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
+                                if (walkToRight)
+                                    animationForTheCharacter.setJump();
+                                else
+                                    animationForTheCharacter.setReverseJump();
 
-                            removeAllImgViewOfThePane();
-                            currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() - jumpStrength - newHeight);
-                            jumpStrength -= character.getWeight() * 0.2;
-                            if (jumpStrength <= 0) {
-                                isJumping = false;
-                                jumpStrength = 0;
+                                currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() - jumpStrength - newHeight);
+                                jumpStrength -= character.getWeight() * 0.2;
+                                if (jumpStrength <= 0) {
+                                    isJumping = false;
+                                    jumpStrength = 0;
+                                }
+                                adaptYToHeight(height);
+                            } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)) {
+                                fallingCharacter();
+                            } else {
+                                fallingStep = 1;
                             }
-                            adaptYToHeight(height);
-                        } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)) {
-                            fallingCharacter();
-                        } else {
-                            fallingStep = 1;
                         }
                     }
-                }
-        ));
-        animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
-        animationForTheCharacter.getTimeline().play();
+            ));
+            animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
+            animationForTheCharacter.getTimeline().play();
+        }
     }
     public Character getCharacter(){
         return character;
     }
 
     private void fallingCharacter(){
-        removeAllImgViewOfThePane();
         ImageView imgView = animationForTheCharacter.nextImage();
         double newHeight = animationForTheCharacter.getHeightMotionless()-imgView.getImage().getHeight();
         int pas = (int)fallingStep;
@@ -264,11 +257,9 @@ public class DisplayCharacter extends CollideObject {
         if(pas==0){
             pas = 1;
             currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()+newHeight);
-            System.out.println(newHeight);
         }
-        imgView.setX(currentCoordinateOfTheCharacter.getX());
-        imgView.setY(currentCoordinateOfTheCharacter.getY());
-        pane.getChildren().add(imgView);
+        characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
+                currentCoordinateOfTheCharacter.getY());
         fallingStep += 0.5 * fallingStep;
         if(pas==1)
             isJumping = false;
@@ -276,14 +267,6 @@ public class DisplayCharacter extends CollideObject {
 
     public boolean verifyCollision(double x, double y){
         return collide.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(x, y), this);
-    }
-
-    private void removeAllImgViewOfThePane(){
-        for(List<ImageView> listImg : character.getListOfPictureOfTheCharacter()) {
-            for (ImageView imageView : listImg) {
-                pane.getChildren().remove(imageView);
-            }
-        }
     }
 
     public Coordinate getCurrentCoordinateOfTheCharacter(){
