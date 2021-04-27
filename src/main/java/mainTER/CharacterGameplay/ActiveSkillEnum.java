@@ -1,5 +1,6 @@
 package mainTER.CharacterGameplay;
 
 public enum ActiveSkillEnum {
-    SHIELD_MODE
+    SHIELD_MODE,
+    ATTACK
 }

@@ -50,6 +50,10 @@ public class Character {
         initListSkill();
     }
 
+    public Characteristics getCharacteristics(){
+        return characteristics;
+    }
+
     private void initListSkill(){
         SkillDBManager skillDBManager = new SkillDBManager();
         for(int i=1; i<=skillDBManager.getNumberSkillOfACharacter(name);i++){
@@ -62,7 +66,7 @@ public class Character {
                         listSkill.add(new ActiveSkill(name, skillDBManager.getNameSkill(name, i),
                                 skillDBManager.getCtrlKey(name, i), skillDBManager.getAnimateMvt(name, i),
                                 skillDBManager.getAnimateAction(name, i),
-                                skillDBManager.getIsMode(name, i), characteristics));
+                                skillDBManager.getIsMode(name, i), this));
 
                 }
             }catch(SkillDataGetException skillDataGetException){

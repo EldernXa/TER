@@ -12,8 +12,10 @@ public class AnimationCharacter {
     private final Timeline timeline = new Timeline();
     private int indImgToAnimate = 0;
     private int posToAnimate;
+    private boolean canMove;
 
     public AnimationCharacter(Character characterToAnimate){
+        canMove = true;
         setMotionless();
         listOfImageViewForTheAnimation = characterToAnimate.getListOfPictureOfTheCharacter();
     }
@@ -21,6 +23,14 @@ public class AnimationCharacter {
     public void changeCharacter(Character character){
         listOfImageViewForTheAnimation = character.getListOfPictureOfTheCharacter();
         indImgToAnimate = 0;
+    }
+
+    public void setCanMove(boolean canMove){
+        this.canMove = canMove;
+    }
+
+    public boolean getCanMove(){
+        return canMove;
     }
 
     public double getHeightMotionless(){
