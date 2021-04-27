@@ -112,7 +112,7 @@ public class MenuControls {
             button.setText("");
             button.setOnKeyPressed(keyEvent -> {
                 int code = keyEvent.getCode().getCode();
-                String control = keyEvent.getCode().getChar();
+                String control = keyEvent.getCode().getChar().toLowerCase();
 
 
                 if(listControls.contains(control.toLowerCase())){
