@@ -69,8 +69,7 @@ public class Camera {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, event2 -> {
 
             String event = event2.getCode().getChar().toLowerCase();
-            System.out.println(event);
-            System.out.println(right);
+
             if(event.equals(right)){
                 coordCamera();
             }else if(event.equals(left)){

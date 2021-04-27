@@ -9,10 +9,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import mainTER.DBManage.ControlsDBManager;
 import mainTER.MapPackage.Collide;
 import mainTER.MapPackage.CollideObject;
 import mainTER.Tools.CharacterMovementAndDisplayManagement;
 import mainTER.Tools.Coordinate;
+import mainTER.exception.ControlsDataGetException;
 
 
 /**
@@ -32,7 +34,9 @@ public class DisplayCharacter extends CollideObject {
     private boolean isJumping = false;
     private double jumpStrength;
     private static final int TPS_DURATION_TIMELINE = 100;
-
+    private  String right;
+    private  String left;
+    private  String jump;
     /**
      *
      * @param scene scene of the game.
@@ -46,6 +50,18 @@ public class DisplayCharacter extends CollideObject {
         this.collide = collide;
         currentCoordinateOfTheCharacter = new Coordinate(character.getInitialCoordinate().getX(), character.getInitialCoordinate().getY());
         animationForTheCharacter = new AnimationCharacter(character);
+        ControlsDBManager controlsDBManager = new ControlsDBManager();
+
+        left = "";
+        right = "";
+        jump = "";
+        try {
+            left = controlsDBManager.getLeft().toUpperCase();
+            right = controlsDBManager.getRight().toUpperCase();
+            jump = controlsDBManager.getJump();
+        } catch (ControlsDataGetException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -318,24 +334,31 @@ public class DisplayCharacter extends CollideObject {
     }
 
     private void eventForRightMovement(KeyEvent eventForPressedKey){
-        if(eventForPressedKey.getCode() == KeyCode.D && KeyCode.D != currentKeyCode){
+        KeyCode keyCode = KeyCode.getKeyCode(right);
+
+        if(eventForPressedKey.getCode() == keyCode && keyCode != currentKeyCode){
             walkToRight = true;
-            currentKeyCode = eventForPressedKey.getCode();
+            currentKeyCode = keyCode;
             timelineForWalk();
         }
     }
 
     private void eventForLeftMovement(KeyEvent eventForPressedKey){
-        if(eventForPressedKey.getCode() == KeyCode.Q && KeyCode.Q != currentKeyCode){
+        KeyCode keyCode = KeyCode.getKeyCode(left);
+        if(eventForPressedKey.getCode() == keyCode && keyCode != currentKeyCode){
             walkToRight = false;
-            currentKeyCode = KeyCode.Q;
+            currentKeyCode = keyCode;
             timelineForReverseWalk();
         }
     }
 
     private void eventForJumpMovement(KeyEvent eventForPressedKey){
-        if(eventForPressedKey.getCode() == KeyCode.SPACE && !verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1) && eventForPressedKey.getCode() != currentKeyCode && character.canJump()){
-            currentKeyCode = eventForPressedKey.getCode();
+        KeyCode keyCode = KeyCode.getKeyCode(jump);
+        if(jump.equals(" ")){
+            keyCode = KeyCode.SPACE;
+        }
+        if(eventForPressedKey.getCode() == keyCode && !verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1) && keyCode != currentKeyCode && character.canJump()){
+            currentKeyCode = keyCode;
             isJumping = true;
             this.jumpStrength = character.getJumpStrength();
         }
