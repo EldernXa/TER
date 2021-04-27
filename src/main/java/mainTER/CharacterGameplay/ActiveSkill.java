@@ -6,7 +6,6 @@ import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import mainTER.Tools.CharacterMovementAndDisplayManagement;
 import mainTER.Tools.Coordinate;
@@ -58,61 +57,69 @@ public class ActiveSkill implements Skill{
         return event -> {
             if (event.getCode().getChar().equals(ctrlKey)){
                 if(skill == ActiveSkillEnum.SHIELD_MODE){
-                    if(!isEnabled) {
-                        isEnabled = true;
-                        character.getCharacteristics().setCanJump(false);
-                        try {
-                            changeAnimateForWalk();
-                            changeAnimateForReverseWalk();
-                        }catch(Exception ignored){
-
-                        }
-                    }else{
-                        isEnabled = false;
-                        character.getCharacteristics().setCanJump(true);
-                        try {
-                            initAnimateForWalk();
-                            initAnimateForReverseWalk();
-                        }catch(Exception ignored){
-
-                        }
-                    }
+                    shieldSkill();
                 }else if(skill == ActiveSkillEnum.ATTACK){
-                    animationCharacter.setCanMove(false);
-                    Coordinate c = characterMovementAndDisplayManagement.getCoordinateOfTheActualImg();
-                    List<ImageView> listPersonalizedAnimate = null;
-                    try{
-                        listPersonalizedAnimate = listPersonalizedAnimate();
-                    }catch(URISyntaxException uriSyntaxException){
-                        System.out.println("Problème de path.");
-                    }
-                    animationCharacter.getTimeline().stop();
-                    animationCharacter.getTimeline().getKeyFrames().clear();
-                    List<ImageView> finalListPersonalizedAnimate = listPersonalizedAnimate;
-                    AtomicInteger i = new AtomicInteger();
-                    animationCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
-                            Duration.millis(tpsDuration),
-                            tps->{
-                                if(finalListPersonalizedAnimate != null){
-                                    characterMovementAndDisplayManagement.displayNode(finalListPersonalizedAnimate.get(i.getAndIncrement()),
-                                            c.getX(),c.getY());
-                                    if(i.get()>=finalListPersonalizedAnimate.size()){
-                                        animationCharacter.setCanMove(true);
-                                        animationCharacter.getTimeline().stop();
-                                        animationCharacter.getTimeline().getKeyFrames().clear();
-                                    }
-                                }else{
-                                    animationCharacter.setCanMove(true);
-                                }
-                            }
-                        )
-                    );
-                    animationCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
-                    animationCharacter.getTimeline().play();
-
+                    attackSkill(animationCharacter, characterMovementAndDisplayManagement, tpsDuration);
                 }
             }
         };
+    }
+
+    private void shieldSkill(){
+        if(!isEnabled) {
+            isEnabled = true;
+            character.getCharacteristics().setCanJump(false);
+            try {
+                changeAnimateForWalk();
+                changeAnimateForReverseWalk();
+            }catch(Exception ignored){
+
+            }
+        }else{
+            isEnabled = false;
+            character.getCharacteristics().setCanJump(true);
+            try {
+                initAnimateForWalk();
+                initAnimateForReverseWalk();
+            }catch(Exception ignored){
+
+            }
+        }
+    }
+
+    private void attackSkill(AnimationCharacter animationCharacter, CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement,
+                             int tpsDuration){
+        animationCharacter.setCanMove(false);
+        Coordinate c = characterMovementAndDisplayManagement.getCoordinateOfTheActualImg();
+        List<ImageView> listPersonalizedAnimate = null;
+        try{
+            listPersonalizedAnimate = listPersonalizedAnimate();
+        }catch(URISyntaxException uriSyntaxException){
+            System.out.println("Problème de path.");
+        }
+        animationCharacter.getTimeline().stop();
+        animationCharacter.getTimeline().getKeyFrames().clear();
+        List<ImageView> finalListPersonalizedAnimate = listPersonalizedAnimate;
+        AtomicInteger i = new AtomicInteger();
+        animationCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
+                        Duration.millis(tpsDuration),
+                        tps->{
+                            if(finalListPersonalizedAnimate != null){
+                                characterMovementAndDisplayManagement.displayNode(finalListPersonalizedAnimate.get(i.getAndIncrement()),
+                                        c.getX(),c.getY());
+                                if(i.get()>=finalListPersonalizedAnimate.size()){
+                                    animationCharacter.setCanMove(true);
+                                    animationCharacter.getTimeline().stop();
+                                    animationCharacter.getTimeline().getKeyFrames().clear();
+                                }
+                            }else{
+                                animationCharacter.setCanMove(true);
+                            }
+                        }
+                )
+        );
+        animationCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
+        animationCharacter.getTimeline().play();
     }
 
     private List<ImageView> listPersonalizedAnimate() throws URISyntaxException{
