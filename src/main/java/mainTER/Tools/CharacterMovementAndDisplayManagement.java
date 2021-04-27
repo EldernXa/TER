@@ -21,4 +21,8 @@ public class CharacterMovementAndDisplayManagement {
         pane.getChildren().add(imgView);
     }
 
+    public Coordinate getCoordinateOfTheActualImg(){
+        return new Coordinate(imgView.getX(), imgView.getY());
+    }
+
 }

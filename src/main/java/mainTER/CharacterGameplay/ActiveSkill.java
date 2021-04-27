@@ -78,17 +78,8 @@ public class ActiveSkill implements Skill{
                         }
                     }
                 }else if(skill == ActiveSkillEnum.ATTACK){
-                    /*animationCharacter.setCanMove(false);
-                    Coordinate c = new Coordinate(0, 0);
-                    for(List<ImageView> list : character.getListOfPictureOfTheCharacter()){
-                        for(ImageView imgView : list){
-                            if(pane.getChildren().contains(imgView)){
-                                c.setX(imgView.getX());
-                                c.setY(imgView.getY());
-                            }
-                            pane.getChildren().remove(imgView);
-                        }
-                    }
+                    animationCharacter.setCanMove(false);
+                    Coordinate c = characterMovementAndDisplayManagement.getCoordinateOfTheActualImg();
                     List<ImageView> listPersonalizedAnimate = null;
                     try{
                         listPersonalizedAnimate = listPersonalizedAnimate();
@@ -103,12 +94,8 @@ public class ActiveSkill implements Skill{
                             Duration.millis(tpsDuration),
                             tps->{
                                 if(finalListPersonalizedAnimate != null){
-                                    finalListPersonalizedAnimate.get(i.get()).setX(c.getX());
-                                    finalListPersonalizedAnimate.get(i.get()).setY(c.getY());
-                                    for(ImageView imgView : finalListPersonalizedAnimate){
-                                        pane.getChildren().remove(imgView);
-                                    }
-                                    pane.getChildren().add(finalListPersonalizedAnimate.get(i.getAndIncrement()));
+                                    characterMovementAndDisplayManagement.displayNode(finalListPersonalizedAnimate.get(i.getAndIncrement()),
+                                            c.getX(),c.getY());
                                     if(i.get()>=finalListPersonalizedAnimate.size()){
                                         animationCharacter.setCanMove(true);
                                         animationCharacter.getTimeline().stop();
@@ -121,7 +108,7 @@ public class ActiveSkill implements Skill{
                         )
                     );
                     animationCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
-                    animationCharacter.getTimeline().play();*/
+                    animationCharacter.getTimeline().play();
 
                 }
             }
