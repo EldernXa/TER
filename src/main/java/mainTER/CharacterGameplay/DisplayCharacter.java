@@ -228,22 +228,11 @@ public class DisplayCharacter extends CollideObject {
                                 animationForTheCharacter.setReverseMotionLess();
                             double newHeight = adaptYToHeight(height);
                             if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
-                                if (walkToRight)
-                                    animationForTheCharacter.setJump();
-                                else
-                                    animationForTheCharacter.setReverseJump();
-
-                                currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() - jumpStrength - newHeight);
-                                jumpStrength -= character.getWeight() * 0.2;
-                                if (jumpStrength <= 0) {
-                                    isJumping = false;
-                                    jumpStrength = 0;
-                                }
-                                adaptYToHeight(height);
+                                moveMotionlessJumping(newHeight, height);
                             } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)) {
-                                fallingCharacter();
+                                moveMotionlessFalling();
                             } else {
-                                fallingStep = 1;
+                                moveMotionlessNormally();
                             }
                     }
             ));
@@ -251,6 +240,30 @@ public class DisplayCharacter extends CollideObject {
             animationForTheCharacter.getTimeline().play();
         }
     }
+
+    private void moveMotionlessJumping(double newHeight, double height){
+        if (walkToRight)
+            animationForTheCharacter.setJump();
+        else
+            animationForTheCharacter.setReverseJump();
+
+        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() - jumpStrength - newHeight);
+        jumpStrength -= character.getWeight() * 0.2;
+        if (jumpStrength <= 0) {
+            isJumping = false;
+            jumpStrength = 0;
+        }
+        adaptYToHeight(height);
+    }
+
+    private void moveMotionlessFalling(){
+        fallingCharacter();
+    }
+
+    private void moveMotionlessNormally(){
+        fallingStep = 1;
+    }
+
     public Character getCharacter(){
         return character;
     }
