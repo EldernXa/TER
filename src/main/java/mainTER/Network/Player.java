@@ -25,6 +25,8 @@ import java.net.Socket;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Player {
@@ -60,7 +62,7 @@ public class Player {
         System.out.println("-----Client------------");
         try {
 
-            socket = new Socket(InetAddress.getLocalHost(), 5134);
+            socket = new Socket("localhost", 5134);
             DataInputStream dis = new DataInputStream(socket.getInputStream());
             playerID = dis.readInt();
             System.out.println("on lit l'id");
@@ -72,9 +74,9 @@ public class Player {
 
             button.setTranslateX(60);
 
-           // pane.getChildren().add(button);
+            pane.getChildren().add(button);
 
-            //pane.getChildren().add(vBox);
+            pane.getChildren().add(vBox);
             System.out.println("Connected to Server as Player #" + playerID + ".");
 
 
@@ -83,7 +85,7 @@ public class Player {
 
 
             if (playerID == 1) {
-                //button.setDisable(false);
+                button.setDisable(true);
                 me = new DisplayCharacter(scene, pane, listCharacter.get(0), collide);
                 friend = new DisplayCharacter(scene,pane,listCharacter.get(2),collide);
                 System.out.println("Waiting for player 2");
@@ -91,23 +93,27 @@ public class Player {
                 me = new DisplayCharacter(scene, pane, listCharacter.get(2), collide);
                 friend = new DisplayCharacter(scene,pane,listCharacter.get(0),collide);
 
-                //button.setDisable(true);
+                button.setDisable(true);
 
 
             }
-            /*button.setOnMouseClicked(mouseEvent -> {
-                finito = true;
+            button.setOnMouseClicked(mouseEvent -> {
 
-            });*/
+                try {
+                    dos.writeUTF("Bonjour");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
 
 
 
 
 
+            listenArrayPlayers(dis);
             rfs = new ReadFromServer(dis);
             wts = new WriteToServer(dos);
             rfs.waitForStartMsg();
-            //listenArrayPlayers(dis,rfs);
 
 
 
@@ -116,7 +122,7 @@ public class Player {
         }
     }
 
-  /*  public void listenArrayPlayers(DataInputStream dis,ReadFromServer rfs) throws IOException {
+   public void listenArrayPlayers(DataInputStream dis) throws IOException {
 
         Thread thread = new Thread(() ->{
             try {
@@ -126,6 +132,7 @@ public class Player {
             }
             AtomicReference<ArrayList<Integer>> otherPlayers = new AtomicReference<>(new ArrayList<>());
 
+            System.out.println("on essaie de passer "+ playerID);
             while (otherPlayers.get().size() < 2) {
                 try {
 
@@ -140,18 +147,18 @@ public class Player {
                             vBox.getChildren().add(new Text("Player #" + id));
                         }
 
-
+                        System.out.println(otherPlayers.get().size());
                     });
                 } catch (IOException | ClassNotFoundException ignored) {
                 }
         }
-
-            rfs.waitForStartMsg();
+            finito = true;
+            System.out.println("ON A FINI DE LIRE LES JOUEURS");
 
         });
         thread.start();
 
-        } */
+        }
 
     private class ReadFromServer implements Runnable{
 
@@ -166,19 +173,19 @@ public class Player {
             try {
                 ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/Background-1.png").toURI().toString()));
                 map = new Map(collide, pane, background);
-
-               /* scene.addEventFilter(KeyEvent.KEY_PRESSED,
-                        event -> System.out.println("Pressed: " + event.getCode())); */
                 Platform.runLater(()->{
 
-                    System.out.println("on crée la map avec les collisions " +playerID );
+                    System.out.println("on crée la map avec les collisions " + playerID );
+
 
                     map.addCollisionObject();
+                    
+                    System.out.println(playerID +" " + pane);
                     me.startDisplay();
                     friend.startDisplayFriend();
                 });
 
-                System.out.println("on lit les coord");
+
 
                 while (true){
                     friend.setX(dis.readDouble());
@@ -194,18 +201,37 @@ public class Player {
         public void waitForStartMsg(){
             Thread t = new Thread(()->{
                 try {
+                    while (!finito){
 
-                    System.out.println("on lit le message start " + playerID);
-                    String startMsg = dis.readUTF();
-                    System.out.println("le message est " + startMsg + " " + playerID);
+                    }
+
+                    if(playerID == 1){
+                        Platform.runLater(()->{
+                            button.setDisable(false);
+                        });
+                    }
+
+                    System.out.println("ON SORT DE LA BOUCLE");
+                    System.out.println("on essaie de lire le message start " + playerID);
+
+                    if(dis.available() != 0){
+                        System.out.println(dis.read());
+                        String startMsg = dis.readUTF();
+                        System.out.println(startMsg.getBytes().length);
+                        System.out.println("le message est " + startMsg + " " + playerID);
+                        System.out.println(System.currentTimeMillis() /1000);
+
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-/*
+
+
             Platform.runLater(()->{
                 vBox.getChildren().clear();
                 pane.getChildren().remove(button);
-            });*/
+            });
+                System.out.println("bonjour--------------");
 
                 Thread readThread = new Thread(rfs);
                 Thread writeThread = new Thread(wts);

@@ -88,12 +88,13 @@ public class MenuItem extends StackPane {
 
 
         setOnMouseClicked(event -> {
+            Music.stopMusique();
 
             switch (name) {
                 case "SINGLEPLAYER": {
 
 
-                    Music.stopMusique();
+
                     StackPane stackPane = new StackPane();
 
 
@@ -214,6 +215,7 @@ public class MenuItem extends StackPane {
                 case "SOUND SETTINGS": {
                     MenuSound menuSound = new MenuSound(stage);
                     stage.setScene(menuSound.getScene());
+                    break;
                 }
                 case "CONTROLS SETTINGS" : {
 
@@ -223,6 +225,7 @@ public class MenuItem extends StackPane {
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
+                    break;
                 }
             }
         });

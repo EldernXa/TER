@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class GameServer implements Runnable{
 
@@ -50,12 +51,13 @@ public class GameServer implements Runnable{
                 listOfPlayersID.add(numPlayers);
                 dos.writeInt(numPlayers);
                 System.out.println("on écrit l'id");
-                //ObjectOutputStream objectOutputStream = new ObjectOutputStream(dos);
-                //oosList.add(objectOutputStream);
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(dos);
+                oosList.add(objectOutputStream);
                 ReadFromClient rfc =new ReadFromClient(numPlayers,dis);
                 WriteToClient wtc = new WriteToClient(numPlayers,dos);
 
-                //sendToAll(listOfPlayersID);
+                System.out.println("on envoie  la list de joueurs");
+                sendToAll(listOfPlayersID);
                 if(numPlayers == 1 ){
                     player1 = s;
                     rfc1 = rfc;
@@ -65,19 +67,24 @@ public class GameServer implements Runnable{
                     player2 = s;
                     rfc2 = rfc;
                     wtc2 = wtc;
+                    System.out.println("on lit ce que le player1 envoie");
+                    System.out.println(System.currentTimeMillis() /1000);
+                    String o = rfc1.dis.readUTF();
+                    System.out.println("Le Serveur a reçu "+o);
+                    wtc1.sendStartMsg();
+                    System.out.println("on envoie le premier message start");
+                    wtc2.sendStartMsg();
+                    System.out.println("on envoie le second message start");
 
-                        wtc1.sendStartMsg();
-                        wtc2.sendStartMsg();
+                    Thread readThread1 = new Thread(rfc1);
+                    Thread readThread2 = new Thread(rfc2);
+                    readThread1.start();
 
-                        Thread readThread1 = new Thread(rfc1);
-                        Thread readThread2 = new Thread(rfc2);
-                        readThread1.start();
-
-                        readThread2.start();
-                        Thread writeThread1 = new Thread(wtc1);
-                        Thread writeThread2 = new Thread(wtc2);
-                        writeThread1.start();
-                        writeThread2.start();
+                    readThread2.start();
+                    Thread writeThread1 = new Thread(wtc1);
+                    Thread writeThread2 = new Thread(wtc2);
+                    writeThread1.start();
+                    writeThread2.start();
 
 
                 }
@@ -199,7 +206,10 @@ public class GameServer implements Runnable{
         public void sendStartMsg(){
             System.out.println("on écrit le message de start");
             try{
-                dos.writeUTF("c'est parti");
+                String a = "c'est parti";
+
+                dos.writeUTF(a);
+                dos.flush();
             } catch (IOException e) {
                 e.printStackTrace();
             }
