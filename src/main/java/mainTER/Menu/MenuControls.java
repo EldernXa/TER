@@ -88,10 +88,10 @@ public class MenuControls {
                     button.setText("→");
                     break;
                 case " ":
-                    button.setText("space");
+                    button.setText("SPACE");
                     break;
                 default:
-                    button.setText(button.getText());
+                    button.setText(button.getText().toUpperCase());
                     break;
             }
             hbox.getChildren().addAll(label, button);
@@ -134,13 +134,13 @@ public class MenuControls {
                             button.setText("→");
                             break;
                         case " ":
-                            button.setText("space");
+                            button.setText("SPACE");
                             break;
                         default:
                             if (corectChar) {
                                 labelTitre.setText("Caractère non correct");
                             } else {
-                                button.setText(keyEvent.getCode().getChar().toLowerCase());
+                                button.setText(keyEvent.getCode().getChar().toUpperCase());
                             }
 
                             break;
