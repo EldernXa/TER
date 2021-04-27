@@ -174,25 +174,11 @@ public class DisplayCharacter extends CollideObject {
                     Duration.millis(TPS_DURATION_TIMELINE),
                     tps -> {
                             if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
-                                if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
-                                    double height = animationForTheCharacter.actualImg().getImage().getHeight();
-                                    animationForTheCharacter.setReverseWalk();
-                                    currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - character.getSpeed());
-                                    doJump(height);
-                                }
+                                moveReverseWalkJumping();
                             } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)) {
-                                if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
-                                    animationForTheCharacter.setReverseWalk();
-                                    currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - character.getSpeed());
-                                    fallingCharacter();
-                                }
+                                moveReverseWalkFalling();
                             } else if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
-                                fallingStep = 1;
-                                double height = animationForTheCharacter.actualImg().getImage().getHeight();
-                                animationForTheCharacter.setReverseWalk();
-                                currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - character.getSpeed());
-
-                                adaptYToHeight(height);
+                                moveReverseWalkNormally();
                             } else {
                                 timelineForMotionlessCharacter();
                             }
@@ -201,6 +187,31 @@ public class DisplayCharacter extends CollideObject {
             animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
             animationForTheCharacter.getTimeline().play();
         }
+    }
+
+    private void moveReverseWalkJumping(){
+        if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
+            double height = animationForTheCharacter.actualImg().getImage().getHeight();
+            animationForTheCharacter.setReverseWalk();
+            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - character.getSpeed());
+            doJump(height);
+        }
+    }
+
+    private void moveReverseWalkFalling(){
+        if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
+            animationForTheCharacter.setReverseWalk();
+            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - character.getSpeed());
+            fallingCharacter();
+        }
+    }
+
+    private void moveReverseWalkNormally(){
+        fallingStep = 1;
+        double height = animationForTheCharacter.actualImg().getImage().getHeight();
+        animationForTheCharacter.setReverseWalk();
+        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - character.getSpeed());
+        adaptYToHeight(height);
     }
 
     private void timelineForMotionlessCharacter(){
