@@ -14,8 +14,6 @@ import mainTER.MapPackage.CollideObject;
 import mainTER.Tools.CharacterMovementAndDisplayManagement;
 import mainTER.Tools.Coordinate;
 
-import java.util.List;
-
 
 /**
  * Class For the display of one character (with animation).
@@ -102,36 +100,46 @@ public class DisplayCharacter extends CollideObject {
             animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
                     Duration.millis(TPS_DURATION_TIMELINE),
                     tps -> {
-                        if (animationForTheCharacter.getCanMove()) {
                             if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
-                                if (verifyCollision(currentCoordinateOfTheCharacter.getX() + character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
-                                    double height = animationForTheCharacter.actualImg().getImage().getHeight();
-                                    animationForTheCharacter.setWalk();
-                                    currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() + character.getSpeed());
-                                    doJump(height);
-                                }
+                                moveWalkJumping();
                             } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)) {
-                                if (verifyCollision(currentCoordinateOfTheCharacter.getX() + character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
-                                    animationForTheCharacter.setWalk();
-                                    currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() + character.getSpeed());
-                                    fallingCharacter();
-                                }
+                                moveWalkFalling();
                             } else if (verifyCollision(currentCoordinateOfTheCharacter.getX() + character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
-                                fallingStep = 1;
-                                double height = animationForTheCharacter.actualImg().getImage().getHeight();
-                                animationForTheCharacter.setWalk();
-                                currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() + character.getSpeed());
-                                adaptYToHeight(height);
+                                moveWalkNormally();
                             } else {
                                 timelineForMotionlessCharacter();
                             }
-                        }
                     }
             ));
 
             animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
             animationForTheCharacter.getTimeline().play();
         }
+    }
+
+    private void moveWalkJumping(){
+        if(verifyCollision(currentCoordinateOfTheCharacter.getX()+character.getSpeed(), currentCoordinateOfTheCharacter.getY())){
+            double height = animationForTheCharacter.actualImg().getImage().getHeight();
+            animationForTheCharacter.setWalk();
+            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+character.getSpeed());
+            doJump(height);
+        }
+    }
+
+    private void moveWalkFalling(){
+        if(verifyCollision(currentCoordinateOfTheCharacter.getX()+character.getSpeed(), currentCoordinateOfTheCharacter.getY())){
+            animationForTheCharacter.setWalk();
+            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+character.getSpeed());
+            fallingCharacter();
+        }
+    }
+
+    private void moveWalkNormally(){
+        fallingStep = 1;
+        double height = animationForTheCharacter.actualImg().getImage().getHeight();
+        animationForTheCharacter.setWalk();
+        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() + character.getSpeed());
+        adaptYToHeight(height);
     }
 
     private double adaptYToHeight(double height) {
@@ -165,7 +173,6 @@ public class DisplayCharacter extends CollideObject {
             animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
                     Duration.millis(TPS_DURATION_TIMELINE),
                     tps -> {
-                        if (animationForTheCharacter.getCanMove()) {
                             if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
                                 if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
                                     double height = animationForTheCharacter.actualImg().getImage().getHeight();
@@ -189,7 +196,6 @@ public class DisplayCharacter extends CollideObject {
                             } else {
                                 timelineForMotionlessCharacter();
                             }
-                        }
                     }
             ));
             animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
@@ -204,7 +210,6 @@ public class DisplayCharacter extends CollideObject {
             animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
                     Duration.millis(TPS_DURATION_TIMELINE),
                     tps -> {
-                        if (animationForTheCharacter.getCanMove()) {
                             double height = animationForTheCharacter.actualImg().getImage().getHeight();
                             if (walkToRight)
                                 animationForTheCharacter.setMotionless();
@@ -229,7 +234,6 @@ public class DisplayCharacter extends CollideObject {
                             } else {
                                 fallingStep = 1;
                             }
-                        }
                     }
             ));
             animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
