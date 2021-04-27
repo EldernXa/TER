@@ -34,6 +34,16 @@ public class ActiveSkill implements Skill{
         skill = ActiveSkillEnum.valueOf(this.nameSkill+(isMode?"_MODE":""));
     }
 
+    public void init(){
+        isEnabled = false;
+        try {
+            initAnimateForWalk();
+            initAnimateForReverseWalk();
+        }catch(URISyntaxException uriSyntaxException){
+            System.out.println("Problème dans le path des images du personnages.");
+        }
+    }
+
     public EventHandler<KeyEvent> eventForSkill(){
         return event -> {
             if (event.getCode().getChar().equals(ctrlKey)){

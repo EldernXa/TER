@@ -56,6 +56,12 @@ public class DisplayCharacter extends CollideObject {
         initImgView.setY(currentCoordinateOfTheCharacter.getY());
         pane.getChildren().add(initImgView);
         enableEvent();
+        for(Skill skill : character.getListSkill()){
+            if(skill.getClass() == ActiveSkill.class){
+                ((ActiveSkill) skill).init();
+                lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, ((ActiveSkill)skill).eventForSkill());
+            }
+        }
         timelineForMotionlessCharacter();
     }
     public void startDisplayFriend(){
@@ -67,6 +73,12 @@ public class DisplayCharacter extends CollideObject {
     }
 
     public void setCharacter(Character characterToSwitch){
+        for(Skill skill:character.getListSkill()){
+            if(skill.getClass()==ActiveSkill.class){
+                ((ActiveSkill) skill).init();
+                lvlOfTheGame.removeEventHandler(KeyEvent.KEY_PRESSED, ((ActiveSkill)skill).eventForSkill());
+            }
+        }
         animationForTheCharacter.getTimeline().stop();
         removeAllImgViewOfThePane();
         double height = animationForTheCharacter.actualImg().getImage().getHeight();
@@ -79,6 +91,12 @@ public class DisplayCharacter extends CollideObject {
         imgView.setY(currentCoordinateOfTheCharacter.getY()-5);
         pane.getChildren().add(imgView);
         this.character = characterToSwitch;
+        for(Skill skill : character.getListSkill()){
+            if(skill.getClass()==ActiveSkill.class){
+                ((ActiveSkill) skill).init();
+                lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, ((ActiveSkill)skill).eventForSkill());
+            }
+        }
     }
 
     private void timelineForWalk(){
