@@ -117,6 +117,56 @@ public class DisplayCharacter extends CollideObject {
         }
     }
 
+    private void timelineForReverseWalk(){
+        if(animationForTheCharacter.getCanMove()) {
+            animationForTheCharacter.getTimeline().stop();
+            animationForTheCharacter.getTimeline().getKeyFrames().clear();
+            animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
+                    Duration.millis(TPS_DURATION_TIMELINE),
+                    tps -> {
+                        if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
+                            moveReverseWalkJumping();
+                        } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)) {
+                            moveReverseWalkFalling();
+                        } else if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
+                            moveReverseWalkNormally();
+                        } else {
+                            timelineForMotionlessCharacter();
+                        }
+                    }
+            ));
+            animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
+            animationForTheCharacter.getTimeline().play();
+        }
+    }
+
+    private void timelineForMotionlessCharacter(){
+        if(animationForTheCharacter.getCanMove()) {
+            animationForTheCharacter.getTimeline().stop();
+            animationForTheCharacter.getTimeline().getKeyFrames().clear();
+            animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
+                    Duration.millis(TPS_DURATION_TIMELINE),
+                    tps -> {
+                        double height = animationForTheCharacter.actualImg().getImage().getHeight();
+                        if (walkToRight)
+                            animationForTheCharacter.setMotionless();
+                        else
+                            animationForTheCharacter.setReverseMotionLess();
+                        double newHeight = adaptYToHeight(height);
+                        if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
+                            moveMotionlessJumping(newHeight, height);
+                        } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)) {
+                            moveMotionlessFalling();
+                        } else {
+                            moveMotionlessNormally();
+                        }
+                    }
+            ));
+            animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
+            animationForTheCharacter.getTimeline().play();
+        }
+    }
+
     private void moveWalkJumping(){
         if(verifyCollision(currentCoordinateOfTheCharacter.getX()+character.getSpeed(), currentCoordinateOfTheCharacter.getY())){
             double height = animationForTheCharacter.actualImg().getImage().getHeight();
@@ -166,29 +216,6 @@ public class DisplayCharacter extends CollideObject {
                 currentCoordinateOfTheCharacter.getY());
     }
 
-    private void timelineForReverseWalk(){
-        if(animationForTheCharacter.getCanMove()) {
-            animationForTheCharacter.getTimeline().stop();
-            animationForTheCharacter.getTimeline().getKeyFrames().clear();
-            animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
-                    Duration.millis(TPS_DURATION_TIMELINE),
-                    tps -> {
-                            if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
-                                moveReverseWalkJumping();
-                            } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)) {
-                                moveReverseWalkFalling();
-                            } else if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
-                                moveReverseWalkNormally();
-                            } else {
-                                timelineForMotionlessCharacter();
-                            }
-                    }
-            ));
-            animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
-            animationForTheCharacter.getTimeline().play();
-        }
-    }
-
     private void moveReverseWalkJumping(){
         if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
             double height = animationForTheCharacter.actualImg().getImage().getHeight();
@@ -212,33 +239,6 @@ public class DisplayCharacter extends CollideObject {
         animationForTheCharacter.setReverseWalk();
         currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - character.getSpeed());
         adaptYToHeight(height);
-    }
-
-    private void timelineForMotionlessCharacter(){
-        if(animationForTheCharacter.getCanMove()) {
-            animationForTheCharacter.getTimeline().stop();
-            animationForTheCharacter.getTimeline().getKeyFrames().clear();
-            animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
-                    Duration.millis(TPS_DURATION_TIMELINE),
-                    tps -> {
-                            double height = animationForTheCharacter.actualImg().getImage().getHeight();
-                            if (walkToRight)
-                                animationForTheCharacter.setMotionless();
-                            else
-                                animationForTheCharacter.setReverseMotionLess();
-                            double newHeight = adaptYToHeight(height);
-                            if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
-                                moveMotionlessJumping(newHeight, height);
-                            } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)) {
-                                moveMotionlessFalling();
-                            } else {
-                                moveMotionlessNormally();
-                            }
-                    }
-            ));
-            animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
-            animationForTheCharacter.getTimeline().play();
-        }
     }
 
     private void moveMotionlessJumping(double newHeight, double height){
