@@ -16,7 +16,6 @@ public class Crate extends InteractiveObject {
     }
 
     public void interaction(CollideObject collideObject) {
-        //TODO Solve the problem of the crate moving once in the wrong direction before it move in the right one
         if(collideObject.getY() + collideObject.getHeight() >= super.getY() + super.getHeight()*2/5) {
             if (collideObject.getCoordinate().getX() < super.getCoordinate().getX()) {
                     super.setCoordinate(new Coordinate(super.getCoordinate().getX() + calcMvt(CommingFrom.LEFT), super.getCoordinate().getY()));
