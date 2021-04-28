@@ -3,6 +3,7 @@ package mainTER.MapPackage;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import mainTER.CharacterGameplay.Character;
+import mainTER.CharacterGameplay.DisplayCharacter;
 
 
 import java.util.ArrayList;
@@ -13,19 +14,33 @@ public class SwitchCharacter extends VBox{
     ArrayList<ImageView> vBoxList = new ArrayList<>();
 
 
-    public SwitchCharacter(ArrayList<Character> characterList) {
+    public SwitchCharacter(ArrayList<Character> characterList, DisplayCharacter displayCharacter) {
         this.characterList = characterList;
 
 
+        for(int i = 0;i<characterList.size();i++){
+            if(characterList.get(i) == displayCharacter.getCharacter()){
+                ImageView first;
+                if(i == 0){
+                     first= characterList.get(characterList.size()-1).getLogo().getImageView();
+                }else{
+                    first= characterList.get((i-1)%characterList.size()).getLogo().getImageView();
+                }
 
+                ImageView second = characterList.get(i).getLogo().getImageView();
+                ImageView third = characterList.get((i+1)%characterList.size()).getLogo().getImageView();
+                ImageView fourth = characterList.get((i+2)%characterList.size()).getLogo().getImageView();
 
-            getChildren().add(characterList.get(characterList.size()-1).getLogo().getImageView());
-            getChildren().add(characterList.get(0).getLogo().getImageView());
-            getChildren().add(characterList.get(1).getLogo().getImageView());
-            vBoxList.add(characterList.get(characterList.size()-1).getLogo().getImageView());
-            vBoxList.add(characterList.get(0).getLogo().getImageView());
-            vBoxList.add(characterList.get(1).getLogo().getImageView());
-            vBoxList.add(characterList.get(2).getLogo().getImageView());
+                getChildren().add(first);
+                vBoxList.add(first);
+                getChildren().add(second);
+                vBoxList.add(second);
+                getChildren().add(third);
+                vBoxList.add(third);
+                vBoxList.add(fourth);
+            }
+        }
+
 
 
 

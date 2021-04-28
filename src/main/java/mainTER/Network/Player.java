@@ -193,7 +193,7 @@ public class Player {
                     Scale scale = new Scale(h, h, 0, 0);
                     scene.getRoot().getTransforms().add(scale);
 
-                    SwitchCharacter sc = new SwitchCharacter(listCharacter);
+                    SwitchCharacter sc = new SwitchCharacter(listCharacter,me);
 
                     sc.setTranslateY(me.getCurrentCoordinateOfTheCharacter().getY() - Screen.getPrimary().getBounds().getHeight()/8.6* 5);
                     sc.setTranslateX(me.getCurrentCoordinateOfTheCharacter().getX() -Screen.getPrimary().getBounds().getWidth()/2.8);

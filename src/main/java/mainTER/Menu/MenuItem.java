@@ -129,7 +129,7 @@ public class MenuItem extends StackPane {
                     DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0), collide);
                     displayCharacter.startDisplay();
 
-                    SwitchCharacter sc = new SwitchCharacter(listCharacter);
+                    SwitchCharacter sc = new SwitchCharacter(listCharacter,displayCharacter);
 
                     //Make the scene scale if the screen is larger
 
