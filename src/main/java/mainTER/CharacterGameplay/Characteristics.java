@@ -55,4 +55,13 @@ public class Characteristics {
         speed = initSpeed;
     }
 
+    public double getHeightMotionless(){
+        double returnValue = 0.0;
+        for(ImageView imgView : listOfPictureOfTheCharacter.get(Position.MOTIONLESS.ordinal())){
+            if(imgView.getImage().getHeight()>= returnValue)
+                returnValue = imgView.getImage().getHeight();
+        }
+        return returnValue;
+    }
+
 }

@@ -275,13 +275,18 @@ public class DisplayCharacter extends CollideObject {
         else
             animationForTheCharacter.setReverseJump();
 
+        System.out.print(currentCoordinateOfTheCharacter.getY() + " - ");
         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() - jumpStrength - newHeight);
         jumpStrength -= character.getWeight() * 0.2;
         if (jumpStrength <= 0) {
             isJumping = false;
             jumpStrength = 0;
         }
-        adaptYToHeight(height);
+        ImageView imgView = animationForTheCharacter.nextImage();
+        newHeight = character.getCharacteristics().getHeightMotionless() - imgView.getImage().getHeight();
+        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()+newHeight);
+        characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
+                currentCoordinateOfTheCharacter.getY());
     }
 
     private void moveMotionlessFalling(){
@@ -373,6 +378,7 @@ public class DisplayCharacter extends CollideObject {
             currentKeyCode = keyCode;
             isJumping = true;
             this.jumpStrength = character.getJumpStrength();
+            System.out.println("----");
         }
     }
 
