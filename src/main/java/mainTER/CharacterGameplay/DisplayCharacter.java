@@ -309,23 +309,24 @@ public class DisplayCharacter extends CollideObject {
         double newHeight = animationForTheCharacter.getHeightMotionless()-imgView.getImage().getHeight();
         int pas = (int)fallingStep;
         boolean verif = false;
+        int pasToDo = 1;
         while(!verif){
-            if(verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+pas)){
-                verif = true;
+            if(verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+pasToDo) && pasToDo<pas){
+                pasToDo++;
             }else{
-                pas--;
+                pasToDo--;
+                verif = true;
             }
         }
-
-        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()+pas);
-        if(pas==0){
-            pas = 1;
-            currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()+newHeight);
+        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + pasToDo);
+        if(pasToDo<=0){
+            pasToDo = 1;
+            currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + newHeight);
         }
         characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
                 currentCoordinateOfTheCharacter.getY());
         fallingStep += 0.5 * fallingStep;
-        if(pas==1)
+        if(pasToDo == 1)
             isJumping = false;
     }
 
