@@ -29,7 +29,7 @@ public class DBManager {
      */
     private void getConnection() {
         System.setProperty("hsqldb.reconfig_logging", "false");
-        Logger.getLogger("hsqldb.db").setLevel(Level.WARNING);
+        Logger.getLogger("hsqldb.db").setLevel(Level.SEVERE);
         try {
             connection = DriverManager.getConnection("jdbc:hsqldb:file:" + nameDB, "SA", "");
         }catch(SQLException sqlException){
