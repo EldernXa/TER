@@ -195,9 +195,10 @@ public class SkillDBManager {
 
         }
 
+        // TODO count only for the same skill (passive or active).
         int numSkill = getNumberSkillOfACharacter(nameCharacter)+1;
 
-        if(nameSkill.compareTo("") == 0 || ctrlKey.compareTo("")==0 || nameCharacter.compareTo("")==0){
+        if(nameSkill.compareTo("") == 0 || nameCharacter.compareTo("")==0){
             throw new SkillDataDoesntCorrectException();
         }
         String reqValues = "INSERT INTO Skill VALUES (" +
