@@ -50,6 +50,15 @@ public class Character {
         initListSkill();
     }
 
+    public boolean canChangeCharacter(){
+        for(Skill skill : listSkill){
+            if(skill.getClass() == ActiveSkill.class && !((ActiveSkill) skill).getFinishSkill()){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public Characteristics getCharacteristics(){
         return characteristics;
     }

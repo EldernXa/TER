@@ -30,6 +30,7 @@ public class ActiveSkill implements Skill{
     private final Character character;
     private final ActiveSkillEnum skill;
     private boolean isEnabled;
+    private boolean finishSkill;
 
     public ActiveSkill(String nameCharacter, String nameSkill, String ctrlKey, boolean animateMvt, boolean animateAction, boolean isMode, Character character){
         this.nameCharacter = nameCharacter;
@@ -40,11 +41,17 @@ public class ActiveSkill implements Skill{
         this.isMode = isMode;
         this.character = character;
         isEnabled = false;
+        finishSkill = true;
         skill = ActiveSkillEnum.valueOf(this.nameSkill+(isMode?"_MODE":""));
+    }
+
+    public boolean getFinishSkill(){
+        return finishSkill;
     }
 
     public void init(){
         isEnabled = false;
+        finishSkill = true;
         try {
             initAnimateForWalk();
             initAnimateForReverseWalk();
@@ -80,8 +87,9 @@ public class ActiveSkill implements Skill{
         //Bug quand on change de perso et qu'on revient sur le démon, il arrive plus a changer de compétence
         if (!isEnabled) {
             isEnabled = true;
+            finishSkill = false;
             try {
-                new Thread(() -> {
+                Thread t = new Thread(() -> {
                     try {
                         changeAnimateForWalk();
                         changeAnimateForReverseWalk();
@@ -106,7 +114,9 @@ public class ActiveSkill implements Skill{
                     }
                     character.getCharacteristics().resetSpeed();
                     isEnabled = false;
-                }).start();
+                    finishSkill = true;
+                });
+                t.start();
             } catch (Exception ignored) {
             }
         } else {
@@ -115,6 +125,7 @@ public class ActiveSkill implements Skill{
                 initAnimateForWalk();
                 initAnimateForReverseWalk();
                 character.getCharacteristics().resetSpeed();
+                finishSkill = true;
             } catch (Exception ignored) {
 
             }

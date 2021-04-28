@@ -68,14 +68,10 @@ public class DisplayCharacter extends CollideObject {
     public void startDisplay(){
         characterMovementAndDisplayManagement.displayNode(animationForTheCharacter.nextImage(), currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY());
         enableEvent();
-        for(Skill skill : character.getListSkill()){
-            if(skill.getClass() == ActiveSkill.class){
-                ((ActiveSkill) skill).init();
-                lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, ((ActiveSkill)skill).eventForSkill(animationForTheCharacter, characterMovementAndDisplayManagement, TPS_DURATION_TIMELINE));
-            }
-        }
+        enableEventForSkill();
         timelineForMotionlessCharacter();
     }
+
     public void startDisplayFriend(){
         characterMovementAndDisplayManagement.displayNode(animationForTheCharacter.nextImage(), currentCoordinateOfTheCharacter.getX(),
                 currentCoordinateOfTheCharacter.getY());
@@ -83,26 +79,42 @@ public class DisplayCharacter extends CollideObject {
     }
 
     public void setCharacter(Character characterToSwitch){
-        for(Skill skill:character.getListSkill()){
-            if(skill.getClass()==ActiveSkill.class){
+        if(character.canChangeCharacter()) {
+            disableEventForSkill();
+            animationForTheCharacter.getTimeline().stop();
+            double height = animationForTheCharacter.actualImg().getImage().getHeight();
+            animationForTheCharacter.changeCharacter(characterToSwitch);
+
+            ImageView imgView = animationForTheCharacter.nextImage();
+            double newHeight = height - imgView.getImage().getHeight();
+            currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + newHeight);
+            characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
+                    currentCoordinateOfTheCharacter.getY());
+            this.character = characterToSwitch;
+            for (Skill skill : character.getListSkill()) {
+                if (skill.getClass() == ActiveSkill.class) {
+                    ((ActiveSkill) skill).init();
+                    lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, ((ActiveSkill) skill).eventForSkill(animationForTheCharacter,
+                            characterMovementAndDisplayManagement, TPS_DURATION_TIMELINE));
+                }
+            }
+        }
+    }
+
+    private void disableEventForSkill(){
+        for(Skill skill : character.getListSkill()){
+            if(skill.getClass() == ActiveSkill.class){
                 ((ActiveSkill) skill).init();
                 lvlOfTheGame.removeEventHandler(KeyEvent.KEY_PRESSED, ((ActiveSkill)skill).eventForSkill(animationForTheCharacter,
                         characterMovementAndDisplayManagement, TPS_DURATION_TIMELINE));
             }
         }
-        animationForTheCharacter.getTimeline().stop();
-        double height = animationForTheCharacter.actualImg().getImage().getHeight();
-        animationForTheCharacter.changeCharacter(characterToSwitch);
+    }
 
-        ImageView imgView = animationForTheCharacter.nextImage();
-        double newHeight = height-imgView.getImage().getHeight();
-        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()+newHeight);
-        characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
-                currentCoordinateOfTheCharacter.getY());
-        this.character = characterToSwitch;
+    private void enableEventForSkill(){
         for(Skill skill : character.getListSkill()){
-            if(skill.getClass()==ActiveSkill.class){
-                ((ActiveSkill) skill).init();
+            if(skill.getClass() == ActiveSkill.class){
+                ((ActiveSkill)skill).init();
                 lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, ((ActiveSkill)skill).eventForSkill(animationForTheCharacter,
                         characterMovementAndDisplayManagement, TPS_DURATION_TIMELINE));
             }
