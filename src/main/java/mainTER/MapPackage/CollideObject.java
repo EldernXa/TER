@@ -61,9 +61,11 @@ public abstract class CollideObject {
         for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
             if((!this.equals(collideObject2))&&(!(collideObject2 instanceof MapFieldForm))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))){
                 if (commingFrom == CommingFrom.LEFT) {
+                    collideObject2.interaction(this);
                     return collideObject2.getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX();
                 }
                 if(commingFrom == CommingFrom.RIGHT){
+                    collideObject2.interaction(this);
                     return this.getAppropriateNode().getBoundsInParent().getMinX() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxX();
 
                 }
