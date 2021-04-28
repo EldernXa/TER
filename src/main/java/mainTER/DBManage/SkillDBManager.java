@@ -196,6 +196,7 @@ public class SkillDBManager {
         }
 
         // TODO count only for the same skill (passive or active).
+        // TODO add exception for if character exist or not.
         int numSkill = getNumberSkillOfACharacter(nameCharacter)+1;
 
         if(nameSkill.compareTo("") == 0 || nameCharacter.compareTo("")==0){
