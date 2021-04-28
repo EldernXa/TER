@@ -18,8 +18,8 @@ public class Collide { //TODO la fusionner avec CollideObject
 
     public boolean verify( Image image, Coordinate coordinate, DisplayCharacter displayCharacter){ //C'est âs bon il faut adapter la méthode comme plus bas
         ImageView imageView = new ImageView(image);
-        imageView.setX(coordinate.getX());
-        imageView.setY(coordinate.getY());
+        imageView.setLayoutX(coordinate.getX());
+        imageView.setLayoutY(coordinate.getY());
         for(CollideObject collideObject : collideObjectArrayList){
             if(imageView.getBoundsInParent().intersects(collideObject.getAppropriateNode().getBoundsInParent())){
                 collideObject.interaction(displayCharacter);

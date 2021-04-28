@@ -16,7 +16,7 @@ public class DataInsert {
 
     public static void insertPerson(){
         PersonDBManager personDBManager = new PersonDBManager();
-        if(personDBManager.getListNameFromDatabase().size()!=NB_CHARACTER) {
+//        if(personDBManager.getListNameFromDatabase().size()!=NB_CHARACTER) {
             personDBManager.removeTablePerson();
             personDBManager.createTablePerson();
             try {
@@ -29,7 +29,7 @@ public class DataInsert {
             } catch (PersonDataDoesntCorrectException personDataDoesntCorrectException) {
                 System.out.println("Les données inséres ne sont pas correcte.");
             }
-        }
+//        }
     }
 
     public static void insertControls(){
@@ -45,7 +45,7 @@ public class DataInsert {
 
     public static void insertSkill(){
         SkillDBManager skillDBManager = new SkillDBManager();
-        if(skillDBManager.getListSkillName().size() != NB_SKILL) {
+//        if(skillDBManager.getListSkillName().size() != NB_SKILL) {
             skillDBManager.removeTableSkill();
             skillDBManager.createTableSkill();
 
@@ -58,7 +58,7 @@ public class DataInsert {
             } catch (SkillAlreadyExistException | SkillCtrlAlreadyUsedException | SkillDataDoesntCorrectException exception) {
                 System.out.println(exception.getMessage());
             }
-        }
+//        }
     }
 
 }

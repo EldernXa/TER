@@ -16,22 +16,12 @@ public class Crate extends InteractiveObject {
     }
 
     public void interaction(CollideObject collideObject) {
-        /*System.out.println("Pos verticale personnage = " + collideObject.getY());
-        System.out.println("Hauteur personnage = " + collideObject.getHeight());
-        System.out.println("Somme personnage = " + (collideObject.getY() + collideObject.getHeight()));
-        System.out.println("Pos verticale caisse = " + super.getY());
-        System.out.println("Hauteur caisse = " + super.getHeight());
-        System.out.println("Somme caisse = " + (super.getY() + super.getHeight()));*/
-        //TODO Solve the problem of the craft moving once in the wrong direction before it move in the right one
-        if(collideObject.getY() + collideObject.getHeight() >= super.getY() + super.getHeight()) {
+        //TODO Solve the problem of the crate moving once in the wrong direction before it move in the right one
+        if(collideObject.getY() + collideObject.getHeight() >= super.getY() + super.getHeight()*2/5) {
             if (collideObject.getCoordinate().getX() < super.getCoordinate().getX()) {
-                if (verify(CommingFrom.LEFT)) {
-                    super.setCoordinate(new Coordinate(super.getCoordinate().getX() + collideObject.getHMouvementSpan(), super.getCoordinate().getY()));
-                }
+                    super.setCoordinate(new Coordinate(super.getCoordinate().getX() + calcMvt(CommingFrom.LEFT), super.getCoordinate().getY()));
             } else {
-                if (verify(CommingFrom.RIGHT)) {
-                    super.setCoordinate(new Coordinate(super.getCoordinate().getX() - collideObject.getHMouvementSpan(), super.getCoordinate().getY()));
-                }
+                    super.setCoordinate(new Coordinate(super.getCoordinate().getX() - calcMvt(CommingFrom.RIGHT), super.getCoordinate().getY()));
             }
         }
     }
@@ -43,7 +33,10 @@ public class Crate extends InteractiveObject {
 
     @Override
     public Node clone() {
-        return new ImageView(super.getImageView().getImage());
+        ImageView imageView = new ImageView(super.getImageView().getImage());
+        imageView.setLayoutX(super.getImageView().getLayoutX());
+        imageView.setLayoutY(super.getImageView().getLayoutY());
+        return imageView;
     }
 
     @Override

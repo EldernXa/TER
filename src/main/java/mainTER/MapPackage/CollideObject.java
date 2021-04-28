@@ -45,7 +45,7 @@ public abstract class CollideObject {
     public void interaction(CollideObject collideObject){
     }
 
-    public double verify(CommingFrom commingFrom){
+    public double calcMvt(CommingFrom commingFrom){
 
         Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInLocal().getMaxX()-this.getAppropriateNode().getBoundsInLocal().getMinX(),this.getAppropriateNode().getBoundsInLocal().getMaxY()-this.getAppropriateNode().getBoundsInLocal().getMinY());
         rect.setX(this.getX());
