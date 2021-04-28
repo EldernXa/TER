@@ -25,8 +25,11 @@ public class Music {
     /**
      * allows to play the music on a loop
      */
-    public void lancerMusique()
+    public static void launchMenuSound()
     {
+
+        Media media = new Media(new File("src/main/resources/mainTER/Sound/music.wav").toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
         if(!playing) {
             playing = true;
             mediaPlayer.play();
