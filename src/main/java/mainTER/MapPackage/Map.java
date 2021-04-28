@@ -3,24 +3,25 @@ package mainTER.MapPackage;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
+import java.util.Iterator;
+
 public class Map {
 
     private final MapFileReader mapFileReader;
     private final Pane pane;
+    private ImageView backgroundImage;
 
 
     public Map(Collide collide, Pane pane, ImageView backgroundImage) {
 
         this.pane = pane;
-        this.pane.setBackground(new Background(new BackgroundImage(backgroundImage.getImage(),BackgroundRepeat.NO_REPEAT,
+        this.backgroundImage = backgroundImage;
+        pane.setBackground(new Background(new BackgroundImage(backgroundImage.getImage(),BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT, new BackgroundSize(backgroundImage.getImage().getWidth(),
                 backgroundImage.getImage().getHeight(),false,false,false,false))));
-
-
-
-
         mapFileReader = new MapFileReader("./src/main/resources/mainTER/MapPackage/Files/Forest.txt");
         collide.setCollisionObjectArrayList(mapFileReader.getCollisionObjectArrayList());
+        addCollisionObjectNetwork();
 
     }
 
@@ -32,5 +33,20 @@ public class Map {
         for (CollideObject collideObject : this.getReadFileMap().getCollisionObjectArrayList()){
             pane.getChildren().add(collideObject.getAppropriateNode());
         }
+    }
+
+    public void addCollisionObjectNetwork(){
+        Iterator<CollideObject> list = this.getReadFileMap().getCollisionObjectArrayList().iterator();
+        while (list.hasNext()) {
+            CollideObject collideObject = list.next();
+
+
+            pane.getChildren().add(collideObject.getAppropriateNode());
+        }
+
+    }
+
+    public Pane getPane() {
+        return pane;
     }
 }

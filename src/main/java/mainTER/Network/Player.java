@@ -11,11 +11,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Scale;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import mainTER.CharacterGameplay.Camera;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.MapPackage.Collide;
 import mainTER.MapPackage.Map;
+import mainTER.MapPackage.SwitchCharacter;
 import mainTER.Tools.Coordinate;
 
 import java.awt.*;
@@ -48,6 +52,7 @@ public class Player {
     Collide collide;
     Button button = new Button("cliquer");
     volatile boolean finito = false;
+    ArrayList<Character> listCharacter;
 
 
 
@@ -58,7 +63,7 @@ public class Player {
 
 
 
-    public void connectToServer(Stage stage, Scene scene,Pane pane, List<Character> listCharacter) {
+    public void connectToServer(Stage stage, Scene scene,Pane pane, ArrayList<Character> listCharacter) {
         System.out.println("-----Client------------");
         try {
 
@@ -71,7 +76,7 @@ public class Player {
             this.pane = pane;
             this.stage = stage;
             this.scene = scene;
-
+            this.listCharacter = listCharacter;
             button.setTranslateX(60);
 
             pane.getChildren().add(button);
@@ -171,18 +176,38 @@ public class Player {
         @Override
         public void run() {
             try {
+
                 ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/Background-1.png").toURI().toString()));
-                map = new Map(collide, pane, background);
+
+
+
                 Platform.runLater(()->{
 
                     System.out.println("on crée la map avec les collisions " + playerID );
 
+                    map = new Map(collide, pane, background);
 
-                    map.addCollisionObject();
-                    
-                    System.out.println(playerID +" " + pane);
+
+                    double height = Screen.getPrimary().getBounds().getHeight();
+                    double h = height/background.getImage().getHeight();
+                    Scale scale = new Scale(h, h, 0, 0);
+                    scene.getRoot().getTransforms().add(scale);
+
+                    SwitchCharacter sc = new SwitchCharacter(listCharacter);
+
+                    sc.setTranslateY(me.getCurrentCoordinateOfTheCharacter().getY() - Screen.getPrimary().getBounds().getHeight()/8.6* 5);
+                    sc.setTranslateX(me.getCurrentCoordinateOfTheCharacter().getX() -Screen.getPrimary().getBounds().getWidth()/2.8);
+
+                    pane.getChildren().add(sc);
+
+                    new Camera(scene,me,sc,listCharacter,h,background);
+
+                    System.out.println(playerID +" " + pane.getChildren());
                     me.startDisplay();
                     friend.startDisplayFriend();
+
+
+
                 });
 
 
@@ -215,9 +240,8 @@ public class Player {
                     System.out.println("on essaie de lire le message start " + playerID);
 
                     if(dis.available() != 0){
-                        System.out.println(dis.read());
+                        dis.read();
                         String startMsg = dis.readUTF();
-                        System.out.println(startMsg.getBytes().length);
                         System.out.println("le message est " + startMsg + " " + playerID);
                         System.out.println(System.currentTimeMillis() /1000);
 
@@ -235,8 +259,9 @@ public class Player {
 
                 Thread readThread = new Thread(rfs);
                 Thread writeThread = new Thread(wts);
-                readThread.start();
+
                 writeThread.start();
+                readThread.start();
 
             });
             t.start();

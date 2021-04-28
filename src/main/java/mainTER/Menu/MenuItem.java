@@ -121,8 +121,7 @@ public class MenuItem extends StackPane {
 
                     Collide collide = new Collide();
                     ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/Background-1.png").toURI().toString()));
-                    Map map = new Map(collide, pane, background);
-                    map.addCollisionObject();
+                    new Map(collide, pane, background);
 
 
 
