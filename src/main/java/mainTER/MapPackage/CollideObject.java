@@ -3,6 +3,7 @@ package mainTER.MapPackage;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.Tools.Coordinate;
 
@@ -44,19 +45,31 @@ public abstract class CollideObject {
     public void interaction(CollideObject collideObject){
     }
 
-    public boolean verify(CommingFrom commingFrom){ //C'est pas bon il faut adapter la méthode comme plus bas
+    public double verify(CommingFrom commingFrom){
+
+        Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInLocal().getMaxX()-this.getAppropriateNode().getBoundsInLocal().getMinX(),this.getAppropriateNode().getBoundsInLocal().getMaxY()-this.getAppropriateNode().getBoundsInLocal().getMinY());
+        rect.setX(this.getX());
+        rect.setY(this.getY());
+
         if (commingFrom == CommingFrom.LEFT) {
-            this.getAppropriateNode().setTranslateX(-this.getHMouvementSpan());
+            rect.setX(rect.getX()+this.getHMouvementSpan());
         }
         if(commingFrom == CommingFrom.RIGHT){
-            this.getAppropriateNode().setTranslateX(+this.getHMouvementSpan());
+            rect.setX(rect.getX()-this.getHMouvementSpan());
         }
+
         for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
-            if((!this.equals(collideObject2))&&(!(collideObject2 instanceof MapFieldForm))&&(this.getAppropriateNode().intersects(collideObject2.getAppropriateNode().getBoundsInParent()))){
-                return false;
+            if((!this.equals(collideObject2))&&(!(collideObject2 instanceof MapFieldForm))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))){
+                if (commingFrom == CommingFrom.LEFT) {
+                    return collideObject2.getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX();
+                }
+                if(commingFrom == CommingFrom.RIGHT){
+                    return this.getAppropriateNode().getBoundsInParent().getMinX() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxX();
+
+                }
             }
         }
-        return true;
+        return this.getHMouvementSpan();
     }
     //TODO Forsee if the the movement cause an interaction
     //TODO généraliser au CollideObjects
