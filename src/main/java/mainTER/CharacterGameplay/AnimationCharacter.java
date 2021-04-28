@@ -37,6 +37,10 @@ public class AnimationCharacter {
         return listOfImageViewForTheAnimation.get(Position.MOTIONLESS.ordinal()).get(0).getImage().getHeight();
     }
 
+    public Position getCurrentPosition(){
+        return Position.values()[posToAnimate];
+    }
+
     public void setWalk(){
         posToAnimate = Position.WALK.ordinal();
     }

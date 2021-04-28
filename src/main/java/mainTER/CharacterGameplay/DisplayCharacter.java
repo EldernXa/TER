@@ -16,6 +16,8 @@ import mainTER.Tools.CharacterMovementAndDisplayManagement;
 import mainTER.Tools.Coordinate;
 import mainTER.exception.ControlsDataGetException;
 
+import java.util.ArrayList;
+
 
 /**
  * Class For the display of one character (with animation).
@@ -29,7 +31,7 @@ public class DisplayCharacter extends CollideObject {
     private final CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement;
     private boolean walkToRight = true;
     private final Collide collide;
-    private KeyCode currentKeyCode;
+    private ArrayList<KeyCode> listCurrentKeyCode;
     private double fallingStep = 1;
     private boolean isJumping = false;
     private double jumpStrength;
@@ -45,6 +47,7 @@ public class DisplayCharacter extends CollideObject {
      */
     public DisplayCharacter(Scene scene, Pane pane, Character character, Collide collide){
         this.lvlOfTheGame = scene;
+        listCurrentKeyCode = new ArrayList<>();
         characterMovementAndDisplayManagement = new CharacterMovementAndDisplayManagement(pane);
         this.character = character;
         this.collide = collide;
@@ -200,7 +203,7 @@ public class DisplayCharacter extends CollideObject {
             double height = animationForTheCharacter.actualImg().getImage().getHeight();
             animationForTheCharacter.setWalk();
             currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+character.getSpeed());
-            doJump(height);
+            doJump();
         }
     }
 
@@ -229,19 +232,20 @@ public class DisplayCharacter extends CollideObject {
         return newHeight;
     }
 
-    private void doJump(double height) {
-        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()-jumpStrength);
-        jumpStrength-= character.getWeight()*0.2;
-        System.out.println(jumpStrength);
-        if(jumpStrength<=0) {
+    private void doJump() {
+        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() - jumpStrength);
+        jumpStrength -= character.getWeight() * 0.2;
+        if (jumpStrength <= 0) {
             isJumping = false;
             jumpStrength = 0;
         }
+        double height = character.getCharacteristics().getBestHeightOfAPosition(animationForTheCharacter.getCurrentPosition());
         ImageView imgView = animationForTheCharacter.nextImage();
-        double newHeight = height-imgView.getImage().getHeight();
-        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()-newHeight);
+        double newHeight = height - imgView.getImage().getHeight();
+        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()+newHeight);
         characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
                 currentCoordinateOfTheCharacter.getY());
+
     }
 
     private void moveReverseWalkJumping(){
@@ -249,7 +253,7 @@ public class DisplayCharacter extends CollideObject {
             double height = animationForTheCharacter.actualImg().getImage().getHeight();
             animationForTheCharacter.setReverseWalk();
             currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - character.getSpeed());
-            doJump(height);
+            doJump();
         }
     }
 
@@ -275,7 +279,6 @@ public class DisplayCharacter extends CollideObject {
         else
             animationForTheCharacter.setReverseJump();
 
-        System.out.print(currentCoordinateOfTheCharacter.getY() + " - ");
         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() - jumpStrength - newHeight);
         jumpStrength -= character.getWeight() * 0.2;
         if (jumpStrength <= 0) {
@@ -343,28 +346,31 @@ public class DisplayCharacter extends CollideObject {
         lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForJumpMovement);
 
         lvlOfTheGame.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
-            if(event.getCode() == currentKeyCode) {
-                currentKeyCode = null;
-                timelineForMotionlessCharacter();
+            if(listCurrentKeyCode.contains(event.getCode())) {
+                listCurrentKeyCode.remove(event.getCode());
+                //timelineForMotionlessCharacter();
             }
+
+            if(listCurrentKeyCode.size()==0)
+                timelineForMotionlessCharacter();
         });
     }
 
     private void eventForRightMovement(KeyEvent eventForPressedKey){
         KeyCode keyCode = KeyCode.getKeyCode(right);
 
-        if(eventForPressedKey.getCode() == keyCode && keyCode != currentKeyCode){
+        if(eventForPressedKey.getCode() == keyCode && !listCurrentKeyCode.contains(keyCode)){
             walkToRight = true;
-            currentKeyCode = keyCode;
+            listCurrentKeyCode.add(keyCode);
             timelineForWalk();
         }
     }
 
     private void eventForLeftMovement(KeyEvent eventForPressedKey){
         KeyCode keyCode = KeyCode.getKeyCode(left);
-        if(eventForPressedKey.getCode() == keyCode && keyCode != currentKeyCode){
+        if(eventForPressedKey.getCode() == keyCode && !listCurrentKeyCode.contains(keyCode)){
             walkToRight = false;
-            currentKeyCode = keyCode;
+            listCurrentKeyCode.add(keyCode);
             timelineForReverseWalk();
         }
     }
@@ -374,11 +380,10 @@ public class DisplayCharacter extends CollideObject {
         if(jump.equals(" ")){
             keyCode = KeyCode.SPACE;
         }
-        if(eventForPressedKey.getCode() == keyCode && !verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1) && keyCode != currentKeyCode && character.canJump()){
-            currentKeyCode = keyCode;
+        if(eventForPressedKey.getCode() == keyCode && !verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1) && !listCurrentKeyCode.contains(keyCode) && character.canJump()){
+            listCurrentKeyCode.add(keyCode);
             isJumping = true;
             this.jumpStrength = character.getJumpStrength();
-            System.out.println("----");
         }
     }
 

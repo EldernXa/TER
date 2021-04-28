@@ -64,4 +64,14 @@ public class Characteristics {
         return returnValue;
     }
 
+    public double getBestHeightOfAPosition(Position position){
+        double returnValue = 0.0;
+        for(ImageView imgView : listOfPictureOfTheCharacter.get(position.ordinal())){
+            if(imgView.getImage().getHeight()>=returnValue)
+                returnValue = imgView.getImage().getHeight();
+        }
+
+        return returnValue;
+    }
+
 }
