@@ -31,7 +31,7 @@ public class DisplayCharacter extends CollideObject {
     private final CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement;
     private boolean walkToRight = true;
     private final Collide collide;
-    private ArrayList<KeyCode> listCurrentKeyCode;
+    private final ArrayList<KeyCode> listCurrentKeyCode;
     private double fallingStep = 1;
     private boolean isJumping = false;
     private double jumpStrength;
@@ -185,7 +185,7 @@ public class DisplayCharacter extends CollideObject {
                             animationForTheCharacter.setReverseMotionLess();
                         double newHeight = adaptYToHeight(height);
                         if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
-                            moveMotionlessJumping(newHeight, height);
+                            moveMotionlessJumping(newHeight);
                         } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)) {
                             moveMotionlessFalling();
                         } else {
@@ -200,7 +200,6 @@ public class DisplayCharacter extends CollideObject {
 
     private void moveWalkJumping(){
         if(verifyCollision(currentCoordinateOfTheCharacter.getX()+character.getSpeed(), currentCoordinateOfTheCharacter.getY())){
-            double height = animationForTheCharacter.actualImg().getImage().getHeight();
             animationForTheCharacter.setWalk();
             currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+character.getSpeed());
             doJump();
@@ -250,7 +249,6 @@ public class DisplayCharacter extends CollideObject {
 
     private void moveReverseWalkJumping(){
         if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
-            double height = animationForTheCharacter.actualImg().getImage().getHeight();
             animationForTheCharacter.setReverseWalk();
             currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - character.getSpeed());
             doJump();
@@ -273,7 +271,7 @@ public class DisplayCharacter extends CollideObject {
         adaptYToHeight(height);
     }
 
-    private void moveMotionlessJumping(double newHeight, double height){
+    private void moveMotionlessJumping(double newHeight){
         if (walkToRight)
             animationForTheCharacter.setJump();
         else
@@ -347,12 +345,9 @@ public class DisplayCharacter extends CollideObject {
         lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForJumpMovement);
 
         lvlOfTheGame.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
-            if(listCurrentKeyCode.contains(event.getCode())) {
-                listCurrentKeyCode.remove(event.getCode());
-                //timelineForMotionlessCharacter();
-            }
+            listCurrentKeyCode.remove(event.getCode());
 
-            if(listCurrentKeyCode.size()==0)
+            if(listCurrentKeyCode.isEmpty())
                 timelineForMotionlessCharacter();
         });
     }
