@@ -12,6 +12,7 @@ import java.util.List;
 
 public class SkillDBManager {
 
+    // TODO verify table exist before operating.
     /**
      * connection with the databases.
      */
