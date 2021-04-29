@@ -16,13 +16,18 @@ public class CharacterMovementAndDisplayManagement {
     public void displayNode(ImageView imgView, double x, double y){
         pane.getChildren().remove(this.imgView);
         this.imgView = imgView;
-        imgView.setX(x);
-        imgView.setY(y);
+        imgView.setX(calculateRightPosition(new Coordinate(x,y)).getX());
+        imgView.setY(calculateRightPosition(new Coordinate(x,y)).getY());
         pane.getChildren().add(imgView);
     }
 
     public Coordinate getCoordinateOfTheActualImg(){
         return new Coordinate(imgView.getX(), imgView.getY());
+    }
+
+    public Coordinate calculateRightPosition(Coordinate coordinate){
+        return new Coordinate(coordinate.getX() - imgView.getImage().getWidth()/2.6, coordinate.getY());
+
     }
 
 }
