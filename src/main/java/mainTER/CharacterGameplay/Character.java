@@ -25,29 +25,32 @@ public class Character {
     private final Coordinate initialCoordinate;
     private final Characteristics characteristics;
     private final ImageViewSizePos logo ;
-    private ArrayList<Skill> listSkill;
+    private final ArrayList<Skill> listSkill;
 
     // TODO Put error on graphics interface.
 
     public Character(String name, Coordinate coordinate) {
-        Characteristics characteristics1;
         listSkill = new ArrayList<>();
         this.name = name;
         this.initialCoordinate = coordinate;
-        PersonDBManager personDBManager = new PersonDBManager();
-        try {
-            characteristics1 = new Characteristics(personDBManager.getSpeed(name),
-                    personDBManager.getWeight(name), personDBManager.getJumpStrength(name), personDBManager.getFallingSpeed(name),
-                    personDBManager.getCanJump(name));
-        }catch(PersonDataGetException personDataGetException){
-            characteristics1 = null;
-            System.out.println("Ce personnage n'existe pas.");
-        }
-        this.characteristics = characteristics1;
+        characteristics = initCharacterWithDatabase();
         this.logo = new ImageViewSizePos(Objects.requireNonNull(this.getClass().getResource("/mainTER/CharacterGameplay/Logo/" + name + ".png")).getPath(),60,60);
 
         initListAnimate();
         initListSkill();
+    }
+
+    private Characteristics initCharacterWithDatabase(){
+        Characteristics characteristicsToReturn = null;
+        PersonDBManager personDBManager = new PersonDBManager();
+        try{
+            characteristicsToReturn = new Characteristics(personDBManager.getSpeed(name),
+                    personDBManager.getWeight(name), personDBManager.getJumpStrength(name), personDBManager.getFallingSpeed(name),
+                    personDBManager.getCanJump(name));
+        }catch(PersonDataGetException personDataGetException){
+            System.out.println("Ce personnage n'existe pas.");
+        }
+        return characteristicsToReturn;
     }
 
     public boolean canChangeCharacter(){
@@ -84,7 +87,7 @@ public class Character {
         }
     }
 
-    public ArrayList<Skill> getListSkill(){
+    public List<Skill> getListSkill(){
         return listSkill;
     }
 
