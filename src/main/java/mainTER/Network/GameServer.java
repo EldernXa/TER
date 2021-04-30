@@ -1,12 +1,13 @@
 package mainTER.Network;
 
 
+import mainTER.MapPackage.CollideObject;
+
 import java.io.*;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class GameServer implements Runnable{
 
@@ -14,6 +15,10 @@ public class GameServer implements Runnable{
     private int numPlayers;
     private int maxPlayers;
     private double p1x,p1y,p2x,p2y;
+    private String name1, name2;
+    private int pos1,im1,pos2,im2;
+    private ArrayList<CollideObject> collideObjects1,collideObject2;
+
     //ArrayList<ServerSideConnection> players = new ArrayList<>();
 
     private Socket player1;
@@ -31,6 +36,8 @@ public class GameServer implements Runnable{
 
         numPlayers = 0;
         maxPlayers = 2;
+        name1 = "Demon";
+        name2 = "Paladin";
 
     }
 
@@ -67,9 +74,8 @@ public class GameServer implements Runnable{
                     player2 = s;
                     rfc2 = rfc;
                     wtc2 = wtc;
-                    System.out.println("on lit ce que le player1 envoie");
-                    System.out.println(System.currentTimeMillis() /1000);
                     String o = rfc1.dis.readUTF();
+
                     System.out.println("Le Serveur a reçu "+o);
                     wtc1.sendStartMsg();
                     System.out.println("on envoie le premier message start");
@@ -145,15 +151,23 @@ public class GameServer implements Runnable{
         public void run() {
             try{
 
-
-
                 while (true){
                     if(playerID == 1){
                         p1x = dis.readDouble();
                         p1y = dis.readDouble();
+                        name1 = dis.readUTF();
+                        pos1 = dis.readInt();
+                        im1 = dis.readInt();
+
+
+
                     }else{
                         p2x = dis.readDouble();
                         p2y = dis.readDouble();
+                        name2 = dis.readUTF();
+                        pos2 = dis.readInt();
+                        im2 = dis.readInt();
+
                     }
                 }
             }catch (IOException ex){
@@ -185,14 +199,20 @@ public class GameServer implements Runnable{
                     if(playerID == 1){
                         dos.writeDouble(p2x);
                         dos.writeDouble(p2y);
+                        dos.writeUTF(name2);
+                        dos.writeInt(pos2);
+                        dos.writeInt(im2);
                         dos.flush();
                     }else{
                         dos.writeDouble(p1x);
                         dos.writeDouble(p1y);
+                        dos.writeUTF(name1);
+                        dos.writeInt(pos1);
+                        dos.writeInt(im1);
                         dos.flush();
                     }
                     try {
-                        Thread.sleep(25);
+                        Thread.sleep(700);
                     }catch (InterruptedException e){
                         e.printStackTrace();
                     }

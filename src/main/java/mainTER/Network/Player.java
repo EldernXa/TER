@@ -2,6 +2,7 @@ package mainTER.Network;
 
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -18,6 +19,7 @@ import mainTER.CharacterGameplay.Camera;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.MapPackage.Collide;
+import mainTER.MapPackage.CollideObject;
 import mainTER.MapPackage.Map;
 import mainTER.MapPackage.SwitchCharacter;
 import mainTER.Tools.Coordinate;
@@ -52,13 +54,9 @@ public class Player {
     Collide collide;
     Button button = new Button("cliquer");
     volatile boolean finito = false;
+    volatile boolean finish = false;
     ArrayList<Character> listCharacter;
-
-
-
-
-
-
+    VBox vboxPerso = new VBox(10);
 
 
 
@@ -77,16 +75,19 @@ public class Player {
             this.stage = stage;
             this.scene = scene;
             this.listCharacter = listCharacter;
+            vboxPerso.setTranslateX(200);
             button.setTranslateX(60);
+
+
 
             pane.getChildren().add(button);
 
             pane.getChildren().add(vBox);
+            //pane.getChildren().add(vboxPerso);
             System.out.println("Connected to Server as Player #" + playerID + ".");
 
 
             collide = new Collide();
-
 
 
             if (playerID == 1) {
@@ -106,16 +107,42 @@ public class Player {
 
                 try {
                     dos.writeUTF("Bonjour");
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             });
 
+            /*for(Character character : listCharacter){
+                Button b = new Button(character.getName());
+                vboxPerso.getChildren().add(b);
+                b.setDisable(true);
+                b.setOnMouseClicked(mouseEvent -> {
+                    try {
+                            me = new DisplayCharacter(scene,pane,character,collide);
+
+                            System.out.println("voila mon perso " + me.getCharacter().getName() +" " + playerID);
+
+                        for(Node ba : vboxPerso.getChildren()){
+
+                            ba.setDisable(false);
+                        }
+                        b.setDisable(true);
+                        System.out.println(b.getText());
+                            dos.writeUTF(character.getName());
+                            dos.flush();
 
 
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+*/
 
 
             listenArrayPlayers(dis);
+
             rfs = new ReadFromServer(dis);
             wts = new WriteToServer(dos);
             rfs.waitForStartMsg();
@@ -126,7 +153,40 @@ public class Player {
             e.printStackTrace();
         }
     }
+/*
+    public void readForCharacter(DataInputStream dis){
+        Thread t = new Thread(()->{
 
+            while (!finish){
+                try {
+
+                    String name = dis.readUTF();
+                    System.out.println(name + "" + playerID);
+                    for(Node node :vboxPerso.getChildren()){
+                        if(name.contains(((Button)node).getText())){
+                            node.setDisable(true);
+                        }else {
+                            //if(me.getCharacter().getName() !=((Button)node).getText())
+                                node.setDisable(false);
+                        }
+
+
+                    }
+                    for(Character character : listCharacter){
+                        if(name.contains(character.getName())){
+                            friend = new DisplayCharacter(scene,pane,character,collide);
+                        }
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+        t.start();
+    }
+*/
    public void listenArrayPlayers(DataInputStream dis) throws IOException {
 
         Thread thread = new Thread(() ->{
@@ -141,6 +201,7 @@ public class Player {
             while (otherPlayers.get().size() < 2) {
                 try {
 
+                    objectInputStream.read();
                     otherPlayers.set((ArrayList<Integer>) objectInputStream.readObject());
 
                     System.out.println("on est passé pour " + playerID);
@@ -156,9 +217,14 @@ public class Player {
                     });
                 } catch (IOException | ClassNotFoundException ignored) {
                 }
-        }
-            finito = true;
+
+            }
+
+
+
             System.out.println("ON A FINI DE LIRE LES JOUEURS");
+            finito = true;
+
 
         });
         thread.start();
@@ -217,6 +283,24 @@ public class Player {
 
                     friend.setY(dis.readDouble());
 
+
+                    String name = dis.readUTF();
+                    int pos = dis.readInt();
+                    int im = dis.readInt();
+                    Platform.runLater(()-> {
+
+                        friend.setCharacterFriend(new Character(name, friend.getCurrentCoordinateOfTheCharacter()),pos,im);
+
+                    });
+
+
+
+                    /*
+                    for (CollideObject collideObject : map.getReadFileMap().getCollisionObjectArrayList()){
+                        collideObject.setX(dis.readDouble());
+                        collideObject.setY(dis.readDouble());
+                    }*/
+
                 }
 
             } catch (IOException e) {
@@ -229,7 +313,10 @@ public class Player {
                     while (!finito){
 
                     }
+                    System.out.println(me.getCharacter().getName() + " " + playerID);
+                    System.out.println(friend.getCharacter().getName() + " " + playerID);
 
+                    System.out.println("on passe hors de la boucle");
                     if(playerID == 1){
                         Platform.runLater(()->{
                             button.setDisable(false);
@@ -239,6 +326,8 @@ public class Player {
                     System.out.println("ON SORT DE LA BOUCLE");
                     System.out.println("on essaie de lire le message start " + playerID);
 
+
+                    finish = true;
                     if(dis.available() != 0){
                         dis.read();
                         String startMsg = dis.readUTF();
@@ -289,6 +378,14 @@ public class Player {
                 try{
                     dos.writeDouble(me.getX());
                     dos.writeDouble(me.getY());
+                    dos.writeUTF(me.getCharacter().getName());
+                    dos.writeInt(me.getCurrentPosition());
+
+                    dos.writeInt(me.getCurrentImage());
+                    /*for(CollideObject collideObject : map.getReadFileMap().getCollisionObjectArrayList()){
+                        dos.writeDouble(collideObject.getX());
+                        dos.writeDouble(collideObject.getY());
+                    }*/
                     //System.out.println(me.getCurrentCoordinateOfTheCharacter().getX() + " " +me.getCurrentCoordinateOfTheCharacter().getY());
                     dos.flush();
                     try {

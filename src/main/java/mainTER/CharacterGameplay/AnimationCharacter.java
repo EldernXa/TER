@@ -20,6 +20,10 @@ public class AnimationCharacter {
         listOfImageViewForTheAnimation = characterToAnimate.getListOfPictureOfTheCharacter();
     }
 
+    public int getIndImgToAnimate() {
+        return indImgToAnimate;
+    }
+
     public void changeCharacter(Character character){
         listOfImageViewForTheAnimation = character.getListOfPictureOfTheCharacter();
         indImgToAnimate = 0;
