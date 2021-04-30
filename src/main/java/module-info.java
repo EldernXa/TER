@@ -8,4 +8,5 @@ module mainTER {
     requires javafx.media;
     exports mainTER;
     opens mainTER.Menu;
+    opens mainTER.Tools;
 }

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TestPersonDBManager {
+public class TestPersonDBManager {
 
     private final PersonDBManager personDBManager = new PersonDBManager("testDB");
     private final String nameCharacter = "Paladin";
@@ -29,7 +29,7 @@ class TestPersonDBManager {
     }
 
     @Test
-    void testCreateTablePerson(){
+    public void testCreateTablePerson(){
         try {
             personDBManager.createTablePerson();
             assertTrue(true);
@@ -39,7 +39,7 @@ class TestPersonDBManager {
     }
 
     @Test
-    void testInsertDataIntoTablePerson(){
+    public void testInsertDataIntoTablePerson(){
         try {
             personDBManager.createTablePerson();
             personDBManager.insertIntoTablePerson(nameCharacter, speed, weight, jumpStrength, fallingSpeed, canJump);
@@ -50,7 +50,7 @@ class TestPersonDBManager {
     }
 
     @Test
-    void testGettingSpeedFromTablePerson(){
+    public void testGettingSpeedFromTablePerson(){
         try {
             insertValuesIntoPerson();
             assertEquals(speed, personDBManager.getSpeed(nameCharacter));
@@ -60,7 +60,7 @@ class TestPersonDBManager {
     }
 
     @Test
-    void testGettingWeightFromTablePerson(){
+    public void testGettingWeightFromTablePerson(){
         try{
             insertValuesIntoPerson();
             assertEquals(weight, personDBManager.getWeight(nameCharacter));
@@ -70,7 +70,7 @@ class TestPersonDBManager {
     }
 
     @Test
-    void testGettingJumpStrengthFromTablePerson(){
+    public void testGettingJumpStrengthFromTablePerson(){
         try{
             insertValuesIntoPerson();
             assertEquals(jumpStrength, personDBManager.getJumpStrength(nameCharacter));
@@ -80,7 +80,7 @@ class TestPersonDBManager {
     }
 
     @Test
-    void testGettingFallingSpeed(){
+    public void testGettingFallingSpeed(){
         try{
             insertValuesIntoPerson();
             assertEquals(fallingSpeed, personDBManager.getFallingSpeed(nameCharacter));
@@ -90,7 +90,7 @@ class TestPersonDBManager {
     }
 
     @Test
-    void testGettingCanJump(){
+    public void testGettingCanJump(){
         try{
             insertValuesIntoPerson();
             assertEquals(canJump, personDBManager.getCanJump(nameCharacter));
@@ -101,7 +101,7 @@ class TestPersonDBManager {
 
 
     @Test
-    void testGetListName(){
+    public void testGetListName(){
         insertValuesIntoPerson();
         try {
             personDBManager.insertIntoTablePerson("Serpent", 5, 6, 4, 3, false);
@@ -112,7 +112,7 @@ class TestPersonDBManager {
     }
 
     @Test
-    void testInsertSamePerson(){
+    public void testInsertSamePerson(){
         insertValuesIntoPerson();
         assertThrows(PersonDataAlreadyExistException.class, ()->{
             personDBManager.insertIntoTablePerson(nameCharacter, speed, weight, jumpStrength, fallingSpeed, canJump);
@@ -120,7 +120,7 @@ class TestPersonDBManager {
     }
 
     @Test
-    void testInsertIncorrectData(){
+    public void testInsertIncorrectData(){
         insertValuesIntoPerson();
         assertThrows(PersonDataDoesntCorrectException.class, ()->{
             personDBManager.insertIntoTablePerson("", 0, 0, 0, 0, true);

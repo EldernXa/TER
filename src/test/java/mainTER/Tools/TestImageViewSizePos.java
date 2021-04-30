@@ -10,7 +10,7 @@ import javax.swing.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-class TestImageViewSizePos {
+public class TestImageViewSizePos {
 
     private ImageViewSizePos imageViewSizePos;
     private ImageViewSizePos imgViewSizePos;
@@ -26,28 +26,28 @@ class TestImageViewSizePos {
     }
 
     @BeforeEach
-    void initVar(){
+    public void initVar(){
         imageViewSizePos = new ImageViewSizePos(pathImage, coordinate);
         imgViewSizePos = new ImageViewSizePos(pathImage, width, height, coordinate);
     }
 
     @AfterEach
-    void deleteVar(){
+    public void deleteVar(){
         imageViewSizePos = null;
     }
 
     @Test
-    void testGettingPathImage(){
+    public void testGettingPathImage(){
         assertEquals(pathImage, imageViewSizePos.getPathImage());
     }
 
     @Test
-    void testGettingPathImageIsWrong(){
+    public void testGettingPathImageIsWrong(){
         assertNotEquals(pathImage+"/", imageViewSizePos.getPathImage());
     }
 
     @Test
-    void testGettingBeforeAndAfterSettingPathImage(){
+    public void testGettingBeforeAndAfterSettingPathImage(){
         assertEquals(pathImage, imageViewSizePos.getPathImage());
         imageViewSizePos.setPathImage(pathImage+"/");
         assertNotEquals(pathImage, imageViewSizePos.getPathImage());
@@ -55,7 +55,7 @@ class TestImageViewSizePos {
     }
 
     @Test
-    void testGetCoordinate(){
+    public void testGetCoordinate(){
         assertEquals(coordinate.getX(), imageViewSizePos.getCoordinate().getX());
         assertEquals(coordinate.getY(), imageViewSizePos.getCoordinate().getY());
         assertEquals(coordinate.getX(), imageViewSizePos.getImageView().getX());
@@ -63,7 +63,7 @@ class TestImageViewSizePos {
     }
 
     @Test
-    void testGettingBeforeAndAfterSettingCoordinate(){
+    public void testGettingBeforeAndAfterSettingCoordinate(){
         assertEquals(coordinate.getX(), imageViewSizePos.getCoordinate().getX());
         assertEquals(coordinate.getY(), imageViewSizePos.getCoordinate().getY());
         assertEquals(coordinate.getX(), imageViewSizePos.getImageView().getX());
@@ -76,13 +76,13 @@ class TestImageViewSizePos {
     }
 
     @Test
-    void testConstructorWithHeightAndWidth(){
+    public void testConstructorWithHeightAndWidth(){
         assertEquals(width, imgViewSizePos.getImageView().getFitWidth());
         assertEquals(height, imgViewSizePos.getImageView().getFitHeight());
     }
 
     @Test
-    void testSetForcedSize(){
+    public void testSetForcedSize(){
         assertEquals(width, imgViewSizePos.getImageView().getFitWidth());
         assertEquals(height, imgViewSizePos.getImageView().getFitHeight());
         imgViewSizePos.setSize(width+50, height+50);

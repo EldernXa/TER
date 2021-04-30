@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TestSkillDBManager {
+public class TestSkillDBManager {
 
     private final SkillDBManager skillDBManager = new SkillDBManager("testDB");
     private final String nameSkill1 = "SHIELD";
@@ -34,7 +34,7 @@ class TestSkillDBManager {
     }
 
     @Test
-    void testCreateTableSkill(){
+    public void testCreateTableSkill(){
         try{
             skillDBManager.createTableSkill();
             assertTrue(true);
@@ -44,7 +44,7 @@ class TestSkillDBManager {
     }
 
     @Test
-    void testInsertIntoSkill(){
+    public void testInsertIntoSkill(){
         try {
             skillDBManager.createTableSkill();
             skillDBManager.insertIntoTableSkill(nameSkill1, ctrlKey1, nameCharacter, animateMvt, animateAction, isMode);
@@ -56,7 +56,7 @@ class TestSkillDBManager {
     }
 
     @Test
-    void testGetListNameSkill(){
+    public void testGetListNameSkill(){
         try{
             insertValueIntoSkill();
             skillDBManager.insertIntoTableSkill(nameSkill2, ctrlKey2, nameCharacter, animateMvt, animateAction, isMode);
@@ -67,7 +67,7 @@ class TestSkillDBManager {
     }
 
     @Test
-    void testGetListNameCharacter(){
+    public void testGetListNameCharacter(){
         try{
             insertValueIntoSkill();
             skillDBManager.insertIntoTableSkill(nameSkill2, ctrlKey2, nameCharacter, animateMvt, animateAction, isMode);
@@ -79,7 +79,7 @@ class TestSkillDBManager {
     }
 
     @Test
-    void testGetNumberOfSkillOfACharacter(){
+    public void testGetNumberOfSkillOfACharacter(){
         try{
             insertValueIntoSkill();
             skillDBManager.insertIntoTableSkill(nameSkill2, ctrlKey2, nameCharacter, animateMvt, animateAction, isMode);
@@ -90,7 +90,7 @@ class TestSkillDBManager {
     }
 
     @Test
-    void testGettingNameSkill(){
+    public void testGettingNameSkill(){
         try{
             insertValueIntoSkill();
             assertEquals(nameSkill1, skillDBManager.getNameSkill(nameCharacter, numSkill1));
@@ -100,7 +100,7 @@ class TestSkillDBManager {
     }
 
     @Test
-    void testGettingFalseNameSkillThrowException(){
+    public void testGettingFalseNameSkillThrowException(){
         try {
             insertValueIntoSkill();
             assertThrows(SkillDataGetException.class, () -> skillDBManager.getNameSkill(nameCharacter, 5));
@@ -110,7 +110,7 @@ class TestSkillDBManager {
     }
 
     @Test
-    void testGettingCtrlKey(){
+    public void testGettingCtrlKey(){
         try{
             insertValueIntoSkill();
             assertEquals(ctrlKey1, skillDBManager.getCtrlKey(nameCharacter, numSkill1));
@@ -120,7 +120,7 @@ class TestSkillDBManager {
     }
 
     @Test
-    void testGettingFalseCtrlKeyThrowException(){
+    public void testGettingFalseCtrlKeyThrowException(){
         try {
             insertValueIntoSkill();
             assertThrows(SkillDataGetException.class, () -> skillDBManager.getCtrlKey(nameCharacter, 5));
@@ -130,7 +130,7 @@ class TestSkillDBManager {
     }
 
     @Test
-    void testGettingAnimateMvt(){
+    public void testGettingAnimateMvt(){
         try{
             insertValueIntoSkill();
             assertEquals(animateMvt, skillDBManager.getAnimateMvt(nameCharacter, numSkill1));
@@ -140,7 +140,7 @@ class TestSkillDBManager {
     }
 
     @Test
-    void testGettingFalseAnimateMvtThrowException(){
+    public void testGettingFalseAnimateMvtThrowException(){
         try {
             insertValueIntoSkill();
             assertThrows(SkillDataGetException.class, () -> skillDBManager.getAnimateMvt(nameCharacter, 5));
@@ -150,7 +150,7 @@ class TestSkillDBManager {
     }
 
     @Test
-    void testGettingAnimateAction(){
+    public void testGettingAnimateAction(){
         try{
             insertValueIntoSkill();
             assertEquals(animateAction, skillDBManager.getAnimateAction(nameCharacter, numSkill1));
@@ -160,7 +160,7 @@ class TestSkillDBManager {
     }
 
     @Test
-    void testGettingFalseAnimateActionThrowException(){
+    public void testGettingFalseAnimateActionThrowException(){
         try {
             insertValueIntoSkill();
             assertThrows(SkillDataGetException.class, () -> skillDBManager.getAnimateAction(nameCharacter, 5));
@@ -170,7 +170,7 @@ class TestSkillDBManager {
     }
 
     @Test
-    void testGettingIsMode(){
+    public void testGettingIsMode(){
         try{
             insertValueIntoSkill();
             assertEquals(isMode, skillDBManager.getIsMode(nameCharacter, numSkill1));
@@ -180,7 +180,7 @@ class TestSkillDBManager {
     }
 
     @Test
-    void testGettingFalseIsModeThrowException(){
+    public void testGettingFalseIsModeThrowException(){
         try {
             insertValueIntoSkill();
             assertThrows(SkillDataGetException.class, () -> skillDBManager.getIsMode(nameCharacter, 5));
@@ -190,7 +190,7 @@ class TestSkillDBManager {
     }
 
     @Test
-    void testThrowSkillAlreadyExist(){
+    public void testThrowSkillAlreadyExist(){
         try{
             insertValueIntoSkill();
             assertThrows(SkillAlreadyExistException.class, ()->skillDBManager.insertIntoTableSkill(nameSkill1, "P", nameCharacter, animateMvt, animateAction, isMode));
@@ -200,7 +200,7 @@ class TestSkillDBManager {
     }
 
     @Test
-    void testThrowSkillCtrlAlreadyUsed(){
+    public void testThrowSkillCtrlAlreadyUsed(){
         try{
             insertValueIntoSkill();
             assertThrows(SkillCtrlAlreadyUsedException.class, ()->skillDBManager.insertIntoTableSkill("test", ctrlKey1, nameCharacter, animateMvt, animateAction, isMode));

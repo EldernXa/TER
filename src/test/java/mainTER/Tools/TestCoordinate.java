@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class TestCoordinate {
+public class TestCoordinate {
 
     private Coordinate coordinate;
     private final double coordinateX = 50;
@@ -13,18 +13,18 @@ class TestCoordinate {
     private final int step = 50;
 
     @BeforeEach
-    void initTest(){
+    public void initTest(){
         coordinate = new Coordinate(coordinateX, coordinateY);
     }
 
     @Test
-    void testGettingCoordinate(){
+    public void testGettingCoordinate(){
         assertEquals(coordinateX, coordinate.getX());
         assertEquals(coordinateY, coordinate.getY());
     }
 
     @Test
-    void testGettingBeforeAndAfterSettingForCoordinate(){
+    public void testGettingBeforeAndAfterSettingForCoordinate(){
         assertEquals(coordinateX, coordinate.getX());
         assertEquals(coordinateY, coordinate.getY());
         coordinate.setX(coordinateX+step);

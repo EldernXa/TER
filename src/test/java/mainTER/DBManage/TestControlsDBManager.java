@@ -28,7 +28,7 @@ public class TestControlsDBManager {
     }
 
     @Test
-    void testCreateTablePerson(){
+    public void testCreateTablePerson(){
         try {
             controlsDBManager.createTableControls();
             assertTrue(true);
@@ -38,7 +38,7 @@ public class TestControlsDBManager {
     }
 
     @Test
-    void testInsertDataIntoTablePerson(){
+    public void testInsertDataIntoTablePerson(){
         try {
             controlsDBManager.createTableControls();
             controlsDBManager.insertIntoTableControls(right,left,jump,switchUp,switchDown);
@@ -49,7 +49,7 @@ public class TestControlsDBManager {
     }
 
     @Test
-    void testGettingRightFromTableControls(){
+    public void testGettingRightFromTableControls(){
         try {
             insertValuesIntoControls();
             assertEquals(right, controlsDBManager.getRight());
@@ -59,7 +59,7 @@ public class TestControlsDBManager {
     }
 
     @Test
-    void testSetRightFromTableControls(){
+    public void testSetRightFromTableControls(){
         try {
             insertValuesIntoControls();
             controlsDBManager.setRight("s");
@@ -70,7 +70,7 @@ public class TestControlsDBManager {
     }
 
     @Test
-    void testGettingLeftFromTableControls(){
+    public void testGettingLeftFromTableControls(){
         try {
             insertValuesIntoControls();
             assertEquals(left, controlsDBManager.getLeft());
@@ -79,7 +79,7 @@ public class TestControlsDBManager {
         }
     }
     @Test
-    void testSetLeftFromTableControls(){
+    public void testSetLeftFromTableControls(){
         try {
             insertValuesIntoControls();
             controlsDBManager.setLeft("f");
@@ -90,7 +90,7 @@ public class TestControlsDBManager {
     }
 
     @Test
-    void testGettingJumpFromTableControls(){
+    public void testGettingJumpFromTableControls(){
         try {
             insertValuesIntoControls();
             assertEquals(jump, controlsDBManager.getJump());
@@ -100,7 +100,7 @@ public class TestControlsDBManager {
     }
 
     @Test
-    void testSetJumpFromTableControls(){
+    public void testSetJumpFromTableControls(){
         try {
             insertValuesIntoControls();
             controlsDBManager.setJump("z");
@@ -111,7 +111,7 @@ public class TestControlsDBManager {
     }
 
     @Test
-    void testGettingSwitchUpFromTableControls(){
+    public void testGettingSwitchUpFromTableControls(){
         try {
             insertValuesIntoControls();
             assertEquals(switchUp, controlsDBManager.getSwitchUp());
@@ -121,7 +121,7 @@ public class TestControlsDBManager {
     }
 
     @Test
-    void testSetSwitchUpFromTableControls(){
+    public void testSetSwitchUpFromTableControls(){
         try {
             insertValuesIntoControls();
             controlsDBManager.setSwitchUp("h");
@@ -131,7 +131,7 @@ public class TestControlsDBManager {
         }
     }
     @Test
-    void testGettingSwitchDownFromTableControls(){
+    public void testGettingSwitchDownFromTableControls(){
         try {
             insertValuesIntoControls();
             assertEquals(switchDown, controlsDBManager.getSwitchDown());
@@ -142,7 +142,7 @@ public class TestControlsDBManager {
     }
 
     @Test
-    void testSetSwitchDownFromTableControls(){
+    public void testSetSwitchDownFromTableControls(){
         try {
             insertValuesIntoControls();
             controlsDBManager.setSwitchDown("t");
@@ -158,7 +158,7 @@ public class TestControlsDBManager {
             controlsDBManager.createTableControls();
             controlsDBManager.insertIntoTableControls(right,left,jump,switchUp,switchDown);
 
-            System.out.println(controlsDBManager.toArray());
+            //System.out.println(controlsDBManager.toArray());
         }catch(Exception sqlException){
             sqlException.printStackTrace();
             fail();
