@@ -81,11 +81,9 @@ public class DisplayCharacter extends CollideObject {
         timelineForMotionlessCharacter();
     }
     public int getCurrentPosition(){
-        System.out.println(animationForTheCharacter.getCurrentPosition().ordinal());
         return animationForTheCharacter.getCurrentPosition().ordinal();
     }
     public int getCurrentImage(){
-        System.out.println(animationForTheCharacter.getIndImgToAnimate());
         return animationForTheCharacter.getIndImgToAnimate();
     }
 
@@ -158,7 +156,9 @@ public class DisplayCharacter extends CollideObject {
                     tps -> {
                             if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
                                 moveWalkJumping();
-                            } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)) {
+                            } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)
+                                && currentCoordinateOfTheCharacter.getY()<2000) {
+                                // TODO change gravity limit.
                                 moveWalkFalling();
                             } else if (verifyCollision(currentCoordinateOfTheCharacter.getX() + character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
                                 moveWalkNormally();
@@ -182,7 +182,9 @@ public class DisplayCharacter extends CollideObject {
                     tps -> {
                         if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
                             moveReverseWalkJumping();
-                        } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)) {
+                        } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)
+                            && currentCoordinateOfTheCharacter.getY()<2000) {
+                            // TODO change gravity limit.
                             moveReverseWalkFalling();
                         } else if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
                             moveReverseWalkNormally();
@@ -211,7 +213,9 @@ public class DisplayCharacter extends CollideObject {
                         double newHeight = adaptYToHeight(height);
                         if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
                             moveMotionlessJumping(newHeight);
-                        } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)) {
+                        } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)
+                                && currentCoordinateOfTheCharacter.getY()<2000) {
+                            // TODO change gravity limit.
                             moveMotionlessFalling();
                         } else {
                             moveMotionlessNormally();
