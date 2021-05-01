@@ -21,7 +21,7 @@ public class AnimationCharacter {
     }
 
     public int getIndImgToAnimate() {
-        return indImgToAnimate;
+        return (indImgToAnimate)%listOfImageViewForTheAnimation.get(posToAnimate).size();
     }
 
     public void changeCharacter(Character character){
