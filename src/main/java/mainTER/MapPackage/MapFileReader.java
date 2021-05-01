@@ -19,14 +19,16 @@ public class MapFileReader {
 
     public static ArrayList<CollideObject> collideObjectArrayList;
     private String[] file;
+    private String pathName;
 
     /**
      *
      * @param pathName Map file path
      */
-    public MapFileReader(String pathName) {
+    public MapFileReader(String url,String pathName) {
         collideObjectArrayList = new ArrayList<>();
-        Path path = Paths.get(pathName);
+        this.pathName = pathName;
+        Path path = Paths.get(url +  pathName + ".txt");
         try {
             this.file = Files.readString(path).split("\n");
 
@@ -71,13 +73,13 @@ public class MapFileReader {
                         }
 
                         if (line[1].equals("L")) {
-                            fieldFromLilPict = new MapFieldFromLilPict(spriteName, new Coordinate(doubles[2], doubles[3]), doubles[4], doubles[5]);
+                            fieldFromLilPict = new MapFieldFromLilPict(pathName,spriteName, new Coordinate(doubles[2], doubles[3]), doubles[4], doubles[5]);
                             collideObjectArrayList.add(fieldFromLilPict);
                         }
                         else {
 
                             double imageHeight = heightFromName(spriteName);
-                            fieldFromSprite = new MapFieldFromSprite(spriteName, new Coordinate(doubles[2], doubles[3]-imageHeight), doubles[4]);
+                            fieldFromSprite = new MapFieldFromSprite(pathName,spriteName, new Coordinate(doubles[2], doubles[3]-imageHeight), doubles[4]);
                             collideObjectArrayList.add(fieldFromSprite);
                         }
                     }
@@ -98,7 +100,7 @@ public class MapFileReader {
                                 break;
                             case "trunk" :
                                 imageHeight2 = heightFromName(line[0]);
-                                collideObjectArrayList.add(new RndObj(line[0],new Coordinate(doubles[1], doubles[2]-imageHeight2)));
+                                collideObjectArrayList.add(new RndObj(pathName, line[0],new Coordinate(doubles[1], doubles[2]-imageHeight2)));
                                 break;
                         }
                     }
@@ -113,7 +115,7 @@ public class MapFileReader {
      * @return Height of the picture
      */
     private double heightFromName(String name){
-        Image image = new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Front/"+name+".png").toURI().toString());
+        Image image = new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Front/"+pathName +"/" +name+".png").toURI().toString());
         return image.getHeight();
     }
 

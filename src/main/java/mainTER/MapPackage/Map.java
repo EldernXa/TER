@@ -10,6 +10,7 @@ public class Map {
     private final MapFileReader mapFileReader;
     private final Pane pane;
     private ImageView backgroundImage;
+    private String fileName;
 
 
     public Map(Collide collide, Pane pane, ImageView backgroundImage) {
@@ -19,7 +20,10 @@ public class Map {
         pane.setBackground(new Background(new BackgroundImage(backgroundImage.getImage(),BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT, new BackgroundSize(backgroundImage.getImage().getWidth(),
                 backgroundImage.getImage().getHeight(),false,false,false,false))));
-        mapFileReader = new MapFileReader("./src/main/resources/mainTER/MapPackage/Files/Forest.txt");
+
+        String url = "./src/main/resources/mainTER/MapPackage/Files/";
+        this.fileName = "forest";
+        mapFileReader = new MapFileReader(url , fileName);
         collide.setCollisionObjectArrayList(mapFileReader.getCollisionObjectArrayList());
         addCollisionObjectNetwork();
 
@@ -48,5 +52,9 @@ public class Map {
 
     public Pane getPane() {
         return pane;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 }

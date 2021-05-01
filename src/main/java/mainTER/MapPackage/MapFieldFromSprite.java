@@ -16,10 +16,10 @@ public class MapFieldFromSprite extends MapFieldForm {
 
 
 
-    public MapFieldFromSprite(String spriteName, Coordinate coordinate, double percent) {
+    public MapFieldFromSprite(String pathName,String spriteName, Coordinate coordinate, double percent) {
 
         super(coordinate, 0, 0);
-        this.path = "./src/main/resources/mainTER/MapPackage/Sprites/Front/" + spriteName + ".png";
+        this.path = "./src/main/resources/mainTER/MapPackage/Sprites/Front/"+pathName+"/" + spriteName + ".png";
         this.percent = percent;
         imageViewSizePos = new ImageViewSizePos(this.path,coordinate);
         setWidth(imageViewSizePos.getImageView().getImage().getWidth());

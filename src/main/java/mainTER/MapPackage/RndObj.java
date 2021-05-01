@@ -12,12 +12,12 @@ public class RndObj extends CollideObject {
 
 
 
-    public RndObj(String rndObjName, Coordinate coordinate) {
+    public RndObj(String pathName,String rndObjName, Coordinate coordinate) {
 
         this.rndObjName = rndObjName;
         this.coordinate = coordinate;
 
-        imageViewSizePos = new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Sprites/Front/" + rndObjName + ".png",coordinate);
+        imageViewSizePos = new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Sprites/Front/" +pathName+"/" + rndObjName + ".png",coordinate);
         imageViewSizePos.getImageView().setFitHeight(imageViewSizePos.getImageView().getImage().getHeight());
         imageViewSizePos.getImageView().setFitWidth(imageViewSizePos.getImageView().getImage().getWidth());
 

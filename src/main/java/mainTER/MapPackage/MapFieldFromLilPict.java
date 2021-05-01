@@ -3,7 +3,7 @@ package mainTER.MapPackage;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
@@ -26,36 +26,21 @@ public class MapFieldFromLilPict extends MapFieldForm {
      * @param width Width
      * @param height Height
      */
-    public MapFieldFromLilPict(String spriteName, Coordinate coordinate, double width, double height) {
+    public MapFieldFromLilPict(String pathName, String spriteName, Coordinate coordinate, double width, double height) {
 
         super(coordinate, width, height);
-        this.path = "./src/main/resources/mainTER/MapPackage/Sprites/Front/" + spriteName + ".png";
+        this.path = "./src/main/resources/mainTER/MapPackage/Sprites/Front/" + pathName+ "/" + spriteName + ".png";
         Image image = new Image(new File(this.path).toURI().toString());
         pane = new Pane();
+        pane.setLayoutX(coordinate.getX());
+        pane.setLayoutY(coordinate.getY());
+        pane.setPrefSize(width+1,height);
+        pane.setBackground(new Background((new BackgroundImage(image, BackgroundRepeat.REPEAT,
+                BackgroundRepeat.REPEAT,BackgroundPosition.CENTER, new BackgroundSize(image.getWidth(),
+                image.getHeight(),false,false,false,false)))));
 
 
-        for (double i = coordinate.getX(); i < (coordinate.getX() + width); i += image.getWidth()) {
-            for (double j = coordinate.getY(); j < (coordinate.getY() + height); j += image.getHeight()) {
 
-                ImageViewSizePos imageViewSizePos = new ImageViewSizePos(path, new Coordinate(i, j));
-
-                if(i + image.getWidth() > coordinate.getX() +width){
-
-                    BufferedImage bufferedImage = SwingFXUtils.fromFXImage(imageViewSizePos.getImageView().getImage(), null);
-                    BufferedImage dest = bufferedImage.getSubimage(0, 0, (int)(coordinate.getX() + width - i),(int) image.getHeight());
-                    imageViewSizePos.getImageView().setImage(SwingFXUtils.toFXImage(dest, null));
-
-                }
-                if(j + image.getHeight() > coordinate.getY() +height){
-                    BufferedImage bufferedImage = SwingFXUtils.fromFXImage(imageViewSizePos.getImageView().getImage(), null);
-                    BufferedImage dest = bufferedImage.getSubimage(0, 0, (int)(imageViewSizePos.getImageView().getImage().getWidth()),(int)(coordinate.getY() + height - j));
-                    imageViewSizePos.getImageView().setImage(SwingFXUtils.toFXImage(dest, null));
-                }
-                pane.getChildren().add(imageViewSizePos.getImageView());
-
-            }
-
-        }
 
 
     }
