@@ -47,6 +47,7 @@ public class MenuControls {
         SkillDBManager skillDBManager = new SkillDBManager();
         List<String> listNameSkillCharacterWithSkill = skillDBManager.getListNameCharacterWithSkill();
         for(String nameCharacter : listNameSkillCharacterWithSkill){
+            vbox.getChildren().add(new Label(nameCharacter));
             for(int i = 0 ; i<skillDBManager.getNumberSkillActiveOfACharacter(nameCharacter);i++) {
                 HBox hbox = new HBox(10);
                 Label labelNameSkill = new Label();
