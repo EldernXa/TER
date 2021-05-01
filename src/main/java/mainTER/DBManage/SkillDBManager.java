@@ -210,11 +210,37 @@ public class SkillDBManager {
             throw new SkillDataNotCorrectException();
         }
         String reqValues = "INSERT INTO Skill VALUES (" +
-                "'"+ nameSkill + "'," + numSkill + ",'" + ctrlKey + "','" +nameCharacter +"',"
+                "'"+ nameSkill.toUpperCase() + "'," + numSkill + ",'" + ctrlKey + "','" +nameCharacter +"',"
                  + convertBoolToString(animateMvt) +"," + convertBoolToString(animateAction)
                 + "," + convertBoolToString(isMode) +
                 ")";
         dbManager.createTableOrInsert(reqValues);
+    }
+
+    public List<String> getCtrlKeyOfACharacter(String nameCharacter){
+        ArrayList<String> listCtrlKeyOfACharacter = new ArrayList<>();
+        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+
+        try{
+            while(resultSet.next()){
+                if(resultSet.getString("nameCharacter").compareTo(nameCharacter)==0){
+                    listCtrlKeyOfACharacter.add(resultSet.getString("ctrlKey").toLowerCase());
+                }
+            }
+        }catch(SQLException sqlException){
+            System.out.println("Problème avec la base de données.");
+        }
+
+        return listCtrlKeyOfACharacter;
+    }
+
+    public void modifyCtrlOfACharacter(String nameCharacter, String nameSkill, String newCtrlKey){
+        String request = "UPDATE Skill " +
+                "SET " +
+                "ctrlKey = '" + newCtrlKey + "'" +
+                " WHERE nameCharacter = '"+ nameCharacter +"' AND nameSkill = '" + nameSkill.toUpperCase()  +"';";
+        dbManager.updateTable(request);
+
     }
 
     /**
