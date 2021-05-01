@@ -157,7 +157,7 @@ public class DisplayCharacter extends CollideObject {
                             if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
                                 moveWalkJumping();
                             } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)
-                                && currentCoordinateOfTheCharacter.getY()<2000) {
+                                && currentCoordinateOfTheCharacter.getY()<4000) {
                                 // TODO change gravity limit.
                                 moveWalkFalling();
                             } else if (verifyCollision(currentCoordinateOfTheCharacter.getX() + character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
@@ -183,7 +183,7 @@ public class DisplayCharacter extends CollideObject {
                         if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
                             moveReverseWalkJumping();
                         } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)
-                            && currentCoordinateOfTheCharacter.getY()<2000) {
+                            && currentCoordinateOfTheCharacter.getY()<4000) {
                             // TODO change gravity limit.
                             moveReverseWalkFalling();
                         } else if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
@@ -211,10 +211,11 @@ public class DisplayCharacter extends CollideObject {
                         else
                             animationForTheCharacter.setReverseMotionLess();
                         double newHeight = adaptYToHeight(height);
+
                         if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
                             moveMotionlessJumping(newHeight);
                         } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)
-                                && currentCoordinateOfTheCharacter.getY()<2000) {
+                                && currentCoordinateOfTheCharacter.getY()<4000) {
                             // TODO change gravity limit.
                             moveMotionlessFalling();
                         } else {
@@ -306,6 +307,7 @@ public class DisplayCharacter extends CollideObject {
     }
 
     private void moveMotionlessJumping(double newHeight){
+
         if (walkToRight)
             animationForTheCharacter.setJump();
         else

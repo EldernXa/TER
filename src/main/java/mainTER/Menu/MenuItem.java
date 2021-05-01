@@ -102,8 +102,13 @@ public class MenuItem extends StackPane {
 
 
                     stackPane.getChildren().add(pane);
+                    ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/Background-1.png").toURI().toString()));
 
-                    Scene scene = new Scene(stackPane, 5548, Screen.getPrimary().getBounds().getHeight());
+                    double backtroundHeight = background.getImage().getHeight();
+                    if(background.getImage().getHeight() < Screen.getPrimary().getBounds().getHeight()){
+                        backtroundHeight =  Screen.getPrimary().getBounds().getHeight();
+                    }
+                    Scene scene = new Scene(stackPane, background.getImage().getWidth(), backtroundHeight);
 
                     Stage mainStage = new Stage();
 /*                    mainStage.setHeight(Screen.getPrimary().getBounds().getHeight());
@@ -112,16 +117,14 @@ public class MenuItem extends StackPane {
                     //mainStage.setMaximized(true);
                     mainStage.setResizable(false);
                     mainStage.sizeToScene();
-                    mainStage.setMinWidth(mainStage.getWidth());
-                    mainStage.setMinHeight(mainStage.getHeight());
                     mainStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 
 
 
-
                     Collide collide = new Collide();
-                    ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/Background-1.png").toURI().toString()));
-                    new Map(collide, pane, background);
+                    new Map(collide, pane, background)
+;
+
 
 
 
@@ -132,15 +135,16 @@ public class MenuItem extends StackPane {
                     SwitchCharacter sc = new SwitchCharacter(listCharacter,displayCharacter);
 
                     //Make the scene scale if the screen is larger
-
                     double height = Screen.getPrimary().getBounds().getHeight();
-                    double h = height/background.getImage().getHeight();
-                    Scale scale = new Scale(h, h, 0, 0);
-                    scene.getRoot().getTransforms().add(scale);
+                    double h = 1;
+                    if(height>background.getImage().getHeight()){
+                        h = height/background.getImage().getHeight();
+                        Scale scale = new Scale(h, h, 0, 0);
+                        scene.getRoot().getTransforms().add(scale);
+                    }
 
 
-                    sc.setTranslateY(displayCharacter.getCurrentCoordinateOfTheCharacter().getY() -Screen.getPrimary().getBounds().getHeight()/8.6* 5);
-                    sc.setTranslateX(displayCharacter.getCurrentCoordinateOfTheCharacter().getX() -Screen.getPrimary().getBounds().getWidth()/2.8);
+
                     stackPane.getChildren().add(sc);
 
                     new Camera(scene,displayCharacter,sc,listCharacter,h,background);

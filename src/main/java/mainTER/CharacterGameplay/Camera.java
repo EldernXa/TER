@@ -23,10 +23,12 @@ public class Camera {
     private ArrayList<Character> listCharacter;
     private double scalingValue;
     private ImageView background;
-    private  String right;
-    private  String left;
-    private  String switchUp;
-    private  String switchDown;
+    private String right;
+    private String left;
+    private String down;
+    private String up;
+    private String switchUp;
+    private String switchDown;
 
 
     public Camera(Scene scene, DisplayCharacter displayCharacter, SwitchCharacter sc, ArrayList<Character> listCharacter, double scalingValue, ImageView background) {
@@ -40,6 +42,7 @@ public class Camera {
         left = "";
         switchUp = "";
         switchDown = "";
+
 
         ControlsDBManager controlsDBManager = new ControlsDBManager();
         try {
@@ -61,22 +64,19 @@ public class Camera {
 
     void moveCamera() {
 
-        camera.translateXProperty().set(displayCharacter.getCurrentCoordinateOfTheCharacter().getX() * scalingValue - Screen.getPrimary().getBounds().getWidth() / 2);
-
-        //A voir pour les Y quand la map monte ou decend
-
+        initTranslateCamera();
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, event2 -> {
 
             String event = event2.getCode().getChar().toLowerCase();
 
-            if(event.equals(right)){
+            if (event.equals(right)) {
                 coordCamera();
-            }else if(event.equals(left)){
-                if (camera.getTranslateX() > 1 ) {
+            } else if (event.equals(left)) {
+                if (camera.getTranslateX() > 1) {
                     coordCamera();
                 }
-            }else if(event.equals(switchUp)){
+            } else if (event.equals(switchUp)) {
                 int k = 0;
                 for (int i = 0; i < listCharacter.size(); i++) {
                     if (listCharacter.get(i) == displayCharacter.getCharacter()) {
@@ -86,7 +86,7 @@ public class Camera {
                 displayCharacter.setCharacter(listCharacter.get((k + 1) % listCharacter.size()));
                 sc.changeToUp();
 
-            }else if(event.equals(switchDown)){
+            } else if (event.equals(switchDown)) {
                 int k = 0;
                 for (int i = 0; i < listCharacter.size(); i++) {
                     if (listCharacter.get(i) == displayCharacter.getCharacter()) {
@@ -103,24 +103,75 @@ public class Camera {
         });
     }
 
+    private void initTranslateCamera() {
+
+        camera.translateXProperty().set(displayCharacter.getCurrentCoordinateOfTheCharacter().getX() * scalingValue - Screen.getPrimary().getBounds().getWidth() / 2);
+        double translateXvalue = (background.getImage().getWidth() - Screen.getPrimary().getBounds().getWidth() / scalingValue) * scalingValue;
+        sc.setTranslateX( displayCharacter.getCurrentCoordinateOfTheCharacter().getX() - Screen.getPrimary().getBounds().getWidth() / 2/scalingValue);
+
+
+        if (camera.getTranslateX() > translateXvalue) {
+            camera.translateXProperty().set(translateXvalue);
+            sc.setTranslateX(translateXvalue/scalingValue);
+
+
+        } else if (camera.getTranslateX() < 1) {
+            camera.translateXProperty().set(1);
+            sc.setTranslateX(1);
+
+        }
+
+        camera.translateYProperty().set(displayCharacter.getCurrentCoordinateOfTheCharacter().getY() * scalingValue - Screen.getPrimary().getBounds().getHeight() / 2);
+        double translateYvalue = (background.getImage().getHeight() - Screen.getPrimary().getBounds().getHeight() / scalingValue) * scalingValue;
+        sc.setTranslateY( displayCharacter.getCurrentCoordinateOfTheCharacter().getY() - Screen.getPrimary().getBounds().getHeight() / 2);
+
+        if (camera.getTranslateY() > translateYvalue) {
+            camera.translateYProperty().set(translateYvalue);
+            sc.setTranslateY(translateYvalue);
+        } else if (camera.getTranslateY() < 1) {
+            camera.translateYProperty().set(1);
+            sc.setTranslateY(1);
+        }
+
+
+
+
+    }
+
+
     private void coordCamera() {
-        double translateValue = displayCharacter.getCurrentCoordinateOfTheCharacter().getX() * scalingValue - Screen.getPrimary().getBounds().getWidth() / 2;
+
         double xCamera = camera.getTranslateX();
+        double yCamera = camera.getTranslateY();
+
+        double translateValue = displayCharacter.getCurrentCoordinateOfTheCharacter().getX() * scalingValue - Screen.getPrimary().getBounds().getWidth() / 2;
+        double translateYvalue = displayCharacter.getCurrentCoordinateOfTheCharacter().getY() * scalingValue - Screen.getPrimary().getBounds().getHeight() / 2;
 
 
         camera.translateXProperty().set(xCamera + (translateValue - xCamera) * 0.1);
-        if (displayCharacter.getCurrentCoordinateOfTheCharacter().getX() + Screen.getPrimary().getBounds().getWidth()/2 >background.getImage().getWidth()) {
-            translateValue = background.getImage().getWidth() - 1;
-            camera.translateXProperty().set(xCamera + (translateValue - xCamera) * 0.1);
-        }
-        else if (camera.getTranslateX() < 1) {
-            camera.translateXProperty().set(1);
-        }
-        else {
+        camera.translateYProperty().set(yCamera + (translateYvalue - yCamera) * 0.1);
+        if (camera.getTranslateX() > (background.getImage().getWidth() - Screen.getPrimary().getBounds().getWidth() / scalingValue) * scalingValue) {
+            camera.translateXProperty().set(xCamera + (xCamera - xCamera) * 0.1);
 
-            double switchCharacterValue = displayCharacter.getCurrentCoordinateOfTheCharacter().getX()  -  Screen.getPrimary().getBounds().getWidth() / 2.8;
+        } else if (camera.getTranslateX() < 1) {
+            camera.translateXProperty().set(1);
+            sc.translateXProperty().set(1);
+        } else {
+
+
             double xSc = sc.getTranslateX();
-            sc.setTranslateX(xSc + (switchCharacterValue - xSc)*0.1);
+            sc.setTranslateX(xSc + (translateValue/scalingValue - xSc) * 0.1);
+        }
+
+
+        if (camera.getTranslateY() > (background.getImage().getHeight() - Screen.getPrimary().getBounds().getHeight() / scalingValue) * scalingValue) {
+            camera.translateYProperty().set(yCamera + (yCamera - yCamera) * 0.1);
+        } else if (camera.getTranslateY() < 1) {
+            camera.translateYProperty().set(0);
+            sc.translateYProperty().set(1);
+        } else {
+            double ySc = sc.getTranslateY();
+            sc.setTranslateY(ySc + (translateYvalue/scalingValue - ySc) * 0.1);
         }
 
 
