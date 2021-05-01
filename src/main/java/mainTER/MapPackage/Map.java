@@ -22,7 +22,7 @@ public class Map {
                 backgroundImage.getImage().getHeight(),false,false,false,false))));
 
         String url = "./src/main/resources/mainTER/MapPackage/Files/";
-        this.fileName = "forest";
+        this.fileName = "Forest";
         mapFileReader = new MapFileReader(url , fileName);
         addCollisionObjectNetwork();
 
