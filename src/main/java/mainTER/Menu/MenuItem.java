@@ -27,7 +27,6 @@ import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.DBManage.PersonDBManager;
 import mainTER.LoadOfFXML;
-import mainTER.MapPackage.Collide;
 import mainTER.MapPackage.Map;
 import mainTER.MapPackage.SwitchCharacter;
 import mainTER.Music.Music;
@@ -121,15 +120,14 @@ public class MenuItem extends StackPane {
 
 
 
-                    Collide collide = new Collide();
-                    new Map(collide, pane, background)
+                    new Map(pane, background)
 ;
 
 
 
 
 
-                    DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0), collide);
+                    DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0));
                     displayCharacter.startDisplay();
 
                     SwitchCharacter sc = new SwitchCharacter(listCharacter,displayCharacter);

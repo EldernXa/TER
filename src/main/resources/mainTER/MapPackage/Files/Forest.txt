@@ -11,6 +11,7 @@ plateforme3 N 1584 564 100
 plateforme4 N 1806 478 100
 eau1 N 2767 788 100
 eau1 N 3810 788 100
+eau1 L 1700 400 300 200
 objects
 crate 1400 692
 crate 1100 692

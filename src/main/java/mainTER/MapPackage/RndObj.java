@@ -33,7 +33,7 @@ public class RndObj extends CollideObject {
     }
 
     @Override
-    public double getVMouvementSpan() {
+    public double getJumpMouvementSpan() {
         return 0;
     }
 

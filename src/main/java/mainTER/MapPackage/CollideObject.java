@@ -1,10 +1,7 @@
 package mainTER.MapPackage;
 
 import javafx.scene.Node;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
-import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.Tools.Coordinate;
 
 public abstract class CollideObject {
@@ -23,7 +20,13 @@ public abstract class CollideObject {
 
     public abstract double getHMouvementSpan();
 
-    public abstract double getVMouvementSpan();
+    public double getJumpMouvementSpan(){
+        return 0;
+    }
+
+    public double getFallMouvementSpan(){
+        return 0;
+    }
 
     public abstract Coordinate getCoordinate();
 
@@ -52,22 +55,82 @@ public abstract class CollideObject {
         rect.setY(this.getY());
 
         if (commingFrom == CommingFrom.LEFT) {
-            rect.setX(rect.getX()+this.getHMouvementSpan());
+            return verifTrackRight();
         }
         if(commingFrom == CommingFrom.RIGHT){
-            rect.setX(rect.getX()-this.getHMouvementSpan());
+            return verifTrackLeft();
+        }
+        if (commingFrom == CommingFrom.UP){
+            return verifTrackDown();
+        }
+        if (commingFrom == CommingFrom.DOWN){
+            return verifTrackUp();
         }
 
-        for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
-            if((!this.equals(collideObject2))&&(!(collideObject2 instanceof MapFieldForm))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))){
-                if (commingFrom == CommingFrom.LEFT) {
+        System.out.println("Gros probleme");
+        return 0;
+    }
+
+
+
+    private double verifTrackRight(){
+        for(int i =0; i < this.getHMouvementSpan(); i++){
+            Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInLocal().getMaxX()-this.getAppropriateNode().getBoundsInLocal().getMinX(),this.getAppropriateNode().getBoundsInLocal().getMaxY()-this.getAppropriateNode().getBoundsInLocal().getMinY());
+            rect.setX(this.getX());
+            rect.setY(this.getY());
+            rect.setX(rect.getX()+i);
+            for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
+                if((!this.equals(collideObject2))&&(!(collideObject2 instanceof MapFieldForm))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))){
                     collideObject2.interaction(this);
                     return collideObject2.getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX();
                 }
-                if(commingFrom == CommingFrom.RIGHT){
+            }
+        }
+        return this.getHMouvementSpan();
+    }
+
+    private double verifTrackLeft(){
+        for(int i =0; i < this.getHMouvementSpan(); i++){
+            Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInLocal().getMaxX()-this.getAppropriateNode().getBoundsInLocal().getMinX(),this.getAppropriateNode().getBoundsInLocal().getMaxY()-this.getAppropriateNode().getBoundsInLocal().getMinY());
+            rect.setX(this.getX());
+            rect.setY(this.getY());
+            rect.setX(rect.getX()-i);
+            for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
+                if((!this.equals(collideObject2))&&(!(collideObject2 instanceof MapFieldForm))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))){
                     collideObject2.interaction(this);
                     return this.getAppropriateNode().getBoundsInParent().getMinX() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxX();
+                }
+            }
+        }
+        return this.getHMouvementSpan();
+    }
 
+    private double verifTrackUp(){
+        for(int i =0; i < this.getJumpMouvementSpan(); i++){
+            Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInLocal().getMaxX()-this.getAppropriateNode().getBoundsInLocal().getMinX(),this.getAppropriateNode().getBoundsInLocal().getMaxY()-this.getAppropriateNode().getBoundsInLocal().getMinY());
+            rect.setX(this.getX());
+            rect.setY(this.getY());
+            rect.setY(rect.getY()-i);
+            for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
+                if((!this.equals(collideObject2))&&(!(collideObject2 instanceof MapFieldForm))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))){
+                    collideObject2.interaction(this);
+                    return this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY();
+                }
+            }
+        }
+        return this.getHMouvementSpan();
+    }
+
+    private double verifTrackDown(){
+        for(int i =0; i < this.getFallMouvementSpan(); i++){
+            Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInLocal().getMaxX()-this.getAppropriateNode().getBoundsInLocal().getMinX(),this.getAppropriateNode().getBoundsInLocal().getMaxY()-this.getAppropriateNode().getBoundsInLocal().getMinY());
+            rect.setX(this.getX());
+            rect.setY(this.getY());
+            rect.setY(rect.getY()+i);
+            for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
+                if((!this.equals(collideObject2))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))){
+                    collideObject2.interaction(this);
+                    return collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY();
                 }
             }
         }

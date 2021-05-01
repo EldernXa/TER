@@ -8,7 +8,6 @@ public abstract class InteractiveObject extends CollideObject {
 
     private Coordinate coordinate;
     private final ImageViewSizePos imageViewSizePos;
-    Collide collide = new Collide();
 
     public InteractiveObject(Coordinate coordinate, ImageViewSizePos imageViewSizePos) {
         this.coordinate = coordinate;
@@ -57,9 +56,5 @@ public abstract class InteractiveObject extends CollideObject {
     @Override
     public double getHeight() {
         return this.imageViewSizePos.getImageView().getImage().getWidth();
-    }
-
-    public Collide getCollide() {
-        return collide;
     }
 }

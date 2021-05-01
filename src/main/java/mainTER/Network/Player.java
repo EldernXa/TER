@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 import mainTER.CharacterGameplay.Camera;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
-import mainTER.MapPackage.Collide;
 import mainTER.MapPackage.CollideObject;
 import mainTER.MapPackage.Map;
 import mainTER.MapPackage.SwitchCharacter;
@@ -51,7 +50,6 @@ public class Player {
     DisplayCharacter friend;
     Scene scene;
     Map map;
-    Collide collide;
     Button button = new Button("cliquer");
     volatile boolean finito = false;
     volatile boolean finish = false;
@@ -87,17 +85,16 @@ public class Player {
             System.out.println("Connected to Server as Player #" + playerID + ".");
 
 
-            collide = new Collide();
 
 
             if (playerID == 1) {
                 button.setDisable(true);
-                me = new DisplayCharacter(scene, pane, listCharacter.get(0), collide);
-                friend = new DisplayCharacter(scene,pane,listCharacter.get(2),collide);
+                me = new DisplayCharacter(scene, pane, listCharacter.get(0));
+                friend = new DisplayCharacter(scene,pane,listCharacter.get(2));
                 System.out.println("Waiting for player 2");
             } else {
-                me = new DisplayCharacter(scene, pane, listCharacter.get(2), collide);
-                friend = new DisplayCharacter(scene,pane,listCharacter.get(0),collide);
+                me = new DisplayCharacter(scene, pane, listCharacter.get(2));
+                friend = new DisplayCharacter(scene,pane,listCharacter.get(0));
 
                 button.setDisable(true);
 
@@ -251,7 +248,7 @@ public class Player {
 
                     System.out.println("on crée la map avec les collisions " + playerID );
 
-                    map = new Map(collide, pane, background);
+                    map = new Map(pane, background);
 
 
                     double height = Screen.getPrimary().getBounds().getHeight();

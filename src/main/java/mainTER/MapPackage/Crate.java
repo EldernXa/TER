@@ -44,7 +44,7 @@ public class Crate extends InteractiveObject {
     }
 
     @Override
-    public double getVMouvementSpan() {
+    public double getJumpMouvementSpan() {
         return 0;
     }
 

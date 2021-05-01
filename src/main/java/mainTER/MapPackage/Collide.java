@@ -1,3 +1,4 @@
+/*
 package mainTER.MapPackage;
 
 import javafx.scene.Node;
@@ -35,7 +36,8 @@ public class Collide { //TODO la fusionner avec CollideObject
 
 
 
-    /*public boolean verify(CollideObject collideObject){ //C'est pas bon il faut adapter la méthode comme plus bas
+    */
+/*public boolean verify(CollideObject collideObject){ //C'est pas bon il faut adapter la méthode comme plus bas
         switch(collideObject.getClass()){
             case
         }
@@ -48,9 +50,11 @@ public class Collide { //TODO la fusionner avec CollideObject
             }
         }
         return true;
-    }*/
+    }*//*
+
 
     public void setCollisionObjectArrayList(ArrayList<CollideObject> collideObjectArrayList) {
         this.collideObjectArrayList = collideObjectArrayList;
     }
 }
+*/

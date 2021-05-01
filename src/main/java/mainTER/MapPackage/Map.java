@@ -13,7 +13,7 @@ public class Map {
     private String fileName;
 
 
-    public Map(Collide collide, Pane pane, ImageView backgroundImage) {
+    public Map(Pane pane, ImageView backgroundImage) {
 
         this.pane = pane;
         this.backgroundImage = backgroundImage;
@@ -24,7 +24,6 @@ public class Map {
         String url = "./src/main/resources/mainTER/MapPackage/Files/";
         this.fileName = "forest";
         mapFileReader = new MapFileReader(url , fileName);
-        collide.setCollisionObjectArrayList(mapFileReader.getCollisionObjectArrayList());
         addCollisionObjectNetwork();
 
     }

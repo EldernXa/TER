@@ -56,7 +56,7 @@ public class MapFieldRectangle extends MapFieldForm {
     }
 
     @Override
-    public double getVMouvementSpan() {
+    public double getJumpMouvementSpan() {
         return 0;
     }
 

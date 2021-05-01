@@ -112,8 +112,13 @@ public class MapFieldFromLilPict extends MapFieldForm {
     }
 
     @Override
-    public double getVMouvementSpan() {
-        return 0;
+    public double getJumpMouvementSpan() {
+        return super.getJumpMouvementSpan();
+    }
+
+    @Override
+    public double getFallMouvementSpan() {
+        return super.getFallMouvementSpan();
     }
 
     /**

@@ -10,12 +10,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import mainTER.DBManage.ControlsDBManager;
-import mainTER.MapPackage.Collide;
 import mainTER.MapPackage.CollideObject;
+import mainTER.MapPackage.CommingFrom;
 import mainTER.Tools.CharacterMovementAndDisplayManagement;
 import mainTER.Tools.Coordinate;
 import mainTER.exception.ControlsDataGetException;
 
+import javax.swing.plaf.multi.MultiViewportUI;
 import java.util.ArrayList;
 
 
@@ -30,7 +31,6 @@ public class DisplayCharacter extends CollideObject {
     private final Scene lvlOfTheGame;
     private final CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement;
     private boolean walkToRight = true;
-    private final Collide collide;
     private final ArrayList<KeyCode> listCurrentKeyCode;
     private double fallingStep = 1;
     private boolean isJumping = false;
@@ -45,12 +45,11 @@ public class DisplayCharacter extends CollideObject {
      * @param pane is the level of the game.
      * @param character is the character we will display.
      */
-    public DisplayCharacter(Scene scene, Pane pane, Character character, Collide collide){
+    public DisplayCharacter(Scene scene, Pane pane, Character character){
         this.lvlOfTheGame = scene;
         listCurrentKeyCode = new ArrayList<>();
         characterMovementAndDisplayManagement = new CharacterMovementAndDisplayManagement(pane);
         this.character = character;
-        this.collide = collide;
         currentCoordinateOfTheCharacter = new Coordinate(character.getInitialCoordinate().getX(), character.getInitialCoordinate().getY());
         animationForTheCharacter = new AnimationCharacter(character);
         ControlsDBManager controlsDBManager = new ControlsDBManager();
@@ -154,17 +153,16 @@ public class DisplayCharacter extends CollideObject {
             animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
                     Duration.millis(TPS_DURATION_TIMELINE),
                     tps -> {
-                            if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
-                                moveWalkJumping();
-                            } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)
-                                && currentCoordinateOfTheCharacter.getY()<4000) {
-                                // TODO change gravity limit.
-                                moveWalkFalling();
-                            } else if (verifyCollision(currentCoordinateOfTheCharacter.getX() + character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
-                                moveWalkNormally();
-                            } else {
-                                timelineForMotionlessCharacter();
-                            }
+                        if (isJumping) {
+                            moveWalkJumping();
+                        } else if (calcMvt(CommingFrom.UP) > 1) {
+                            // TODO change gravity limit.
+                            moveWalkFalling();
+                        } else if (calcMvt(CommingFrom.LEFT) > 1) {
+                            moveWalkNormally();
+                        } else {
+                            timelineForMotionlessCharacter();
+                        }
                     }
             ));
 
@@ -180,13 +178,12 @@ public class DisplayCharacter extends CollideObject {
             animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
                     Duration.millis(TPS_DURATION_TIMELINE),
                     tps -> {
-                        if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
+                        if (isJumping) {
                             moveReverseWalkJumping();
-                        } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)
-                            && currentCoordinateOfTheCharacter.getY()<4000) {
+                        } else if (calcMvt(CommingFrom.UP) > 1) {
                             // TODO change gravity limit.
                             moveReverseWalkFalling();
-                        } else if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
+                        } else if (calcMvt(CommingFrom.RIGHT)  > 1) {
                             moveReverseWalkNormally();
                         } else {
                             timelineForMotionlessCharacter();
@@ -212,10 +209,10 @@ public class DisplayCharacter extends CollideObject {
                             animationForTheCharacter.setReverseMotionLess();
                         double newHeight = adaptYToHeight(height);
 
-                        if (isJumping && verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() - 1)) {
+                        if (isJumping) {
                             moveMotionlessJumping(newHeight);
-                        } else if (verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY() + 1)
-                                && currentCoordinateOfTheCharacter.getY()<4000) {
+                        } else if (calcMvt(CommingFrom.UP) > 1) {
+                            System.out.println(calcMvt(CommingFrom.UP));
                             // TODO change gravity limit.
                             moveMotionlessFalling();
                         } else {
@@ -229,17 +226,15 @@ public class DisplayCharacter extends CollideObject {
     }
 
     private void moveWalkJumping(){
-        if(verifyCollision(currentCoordinateOfTheCharacter.getX()+character.getSpeed(), currentCoordinateOfTheCharacter.getY())){
-            animationForTheCharacter.setWalk();
-            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+character.getSpeed());
-            doJump();
-        }
+        animationForTheCharacter.setWalk();
+        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+calcMvt(CommingFrom.LEFT));
+        doJump();
     }
 
     private void moveWalkFalling(){
-        if(verifyCollision(currentCoordinateOfTheCharacter.getX()+character.getSpeed(), currentCoordinateOfTheCharacter.getY())){
+        if(calcMvt(CommingFrom.LEFT) > 1){
             animationForTheCharacter.setWalk();
-            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+character.getSpeed());
+            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+calcMvt(CommingFrom.LEFT));
             fallingCharacter();
         }
         else{
@@ -281,17 +276,15 @@ public class DisplayCharacter extends CollideObject {
     }
 
     private void moveReverseWalkJumping(){
-        if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
             animationForTheCharacter.setReverseWalk();
-            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - character.getSpeed());
+            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - calcMvt(CommingFrom.RIGHT));
             doJump();
-        }
     }
 
     private void moveReverseWalkFalling(){
-        if (verifyCollision(currentCoordinateOfTheCharacter.getX() - character.getSpeed(), currentCoordinateOfTheCharacter.getY())) {
+        if (calcMvt(CommingFrom.RIGHT) > 1) {
             animationForTheCharacter.setReverseWalk();
-            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - character.getSpeed());
+            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - calcMvt(CommingFrom.RIGHT));
             fallingCharacter();
         }else{
             timelineForMotionlessCharacter();
@@ -341,17 +334,7 @@ public class DisplayCharacter extends CollideObject {
     private void fallingCharacter(){
         ImageView imgView = animationForTheCharacter.nextImage();
         double newHeight = animationForTheCharacter.getHeightMotionless()-imgView.getImage().getHeight();
-        int pas = (int)fallingStep;
-        boolean verif = false;
-        int pasToDo = 1;
-        while(!verif){
-            if(verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+pasToDo) && pasToDo<pas){
-                pasToDo++;
-            }else{
-                pasToDo--;
-                verif = true;
-            }
-        }
+        double pasToDo = calcMvt(CommingFrom.UP);
         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + pasToDo);
         if(pasToDo<=0){
             pasToDo = 1;
@@ -362,10 +345,6 @@ public class DisplayCharacter extends CollideObject {
         fallingStep += 0.5 * fallingStep;
         if(pasToDo == 1)
             isJumping = false;
-    }
-
-    public boolean verifyCollision(double x, double y){
-        return collide.verify(animationForTheCharacter.actualImg().getImage(), new Coordinate(x, y), this);
     }
 
     public Coordinate getCurrentCoordinateOfTheCharacter(){
@@ -412,7 +391,7 @@ public class DisplayCharacter extends CollideObject {
         if(jump.equals(" ")){
             keyCode = KeyCode.SPACE;
         }
-        if(eventForPressedKey.getCode() == keyCode && !verifyCollision(currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY()+1) && !listCurrentKeyCode.contains(keyCode) && character.canJump()){
+        if(eventForPressedKey.getCode() == keyCode && (calcMvt(CommingFrom.UP)  <= 0) && !listCurrentKeyCode.contains(keyCode) && character.canJump()){
             listCurrentKeyCode.add(keyCode);
             isJumping = true;
             this.jumpStrength = character.getJumpStrength();
@@ -435,7 +414,12 @@ public class DisplayCharacter extends CollideObject {
     }
 
     @Override
-    public double getVMouvementSpan() {
+    public double getFallMouvementSpan() {
+        return this.fallingStep;
+    }
+
+    @Override
+    public double getJumpMouvementSpan() {
         return this.jumpStrength;
     }
 
