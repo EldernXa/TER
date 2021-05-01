@@ -1,0 +1,109 @@
+floor
+carpet1 L 1922 1384 265 56
+carpet2 L 1798 1408 125 32
+carpet2 L 1700 1424 98 14
+ground1 L 180 2330 950 70
+ground1 L 1854 2332 1166 70
+ground1 L 244 1884 282 70
+ground1 L 774 1884 1024 70
+ground1 L 2124 1886 740 70
+ground1 L 1104 1436 421 70
+ground1 L 1616 1438 1248 70
+ground1 L 244 988 418 70
+ground1 L 854 988 2010 70
+roof1 L 244 1954 282 70
+roof1 L 774 1954 1024 70
+roof1 L 2124 1954 740 70
+roof1 L 244 1506 1284 70
+roof1 L 1616 1506 1248 70
+roof1 L 244 1058 418 70
+roof1 L 854 1058 2010 70
+lava L 1130 2336 724 64
+extroof1 L 118 1074 544 64
+extroof2 L 116 1428 558 86
+wallext1 L 116 1438 128 758
+wallext1 L 544 1126 128 312
+wallext1 L 116 264 128 860
+wallext2 L 728 436 126 394
+wallext2 L 770 830 126 172
+wallext2 L 728 266 126 50
+bigTowerRoof L 118 138 734 128
+roofwall L 896 844 92 166
+roofwall L 1046 844 92 166
+roofwall L 1196 844 92 166
+roofwall L 1346 844 92 166
+roofwall L 1494 844 92 166
+roofwall L 1644 844 92 166
+roofwall L 1794 844 92 166
+roofwall L 1944 844 92 166
+roofwall L 2094 844 92 166
+roofwall L 2244 844 92 166
+roofwall L 2392 844 92 166
+roofwall L 2542 844 92 166
+roofwall L 2704 844 92 166
+towerRoof L 2834 256 270 186
+towerLeftWall L 2838 674 32 320
+towerLeftWall L 2844 994 32 240
+towerLeftWall L 2844 1386 32 72
+towerLeftWall L 2842 1758 32 128
+towerLeftWall L 2838 2014 32 149
+towerRightWall L 3074 688 32 192
+towerRightWall L 3074 1084 32 192
+towerRightWall L 3074 1472 32 192
+towerRightWall L 3074 1830 32 192
+woodVertical L 2072 2150 34 188
+woodHorizontal L 2106 2150 188 36
+woodHorizontal L 2370 2090 190 36
+woodVertical2 L 2476 2103 20 229
+block L 1482 1608 316 384
+block2 L 1346 1608 136 33
+table L 554 2286 192 52
+bigCrate L 1358 1822 64 64
+stairs L 1002 1418 102 56
+stairs L 902 1393 102 56
+stairs L 800 1360 102 56
+stairs L 698 1320 102 56
+stairs L 673 1280 23 56
+spikes1 L 2710 1420 32 20
+spikes1 L 2806 1420 32 20
+spikes2 L 2774 1388 32 52
+spikes3 L 2742 1356 32 84
+metalCrate L 2546 1374 64 64
+blackDirt L 672 1336 26 171
+blackDirt L 697 1376 104 132
+blackDirt L 800 1410 102 99
+blackDirt L 900 1434 102 72
+blackDirt L 1002 1470 104 36
+blackDirt L 650 1472 40 38
+platform1 L 528 2092 76 20
+platform1 L 1032 2218 76 20
+platform1 L 698 1948 76 20
+platform1 L 592 1768 76 20
+platform1 L 1320 2164 76 20
+platform1 L 1432 2120 76 20
+platform1 L 1820 2212 76 20
+platform1 L 2400 2242 76 20
+platform1 L 798 1204 158 20
+platform1 L 662 1098 76 20
+platform1 L 244 794 76 20
+platform1 L 244 612 76 20
+platform1 L 332 442 76 20
+platform1 L 578 318 76 20
+platform1 L 568 608 160 20
+chains L 2840 2163 28 127
+dungeon L 2294 1030 546 120
+dungeonChain1 L 2594 1150 14 56
+dungeonChain2 L 2402 1150 14 88
+dungeonWall L 2256 1127 32 219
+objects
+crate 2548 1854
+crate 2602 1854
+crate 2596 1822
+crate 2602 1790
+crate 2622 1758
+crate 2640 1790
+crate 2636 1822
+crate 2636 1854
+crate 2670 1822
+crate 2682 1854
+crate 2713 1854
