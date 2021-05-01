@@ -241,6 +241,9 @@ public class DisplayCharacter extends CollideObject {
             currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+character.getSpeed());
             fallingCharacter();
         }
+        else{
+            timelineForMotionlessCharacter();
+        }
     }
 
     private void moveWalkNormally(){
@@ -289,6 +292,8 @@ public class DisplayCharacter extends CollideObject {
             animationForTheCharacter.setReverseWalk();
             currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - character.getSpeed());
             fallingCharacter();
+        }else{
+            timelineForMotionlessCharacter();
         }
     }
 
