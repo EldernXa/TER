@@ -197,9 +197,14 @@ public class SkillDBManager {
 
         }
 
-        // TODO count only for the same skill (passive or active).
         // TODO add exception for if character exist or not.
-        int numSkill = getNumberSkillOfACharacter(nameCharacter)+1;
+        int numSkill;
+        if(ctrlKey.compareTo("")==0){
+            numSkill = getNumberSkillPassiveOfACharacter(nameCharacter)+1;
+        }
+        else{
+            numSkill = getNumberSkillActiveOfACharacter(nameCharacter)+1;
+        }
 
         if(nameSkill.compareTo("") == 0 || nameCharacter.compareTo("")==0){
             throw new SkillDataDoesntCorrectException();
@@ -264,7 +269,39 @@ public class SkillDBManager {
                 nb++;
             }
         }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données");
+            System.out.println("Problème dans la récupération de données.");
+        }
+        return nb;
+    }
+
+    public int getNumberSkillPassiveOfACharacter(String nameCharacter){
+        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+
+        int nb = 0;
+        try{
+            while(resultSet.next()){
+                if(resultSet.getString("ctrlKey").compareTo("")==0){
+                    nb++;
+                }
+            }
+        }catch(SQLException sqlException){
+            System.out.println("Problème dans la récupération de données.");
+        }
+        return nb;
+    }
+
+    public int getNumberSkillActiveOfACharacter(String nameCharacter){
+        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+
+        int nb = 0;
+        try{
+            while(resultSet.next()){
+                if(resultSet.getString("ctrlKey").compareTo("")!=0){
+                    nb++;
+                }
+            }
+        }catch(SQLException sqlException){
+            System.out.println("Problème dans la récupération de données.");
         }
         return nb;
     }
