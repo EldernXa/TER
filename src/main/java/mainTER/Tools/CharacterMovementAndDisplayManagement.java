@@ -7,6 +7,7 @@ public class CharacterMovementAndDisplayManagement {
 
     private final Pane pane;
     private ImageView imgView;
+    private static final double MULTIPLY_X = 1/2.6;
 
 
     public CharacterMovementAndDisplayManagement(Pane pane){
@@ -26,8 +27,10 @@ public class CharacterMovementAndDisplayManagement {
     }
 
     public Coordinate calculateRightPosition(Coordinate coordinate){
-        return new Coordinate(coordinate.getX() - imgView.getImage().getWidth()/2.6, coordinate.getY());
-
+        return new Coordinate(coordinate.getX() - imgView.getImage().getWidth()*MULTIPLY_X, coordinate.getY());
     }
 
+    public double getMultiplyX(){
+        return MULTIPLY_X;
+    }
 }
