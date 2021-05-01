@@ -1,10 +1,10 @@
 package mainTER.exception;
 
-public class SkillDataDoesntCorrectException extends Exception{
+public class SkillDataNotCorrectException extends Exception{
 
     private final String message;
 
-    public SkillDataDoesntCorrectException(){
+    public SkillDataNotCorrectException(){
         this.message = "The data given aren't correct.";
     }
 

@@ -3,7 +3,7 @@ package mainTER.DBManage;
 import mainTER.exception.SkillAlreadyExistException;
 import mainTER.exception.SkillDataGetException;
 import mainTER.exception.SkillCtrlAlreadyUsedException;
-import mainTER.exception.SkillDataDoesntCorrectException;
+import mainTER.exception.SkillDataNotCorrectException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -178,9 +178,9 @@ public class SkillDBManager {
      * @param isMode if the skill can be turn on and turn off.
      * @throws SkillAlreadyExistException if a skill with the same name exist already for the same character.
      * @throws SkillCtrlAlreadyUsedException if the key is already used for an another skill of the same character.
-     * @throws SkillDataDoesntCorrectException if we try to insert data that doesn't correct.
+     * @throws SkillDataNotCorrectException if we try to insert data that doesn't correct.
      */
-    public void insertIntoTableSkill(String nameSkill, String ctrlKey, String nameCharacter, boolean animateMvt, boolean animateAction, boolean isMode) throws SkillAlreadyExistException, SkillCtrlAlreadyUsedException, SkillDataDoesntCorrectException {
+    public void insertIntoTableSkill(String nameSkill, String ctrlKey, String nameCharacter, boolean animateMvt, boolean animateAction, boolean isMode) throws SkillAlreadyExistException, SkillCtrlAlreadyUsedException, SkillDataNotCorrectException {
 
         // TODO verify ctrlKey not used by movement.
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
@@ -207,7 +207,7 @@ public class SkillDBManager {
         }
 
         if(nameSkill.compareTo("") == 0 || nameCharacter.compareTo("")==0){
-            throw new SkillDataDoesntCorrectException();
+            throw new SkillDataNotCorrectException();
         }
         String reqValues = "INSERT INTO Skill VALUES (" +
                 "'"+ nameSkill + "'," + numSkill + ",'" + ctrlKey + "','" +nameCharacter +"',"

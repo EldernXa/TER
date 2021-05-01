@@ -26,7 +26,7 @@ public class DataInsert {
                 personDBManager.insertIntoTablePerson("HommeDragon", 10, 5, 8, 2, true);
             } catch (PersonDataAlreadyExistException personDataAlreadyExistException) {
                 System.out.println("Problème dans l'insertion des données des Personnages.");
-            } catch (PersonDataDoesntCorrectException personDataDoesntCorrectException) {
+            } catch (PersonDataNotCorrectException personDataDoesntCorrectException) {
                 System.out.println("Les données inséres ne sont pas correcte.");
             }
 //        }
@@ -55,7 +55,7 @@ public class DataInsert {
                 skillDBManager.insertIntoTableSkill("BARRIER", "3", "Paladin", true, false, true);
                 skillDBManager.insertIntoTableSkill("FLY", "1", "Demon", true, false, true);
                 skillDBManager.insertIntoTableSkill("MOULT", "1", "Serpent", false, false, false);
-            } catch (SkillAlreadyExistException | SkillCtrlAlreadyUsedException | SkillDataDoesntCorrectException exception) {
+            } catch (SkillAlreadyExistException | SkillCtrlAlreadyUsedException | SkillDataNotCorrectException exception) {
                 System.out.println(exception.getMessage());
             }
 //        }

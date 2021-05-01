@@ -1,10 +1,10 @@
 package mainTER.exception;
 
-public class PersonDataDoesntCorrectException extends Exception{
+public class PersonDataNotCorrectException extends Exception{
 
     private final String message;
 
-    public PersonDataDoesntCorrectException(String nameCharacter){
+    public PersonDataNotCorrectException(String nameCharacter){
         this.message = "One data inserted for " + nameCharacter + " isn't correct.";
     }
 

@@ -1,7 +1,7 @@
 package mainTER.DBManage;
 
 import mainTER.exception.PersonDataAlreadyExistException;
-import mainTER.exception.PersonDataDoesntCorrectException;
+import mainTER.exception.PersonDataNotCorrectException;
 import mainTER.exception.PersonDataGetException;
 
 import java.sql.ResultSet;
@@ -65,10 +65,10 @@ public class PersonDBManager {
      * @param fallingSpeed the fallingSpeed of the character.
      * @param canJump if the character can jump or not.
      * @throws PersonDataAlreadyExistException if the character is already in the databases.
-     * @throws PersonDataDoesntCorrectException if the data inserted isn't correct.
+     * @throws PersonDataNotCorrectException if the data inserted isn't correct.
      */
     public void insertIntoTablePerson(String name, double speed, double weight, double jumpStrength, double fallingSpeed, boolean canJump)
-            throws PersonDataAlreadyExistException, PersonDataDoesntCorrectException{
+            throws PersonDataAlreadyExistException, PersonDataNotCorrectException {
         ResultSet resultSet = selectIntoTablePerson(name);
         try {
             resultSet.getObject("weight");
@@ -82,7 +82,7 @@ public class PersonDBManager {
                     ")";
             dbManager.createTableOrInsert(reqValues);
         }else{
-            throw new PersonDataDoesntCorrectException(name);
+            throw new PersonDataNotCorrectException(name);
         }
     }
 
