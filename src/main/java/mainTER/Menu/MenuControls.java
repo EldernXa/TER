@@ -196,7 +196,9 @@ public class MenuControls {
                                 labelTitre.setText("Caractère non correct.");
                             }else{
                                 skillDBManager.modifyCtrlOfACharacter(nameCharacter, labelNameSkill.getText(), control);
+                                labelTitre.setText("");
                             }
+                            buttonCtrlKey.setOnKeyPressed(null);
                         }
                     });
                 }
