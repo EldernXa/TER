@@ -195,7 +195,7 @@ public class MenuItem extends StackPane {
                     Thread t = new Thread(gs);
                     t.start();
                     Player p = new Player();
-                    p.connectToServer(stage,sceneServ,pane,listCharacter);
+                    p.connectToServer(newStage,sceneServ,pane,listCharacter);
                     newStage.show();
                     newStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
                     break;
@@ -209,7 +209,7 @@ public class MenuItem extends StackPane {
                     newStage.setScene(sceneCli);
 
                     Player p = new Player();
-                    p.connectToServer(stage,sceneCli,pane,listCharacter);
+                    p.connectToServer(newStage,sceneCli,pane,listCharacter);
                     newStage.show();
                     break;
                 }

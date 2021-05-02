@@ -7,9 +7,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
@@ -18,6 +20,7 @@ import javafx.stage.Stage;
 import mainTER.CharacterGameplay.Camera;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
+
 import mainTER.MapPackage.CollideObject;
 import mainTER.MapPackage.Map;
 import mainTER.MapPackage.SwitchCharacter;
@@ -34,6 +37,8 @@ import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
+//TODO faire le choix de personnage au début
+//TODO faire 2 différentes map pour les persos
 public class Player {
 
     //private ClientSideConnection csc;
@@ -55,7 +60,10 @@ public class Player {
     volatile boolean finish = false;
     ArrayList<Character> listCharacter;
     VBox vboxPerso = new VBox(10);
-
+    Pane pane1 = new Pane();
+    Scene scene1 = new Scene(pane1);
+    ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/Background-1.png").toURI().toString()));
+    double backtroundHeight = background.getImage().getHeight();
 
 
 
@@ -78,27 +86,29 @@ public class Player {
 
 
 
+
             pane.getChildren().add(button);
-
             pane.getChildren().add(vBox);
-            //pane.getChildren().add(vboxPerso);
             System.out.println("Connected to Server as Player #" + playerID + ".");
+            if(background.getImage().getHeight() < Screen.getPrimary().getBounds().getHeight()){
+                backtroundHeight =  Screen.getPrimary().getBounds().getHeight();
+            }
 
 
+            StackPane stackPane = new StackPane();
+            stackPane.getChildren().add(pane1);
 
+            scene1 = new Scene(stackPane, background.getImage().getWidth(), backtroundHeight);
 
             if (playerID == 1) {
                 button.setDisable(true);
-                me = new DisplayCharacter(scene, pane, listCharacter.get(0));
-                friend = new DisplayCharacter(scene,pane,listCharacter.get(2));
                 System.out.println("Waiting for player 2");
+                me = new DisplayCharacter(scene1, pane1, listCharacter.get(0));
+                friend = new DisplayCharacter(scene1, pane1,listCharacter.get(2));
             } else {
-                me = new DisplayCharacter(scene, pane, listCharacter.get(2));
-                friend = new DisplayCharacter(scene,pane,listCharacter.get(0));
-
+                me = new DisplayCharacter(scene1, pane1, listCharacter.get(2));
+                friend = new DisplayCharacter(scene1, pane1,listCharacter.get(0));
                 button.setDisable(true);
-
-
             }
             button.setOnMouseClicked(mouseEvent -> {
 
@@ -232,6 +242,8 @@ public class Player {
 
         private DataInputStream dis;
 
+
+
         public ReadFromServer(DataInputStream dataIn) throws IOException {
             dis = dataIn;
         }
@@ -240,36 +252,41 @@ public class Player {
         public void run() {
             try {
 
-                ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/Background-1.png").toURI().toString()));
-
 
 
                 Platform.runLater(()->{
 
                     System.out.println("on crée la map avec les collisions " + playerID );
 
-                    map = new Map(pane, background);
 
 
                     double height = Screen.getPrimary().getBounds().getHeight();
                     double h = height/background.getImage().getHeight();
                     Scale scale = new Scale(h, h, 0, 0);
-                    scene.getRoot().getTransforms().add(scale);
+                    scene1.getRoot().getTransforms().add(scale);
 
-                    SwitchCharacter sc = new SwitchCharacter(listCharacter,me);
+/*                    mainStage.setHeight(Screen.getPrimary().getBounds().getHeight());
+                    mainStage.setWidth(5548);*/
+                    stage.setFullScreen(true);
+                    //mainStage.setMaximized(true);
+                    stage.setResizable(false);
+                    stage.sizeToScene();
 
-                    sc.setTranslateY(me.getCurrentCoordinateOfTheCharacter().getY() - Screen.getPrimary().getBounds().getHeight()/8.6* 5);
-                    sc.setTranslateX(me.getCurrentCoordinateOfTheCharacter().getX() -Screen.getPrimary().getBounds().getWidth()/2.8);
-
-                    pane.getChildren().add(sc);
-
-                    new Camera(scene,me,sc,listCharacter,h,background);
-
-                    System.out.println(playerID +" " + pane.getChildren());
+                    map = new Map( pane1, background);
                     me.startDisplay();
                     friend.startDisplayFriend();
 
+                    SwitchCharacter sc = new SwitchCharacter(listCharacter,me);
 
+                    pane1.getChildren().add(sc);
+
+                    new Camera(scene1,me,sc,listCharacter,h,background);
+
+                    System.out.println(playerID +" " + pane1.getChildren());
+
+                    stage.centerOnScreen();
+
+                    stage.setScene(scene1);
 
                 });
 
@@ -310,8 +327,6 @@ public class Player {
                     while (!finito){
 
                     }
-                    System.out.println(me.getCharacter().getName() + " " + playerID);
-                    System.out.println(friend.getCharacter().getName() + " " + playerID);
 
                     System.out.println("on passe hors de la boucle");
                     if(playerID == 1){
@@ -386,7 +401,7 @@ public class Player {
                     //System.out.println(me.getCurrentCoordinateOfTheCharacter().getX() + " " +me.getCurrentCoordinateOfTheCharacter().getY());
                     dos.flush();
                     try {
-                        Thread.sleep(25);
+                        Thread.sleep(700);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
