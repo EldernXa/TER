@@ -106,7 +106,7 @@ public abstract class CollideObject {
             rect.setX(rect.getX()-i);
             for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
 
-                if((!this.equals(collideObject2))&&(!(collideObject2 instanceof MapFieldForm)||(collideObject2.getAppropriateNode().getBoundsInParent().getMaxX()<rect.getBoundsInParent().getMinX()))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))&&(this.getAppropriateNode().getBoundsInParent().getMinX() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxX()>=0)){
+                if((!this.equals(collideObject2))&&(!(collideObject2 instanceof MapFieldForm)&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))&&(this.getAppropriateNode().getBoundsInParent().getMinX() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxX()>=0))){
                     /*System.out.println("Collide with " + collideObject2);
                     System.out.println("Je vais a gauche de : " + (this.getAppropriateNode().getBoundsInParent().getMinX() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxX()));*/
                     collideObject2.interaction(this);
