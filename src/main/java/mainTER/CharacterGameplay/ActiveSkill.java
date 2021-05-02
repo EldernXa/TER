@@ -74,7 +74,7 @@ public class ActiveSkill implements Skill{
         }
         String finalCtrlKey = ctrlKey;
         return event -> {
-            if (event.getCode().getChar().equals(finalCtrlKey)){
+            if (event.getCode().getChar().equalsIgnoreCase(finalCtrlKey)){
                 if(skill == ActiveSkillEnum.SHIELD_MODE){
                     shieldSkill();
                 }else if(skill == ActiveSkillEnum.ATTACK){
