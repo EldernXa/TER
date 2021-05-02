@@ -9,7 +9,7 @@ import mainTER.Tools.ImageViewSizePos;
 
 import java.util.EventListener;
 
-public class Crate extends InteractiveObject {
+public class Crate extends InteractiveObject { //TODO make it a CollideObject not an InteractiveObject
 
     public Crate(Coordinate coordinate ) {
         super(coordinate, new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/crate.png",coordinate));

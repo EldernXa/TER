@@ -27,7 +27,7 @@ public class CharacterMovementAndDisplayManagement {
     }
 
     public Coordinate calculateRightPosition(Coordinate coordinate){
-        return new Coordinate(coordinate.getX() - imgView.getImage().getWidth()*MULTIPLY_X, coordinate.getY());
+        return new Coordinate(coordinate.getX(), coordinate.getY());
     }
 
     public double getMultiplyX(){

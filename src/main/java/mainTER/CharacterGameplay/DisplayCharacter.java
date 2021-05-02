@@ -227,6 +227,7 @@ public class DisplayCharacter extends CollideObject {
 
     private void moveWalkJumping(){
         animationForTheCharacter.setWalk();
+        System.out.println("Calcgauche");
         currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+calcMvt(CommingFrom.LEFT));
         doJump();
     }
