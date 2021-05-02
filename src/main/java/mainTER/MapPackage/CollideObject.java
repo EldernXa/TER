@@ -132,26 +132,36 @@ public abstract class CollideObject {
                 }
             }
         }
-        return this.getHMouvementSpan();
+        return this.getJumpMouvementSpan();
     }
 
     private double verifTrackDown(){
+        System.out.println("Hauteur de chute : " + this.getFallMouvementSpan());
+
+
         for(int i =0; i < this.getFallMouvementSpan(); i++){
             Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInLocal().getMaxX()-this.getAppropriateNode().getBoundsInLocal().getMinX(),this.getAppropriateNode().getBoundsInLocal().getMaxY()-this.getAppropriateNode().getBoundsInLocal().getMinY());
             rect.setX(this.getX());
-            rect.setY(this.getY());
-            rect.setY(rect.getY()+i);
+            rect.setY(this.getY()+i);
+            System.out.println("\nHauteur rect : " + rect.getY());
             for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
+                System.out.print("Je descends de ");
                 if((!this.equals(collideObject2))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))){
-//                    System.out.println("Collide with " + collideObject2);
-                    System.out.println("Je descend de : " + (collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY()));
+                    System.out.println("Collide with " + collideObject2);
+                    System.out.println("la hauteur calculée : " + (collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY()));
                     System.out.println((collideObject2.getAppropriateNode().getBoundsInParent().getMinY()) + " " + (this.getAppropriateNode().getBoundsInParent().getMaxY()));
 //                    collideObject2.interaction(this);
-                    return collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY();
+                    return (collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY());
+                }
+                else {
+                    System.out.println("rien, j'incremente la chute de " + i);
                 }
             }
         }
-        return this.getHMouvementSpan();
+
+        System.out.println("la hauteur normale : " + this.getFallMouvementSpan());
+        System.out.println("Hauteur this = " + this.getAppropriateNode().getBoundsInParent().getMaxY());
+        return this.getFallMouvementSpan();
     }
     //TODO Forsee if the the movement cause an interaction
     //TODO généraliser au CollideObjects

@@ -155,10 +155,10 @@ public class DisplayCharacter extends CollideObject {
                     tps -> {
                         if (isJumping) {
                             moveWalkJumping();
-                        } else if (calcMvt(CommingFrom.UP) > 1) {
+                        } else if (calcMvt(CommingFrom.UP) > 0) {
                             // TODO change gravity limit.
                             moveWalkFalling();
-                        } else if (calcMvt(CommingFrom.LEFT) > 1) {
+                        } else if (calcMvt(CommingFrom.LEFT) > 0) {
                             moveWalkNormally();
                         } else {
                             timelineForMotionlessCharacter();
@@ -180,10 +180,10 @@ public class DisplayCharacter extends CollideObject {
                     tps -> {
                         if (isJumping) {
                             moveReverseWalkJumping();
-                        } else if (calcMvt(CommingFrom.UP) > 1) {
+                        } else if (calcMvt(CommingFrom.UP) > 0) {
                             // TODO change gravity limit.
                             moveReverseWalkFalling();
-                        } else if (calcMvt(CommingFrom.RIGHT)  > 1) {
+                        } else if (calcMvt(CommingFrom.RIGHT)  > 0) {
                             moveReverseWalkNormally();
                         } else {
                             timelineForMotionlessCharacter();
@@ -211,8 +211,8 @@ public class DisplayCharacter extends CollideObject {
 
                         if (isJumping) {
                             moveMotionlessJumping(newHeight);
-                        } else if (calcMvt(CommingFrom.UP) > 1) {
-                            System.out.println(calcMvt(CommingFrom.UP));
+                        } else if (calcMvt(CommingFrom.UP) >= 0) {
+//                            System.out.println(calcMvt(CommingFrom.UP));
                             // TODO change gravity limit.
                             moveMotionlessFalling();
                         } else {
@@ -233,7 +233,7 @@ public class DisplayCharacter extends CollideObject {
     }
 
     private void moveWalkFalling(){
-        if(calcMvt(CommingFrom.LEFT) > 1){
+        if(calcMvt(CommingFrom.LEFT) > 0){
             animationForTheCharacter.setWalk();
             currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+calcMvt(CommingFrom.LEFT));
             fallingCharacter();
@@ -283,7 +283,7 @@ public class DisplayCharacter extends CollideObject {
     }
 
     private void moveReverseWalkFalling(){
-        if (calcMvt(CommingFrom.RIGHT) > 1) {
+        if (calcMvt(CommingFrom.RIGHT) > 0) {
             animationForTheCharacter.setReverseWalk();
             currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - calcMvt(CommingFrom.RIGHT));
             fallingCharacter();
