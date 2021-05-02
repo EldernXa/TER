@@ -247,7 +247,7 @@ public class DisplayCharacter extends CollideObject {
         fallingStep = 1;
         double height = animationForTheCharacter.actualImg().getImage().getHeight();
         animationForTheCharacter.setWalk();
-        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() + character.getSpeed());
+        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() + calcMvt(CommingFrom.LEFT));
         adaptYToHeight(height);
     }
 
@@ -296,7 +296,7 @@ public class DisplayCharacter extends CollideObject {
         fallingStep = 1;
         double height = animationForTheCharacter.actualImg().getImage().getHeight();
         animationForTheCharacter.setReverseWalk();
-        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - character.getSpeed());
+        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - calcMvt(CommingFrom.RIGHT));
         adaptYToHeight(height);
     }
 
@@ -336,6 +336,7 @@ public class DisplayCharacter extends CollideObject {
         ImageView imgView = animationForTheCharacter.nextImage();
         double newHeight = animationForTheCharacter.getHeightMotionless()-imgView.getImage().getHeight();
         double pasToDo = calcMvt(CommingFrom.UP);
+        System.out.println("pasToDo " + pasToDo);
         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + pasToDo);
         if(pasToDo<=0){
             pasToDo = 1;

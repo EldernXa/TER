@@ -65,7 +65,7 @@ public class MenuItem extends StackPane {
         listCharacter = new ArrayList<>();
         List<String> listName = personDBManager.getListNameFromDatabase();
         for(String nameCharacter : listName){
-            listCharacter.add(new Character(nameCharacter, new Coordinate(5000, 630)));
+            listCharacter.add(new Character(nameCharacter, new Coordinate(1300, 630)));
         }
         setUpMouse(stage, name);
 

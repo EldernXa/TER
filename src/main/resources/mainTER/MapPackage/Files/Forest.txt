@@ -1,6 +1,6 @@
 floor
 rock N 1995 734 100
-herbe0-1 N 0 789 100
+herbe0-1 N 0 788 100
 herbe1-1 N 996 788 100
 herbe2-1 N 2875 788 100
 herbe3-1 N 3918 788 100
@@ -13,6 +13,6 @@ eau1 N 2767 788 100
 eau1 N 3810 788 100
 eau1 L 1700 400 300 200
 objects
-crate 1400 710
-crate 1300 710
+crate 1250 710
+crate 1200 710
 trunk 1693 738 100
