@@ -10,8 +10,8 @@ public abstract class InteractiveObject extends CollideObject {
     private final ImageViewSizePos imageViewSizePos;
 
     public InteractiveObject(Coordinate coordinate, ImageViewSizePos imageViewSizePos) {
-        this.coordinate = coordinate;
         this.imageViewSizePos = imageViewSizePos;
+        this.setCoordinate(coordinate);
     }
 
 

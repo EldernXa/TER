@@ -15,4 +15,5 @@ eau1 L 1700 400 300 200
 objects
 crate 1400 692
 crate 1100 692
+lever 1300 689
 trunk 1693 738 100
