@@ -7,8 +7,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
+import mainTER.DBManage.SkillDBManager;
 import mainTER.Tools.CharacterMovementAndDisplayManagement;
 import mainTER.Tools.Coordinate;
+import mainTER.exception.SkillDataGetException;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -22,26 +24,28 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ActiveSkill implements Skill{
     private final String nameCharacter;
-    private final String ctrlKey;
-    private final boolean animateMvt;
-    private final boolean animateAction;
-    private final boolean isMode;
     private final String nameSkill;
     private final Character character;
     private final ActiveSkillEnum skill;
     private boolean isEnabled;
     private boolean finishSkill;
+    private final SkillDBManager skillDBManager;
+    private final int numSkill;
 
-    public ActiveSkill(String nameCharacter, String nameSkill, String ctrlKey, boolean animateMvt, boolean animateAction, boolean isMode, Character character){
+    public ActiveSkill(String nameCharacter, String nameSkill, int numSkill, Character character){
         this.nameCharacter = nameCharacter;
         this.nameSkill = nameSkill;
-        this.ctrlKey = ctrlKey;
-        this.animateMvt = animateMvt;
-        this.animateAction = animateAction;
-        this.isMode = isMode;
+        this.numSkill = numSkill;
         this.character = character;
         isEnabled = false;
         finishSkill = true;
+        this.skillDBManager = new SkillDBManager();
+        boolean isMode = false;
+        try{
+            isMode = skillDBManager.getIsMode(nameCharacter, numSkill);
+        }catch(SkillDataGetException skillDataGetException){
+            System.out.println("Problème dans la récupération des données.");
+        }
         skill = ActiveSkillEnum.valueOf(this.nameSkill+(isMode?"_MODE":""));
     }
 
@@ -62,8 +66,15 @@ public class ActiveSkill implements Skill{
 
     public EventHandler<KeyEvent> eventForSkill(AnimationCharacter animationCharacter,
                                                 CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement, int tpsDuration){
+        String ctrlKey = "";
+        try{
+            ctrlKey = skillDBManager.getCtrlKey(nameCharacter, numSkill);
+        }catch(SkillDataGetException skillDataGetException){
+            System.out.println("Problème dans la récupération des données.");
+        }
+        String finalCtrlKey = ctrlKey;
         return event -> {
-            if (event.getCode().getChar().equals(ctrlKey)){
+            if (event.getCode().getChar().equals(finalCtrlKey)){
                 if(skill == ActiveSkillEnum.SHIELD_MODE){
                     shieldSkill();
                 }else if(skill == ActiveSkillEnum.ATTACK){
@@ -86,6 +97,7 @@ public class ActiveSkill implements Skill{
     private void flySkill() {
         //Bug quand on change de perso et qu'on revient sur le démon, il arrive plus a changer de compétence
         if (!isEnabled) {
+            System.out.println("okok");
             isEnabled = true;
             finishSkill = false;
             try {

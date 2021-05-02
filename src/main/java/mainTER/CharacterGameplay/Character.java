@@ -67,6 +67,7 @@ public class Character {
     }
 
     private void initListSkill(){
+        int nbActiveSkill = 1;
         SkillDBManager skillDBManager = new SkillDBManager();
         for(int i=1; i<=skillDBManager.getNumberSkillOfACharacter(name);i++){
             try {
@@ -76,9 +77,8 @@ public class Character {
                 else{
 
                         listSkill.add(new ActiveSkill(name, skillDBManager.getNameSkill(name, i),
-                                skillDBManager.getCtrlKey(name, i), skillDBManager.getAnimateMvt(name, i),
-                                skillDBManager.getAnimateAction(name, i),
-                                skillDBManager.getIsMode(name, i), this));
+                                nbActiveSkill, this));
+                        nbActiveSkill++;
 
                 }
             }catch(SkillDataGetException skillDataGetException){
