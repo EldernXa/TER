@@ -128,8 +128,8 @@ public abstract class CollideObject {
             rect.setY(this.getY()+i);
             for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
                 if((!this.equals(collideObject2))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))){
-                    System.out.println("Collide with " + collideObject2);
-                    System.out.println("distance " + (collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY()));
+//                    System.out.println("Collide with " + collideObject2);
+//                    System.out.println("distance " + (collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY()));
                     collideObject2.interaction(this);
                     return (collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY())-1;
                 }
