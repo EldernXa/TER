@@ -80,7 +80,7 @@ public abstract class CollideObject {
             rect.setY(this.getY());
             rect.setX(rect.getX()+i);
             for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
-                if((!this.equals(collideObject2))&&(!(collideObject2 instanceof MapFieldForm))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))&&(collideObject2.getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX() >= 0)){
+                if((!this.equals(collideObject2))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))&&(collideObject2.getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX() >= 0)){
                     collideObject2.interaction(this);
                     return collideObject2.getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX();
                 }
@@ -96,7 +96,7 @@ public abstract class CollideObject {
             rect.setY(this.getY());
             rect.setX(rect.getX()-i);
             for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
-                if((!this.equals(collideObject2))&&(!(collideObject2 instanceof MapFieldForm)&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))&&(this.getAppropriateNode().getBoundsInParent().getMinX() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxX()>=0))){
+                if((!this.equals(collideObject2))&&((rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))&&(this.getAppropriateNode().getBoundsInParent().getMinX() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxX()>=0))){
                     collideObject2.interaction(this);
                     return this.getAppropriateNode().getBoundsInParent().getMinX() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxX();
                 }
@@ -128,7 +128,7 @@ public abstract class CollideObject {
             rect.setY(this.getY()+i);
             for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
                 if((!this.equals(collideObject2))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))){
-                    System.out.println("Collide with" + collideObject2);
+                    System.out.println("Collide with " + collideObject2);
                     System.out.println("distance " + (collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY()));
                     collideObject2.interaction(this);
                     return (collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY())-1;

@@ -331,8 +331,8 @@ public class DisplayCharacter extends CollideObject {
     }
 
     private void fallingCharacter(){
-
         double pasToDo = calcMvt(CommingFrom.UP);//moved it here
+
         ImageView imgView = animationForTheCharacter.nextImage();
         double newHeight = animationForTheCharacter.getHeightMotionless()-imgView.getImage().getHeight();
         //instead of here
