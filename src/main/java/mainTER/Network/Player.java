@@ -321,6 +321,7 @@ public class Player {
                 e.printStackTrace();
             }
         }
+
         public void waitForStartMsg(){
             Thread t = new Thread(()->{
                 try {

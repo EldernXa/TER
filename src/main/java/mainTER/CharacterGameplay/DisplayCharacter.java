@@ -202,6 +202,7 @@ public class DisplayCharacter extends CollideObject {
             animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
                     Duration.millis(TPS_DURATION_TIMELINE),
                     tps -> {
+
                         double height = animationForTheCharacter.actualImg().getImage().getHeight();
                         if (walkToRight)
                             animationForTheCharacter.setMotionless();
@@ -211,8 +212,10 @@ public class DisplayCharacter extends CollideObject {
 
                         if (isJumping) {
                             moveMotionlessJumping(newHeight);
-                        } else if (calcMvt(CommingFrom.UP) >= 0) {
+                        }
+                        else if (calcMvt(CommingFrom.UP) >= 0) {
                             // TODO change gravity limit.
+
                             moveMotionlessFalling();
                         } else {
                             moveMotionlessNormally();
@@ -331,8 +334,9 @@ public class DisplayCharacter extends CollideObject {
     }
 
     private void fallingCharacter(){
-        double pasToDo = calcMvt(CommingFrom.UP);//moved it here
 
+
+        double pasToDo = calcMvt(CommingFrom.UP);//moved it here
         ImageView imgView = animationForTheCharacter.nextImage();
         double newHeight = animationForTheCharacter.getHeightMotionless()-imgView.getImage().getHeight();
         //instead of here
@@ -344,7 +348,11 @@ public class DisplayCharacter extends CollideObject {
         }
         characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
                 currentCoordinateOfTheCharacter.getY());
-        fallingStep += 0.5 * fallingStep;
+        if(fallingStep < 30) {
+            fallingStep += 0.5 * fallingStep;
+        }else{
+            fallingStep = 40;
+        }
         if(pasToDo == 1)
             isJumping = false;
     }
