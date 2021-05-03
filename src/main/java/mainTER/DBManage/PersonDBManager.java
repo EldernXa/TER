@@ -31,7 +31,17 @@ public class PersonDBManager {
     /**
      * Create a table Person.
      */
-    public void createTablePerson(){
+     public void createTablePerson(){
+         dbManager.createTableOrInsert("CREATE TABLE Person (" +
+                 "name VARCHAR(30) PRIMARY KEY," +
+                 "speed VARCHAR(30)," +
+                 "weight VARCHAR(30)," +
+                 "jumpStrength VARCHAR(30)," +
+                 "fallingSpeed VARCHAR(30)," +
+                 "canJump VARCHAR(30)" +
+                 ");");
+     }
+/*    public void createTablePerson(){
         dbManager.createTableOrInsert("CREATE TABLE Person (" +
                 "name VARCHAR(30) PRIMARY KEY," +
                 "speed FLOAT(3)," +
@@ -40,7 +50,7 @@ public class PersonDBManager {
                 "fallingSpeed FLOAT(3)," +
                 "canJump BOOLEAN" +
                 ");");
-    }
+    }*/
 
     /**
      * Remove the table Person.
@@ -78,7 +88,10 @@ public class PersonDBManager {
         }
         if(name.compareTo("")!=0 && speed>0 && weight>0 && jumpStrength>=0 &&fallingSpeed>=0) {
             String reqValues = "INSERT INTO Person VALUES (" +
-                    "'" + name + "'" + "," + speed + "," + weight + "," + jumpStrength + "," + fallingSpeed + "," + "'" + (canJump ? "true" : "false") + "'" +
+                    "'" + SecureManage.getEncrypted(name) + "'" + ",'" + SecureManage.getEncrypted(String.valueOf(speed))
+                    + "','" + SecureManage.getEncrypted(String.valueOf(weight)) + "','" + SecureManage.getEncrypted(String.valueOf(jumpStrength))
+                    + "','" + SecureManage.getEncrypted(String.valueOf(fallingSpeed)) + "'," + "'" +
+                    (canJump ? SecureManage.getEncrypted("true") : SecureManage.getEncrypted("false")) + "'" +
                     ")";
             dbManager.createTableOrInsert(reqValues);
         }else{
@@ -96,7 +109,7 @@ public class PersonDBManager {
         try{
             rs = dbManager.selectIntoTable("SELECT * FROM Person;");
             while(rs.next()){
-                listName.add((String)rs.getObject("name"));
+                listName.add(SecureManage.getDecrypted(rs.getString("name")));
             }
         }catch(SQLException sqlException){
             System.out.println("Problème dans la récupération de données.");
@@ -113,7 +126,7 @@ public class PersonDBManager {
         ResultSet rs = null;
         try {
             rs = dbManager.selectIntoTable("SELECT *" +
-                    " FROM Person WHERE name = '" + nameCharacter + "'");
+                    " FROM Person WHERE name = '" + SecureManage.getEncrypted(nameCharacter) + "'");
             rs.next();
         }catch(SQLException sqlException){
             System.out.println("Problème dans la récupération de données du personnages " + nameCharacter);
@@ -130,8 +143,8 @@ public class PersonDBManager {
     public double getSpeed(String nameCharacter) throws PersonDataGetException{
         ResultSet rs = selectIntoTablePerson(nameCharacter);
         try {
-            return (double)rs.getObject("speed");
-        }catch(SQLException sqlException){
+            return Double.parseDouble(SecureManage.getDecrypted(rs.getString("speed")));
+        }catch(Exception exception){
             throw new PersonDataGetException(nameCharacter);
         }
     }
@@ -145,8 +158,8 @@ public class PersonDBManager {
     public boolean getCanJump(String nameCharacter) throws PersonDataGetException{
         ResultSet rs = selectIntoTablePerson(nameCharacter);
         try{
-            return (boolean) rs.getObject("canJump");
-        }catch(SQLException sqlException){
+            return SecureManage.getDecrypted(rs.getString("canJump")).compareTo("true") == 0;
+        }catch(Exception exception){
             throw new PersonDataGetException(nameCharacter);
         }
     }
@@ -160,7 +173,7 @@ public class PersonDBManager {
     public double getJumpStrength(String nameCharacter) throws PersonDataGetException{
         ResultSet rs = selectIntoTablePerson(nameCharacter);
         try{
-            return (double) rs.getObject("jumpStrength");
+            return Double.parseDouble(SecureManage.getDecrypted(rs.getString("jumpStrength")));
         }catch(SQLException sqlException){
             throw new PersonDataGetException(nameCharacter);
         }
@@ -175,7 +188,7 @@ public class PersonDBManager {
     public double getWeight(String nameCharacter) throws PersonDataGetException{
         ResultSet rs = selectIntoTablePerson(nameCharacter);
         try{
-            return (double)rs.getObject("weight");
+            return Double.parseDouble(SecureManage.getDecrypted(rs.getString("weight")));
         }catch(SQLException sqlException)
         {
             throw new PersonDataGetException(nameCharacter);
@@ -191,7 +204,7 @@ public class PersonDBManager {
     public double getFallingSpeed(String nameCharacter) throws PersonDataGetException{
         ResultSet rs = selectIntoTablePerson(nameCharacter);
         try{
-            return (double)rs.getObject("fallingSpeed");
+            return Double.parseDouble(SecureManage.getDecrypted(rs.getString("fallingSpeed")));
         }catch(SQLException sqlException){
             throw new PersonDataGetException(nameCharacter);
         }
