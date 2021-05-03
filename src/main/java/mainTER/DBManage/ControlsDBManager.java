@@ -51,7 +51,7 @@ public class ControlsDBManager {
         StringBuilder reqValues = new StringBuilder("INSERT INTO Controls VALUES (");
 
                 for(String control : controls){
-                    reqValues.append("'").append(control).append("',");
+                    reqValues.append("'").append(SecureManage.getEncrypted(control)).append("',");
                 }
                 reqValues = new StringBuilder(reqValues.substring(0, reqValues.length() - 1));
                  reqValues.append(")");
@@ -76,7 +76,7 @@ public class ControlsDBManager {
         ResultSet rs = selectIntoTableControls();
         try {
 
-            return (String)rs.getObject("leftControl");
+            return SecureManage.getDecrypted((String) rs.getObject("leftControl"));
         }catch(SQLException sqlException){
             throw new ControlsDataGetException();
         }
@@ -85,14 +85,14 @@ public class ControlsDBManager {
     public void setLeft(String left) {
         String request = "UPDATE Controls " +
                 "SET " +
-                "leftControl = '" + left + "';";
+                "leftControl = '" + SecureManage.getEncrypted(left) + "';";
         dbManager.updateTable(request);
     }
 
     public String getRight() throws ControlsDataGetException{
         ResultSet rs = selectIntoTableControls();
         try{
-            return (String) rs.getObject("rightControl");
+            return SecureManage.getDecrypted((String) rs.getObject("rightControl"));
         }catch(SQLException sqlException){
             throw new ControlsDataGetException();
         }
@@ -100,14 +100,14 @@ public class ControlsDBManager {
     public void setRight(String right) {
         String request = "UPDATE Controls " +
                 "SET " +
-                "rightControl = '" + right + "';";
+                "rightControl = '" + SecureManage.getEncrypted(right) + "';";
         dbManager.updateTable(request);
     }
 
     public String getJump() throws ControlsDataGetException{
         ResultSet rs = selectIntoTableControls();
         try{
-            return (String) rs.getObject("jump");
+            return SecureManage.getDecrypted((String) rs.getObject("jump"));
         }catch(SQLException sqlException){
             throw new ControlsDataGetException();
         }
@@ -115,14 +115,14 @@ public class ControlsDBManager {
     public void setJump(String jump) {
         String request = "UPDATE Controls " +
                 "SET " +
-                "jump = '" + jump + "';";
+                "jump = '" + SecureManage.getEncrypted(jump) + "';";
         dbManager.updateTable(request);
     }
 
     public String getSwitchUp() throws ControlsDataGetException{
         ResultSet rs = selectIntoTableControls();
         try{
-            return (String)rs.getObject("switchUp");
+            return SecureManage.getDecrypted((String)rs.getObject("switchUp"));
         }catch(SQLException sqlException)
         {
             throw new ControlsDataGetException();
@@ -131,13 +131,13 @@ public class ControlsDBManager {
     public void setSwitchUp(String switchUp) {
         String request = "UPDATE Controls " +
                 "SET " +
-                "switchUp = '" + switchUp + "';";
+                "switchUp = '" + SecureManage.getEncrypted(switchUp) + "';";
         dbManager.updateTable(request);
     }
     public String getSwitchDown() throws ControlsDataGetException{
         ResultSet rs = selectIntoTableControls();
         try{
-            return (String) rs.getObject("switchDown");
+            return SecureManage.getDecrypted((String) rs.getObject("switchDown"));
         }catch(SQLException sqlException){
             throw new ControlsDataGetException();
         }
@@ -145,7 +145,7 @@ public class ControlsDBManager {
     public void setSwitchDown(String switchDown) {
         String request = "UPDATE Controls " +
                 "SET " +
-                "switchDown = '" + switchDown + "';";
+                "switchDown = '" + SecureManage.getEncrypted(switchDown) + "';";
         dbManager.updateTable(request);
     }
 
@@ -159,7 +159,7 @@ public class ControlsDBManager {
 
         for (int i = 0; i <columnCount ; i++)
         {
-            result.add( rs.getString(i + 1) );
+            result.add( SecureManage.getDecrypted(rs.getString(i + 1)) );
         }
         return result;
     }
