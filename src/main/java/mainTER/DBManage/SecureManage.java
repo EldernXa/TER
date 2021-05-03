@@ -8,8 +8,12 @@ import java.security.Key;
 import java.util.Base64;
 
 public class SecureManage {
-    private static final String secureKey = PropertiesReader.getValue("secureKey");
-    private static final Key aesKey = new SecretKeySpec(secureKey.getBytes(), "AES");
+    private static final String SECURE_KEY = PropertiesReader.getValue("secureKey");
+    private static final Key aesKey = new SecretKeySpec(SECURE_KEY.getBytes(), "AES");
+
+    private SecureManage(){
+
+    }
 
     protected static String getEncrypted(String textToEncrypt){
         try {
