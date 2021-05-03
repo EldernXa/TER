@@ -79,7 +79,7 @@ public class PersonDBManager {
      */
     public void insertIntoTablePerson(String name, double speed, double weight, double jumpStrength, double fallingSpeed, boolean canJump)
             throws PersonDataAlreadyExistException, PersonDataNotCorrectException {
-        ResultSet resultSet = selectIntoTablePerson(name);
+        ResultSet resultSet = selectIntoTablePerson(SecureManage.getEncrypted(name));
         try {
             resultSet.getObject("weight");
             throw new PersonDataAlreadyExistException(name);
