@@ -114,17 +114,13 @@ public class TestPersonDBManager {
     @Test
     public void testInsertSamePerson(){
         insertValuesIntoPerson();
-        assertThrows(PersonDataAlreadyExistException.class, ()->{
-            personDBManager.insertIntoTablePerson(nameCharacter, speed, weight, jumpStrength, fallingSpeed, canJump);
-        });
+        assertThrows(PersonDataAlreadyExistException.class, ()-> personDBManager.insertIntoTablePerson(nameCharacter, speed, weight, jumpStrength, fallingSpeed, canJump));
     }
 
     @Test
     public void testInsertIncorrectData(){
         insertValuesIntoPerson();
-        assertThrows(PersonDataNotCorrectException.class, ()->{
-            personDBManager.insertIntoTablePerson("", 0, 0, 0, 0, true);
-        });
+        assertThrows(PersonDataNotCorrectException.class, ()-> personDBManager.insertIntoTablePerson("", 0, 0, 0, 0, true));
     }
 
     private void insertValuesIntoPerson(){
