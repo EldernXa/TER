@@ -41,16 +41,7 @@ public class PersonDBManager {
                  "canJump VARCHAR(30)" +
                  ");");
      }
-/*    public void createTablePerson(){
-        dbManager.createTableOrInsert("CREATE TABLE Person (" +
-                "name VARCHAR(30) PRIMARY KEY," +
-                "speed FLOAT(3)," +
-                "weight FLOAT(3)," +
-                "jumpStrength FLOAT(3)," +
-                "fallingSpeed FLOAT(3)," +
-                "canJump BOOLEAN" +
-                ");");
-    }*/
+
 
     /**
      * Remove the table Person.
