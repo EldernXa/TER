@@ -43,6 +43,17 @@ public class SkillDBManager {
     public void createTableSkill(){
         dbManager.createTableOrInsert("CREATE TABLE Skill (" +
                 "nameSkill VARCHAR(50),"+
+                "numSkill VARCHAR(30)," +"ctrlKey VARCHAR(30),"+
+                "nameCharacter VARCHAR(30)," +
+                "animateMvt VARCHAR(30)," +
+                "animateAction VARCHAR(30)," +
+                "isMode VARCHAR(30)," +
+                "CONSTRAINT PK_Person PRIMARY KEY (nameCharacter,numSkill, ctrlKey)" +
+                ");");
+    }
+    /*public void createTableSkill(){
+        dbManager.createTableOrInsert("CREATE TABLE Skill (" +
+                "nameSkill VARCHAR(50),"+
                 "numSkill INTEGER," +"ctrlKey VARCHAR(30),"+
                 "nameCharacter VARCHAR(30)," +
                 "animateMvt BOOLEAN," +
@@ -50,7 +61,7 @@ public class SkillDBManager {
                 "isMode BOOLEAN," +
                 "CONSTRAINT PK_Person PRIMARY KEY (nameCharacter,numSkill)" +
                 ");");
-    }
+    }*/
 
     /**
      * Get the name of a skill with the name of the character and the skill number.
@@ -63,8 +74,9 @@ public class SkillDBManager {
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try {
             while (resultSet.next()) {
-                if(resultSet.getInt(NAME_ATTRIBUTE_FOR_NUM_SKILL)==numSkill){
-                    return resultSet.getString("nameSkill");
+                if(resultSet.getString(NAME_ATTRIBUTE_FOR_NUM_SKILL).
+                        compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0){
+                    return SecureManage.getDecrypted(resultSet.getString("nameSkill"));
                 }
             }
         }catch(SQLException sqlException){
@@ -84,8 +96,9 @@ public class SkillDBManager {
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{
             while(resultSet.next()){
-                if(resultSet.getInt(NAME_ATTRIBUTE_FOR_NUM_SKILL)==numSkill){
-                    return resultSet.getString("ctrlKey");
+                if(resultSet.getString(NAME_ATTRIBUTE_FOR_NUM_SKILL).
+                        compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0){
+                    return SecureManage.getDecrypted(resultSet.getString("ctrlKey"));
                 }
             }
         }catch(SQLException sqlException){
@@ -105,8 +118,9 @@ public class SkillDBManager {
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{
             while(resultSet.next()){
-                if(resultSet.getInt(NAME_ATTRIBUTE_FOR_NUM_SKILL)==numSkill){
-                    return resultSet.getBoolean("animateMvt");
+                if(resultSet.getString(NAME_ATTRIBUTE_FOR_NUM_SKILL).
+                        compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0){
+                    return SecureManage.getDecrypted(resultSet.getString("animateMvt")).compareTo("true")==0;
                 }
             }
         }catch(SQLException sqlException){
@@ -126,8 +140,9 @@ public class SkillDBManager {
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{
             while(resultSet.next()){
-                if(resultSet.getInt(NAME_ATTRIBUTE_FOR_NUM_SKILL)==numSkill){
-                    return resultSet.getBoolean("animateAction");
+                if(resultSet.getString(NAME_ATTRIBUTE_FOR_NUM_SKILL)
+                        .compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0){
+                    return SecureManage.getDecrypted(resultSet.getString("animateAction")).compareTo("true")==0;
                 }
             }
         }catch(SQLException sqlException){
@@ -147,8 +162,9 @@ public class SkillDBManager {
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{
             while(resultSet.next()){
-                if(resultSet.getInt(NAME_ATTRIBUTE_FOR_NUM_SKILL)==numSkill){
-                    return resultSet.getBoolean("isMode");
+                if(resultSet.getString(NAME_ATTRIBUTE_FOR_NUM_SKILL)
+                        .compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0){
+                    return SecureManage.getDecrypted(resultSet.getString("isMode")).compareTo("true")==0;
                 }
             }
         }catch(SQLException sqlException){
@@ -186,10 +202,10 @@ public class SkillDBManager {
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try {
             while (resultSet.next()) {
-                if(resultSet.getString("nameSkill").compareTo(nameSkill)==0){
+                if(resultSet.getString("nameSkill").compareTo(SecureManage.getEncrypted(nameSkill))==0){
                     throw new SkillAlreadyExistException(nameCharacter, nameSkill);
                 }
-                if(resultSet.getString("ctrlKey").compareTo(ctrlKey)==0){
+                if(resultSet.getString("ctrlKey").compareTo(SecureManage.getEncrypted(ctrlKey))==0){
                     throw new SkillCtrlAlreadyUsedException(nameCharacter, ctrlKey);
                 }
             }
@@ -206,14 +222,17 @@ public class SkillDBManager {
             numSkill = getNumberSkillActiveOfACharacter(nameCharacter)+1;
         }
 
-        if(nameSkill.compareTo("") == 0 || nameCharacter.compareTo("")==0){
+        if(nameSkill.compareTo("") == 0
+                || nameCharacter.compareTo("")==0){
             throw new SkillDataNotCorrectException();
         }
         String reqValues = "INSERT INTO Skill VALUES (" +
-                "'"+ nameSkill.toUpperCase() + "'," + numSkill + ",'" + ctrlKey + "','" +nameCharacter +"',"
-                 + convertBoolToString(animateMvt) +"," + convertBoolToString(animateAction)
-                + "," + convertBoolToString(isMode) +
-                ")";
+                "'"+ SecureManage.getEncrypted(nameSkill.toUpperCase()) + "','"
+                + SecureManage.getEncrypted(String.valueOf(numSkill)) + "','" + SecureManage.getEncrypted(ctrlKey)
+                + "','" +SecureManage.getEncrypted(nameCharacter) +"','" + SecureManage.getEncrypted(convertBoolToString(animateMvt))
+                + "','" + SecureManage.getEncrypted(convertBoolToString(animateAction))
+                + "','" + SecureManage.getEncrypted(convertBoolToString(isMode)) +
+                "')";
         dbManager.createTableOrInsert(reqValues);
     }
 
@@ -223,8 +242,8 @@ public class SkillDBManager {
 
         try{
             while(resultSet.next()){
-                if(resultSet.getString("nameCharacter").compareTo(nameCharacter)==0){
-                    listCtrlKeyOfACharacter.add(resultSet.getString("ctrlKey").toLowerCase());
+                if(resultSet.getString("nameCharacter").compareTo(SecureManage.getEncrypted(nameCharacter))==0){
+                    listCtrlKeyOfACharacter.add(SecureManage.getDecrypted(resultSet.getString("ctrlKey")).toLowerCase());
                 }
             }
         }catch(SQLException sqlException){
@@ -237,8 +256,9 @@ public class SkillDBManager {
     public void modifyCtrlOfACharacter(String nameCharacter, String nameSkill, String newCtrlKey){
         String request = "UPDATE Skill " +
                 "SET " +
-                "ctrlKey = '" + newCtrlKey + "'" +
-                " WHERE nameCharacter = '"+ nameCharacter +"' AND nameSkill = '" + nameSkill.toUpperCase()  +"';";
+                "ctrlKey = '" + SecureManage.getEncrypted(newCtrlKey) + "'" +
+                " WHERE nameCharacter = '"+ SecureManage.getEncrypted(nameCharacter)
+                +"' AND nameSkill = '" + SecureManage.getEncrypted(nameSkill.toUpperCase())  +"';";
         dbManager.updateTable(request);
 
     }
@@ -253,7 +273,7 @@ public class SkillDBManager {
         try{
             resultSet = dbManager.selectIntoTable("SELECT * FROM Skill;");
             while(resultSet.next()){
-                listSkillName.add((String)resultSet.getObject("nameSkill"));
+                listSkillName.add(SecureManage.getDecrypted(resultSet.getString("nameSkill")));
             }
         }catch(SQLException sqlException){
             System.out.println("Problème dans la récupération de données.");
@@ -271,8 +291,8 @@ public class SkillDBManager {
         try{
             resultSet = dbManager.selectIntoTable("SELECT * FROM Skill;");
             while(resultSet.next()){
-                if(!listName.contains(resultSet.getString("nameCharacter"))){
-                    listName.add((String)resultSet.getObject("nameCharacter"));
+                if(!listName.contains(SecureManage.getDecrypted(resultSet.getString("nameCharacter")))){
+                    listName.add(SecureManage.getDecrypted(resultSet.getString("nameCharacter")));
                 }
             }
         }catch(SQLException sqlException){
@@ -306,7 +326,7 @@ public class SkillDBManager {
         int nb = 0;
         try{
             while(resultSet.next()){
-                if(resultSet.getString("ctrlKey").compareTo("")==0){
+                if(SecureManage.getDecrypted(resultSet.getString("ctrlKey")).compareTo("")==0){
                     nb++;
                 }
             }
@@ -322,7 +342,7 @@ public class SkillDBManager {
         int nb = 0;
         try{
             while(resultSet.next()){
-                if(resultSet.getString("ctrlKey").compareTo("")!=0){
+                if(SecureManage.getDecrypted(resultSet.getString("ctrlKey")).compareTo("")!=0){
                     nb++;
                 }
             }
@@ -339,7 +359,8 @@ public class SkillDBManager {
      */
     private ResultSet selectCharacterIntoTableSkill(String nameCharacter){
         ResultSet resultSet;
-        resultSet = dbManager.selectIntoTable("SELECT * FROM Skill WHERE nameCharacter = '" + nameCharacter + "'");
+        resultSet = dbManager.selectIntoTable("SELECT * FROM Skill WHERE nameCharacter = '" +
+                SecureManage.getEncrypted(nameCharacter) + "'");
         return resultSet;
     }
 

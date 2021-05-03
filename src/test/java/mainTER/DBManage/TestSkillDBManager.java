@@ -95,6 +95,7 @@ public class TestSkillDBManager {
             insertValueIntoSkill();
             assertEquals(nameSkill1, skillDBManager.getNameSkill(nameCharacter, numSkill1));
         }catch(Exception exception){
+            exception.printStackTrace();
             fail();
         }
     }
