@@ -133,7 +133,7 @@ public abstract class CollideObject {
                     System.out.println("Collide with " + collideObject2);
                     System.out.println("distance " + (collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY()));
                     collideObject2.interaction(this);
-                    return (collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY())-1;
+                    return (collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY());
                 }
             }
         }
