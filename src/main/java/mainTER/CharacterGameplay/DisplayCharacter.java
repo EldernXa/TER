@@ -212,7 +212,6 @@ public class DisplayCharacter extends CollideObject {
                         if (isJumping) {
                             moveMotionlessJumping(newHeight);
                         } else if (calcMvt(CommingFrom.UP) >= 0) {
-//                            System.out.println(calcMvt(CommingFrom.UP));
                             // TODO change gravity limit.
                             moveMotionlessFalling();
                         } else {
@@ -227,7 +226,6 @@ public class DisplayCharacter extends CollideObject {
 
     private void moveWalkJumping(){
         animationForTheCharacter.setWalk();
-        System.out.println("Calcgauche");
         currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+calcMvt(CommingFrom.LEFT));
         doJump();
     }
@@ -333,10 +331,12 @@ public class DisplayCharacter extends CollideObject {
     }
 
     private void fallingCharacter(){
+
+        double pasToDo = calcMvt(CommingFrom.UP);//moved it here
         ImageView imgView = animationForTheCharacter.nextImage();
         double newHeight = animationForTheCharacter.getHeightMotionless()-imgView.getImage().getHeight();
-        double pasToDo = calcMvt(CommingFrom.UP);
-        System.out.println("pasToDo " + pasToDo);
+        //instead of here
+
         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + pasToDo);
         if(pasToDo<=0){
             pasToDo = 1;
