@@ -276,7 +276,6 @@ public class SkillDBManager {
      */
     public void modifyCtrlOfACharacter(String nameCharacter, String nameSkill, String newCtrlKey) throws SkillCtrlAlreadyUsedException {
         // TODO verify ctrl key not already used by movement.
-        // TODO add test
 
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{

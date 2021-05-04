@@ -210,6 +210,32 @@ public class TestSkillDBManager {
         }
     }
 
+    @Test
+    public void testModifyCtrlOfASkill(){
+        try{
+            insertValueIntoSkill();
+            String newCtrlKey = "P";
+            assertEquals(ctrlKey1, skillDBManager.getCtrlKey(nameCharacter, numSkill1));
+            skillDBManager.modifyCtrlOfACharacter(nameCharacter, nameSkill1, newCtrlKey);
+            assertEquals(newCtrlKey, skillDBManager.getCtrlKey(nameCharacter, numSkill1));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testModifyCtrlOfASkillWithACtrlAlreadyUsedByTheSameCharacterThrowException(){
+        try{
+            insertValueIntoSkill();
+            skillDBManager.insertIntoTableSkill(nameSkill2, ctrlKey2, nameCharacter, animateMvt, animateAction, isMode);
+            assertThrows(SkillCtrlAlreadyUsedException.class, ()->{
+                skillDBManager.modifyCtrlOfACharacter(nameCharacter, nameSkill2, ctrlKey1);
+            });
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
     private void insertValueIntoSkill() throws SkillAlreadyExistException, SkillCtrlAlreadyUsedException, SkillDataNotCorrectException {
         skillDBManager.createTableSkill();
         skillDBManager.insertIntoTableSkill(nameSkill1, ctrlKey1, nameCharacter, animateMvt, animateAction, isMode);
