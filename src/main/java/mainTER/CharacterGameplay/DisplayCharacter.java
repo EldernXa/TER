@@ -348,7 +348,7 @@ public class DisplayCharacter extends CollideObject {
         }
         characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
                 currentCoordinateOfTheCharacter.getY());
-        if(fallingStep < 30) {
+        if(fallingStep < 40) {
             fallingStep += 0.5 * fallingStep;
         }else{
             fallingStep = 40;
