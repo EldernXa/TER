@@ -1,9 +1,6 @@
 package mainTER.DBManage;
 
-import mainTER.exception.SkillAlreadyExistException;
-import mainTER.exception.SkillDataGetException;
-import mainTER.exception.SkillCtrlAlreadyUsedException;
-import mainTER.exception.SkillDataNotCorrectException;
+import mainTER.exception.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -43,10 +40,22 @@ public class SkillDBManager {
     private static final String NAME_ERROR_GETTING_DATA = "Problème dans la récupération de données.";
 
     /**
+     * true if we use the database for the test, else otherwise.
+     */
+    private final boolean isForTest;
+
+    /**
+     * the name of the database.
+     */
+    private final String nameDatabase;
+
+    /**
      * Constructor to uses skill databases for the application.
      */
     public SkillDBManager(){
         this.dbManager = new DBManager();
+        isForTest = false;
+        nameDatabase = "";
     }
 
     /**
@@ -55,6 +64,8 @@ public class SkillDBManager {
      */
     public SkillDBManager(String name){
         this.dbManager = new DBManager(name, "test");
+        isForTest = true;
+        nameDatabase = name;
     }
 
     /**
@@ -206,9 +217,24 @@ public class SkillDBManager {
      * @throws SkillCtrlAlreadyUsedException if the key is already used for an another skill of the same character.
      * @throws SkillDataNotCorrectException if we try to insert data that doesn't correct.
      */
-    public void insertIntoTableSkill(String nameSkill, String ctrlKey, String nameCharacter, boolean animateMvt, boolean animateAction, boolean isMode) throws SkillAlreadyExistException, SkillCtrlAlreadyUsedException, SkillDataNotCorrectException {
+    public void insertIntoTableSkill(String nameSkill, String ctrlKey, String nameCharacter, boolean animateMvt, boolean animateAction, boolean isMode)
+            throws SkillAlreadyExistException, SkillCtrlAlreadyUsedException, SkillDataNotCorrectException,
+            SkillCtrlAlreadyUsedByMovementControlException{
 
         // TODO verify ctrlKey not used by movement.
+        ControlsDBManager controlsDBManager;
+        if(isForTest){
+            controlsDBManager = new ControlsDBManager(nameDatabase);
+        }else{
+            controlsDBManager = new ControlsDBManager();
+        }
+        try {
+            if(controlsDBManager.getIfCtrlAlreadyUsed(ctrlKey)) {
+                throw new SkillCtrlAlreadyUsedByMovementControlException(ctrlKey);
+            }
+        }catch(ControlsDataGetException ignored){
+
+        }
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try {
             while (resultSet.next()) {

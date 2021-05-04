@@ -55,7 +55,7 @@ public class DataInsert {
                 skillDBManager.insertIntoTableSkill("BARRIER", "3", "Paladin", true, false, true);
                 skillDBManager.insertIntoTableSkill("FLY", "1", "Demon", true, false, true);
                 skillDBManager.insertIntoTableSkill("MOULT", "1", "Serpent", false, false, false);
-            } catch (SkillAlreadyExistException | SkillCtrlAlreadyUsedException | SkillDataNotCorrectException exception) {
+            } catch (SkillAlreadyExistException | SkillCtrlAlreadyUsedException | SkillDataNotCorrectException | SkillCtrlAlreadyUsedByMovementControlException exception) {
                 System.out.println(exception.getMessage());
             }
 //        }
