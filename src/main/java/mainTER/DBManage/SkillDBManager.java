@@ -23,6 +23,26 @@ public class SkillDBManager {
     private static final String NAME_ATTRIBUTE_FOR_NUM_SKILL = "numSkill";
 
     /**
+     * static variable uses to get the nameSkill of a skill.
+     */
+    private static final String NAME_ATTRIBUTE_FOR_NAME_SKILL = "nameSkill";
+
+    /**
+     * static variable uses to get the control key of a skill.
+     */
+    private static final String NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL = "ctrlKey";
+
+    /**
+     * static variable uses to get the name character of a skill.
+     */
+    private static final String NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL = "nameCharacter";
+
+    /**
+     * static variable uses to display an error when trying to get data who doesn't exist.
+     */
+    private static final String NAME_ERROR_GETTING_DATA = "Problème dans la récupération de données.";
+
+    /**
      * Constructor to uses skill databases for the application.
      */
     public SkillDBManager(){
@@ -51,17 +71,6 @@ public class SkillDBManager {
                 "CONSTRAINT PK_Person PRIMARY KEY (nameCharacter,numSkill, ctrlKey)" +
                 ");");
     }
-    /*public void createTableSkill(){
-        dbManager.createTableOrInsert("CREATE TABLE Skill (" +
-                "nameSkill VARCHAR(50),"+
-                "numSkill INTEGER," +"ctrlKey VARCHAR(30),"+
-                "nameCharacter VARCHAR(30)," +
-                "animateMvt BOOLEAN," +
-                "animateAction BOOLEAN," +
-                "isMode BOOLEAN," +
-                "CONSTRAINT PK_Person PRIMARY KEY (nameCharacter,numSkill)" +
-                ");");
-    }*/
 
     /**
      * Get the name of a skill with the name of the character and the skill number.
@@ -71,12 +80,16 @@ public class SkillDBManager {
      * @throws SkillDataGetException when the skill asked doesn't exist.
      */
     public String getNameSkill(String nameCharacter, int numSkill) throws SkillDataGetException {
+        return gettingData(nameCharacter, numSkill, NAME_ATTRIBUTE_FOR_NAME_SKILL);
+    }
+
+    private String gettingData(String nameCharacter, int numSkill, String valueToGet) throws SkillDataGetException{
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
-        try {
-            while (resultSet.next()) {
+        try{
+            while(resultSet.next()){
                 if(resultSet.getString(NAME_ATTRIBUTE_FOR_NUM_SKILL).
                         compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0){
-                    return SecureManage.getDecrypted(resultSet.getString("nameSkill"));
+                    return SecureManage.getDecrypted(String.valueOf(resultSet.getObject(valueToGet)));
                 }
             }
         }catch(SQLException sqlException){
@@ -93,18 +106,7 @@ public class SkillDBManager {
      * @throws SkillDataGetException when the skill asked doesn't exist.
      */
     public String getCtrlKey(String nameCharacter, int numSkill) throws SkillDataGetException{
-        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
-        try{
-            while(resultSet.next()){
-                if(resultSet.getString(NAME_ATTRIBUTE_FOR_NUM_SKILL).
-                        compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0){
-                    return SecureManage.getDecrypted(resultSet.getString("ctrlKey"));
-                }
-            }
-        }catch(SQLException sqlException){
-            throw new SkillDataGetException(nameCharacter, numSkill);
-        }
-        throw new SkillDataGetException(nameCharacter, numSkill);
+        return gettingData(nameCharacter, numSkill, NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL);
     }
 
     /**
@@ -202,10 +204,10 @@ public class SkillDBManager {
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try {
             while (resultSet.next()) {
-                if(resultSet.getString("nameSkill").compareTo(SecureManage.getEncrypted(nameSkill))==0){
+                if(resultSet.getString(NAME_ATTRIBUTE_FOR_NAME_SKILL).compareTo(SecureManage.getEncrypted(nameSkill))==0){
                     throw new SkillAlreadyExistException(nameCharacter, nameSkill);
                 }
-                if(resultSet.getString("ctrlKey").compareTo(SecureManage.getEncrypted(ctrlKey))==0){
+                if(resultSet.getString(NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL).compareTo(SecureManage.getEncrypted(ctrlKey))==0){
                     throw new SkillCtrlAlreadyUsedException(nameCharacter, ctrlKey);
                 }
             }
@@ -242,8 +244,8 @@ public class SkillDBManager {
 
         try{
             while(resultSet.next()){
-                if(resultSet.getString("nameCharacter").compareTo(SecureManage.getEncrypted(nameCharacter))==0){
-                    listCtrlKeyOfACharacter.add(SecureManage.getDecrypted(resultSet.getString("ctrlKey")).toLowerCase());
+                if(resultSet.getString(NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL).compareTo(SecureManage.getEncrypted(nameCharacter))==0){
+                    listCtrlKeyOfACharacter.add(SecureManage.getDecrypted(resultSet.getString(NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL)).toLowerCase());
                 }
             }
         }catch(SQLException sqlException){
@@ -273,10 +275,10 @@ public class SkillDBManager {
         try{
             resultSet = dbManager.selectIntoTable("SELECT * FROM Skill;");
             while(resultSet.next()){
-                listSkillName.add(SecureManage.getDecrypted(resultSet.getString("nameSkill")));
+                listSkillName.add(SecureManage.getDecrypted(resultSet.getString(NAME_ATTRIBUTE_FOR_NAME_SKILL)));
             }
         }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données.");
+            System.out.println(NAME_ERROR_GETTING_DATA);
         }
         return listSkillName;
     }
@@ -291,12 +293,12 @@ public class SkillDBManager {
         try{
             resultSet = dbManager.selectIntoTable("SELECT * FROM Skill;");
             while(resultSet.next()){
-                if(!listName.contains(SecureManage.getDecrypted(resultSet.getString("nameCharacter")))){
-                    listName.add(SecureManage.getDecrypted(resultSet.getString("nameCharacter")));
+                if(!listName.contains(SecureManage.getDecrypted(resultSet.getString(NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL)))){
+                    listName.add(SecureManage.getDecrypted(resultSet.getString(NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL)));
                 }
             }
         }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données.");
+            System.out.println(NAME_ERROR_GETTING_DATA);
         }
         return listName;
     }
@@ -315,7 +317,7 @@ public class SkillDBManager {
                 nb++;
             }
         }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données.");
+            System.out.println(NAME_ERROR_GETTING_DATA);
         }
         return nb;
     }
@@ -326,12 +328,12 @@ public class SkillDBManager {
         int nb = 0;
         try{
             while(resultSet.next()){
-                if(SecureManage.getDecrypted(resultSet.getString("ctrlKey")).compareTo("")==0){
+                if(SecureManage.getDecrypted(resultSet.getString(NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL)).compareTo("")==0){
                     nb++;
                 }
             }
         }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données.");
+            System.out.println(NAME_ERROR_GETTING_DATA);
         }
         return nb;
     }
@@ -342,12 +344,12 @@ public class SkillDBManager {
         int nb = 0;
         try{
             while(resultSet.next()){
-                if(SecureManage.getDecrypted(resultSet.getString("ctrlKey")).compareTo("")!=0){
+                if(SecureManage.getDecrypted(resultSet.getString(NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL)).compareTo("")!=0){
                     nb++;
                 }
             }
         }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données.");
+            System.out.println(NAME_ERROR_GETTING_DATA);
         }
         return nb;
     }
