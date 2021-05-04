@@ -37,8 +37,7 @@ public class MenuSettings {
 
             StackPane.setAlignment(titre,Pos.TOP_CENTER);
 
-            stage.setScene(scene);
-            stage.show();
+
         }
     }
 

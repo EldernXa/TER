@@ -190,6 +190,9 @@ public class MenuItem extends StackPane {
                     }
                     break;
                 }
+                case "BACK TO GAME" : {
+                    stage.hide();
+                }
             }
         });
 
@@ -230,7 +233,7 @@ public class MenuItem extends StackPane {
         StackPane stackPane = new StackPane();
         Pane pane = new Pane();
         stackPane.getChildren().add(pane);
-        Map map =  new Map(pane,mapName);
+        Map map =  new Map(pane,mapName,true);
         map.displayMap(pane);
         ImageView background = map.getBackgroundImage();
 
@@ -247,7 +250,7 @@ public class MenuItem extends StackPane {
         stage.setResizable(false);
         stage.sizeToScene();
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0), listCharacter, stackPane, background);
+        DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0), listCharacter, stackPane, background,stage);
         displayCharacter.startDisplay();
         //Make the scene scale if the screen is larger
 

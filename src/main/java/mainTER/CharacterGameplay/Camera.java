@@ -1,17 +1,25 @@
 package mainTER.CharacterGameplay;
 
+import javafx.geometry.Pos;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.transform.Scale;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import mainTER.DBManage.ControlsDBManager;
 import mainTER.MapPackage.SwitchCharacter;
+import mainTER.Menu.MenuPause;
 import mainTER.Tools.Coordinate;
 import mainTER.exception.ControlsDataGetException;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -29,9 +37,10 @@ public class Camera {
     private String up;
     private String switchUp;
     private String switchDown;
+    Stage stage;
 
 
-    public Camera(Scene scene, DisplayCharacter displayCharacter, SwitchCharacter sc, ArrayList<Character> listCharacter, double scalingValue, ImageView background) {
+    public Camera(Scene scene, DisplayCharacter displayCharacter, SwitchCharacter sc, ArrayList<Character> listCharacter, double scalingValue, ImageView background, Stage stage) {
         this.scene = scene;
         this.displayCharacter = displayCharacter;
         this.sc = sc;
@@ -42,6 +51,7 @@ public class Camera {
         left = "";
         switchUp = "";
         switchDown = "";
+        this.stage = stage;
 
 
         ControlsDBManager controlsDBManager = new ControlsDBManager();
@@ -74,7 +84,7 @@ public class Camera {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, event2 -> {
 
             String event = event2.getCode().getChar().toLowerCase();
-
+            System.out.println(event2);
              if (event.equals(switchUp)) {
                 int k = 0;
                 for (int i = 0; i < listCharacter.size(); i++) {
@@ -99,6 +109,18 @@ public class Camera {
                 }
                 sc.changeToDown();
             }
+             else if(event2.getCode() == KeyCode.ESCAPE){
+                 System.out.println("on passe ici");
+
+                 Stage stagea = new Stage(StageStyle.TRANSPARENT);
+                 MenuPause menuPause = new MenuPause(stagea);
+                 stagea.initOwner(stage);
+                 stagea.initModality(Modality.APPLICATION_MODAL);
+                 stagea.setScene(new Scene(menuPause.getVbox(), Color.TRANSPARENT));
+                 stagea.show();
+                 //StackPane.setAlignment(menuPause.getPane(), Pos.CENTER);
+
+             }
         });
     }
 
@@ -148,7 +170,7 @@ public class Camera {
 
        // background.setX(background.getX()+displayCharacter.getCurrentCoordinateOfTheCharacter().getX());
 
-        System.out.println(background.getX());
+
         camera.translateXProperty().set(xCamera + (translateValue - xCamera) * 0.1);
         camera.translateYProperty().set(yCamera + (translateYvalue - yCamera) * 0.1);
         if (camera.getTranslateX() > (background.getImage().getWidth() - Screen.getPrimary().getBounds().getWidth() / scalingValue) * scalingValue) {

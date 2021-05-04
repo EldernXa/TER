@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Scale;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import mainTER.DBManage.ControlsDBManager;
 import mainTER.MapPackage.CollideObject;
@@ -49,7 +50,7 @@ public class DisplayCharacter extends CollideObject {
      * @param pane is the level of the game.
      * @param character is the character we will display.
      */
-    public DisplayCharacter(Scene scene, Pane pane, Character character, ArrayList<Character> listCharacter, StackPane stackPane, ImageView background){
+    public DisplayCharacter(Scene scene, Pane pane, Character character, ArrayList<Character> listCharacter, StackPane stackPane, ImageView background, Stage stage){
         this(scene, pane, character);
         SwitchCharacter switchCharacter = new SwitchCharacter(listCharacter,this);
         double height = Screen.getPrimary().getBounds().getHeight();
@@ -60,7 +61,7 @@ public class DisplayCharacter extends CollideObject {
             scene.getRoot().getTransforms().add(scale);
         }
         stackPane.getChildren().add(switchCharacter);
-        camera = new Camera(scene, this, switchCharacter, listCharacter, h, background);
+        camera = new Camera(scene, this, switchCharacter, listCharacter, h, background,stage);
         characterMovementAndDisplayManagement.setCamera(camera);
     }
 
