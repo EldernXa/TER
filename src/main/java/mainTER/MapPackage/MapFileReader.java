@@ -105,6 +105,10 @@ public class MapFileReader {
                             case "lever" :
                                 collideObjectArrayList.add(new Lever(new Coordinate(doubles[1], doubles[2])));
                                 break;
+                            case  "forgottensword":
+                                collideObjectArrayList.add(new EndObject( new Coordinate(doubles[1], doubles[2])));
+                                break;
+
                         }
                     }
                     i++;

@@ -147,7 +147,9 @@ public class Camera {
         double translateValue = displayCharacter.getCurrentCoordinateOfTheCharacter().getX() * scalingValue - Screen.getPrimary().getBounds().getWidth() / 2;
         double translateYvalue = displayCharacter.getCurrentCoordinateOfTheCharacter().getY() * scalingValue - Screen.getPrimary().getBounds().getHeight() / 2;
 
+       // background.setX(background.getX()+displayCharacter.getCurrentCoordinateOfTheCharacter().getX());
 
+        System.out.println(background.getX());
         camera.translateXProperty().set(xCamera + (translateValue - xCamera) * 0.1);
         camera.translateYProperty().set(yCamera + (translateYvalue - yCamera) * 0.1);
         if (camera.getTranslateX() > (background.getImage().getWidth() - Screen.getPrimary().getBounds().getWidth() / scalingValue) * scalingValue) {

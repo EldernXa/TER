@@ -50,6 +50,8 @@ public class MenuItem extends StackPane {
 
     
     private final ArrayList<Character> listCharacter;
+    private Stage stage;
+    private List<String> listName;
 
     /**
      * Constructor to create items
@@ -59,14 +61,12 @@ public class MenuItem extends StackPane {
      */
     public MenuItem(String name, Stage stage) {
 
+        this.stage = stage;
         LoadOfFXML.loadFXML("/mainTER/Menu/FXML/MenuItem.fxml", this, this);
         textMenu.setText(name);
         PersonDBManager personDBManager = new PersonDBManager();
         listCharacter = new ArrayList<>();
-        List<String> listName = personDBManager.getListNameFromDatabase();
-        for(String nameCharacter : listName){
-            listCharacter.add(new Character(nameCharacter, new Coordinate(1300, 630)));
-        }
+        this.listName = personDBManager.getListNameFromDatabase();
         setUpMouse(stage, name);
 
 
@@ -80,6 +80,7 @@ public class MenuItem extends StackPane {
      * @param name  name of the item
      */
     public void clickOn(Stage stage, String name) {
+
         setOnMousePressed(event -> {
             rectangleText.setFill(Color.DARKVIOLET);
 
@@ -90,73 +91,27 @@ public class MenuItem extends StackPane {
             Music.stopMusique();
 
             switch (name) {
-                case "SINGLEPLAYER": {
 
-
-
-                    StackPane stackPane = new StackPane();
-
-
-                    Pane pane = new Pane();
-
-
-                    stackPane.getChildren().add(pane);
-                    ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/Background-1.png").toURI().toString()));
-
-                    double backtroundHeight = background.getImage().getHeight();
-                    if(background.getImage().getHeight() < Screen.getPrimary().getBounds().getHeight()){
-                        backtroundHeight =  Screen.getPrimary().getBounds().getHeight();
-                    }
-                    Scene scene = new Scene(stackPane, background.getImage().getWidth(), backtroundHeight);
-
-                    Stage mainStage = new Stage();
-/*                    mainStage.setHeight(Screen.getPrimary().getBounds().getHeight());
-                    mainStage.setWidth(5548);*/
-                    mainStage.setFullScreen(true);
-                    //mainStage.setMaximized(true);
-                    mainStage.setResizable(false);
-                    mainStage.sizeToScene();
-                    mainStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-
-
-
-                    new Map(pane, background)
-;
-
-
-
-
-
-                    DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0));
-                    displayCharacter.startDisplay();
-
-                    SwitchCharacter sc = new SwitchCharacter(listCharacter,displayCharacter);
-
-                    //Make the scene scale if the screen is larger
-                    double height = Screen.getPrimary().getBounds().getHeight();
-                    double h = 1;
-                    if(height>background.getImage().getHeight()){
-                        h = height/background.getImage().getHeight();
-                        Scale scale = new Scale(h, h, 0, 0);
-                        scene.getRoot().getTransforms().add(scale);
-                    }
-
-
-
-                    stackPane.getChildren().add(sc);
-
-                    new Camera(scene,displayCharacter,sc,listCharacter,h,background);
-
-
-
-                    mainStage.setScene(scene);
-                    mainStage.centerOnScreen();
-                    mainStage.show();
-
-
+                case "SINGLEPLAYER":{
+                    MenuLevel menuLevel = new MenuLevel(stage);
+                    Scene scene = new Scene( menuLevel.getPane(), 860,600);
+                    stage.setScene(scene);
 
                 }
                 break;
+                case "Level 1 - Forest": {
+                    for(String nameCharacter : listName){
+                        listCharacter.add(new Character(nameCharacter, new Coordinate(4500, 600)));
+                    }
+                   createLvl("Forest");
+                }
+                break;
+                case "Level 2 - Castle": {
+                    for(String nameCharacter : listName){
+                        listCharacter.add(new Character(nameCharacter, new Coordinate(1985, 2200)));
+                    }
+                   createLvl("Castle");
+                }break;
                 case "MULTIPLAYER": {
 
                     MultiplayerMenu mpm = new MultiplayerMenu(stage);
@@ -195,7 +150,7 @@ public class MenuItem extends StackPane {
                     Thread t = new Thread(gs);
                     t.start();
                     Player p = new Player();
-                    p.connectToServer(newStage,sceneServ,pane,listCharacter);
+                    p.connectToServer(stage,sceneServ,pane,listCharacter);
                     newStage.show();
                     newStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
                     break;
@@ -209,7 +164,7 @@ public class MenuItem extends StackPane {
                     newStage.setScene(sceneCli);
 
                     Player p = new Player();
-                    p.connectToServer(newStage,sceneCli,pane,listCharacter);
+                    p.connectToServer(stage,sceneCli,pane,listCharacter);
                     newStage.show();
                     break;
                 }
@@ -259,5 +214,46 @@ public class MenuItem extends StackPane {
         clickOn(stage, name);
 
         setOnMouseReleased(event -> rectangleText.setFill(gradient));
+    }
+
+
+
+
+    public void createLvl(String mapName) {
+        StackPane stackPane = new StackPane();
+        Pane pane = new Pane();
+        stackPane.getChildren().add(pane);
+        Map map =  new Map(pane,mapName);
+        ImageView background = map.getBackgroundImage();
+
+
+
+        double backtroundHeight = background.getImage().getHeight();
+        if(background.getImage().getHeight() < Screen.getPrimary().getBounds().getHeight()){
+            backtroundHeight =  Screen.getPrimary().getBounds().getHeight();
+        }
+        Scene scene = new Scene(stackPane, background.getImage().getWidth(), backtroundHeight);
+        stage.close();
+        stage = new Stage();
+        stage.setFullScreen(true);
+        stage.setResizable(false);
+        stage.sizeToScene();
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0));
+        displayCharacter.startDisplay();
+        SwitchCharacter sc = new SwitchCharacter(listCharacter,displayCharacter);
+        //Make the scene scale if the screen is larger
+        double height = Screen.getPrimary().getBounds().getHeight();
+        double h = 1;
+        if(height>background.getImage().getHeight()){
+            h = height/background.getImage().getHeight();
+            Scale scale = new Scale(h, h, 0, 0);
+            scene.getRoot().getTransforms().add(scale);
+        }
+        stackPane.getChildren().add(sc);
+        new Camera(scene,displayCharacter,sc,listCharacter,h,background);
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.show();
     }
 }

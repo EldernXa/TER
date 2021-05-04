@@ -272,7 +272,7 @@ public class Player {
                     stage.setResizable(false);
                     stage.sizeToScene();
 
-                    map = new Map( pane1, background);
+                    map = new Map( pane1, "forest");
                     me.startDisplay();
                     friend.startDisplayFriend();
 
