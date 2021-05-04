@@ -205,6 +205,23 @@ public class SkillDBManager {
         }
     }
 
+    private void verifyCtrlNotUsedByControlMovement(String ctrlKey) throws SkillCtrlAlreadyUsedByMovementControlException{
+        ControlsDBManager controlsDBManager;
+        if(isForTest){
+            controlsDBManager = new ControlsDBManager(nameDatabase);
+        }else{
+            controlsDBManager = new ControlsDBManager();
+        }
+
+        try{
+            if(controlsDBManager.getIfCtrlAlreadyUsed(ctrlKey)){
+                throw new SkillCtrlAlreadyUsedByMovementControlException(ctrlKey);
+            }
+        }catch(ControlsDataGetException ignored){
+
+        }
+    }
+
     /**
      * Insert a Skill in the database.
      * @param nameSkill the name of the skill.
@@ -221,20 +238,7 @@ public class SkillDBManager {
             throws SkillAlreadyExistException, SkillCtrlAlreadyUsedException, SkillDataNotCorrectException,
             SkillCtrlAlreadyUsedByMovementControlException{
 
-        // TODO verify ctrlKey not used by movement.
-        ControlsDBManager controlsDBManager;
-        if(isForTest){
-            controlsDBManager = new ControlsDBManager(nameDatabase);
-        }else{
-            controlsDBManager = new ControlsDBManager();
-        }
-        try {
-            if(controlsDBManager.getIfCtrlAlreadyUsed(ctrlKey)) {
-                throw new SkillCtrlAlreadyUsedByMovementControlException(ctrlKey);
-            }
-        }catch(ControlsDataGetException ignored){
-
-        }
+        verifyCtrlNotUsedByControlMovement(ctrlKey);
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try {
             while (resultSet.next()) {

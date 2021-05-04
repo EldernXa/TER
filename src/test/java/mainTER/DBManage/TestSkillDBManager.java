@@ -239,9 +239,7 @@ public class TestSkillDBManager {
         try{
             insertValueIntoSkill();
             controlsDBManager.insertIntoTableControls("N", "A", "B", "R", "T");
-            assertThrows(SkillCtrlAlreadyUsedByMovementControlException.class, ()->{
-                skillDBManager.insertIntoTableSkill(nameSkill2, "T", nameCharacter, animateMvt, animateAction, isMode);
-            });
+            assertThrows(SkillCtrlAlreadyUsedByMovementControlException.class, ()-> skillDBManager.insertIntoTableSkill(nameSkill2, "T", nameCharacter, animateMvt, animateAction, isMode));
         }catch(Exception exception){
             fail();
         }
