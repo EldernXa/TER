@@ -274,9 +274,21 @@ public class SkillDBManager {
      * @param nameSkill the name of the skill we want to change.
      * @param newCtrlKey the new control key we want to put for the character and this skill.
      */
-    public void modifyCtrlOfACharacter(String nameCharacter, String nameSkill, String newCtrlKey){
+    public void modifyCtrlOfACharacter(String nameCharacter, String nameSkill, String newCtrlKey) throws SkillCtrlAlreadyUsedException {
         // TODO verify ctrl key not already used by movement.
-        // TODO verify ctrl key not already used by an another skill from the same character.
+        // TODO add test
+
+        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+        try{
+            while(resultSet.next()){
+                if(resultSet.getString(NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL).compareTo(SecureManage.getEncrypted(newCtrlKey))==0){
+                    throw new SkillCtrlAlreadyUsedException(nameCharacter, newCtrlKey);
+                }
+            }
+        }catch(SQLException ignored){
+
+        }
+
         String request = "UPDATE Skill " +
                 "SET " +
                 "ctrlKey = '" + SecureManage.getEncrypted(newCtrlKey) + "'" +

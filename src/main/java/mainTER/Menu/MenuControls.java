@@ -12,6 +12,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import mainTER.DBManage.ControlsDBManager;
 import mainTER.DBManage.SkillDBManager;
+import mainTER.exception.SkillCtrlAlreadyUsedException;
 import mainTER.exception.SkillDataGetException;
 
 import java.sql.SQLException;
@@ -195,8 +196,13 @@ public class MenuControls {
                             if(correctChar){
                                 labelTitre.setText("Caractère non correct.");
                             }else{
-                                skillDBManager.modifyCtrlOfACharacter(nameCharacter, labelNameSkill.getText(), control);
-                                labelTitre.setText("");
+                                try {
+                                    skillDBManager.modifyCtrlOfACharacter(nameCharacter, labelNameSkill.getText(), control);
+                                    labelTitre.setText("");
+                                }catch(SkillCtrlAlreadyUsedException skillCtrlAlreadyUsedException){
+                                    labelTitre.setText("Ce caractère est déjà utilisé par le même personnage.");
+                                    buttonCtrlKey.setText(text);
+                                }
                             }
                             buttonCtrlKey.setOnKeyPressed(null);
                         }
