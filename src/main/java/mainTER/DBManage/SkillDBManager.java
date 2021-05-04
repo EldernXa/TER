@@ -343,6 +343,11 @@ public class SkillDBManager {
         return nb;
     }
 
+    /**
+     * Get number of passive skill of a character.
+     * @param nameCharacter the name of the character we want to get the number of passive skill.
+     * @return the number of passive skill of a character.
+     */
     public int getNumberSkillPassiveOfACharacter(String nameCharacter){
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
 
@@ -359,6 +364,11 @@ public class SkillDBManager {
         return nb;
     }
 
+    /**
+     * Get number of active skill of a character.
+     * @param nameCharacter the name of the character we want to get the number of active skill.
+     * @return the number of active skill of a character.
+     */
     public int getNumberSkillActiveOfACharacter(String nameCharacter){
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
 
