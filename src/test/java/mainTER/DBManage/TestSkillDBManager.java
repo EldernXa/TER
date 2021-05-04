@@ -245,6 +245,19 @@ public class TestSkillDBManager {
         }
     }
 
+    @Test
+    public void testModifyWithASameCtrlThanControlMovementThrowException(){
+        try{
+            insertValueIntoSkill();
+            controlsDBManager.insertIntoTableControls("N", "A", "B", "R", "T");
+            skillDBManager.insertIntoTableSkill(nameSkill2, ctrlKey2, nameCharacter, animateMvt, animateAction, isMode);
+            assertThrows(SkillCtrlAlreadyUsedByMovementControlException.class, ()->
+                    skillDBManager.modifyCtrlOfACharacter(nameCharacter, nameSkill2, "A"));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
     private void insertValueIntoSkill() throws SkillAlreadyExistException, SkillCtrlAlreadyUsedException, SkillDataNotCorrectException, SkillCtrlAlreadyUsedByMovementControlException {
         skillDBManager.createTableSkill();
         skillDBManager.insertIntoTableSkill(nameSkill1, ctrlKey1, nameCharacter, animateMvt, animateAction, isMode);

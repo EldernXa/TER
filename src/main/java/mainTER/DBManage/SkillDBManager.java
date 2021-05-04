@@ -304,8 +304,10 @@ public class SkillDBManager {
      * @param nameSkill the name of the skill we want to change.
      * @param newCtrlKey the new control key we want to put for the character and this skill.
      */
-    public void modifyCtrlOfACharacter(String nameCharacter, String nameSkill, String newCtrlKey) throws SkillCtrlAlreadyUsedException {
-        // TODO verify ctrl key not already used by movement.
+    public void modifyCtrlOfACharacter(String nameCharacter, String nameSkill, String newCtrlKey) throws SkillCtrlAlreadyUsedException,
+            SkillCtrlAlreadyUsedByMovementControlException{
+
+        verifyCtrlNotUsedByControlMovement(newCtrlKey);
 
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{

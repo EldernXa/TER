@@ -12,6 +12,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import mainTER.DBManage.ControlsDBManager;
 import mainTER.DBManage.SkillDBManager;
+import mainTER.exception.SkillCtrlAlreadyUsedByMovementControlException;
 import mainTER.exception.SkillCtrlAlreadyUsedException;
 import mainTER.exception.SkillDataGetException;
 
@@ -201,6 +202,9 @@ public class MenuControls {
                                     labelTitre.setText("");
                                 }catch(SkillCtrlAlreadyUsedException skillCtrlAlreadyUsedException){
                                     labelTitre.setText("Ce caractère est déjà utilisé par le même personnage.");
+                                    buttonCtrlKey.setText(text);
+                                }catch(SkillCtrlAlreadyUsedByMovementControlException skillCtrlAlreadyUsedByMovementControlException){
+                                    labelTitre.setText("Ce caractère est déjà utilisée par les mouvements basique du personnage.");
                                     buttonCtrlKey.setText(text);
                                 }
                             }
