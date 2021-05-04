@@ -110,7 +110,7 @@ public class MenuItem extends StackPane {
                 break;
                 case "Level 2 - Castle": {
                     for(String nameCharacter : listName){
-                        listCharacter.add(new Character(nameCharacter, new Coordinate(1985, 2200)));
+                        listCharacter.add(new Character(nameCharacter, new Coordinate(1985, 20)));
                     }
                    createLvl("Castle");
                 }break;
