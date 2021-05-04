@@ -8,15 +8,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.transform.Scale;
+import javafx.stage.Screen;
 import javafx.util.Duration;
 import mainTER.DBManage.ControlsDBManager;
 import mainTER.MapPackage.CollideObject;
 import mainTER.MapPackage.CommingFrom;
+import mainTER.MapPackage.SwitchCharacter;
 import mainTER.Tools.CharacterMovementAndDisplayManagement;
 import mainTER.Tools.Coordinate;
 import mainTER.exception.ControlsDataGetException;
 
-import javax.swing.plaf.multi.MultiViewportUI;
 import java.util.ArrayList;
 
 
@@ -39,20 +42,37 @@ public class DisplayCharacter extends CollideObject {
     private  String right;
     private  String left;
     private  String jump;
+    private Camera camera;
     /**
      *
      * @param scene scene of the game.
      * @param pane is the level of the game.
      * @param character is the character we will display.
      */
+    public DisplayCharacter(Scene scene, Pane pane, Character character, ArrayList<Character> listCharacter, StackPane stackPane, ImageView background){
+        this(scene, pane, character);
+        SwitchCharacter switchCharacter = new SwitchCharacter(listCharacter,this);
+        double height = Screen.getPrimary().getBounds().getHeight();
+        double h = 1;
+        if(height>background.getImage().getHeight()){
+            h = height/background.getImage().getHeight();
+            Scale scale = new Scale(h, h, 0, 0);
+            scene.getRoot().getTransforms().add(scale);
+        }
+        stackPane.getChildren().add(switchCharacter);
+        camera = new Camera(scene, this, switchCharacter, listCharacter, h, background);
+        characterMovementAndDisplayManagement.setCamera(camera);
+    }
+
     public DisplayCharacter(Scene scene, Pane pane, Character character){
         this.lvlOfTheGame = scene;
         listCurrentKeyCode = new ArrayList<>();
-        characterMovementAndDisplayManagement = new CharacterMovementAndDisplayManagement(pane);
+        characterMovementAndDisplayManagement = new CharacterMovementAndDisplayManagement(pane, null);
         this.character = character;
         currentCoordinateOfTheCharacter = new Coordinate(character.getInitialCoordinate().getX(), character.getInitialCoordinate().getY());
         animationForTheCharacter = new AnimationCharacter(character);
         ControlsDBManager controlsDBManager = new ControlsDBManager();
+        camera = null;
 
         left = "";
         right = "";
@@ -64,7 +84,6 @@ public class DisplayCharacter extends CollideObject {
         } catch (ControlsDataGetException e) {
             e.printStackTrace();
         }
-
     }
 
     public void startDisplay(){

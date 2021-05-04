@@ -18,7 +18,7 @@ import java.util.Objects;
 public class TestCharacterMovementAndDisplayManagement {
 
     private final Pane pane = new Pane();
-    private final CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement = new CharacterMovementAndDisplayManagement(pane);
+    private final CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement = new CharacterMovementAndDisplayManagement(pane, null);
     private ImageView imgView;
     private final double xCoordinate = 15;
     private final double yCoordinate = 25;

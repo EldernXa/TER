@@ -2,16 +2,23 @@ package mainTER.Tools;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import mainTER.CharacterGameplay.Camera;
 
 public class CharacterMovementAndDisplayManagement {
 
     private final Pane pane;
     private ImageView imgView;
     private static final double MULTIPLY_X = 1/2.6;
+    private Camera camera;
 
 
-    public CharacterMovementAndDisplayManagement(Pane pane){
+    public CharacterMovementAndDisplayManagement(Pane pane, Camera camera){
         this.pane = pane;
+        this.camera = camera;
+    }
+
+    public void setCamera(Camera camera){
+        this.camera = camera;
     }
 
     public void displayNode(ImageView imgView, double x, double y){
@@ -20,6 +27,9 @@ public class CharacterMovementAndDisplayManagement {
         imgView.setX(calculateRightPosition(new Coordinate(x,y)).getX());
         imgView.setY(calculateRightPosition(new Coordinate(x,y)).getY());
         pane.getChildren().add(imgView);
+        if(camera!=null)
+            camera.moveOnlyCamera();
+
     }
 
     public Coordinate getCoordinateOfTheActualImg(){

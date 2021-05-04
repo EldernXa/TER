@@ -61,8 +61,13 @@ public class Camera {
         moveCamera();
     }
 
+    public void moveOnlyCamera(){
+        coordCamera();
+    }
 
-    void moveCamera() {
+
+
+    private void moveCamera() {
 
         initTranslateCamera();
 
@@ -70,13 +75,7 @@ public class Camera {
 
             String event = event2.getCode().getChar().toLowerCase();
 
-            if (event.equals(right)) {
-                coordCamera();
-            } else if (event.equals(left)) {
-                if (camera.getTranslateX() > 1) {
-                    coordCamera();
-                }
-            } else if (event.equals(switchUp)) {
+             if (event.equals(switchUp)) {
                 int k = 0;
                 for (int i = 0; i < listCharacter.size(); i++) {
                     if (listCharacter.get(i) == displayCharacter.getCharacter()) {

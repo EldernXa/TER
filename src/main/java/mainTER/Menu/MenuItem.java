@@ -247,19 +247,10 @@ public class MenuItem extends StackPane {
         stage.setResizable(false);
         stage.sizeToScene();
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0));
+        DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0), listCharacter, stackPane, background);
         displayCharacter.startDisplay();
-        SwitchCharacter sc = new SwitchCharacter(listCharacter,displayCharacter);
         //Make the scene scale if the screen is larger
-        double height = Screen.getPrimary().getBounds().getHeight();
-        double h = 1;
-        if(height>background.getImage().getHeight()){
-            h = height/background.getImage().getHeight();
-            Scale scale = new Scale(h, h, 0, 0);
-            scene.getRoot().getTransforms().add(scale);
-        }
-        stackPane.getChildren().add(sc);
-        new Camera(scene,displayCharacter,sc,listCharacter,h,background);
+
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
