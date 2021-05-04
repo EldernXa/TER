@@ -57,7 +57,6 @@ public class GameServer implements Runnable{
 
                 listOfPlayersID.add(numPlayers);
                 dos.writeInt(numPlayers);
-                System.out.println("on écrit l'id");
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(dos);
                 oosList.add(objectOutputStream);
                 ReadFromClient rfc =new ReadFromClient(numPlayers,dis);
@@ -78,9 +77,7 @@ public class GameServer implements Runnable{
 
                     System.out.println("Le Serveur a reçu "+o);
                     wtc1.sendStartMsg();
-                    System.out.println("on envoie le premier message start");
                     wtc2.sendStartMsg();
-                    System.out.println("on envoie le second message start");
 
                     Thread readThread1 = new Thread(rfc1);
                     Thread readThread2 = new Thread(rfc2);
@@ -143,7 +140,6 @@ public class GameServer implements Runnable{
             this.playerID = pid;
             this.dis = dataIn;
 
-            System.out.println("read from client create");
 
         }
 
@@ -186,7 +182,6 @@ public class GameServer implements Runnable{
             this.playerID = pid;
             this.dos = dataOut;
 
-            System.out.println("Client thread create");
 
         }
 
@@ -194,7 +189,6 @@ public class GameServer implements Runnable{
         @Override
         public void run() {
             try{
-                System.out.println("on écrit les coord");
                 while (true){
                     if(playerID == 1){
                         dos.writeDouble(p2x);
@@ -224,7 +218,6 @@ public class GameServer implements Runnable{
 
 
         public void sendStartMsg(){
-            System.out.println("on écrit le message de start");
             try{
                 String a = "c'est parti";
 

@@ -10,32 +10,35 @@ import java.util.Iterator;
 public class Map {
 
     private final MapFileReader mapFileReader;
-    private final Pane pane;
+    private Pane pane = new Pane();
     private ImageView backgroundImage;
     private String fileName;
 
 
     public Map( Pane pane,String fileName) {
 
-        this.pane = pane;
+
         String url = "./src/main/resources/mainTER/MapPackage/Files/";
         this.fileName = fileName;
 
         this.backgroundImage = new ImageView(new Image(new File("src/main/resources/mainTER/MapPackage/Sprites/Back/Background"+fileName +".png").toURI().toString()));
 
 
-        System.out.println(backgroundImage.getImage().getUrl());
-        System.out.println(backgroundImage.getImage().getHeight());
-
-        pane.setBackground( new Background(new BackgroundImage(backgroundImage.getImage(),BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT, new BackgroundSize(backgroundImage.getImage().getWidth(),
-                backgroundImage.getImage().getHeight(),false,false,false,false))));
 
 
         mapFileReader = new MapFileReader(url , fileName);
+
+
+    }
+    public void displayMap(Pane pane){
+        this.pane = pane;
+        pane.setBackground( new Background(new BackgroundImage(backgroundImage.getImage(),BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT, new BackgroundSize(backgroundImage.getImage().getWidth(),
+                backgroundImage.getImage().getHeight(),false,false,false,false))));
         addCollisionObjectNetwork();
 
     }
+
 
     public MapFileReader getReadFileMap() {
         return mapFileReader;
@@ -43,6 +46,7 @@ public class Map {
 
     public void addCollisionObject(){
         for (CollideObject collideObject : this.getReadFileMap().getCollisionObjectArrayList()){
+
             pane.getChildren().add(collideObject.getAppropriateNode());
         }
     }
@@ -56,6 +60,12 @@ public class Map {
             pane.getChildren().add(collideObject.getAppropriateNode());
         }
 
+    }
+
+    public void clearColissionObjectNetwork(){
+        for (CollideObject collideObject : this.getReadFileMap().getCollisionObjectArrayList()){
+            pane.getChildren().remove(collideObject.getAppropriateNode());
+        }
     }
 
     public Pane getPane() {

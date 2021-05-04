@@ -62,7 +62,7 @@ public class Player {
     VBox vboxPerso = new VBox(10);
     Pane pane1 = new Pane();
     Scene scene1 = new Scene(pane1);
-    ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/Background-1.png").toURI().toString()));
+    ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/BackgroundForest.png").toURI().toString()));
     double backtroundHeight = background.getImage().getHeight();
 
 
@@ -85,7 +85,7 @@ public class Player {
             button.setTranslateX(60);
 
 
-
+            map = new Map(pane1,"Forest");
 
             pane.getChildren().add(button);
             pane.getChildren().add(vBox);
@@ -98,15 +98,17 @@ public class Player {
             StackPane stackPane = new StackPane();
             stackPane.getChildren().add(pane1);
 
-            scene1 = new Scene(stackPane, background.getImage().getWidth(), backtroundHeight);
+            scene1 = new Scene(stackPane, map.getBackgroundImage().getImage().getWidth(), backtroundHeight);
 
             if (playerID == 1) {
                 button.setDisable(true);
                 System.out.println("Waiting for player 2");
                 me = new DisplayCharacter(scene1, pane1, listCharacter.get(0));
+                System.out.println(me.getCharacter().getName());
                 friend = new DisplayCharacter(scene1, pane1,listCharacter.get(2));
             } else {
                 me = new DisplayCharacter(scene1, pane1, listCharacter.get(2));
+                System.out.println(me.getCharacter().getName());
                 friend = new DisplayCharacter(scene1, pane1,listCharacter.get(0));
                 button.setDisable(true);
             }
@@ -265,14 +267,14 @@ public class Player {
                     Scale scale = new Scale(h, h, 0, 0);
                     scene1.getRoot().getTransforms().add(scale);
 
-/*                    mainStage.setHeight(Screen.getPrimary().getBounds().getHeight());
+/*                  mainStage.setHeight(Screen.getPrimary().getBounds().getHeight());
                     mainStage.setWidth(5548);*/
                     stage.setFullScreen(true);
                     //mainStage.setMaximized(true);
                     stage.setResizable(false);
                     stage.sizeToScene();
 
-                    map = new Map( pane1, "forest");
+                    map.displayMap(pane1);
                     me.startDisplay();
                     friend.startDisplayFriend();
 
@@ -287,6 +289,7 @@ public class Player {
                     stage.centerOnScreen();
 
                     stage.setScene(scene1);
+
 
                 });
 

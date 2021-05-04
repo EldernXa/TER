@@ -67,7 +67,9 @@ public class MenuItem extends StackPane {
         PersonDBManager personDBManager = new PersonDBManager();
         listCharacter = new ArrayList<>();
         this.listName = personDBManager.getListNameFromDatabase();
+
         setUpMouse(stage, name);
+
 
 
 
@@ -137,7 +139,9 @@ public class MenuItem extends StackPane {
                     break;
                 }
                 case "CREER": {
-
+                    for(String nameCharacter : listName){
+                        listCharacter.add(new Character(nameCharacter, new Coordinate(1200, 630)));
+                    }
                     Stage newStage = new Stage();
                     Pane pane = new Pane();
                     Scene sceneServ = new Scene(pane, Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
@@ -150,13 +154,16 @@ public class MenuItem extends StackPane {
                     Thread t = new Thread(gs);
                     t.start();
                     Player p = new Player();
-                    p.connectToServer(stage,sceneServ,pane,listCharacter);
+                    p.connectToServer(newStage,sceneServ,pane,listCharacter);
                     newStage.show();
                     newStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
                     break;
 
                 }
                 case "REJOINDRE": {
+                    for(String nameCharacter : listName){
+                        listCharacter.add(new Character(nameCharacter, new Coordinate(1200, 630)));
+                    }
                     Stage newStage = new Stage();
                     Pane pane = new Pane();
                     Scene sceneCli = new Scene(pane, Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
@@ -164,7 +171,7 @@ public class MenuItem extends StackPane {
                     newStage.setScene(sceneCli);
 
                     Player p = new Player();
-                    p.connectToServer(stage,sceneCli,pane,listCharacter);
+                    p.connectToServer(newStage,sceneCli,pane,listCharacter);
                     newStage.show();
                     break;
                 }
@@ -224,6 +231,7 @@ public class MenuItem extends StackPane {
         Pane pane = new Pane();
         stackPane.getChildren().add(pane);
         Map map =  new Map(pane,mapName);
+        map.displayMap(pane);
         ImageView background = map.getBackgroundImage();
 
 
