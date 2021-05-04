@@ -74,7 +74,7 @@ public class SkillDBManager {
 
     /**
      * Get the name of a skill with the name of the character and the skill number.
-     * @param nameCharacter the name of the character
+     * @param nameCharacter the name of the character.
      * @param numSkill the skill number we want to get the name.
      * @return the name of a skill thanks to the name of the character and the skill number.
      * @throws SkillDataGetException when the skill asked doesn't exist.
@@ -83,6 +83,14 @@ public class SkillDBManager {
         return gettingData(nameCharacter, numSkill, NAME_ATTRIBUTE_FOR_NAME_SKILL);
     }
 
+    /**
+     * Private function who permit to getting a data thanks to the name of a character and the skill number.
+     * @param nameCharacter the name of the character.
+     * @param numSkill the skill number we want to get the name.
+     * @param valueToGet the data we want to get.
+     * @return the data we want thanks to the name of the character, the skill number and the name of the data we want.
+     * @throws SkillDataGetException when the skill asked doesn't exist.
+     */
     private String gettingData(String nameCharacter, int numSkill, String valueToGet) throws SkillDataGetException{
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{
@@ -238,6 +246,11 @@ public class SkillDBManager {
         dbManager.createTableOrInsert(reqValues);
     }
 
+    /**
+     * Get a list who contains all Control key for skill of a character.
+     * @param nameCharacter the name of the character we want to get all the control key.
+     * @return a list who contains all control key for skill of a character.
+     */
     public List<String> getCtrlKeyOfACharacter(String nameCharacter){
         ArrayList<String> listCtrlKeyOfACharacter = new ArrayList<>();
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
@@ -255,7 +268,15 @@ public class SkillDBManager {
         return listCtrlKeyOfACharacter;
     }
 
+    /**
+     * Modify a control key for a skill of a character.
+     * @param nameCharacter the name of the character we want to modify the skill.
+     * @param nameSkill the name of the skill we want to change.
+     * @param newCtrlKey the new control key we want to put for the character and this skill.
+     */
     public void modifyCtrlOfACharacter(String nameCharacter, String nameSkill, String newCtrlKey){
+        // TODO verify ctrl key not already used by movement.
+        // TODO verify ctrl key not already used by an another skill from the same character.
         String request = "UPDATE Skill " +
                 "SET " +
                 "ctrlKey = '" + SecureManage.getEncrypted(newCtrlKey) + "'" +
