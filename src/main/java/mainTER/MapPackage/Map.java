@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Map {
@@ -52,10 +53,11 @@ public class Map {
     }
 
     public void addCollisionObjectNetwork(){
+        ArrayList<ObjectLinker> objectLinkers = new ArrayList<>();
         Iterator<CollideObject> list = this.getReadFileMap().getCollisionObjectArrayList().iterator();
         while (list.hasNext()) {
             CollideObject collideObject = list.next();
-
+            objectLinkers.add(new ObjectLinker(collideObject, collideObject.clone()));
 
             pane.getChildren().add(collideObject.getAppropriateNode());
         }

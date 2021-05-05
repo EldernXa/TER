@@ -31,7 +31,7 @@ public class Crate extends InteractiveObject { //TODO make it a CollideObject no
     }
 
     @Override
-    public CollideObject clone() {
+    public Crate clone() {
         return new Crate(new Coordinate(this.getX(),this.getY()));
     }
 

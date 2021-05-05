@@ -89,7 +89,7 @@ public class MapFieldFromSprite extends MapFieldForm {
     }
 
     @Override
-    public CollideObject clone() {
+    public MapFieldFromSprite clone() {
         return new MapFieldFromSprite(this.getPathName(),this.getSpriteName(),new Coordinate(this.getX(),this.getY()),this.getPercent());
     }
 

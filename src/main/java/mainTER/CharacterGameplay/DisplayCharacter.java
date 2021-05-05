@@ -434,7 +434,7 @@ public class DisplayCharacter extends CollideObject {
     }
 
     @Override
-    public CollideObject clone() {
+    public DisplayCharacter clone() {
         return null;
     }
 

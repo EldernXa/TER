@@ -110,7 +110,7 @@ public class MapFieldFromLilPict extends MapFieldForm {
      * @return Pane
      */
     @Override
-    public CollideObject clone() {
+    public MapFieldFromLilPict clone() {
         return new MapFieldFromLilPict(this.getPathName(),this.getSpriteName(),new Coordinate(this.getX(),this.getY()),this.getWidth(),this.getHeight());
     }
 

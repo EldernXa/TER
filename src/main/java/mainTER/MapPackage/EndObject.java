@@ -47,7 +47,7 @@ public class EndObject extends InteractiveObject {
     }
 
     @Override
-    public CollideObject clone() {
+    public EndObject clone() {
         return new EndObject(new Coordinate(this.getX(),this.getY()));
     }
 

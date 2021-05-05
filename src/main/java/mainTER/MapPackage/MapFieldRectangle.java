@@ -51,7 +51,7 @@ public class MapFieldRectangle extends MapFieldForm {
     }
 
     @Override
-    public CollideObject clone() {
+    public MapFieldRectangle clone() {
         return new MapFieldRectangle(new Coordinate(this.getX(),this.getY()),this.getWidth(),this.getHeight());
     }
 

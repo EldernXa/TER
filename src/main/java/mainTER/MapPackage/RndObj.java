@@ -78,7 +78,7 @@ public class RndObj extends CollideObject {
     }
 
     @Override
-    public CollideObject clone() {
+    public RndObj clone() {
         return new RndObj(this.getPathName(),this.getRndObjName(),new Coordinate(this.getX(),this.getY()));
     }
 
