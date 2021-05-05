@@ -13,12 +13,16 @@ public class MapFieldFromSprite extends MapFieldForm {
     private final ImageViewSizePos imageViewSizePos;
     private final String path;
     private final double percent;
+    private String pathName;
+    private String spriteName;
 
 
 
     public MapFieldFromSprite(String pathName,String spriteName, Coordinate coordinate, double percent) {
 
         super(coordinate, 0, 0);
+        this.pathName = pathName;
+        this.spriteName = spriteName;
         this.path = "./src/main/resources/mainTER/MapPackage/Sprites/Front/"+pathName+"/" + spriteName + ".png";
         this.percent = percent;
         imageViewSizePos = new ImageViewSizePos(this.path,coordinate);
@@ -46,6 +50,13 @@ public class MapFieldFromSprite extends MapFieldForm {
         return percent;
     }
 
+    public String getPathName() {
+        return pathName;
+    }
+
+    public String getSpriteName() {
+        return spriteName;
+    }
 
     @Override
     public double getWidth() {
@@ -78,8 +89,8 @@ public class MapFieldFromSprite extends MapFieldForm {
     }
 
     @Override
-    public Node clone() {
-        return new ImageView(imageViewSizePos.getImageView().getImage());
+    public CollideObject clone() {
+        return new MapFieldFromSprite(this.getPathName(),this.getSpriteName(),new Coordinate(this.getX(),this.getY()),this.getPercent());
     }
 
     @Override

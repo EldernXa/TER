@@ -16,7 +16,7 @@ public abstract class CollideObject {
      * Create a new Node that corresponds to the appearance of the object
      * @return Node
      */
-    public abstract Node clone();
+    public abstract CollideObject clone();
 
     public abstract double getHMouvementSpan();
 

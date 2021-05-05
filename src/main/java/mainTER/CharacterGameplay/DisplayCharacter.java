@@ -434,8 +434,8 @@ public class DisplayCharacter extends CollideObject {
     }
 
     @Override
-    public Node clone() {
-        return new ImageView(animationForTheCharacter.actualImg().getImage());
+    public CollideObject clone() {
+        return null;
     }
 
     @Override

@@ -16,8 +16,8 @@ public class Lever extends InteractiveObject{
     }
 
     @Override
-    public Node clone() {
-        return null;
+    public CollideObject clone() {
+        return new Lever(new Coordinate(this.getX(),this.getY()));
     }
 
     @Override

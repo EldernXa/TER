@@ -9,6 +9,7 @@ public class RndObj extends CollideObject {
     private ImageViewSizePos imageViewSizePos;
     private String rndObjName;
     private Coordinate coordinate;
+    private String pathName;
 
 
 
@@ -16,6 +17,7 @@ public class RndObj extends CollideObject {
 
         this.rndObjName = rndObjName;
         this.coordinate = coordinate;
+        this.pathName = pathName;
 
         imageViewSizePos = new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Sprites/Front/" +pathName+"/" + rndObjName + ".png",coordinate);
         imageViewSizePos.getImageView().setFitHeight(imageViewSizePos.getImageView().getImage().getHeight());
@@ -25,6 +27,14 @@ public class RndObj extends CollideObject {
 
     public ImageViewSizePos getImageViewSizePos() {
         return imageViewSizePos;
+    }
+
+    public String getPathName() {
+        return pathName;
+    }
+
+    public String getRndObjName() {
+        return rndObjName;
     }
 
     @Override
@@ -68,8 +78,8 @@ public class RndObj extends CollideObject {
     }
 
     @Override
-    public Node clone() {
-        return null;
+    public CollideObject clone() {
+        return new RndObj(this.getPathName(),this.getRndObjName(),new Coordinate(this.getX(),this.getY()));
     }
 
     @Override

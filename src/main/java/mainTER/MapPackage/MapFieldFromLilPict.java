@@ -18,6 +18,8 @@ public class MapFieldFromLilPict extends MapFieldForm {
 
     private final String path;
     private final Pane pane;
+    private String pathName;
+    private String spriteName;
 
     /**
      *
@@ -29,6 +31,8 @@ public class MapFieldFromLilPict extends MapFieldForm {
     public MapFieldFromLilPict(String pathName, String spriteName, Coordinate coordinate, double width, double height) {
 
         super(coordinate, width, height);
+        this.pathName = pathName;
+        this.spriteName = spriteName;
         this.path = "./src/main/resources/mainTER/MapPackage/Sprites/Front/" + pathName+ "/" + spriteName + ".png";
         Image image = new Image(new File(this.path).toURI().toString());
         pane = new Pane();
@@ -38,11 +42,6 @@ public class MapFieldFromLilPict extends MapFieldForm {
         pane.setBackground(new Background((new BackgroundImage(image, BackgroundRepeat.REPEAT,
                 BackgroundRepeat.REPEAT,BackgroundPosition.CENTER, new BackgroundSize(image.getWidth(),
                 image.getHeight(),false,false,false,false)))));
-
-
-
-
-
     }
 
     public Pane getPane() {
@@ -51,6 +50,14 @@ public class MapFieldFromLilPict extends MapFieldForm {
 
     public String getPath() {
         return this.path;
+    }
+
+    public String getPathName() {
+        return pathName;
+    }
+
+    public String getSpriteName() {
+        return spriteName;
     }
 
     /**
@@ -103,12 +110,8 @@ public class MapFieldFromLilPict extends MapFieldForm {
      * @return Pane
      */
     @Override
-    public Node clone() {
-        Pane pane = new Pane();
-        for(Node node : this.pane.getChildren()){
-            pane.getChildren().add(node);
-        }
-        return pane;
+    public CollideObject clone() {
+        return new MapFieldFromLilPict(this.getPathName(),this.getSpriteName(),new Coordinate(this.getX(),this.getY()),this.getWidth(),this.getHeight());
     }
 
     @Override

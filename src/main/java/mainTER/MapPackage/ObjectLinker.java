@@ -36,7 +36,7 @@ public class ObjectLinker extends CollideObject{
     }
 
     @Override
-    public Node clone() {
+    public CollideObject clone() {
         return null;
     }
 

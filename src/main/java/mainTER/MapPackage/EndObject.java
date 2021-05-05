@@ -47,11 +47,8 @@ public class EndObject extends InteractiveObject {
     }
 
     @Override
-    public Node clone() {
-        ImageView imageView = new ImageView(super.getImageView().getImage());
-        imageView.setLayoutX(super.getImageView().getLayoutX());
-        imageView.setLayoutY(super.getImageView().getLayoutY());
-        return imageView;
+    public CollideObject clone() {
+        return new EndObject(new Coordinate(this.getX(),this.getY()));
     }
 
     @Override

@@ -31,11 +31,8 @@ public class Crate extends InteractiveObject { //TODO make it a CollideObject no
     }
 
     @Override
-    public Node clone() {
-        ImageView imageView = new ImageView(super.getImageView().getImage());
-        imageView.setLayoutX(super.getImageView().getLayoutX());
-        imageView.setLayoutY(super.getImageView().getLayoutY());
-        return imageView;
+    public CollideObject clone() {
+        return new Crate(new Coordinate(this.getX(),this.getY()));
     }
 
     @Override
