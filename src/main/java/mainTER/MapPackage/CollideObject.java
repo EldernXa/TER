@@ -86,7 +86,6 @@ public abstract class CollideObject {
 
                     for(ObjectLinker objectLinker : Map.objectLinkers) {
                         if (objectLinker.getCollideObject1().equals(collideObject2)) {
-                            objectLinker.collideObject1.interaction(this);
                             objectLinker.collideObject2.setX(collideObject2.getX());
                             objectLinker.collideObject2.setY(collideObject2.getY());
 
@@ -124,7 +123,6 @@ public abstract class CollideObject {
 
                     for(ObjectLinker objectLinker : Map.objectLinkers){
                         if(objectLinker.getCollideObject1().equals(collideObject2)){
-                            objectLinker.collideObject1.interaction(this);
                             objectLinker.collideObject2.setX(collideObject2.getX());
                             objectLinker.collideObject2.setY(collideObject2.getY());
 
@@ -165,7 +163,6 @@ public abstract class CollideObject {
 
                     for(ObjectLinker objectLinker : Map.objectLinkers){
                         if(objectLinker.getCollideObject1().equals(collideObject2)){
-                            objectLinker.collideObject1.interaction(this);
                             objectLinker.collideObject2.setX(collideObject2.getX());
                             objectLinker.collideObject2.setY(collideObject2.getY());
 
@@ -199,7 +196,6 @@ public abstract class CollideObject {
 
                     for(ObjectLinker objectLinker : Map.objectLinkers){
                         if(objectLinker.getCollideObject1().equals(collideObject2)){
-                            objectLinker.collideObject1.interaction(this);
                             objectLinker.collideObject2.setX(collideObject2.getX());
                             objectLinker.collideObject2.setY(collideObject2.getY());
 
