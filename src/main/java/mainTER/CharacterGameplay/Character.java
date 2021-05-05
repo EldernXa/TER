@@ -34,7 +34,7 @@ public class Character {
         this.name = name;
         this.initialCoordinate = coordinate;
         characteristics = initCharacterWithDatabase();
-        this.logo = new ImageViewSizePos(Objects.requireNonNull(this.getClass().getResource("/mainTER/CharacterGameplay/Logo/" + name + ".png")).getPath(),60,60);
+        this.logo = new ImageViewSizePos(Objects.requireNonNull(this.getClass().getResource("/mainTER/CharacterGameplay/Logo/" + name + ".png")).getPath(),new Coordinate(0,0));
 
         initListAnimate();
         initListSkill();
