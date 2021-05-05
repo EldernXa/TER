@@ -57,8 +57,9 @@ public class Map {
         Iterator<CollideObject> list = this.getReadFileMap().getCollisionObjectArrayList().iterator();
         while (list.hasNext()) {
             CollideObject collideObject = list.next();
-            objectLinkers.add(new ObjectLinker(collideObject, collideObject.clone()));
-
+            CollideObject collideObject2 = collideObject.clone();
+            objectLinkers.add(new ObjectLinker(collideObject, collideObject2));
+            //TODO Add second pane for the clones
             pane.getChildren().add(collideObject.getAppropriateNode());
         }
 
