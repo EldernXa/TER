@@ -62,7 +62,7 @@ public class GameServer implements Runnable{
                 ReadFromClient rfc =new ReadFromClient(numPlayers,dis);
                 WriteToClient wtc = new WriteToClient(numPlayers,dos);
 
-                System.out.println("on envoie  la list de joueurs");
+
                 sendToAll(listOfPlayersID);
                 if(numPlayers == 1 ){
                     player1 = s;
@@ -73,9 +73,16 @@ public class GameServer implements Runnable{
                     player2 = s;
                     rfc2 = rfc;
                     wtc2 = wtc;
+
+                    String name1 = rfc1.dis.readUTF();
+                    wtc2.dos.writeUTF(name1);
+                    String name2 = rfc2.dis.readUTF();
+                    wtc1.dos.writeUTF(name2);
+                    String map = rfc1.dis.readUTF();
+                    wtc2.dos.writeUTF(map);
+
                     String o = rfc1.dis.readUTF();
 
-                    System.out.println("Le Serveur a reçu "+o);
                     wtc1.sendStartMsg();
                     wtc2.sendStartMsg();
 
@@ -237,77 +244,5 @@ public class GameServer implements Runnable{
         }
 
     }
-
-
-/*
-    private class ServerSideConnection {
-
-        private Socket socket;
-        private DataInputStream dis;
-        private DataOutputStream dos;
-        ObjectOutputStream oos;
-        private int playerID;
-        private ArrayList<Integer> playersId = new ArrayList<>();
-
-
-        public ServerSideConnection(Socket s, int id){
-            socket = s;
-            playerID = id;
-            try{
-                dis = new DataInputStream(socket.getInputStream());
-                dos = new DataOutputStream(socket.getOutputStream());
-                oos = new ObjectOutputStream(dos);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            Thread send = new Thread(() -> {
-                try{
-
-                    dos.writeInt(playerID);
-
-                    for(ServerSideConnection ssc : players){
-                        playersId.add(ssc.getPlayerID());
-                    }
-
-                    System.out.println(playersId);
-                    sendToAll(playersId);
-
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-
-            send.setDaemon(true);
-            send.start();
-
-        }
-
- public void write(Object obj) {
-        try{
-            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            oos.writeObject(obj);
-            oos.reset();
-        }
-        catch(IOException e){ e.printStackTrace(); }
-    }
-
-    public void sendToAll(Object message){
-        for(ServerSide client : listOfPlayers){
-            write(message);
-
-        }
-    }
-
-
-        public int getPlayerID() {
-            return playerID;
-        }
-
-
-    } */
 
 }

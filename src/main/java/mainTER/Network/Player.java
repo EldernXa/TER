@@ -56,8 +56,7 @@ public class Player {
     Scene scene;
     Map map;
     Button button = new Button("cliquer");
-    volatile boolean finito = false;
-    volatile boolean finish = false;
+    volatile static boolean finito = false;
     ArrayList<Character> listCharacter;
     VBox vboxPerso = new VBox(10);
     Pane pane1 = new Pane();
@@ -65,6 +64,15 @@ public class Player {
     ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/BackgroundForest.png").toURI().toString()));
     double backtroundHeight = background.getImage().getHeight();
     StackPane stackPane = new StackPane();
+    volatile String nameOfMe;
+    volatile static String nameOfMap;
+    volatile String nameOfFriend;
+
+    Button forest = new Button("Forest");
+    Button castle = new Button("Castle");
+
+    Button confirmButton = new Button("Confirm character");
+    Button confirmMap = new Button("Confirm Map");
 
 
     public void connectToServer(Stage stage, Scene scene,Pane pane, ArrayList<Character> listCharacter) {
@@ -74,7 +82,6 @@ public class Player {
             socket = new Socket("localhost", 5134);
             DataInputStream dis = new DataInputStream(socket.getInputStream());
             playerID = dis.readInt();
-            System.out.println("on lit l'id");
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
 
             this.pane = pane;
@@ -91,22 +98,14 @@ public class Player {
                 backtroundHeight =  Screen.getPrimary().getBounds().getHeight();
             }
 
-            map = new Map(pane1,"Forest");
+
 
             stackPane.getChildren().add(pane1);
 
-            scene1 = new Scene(stackPane, map.getBackgroundImage().getImage().getWidth(), backtroundHeight);
 
             if (playerID == 1) {
                 button.setDisable(true);
-                System.out.println("Waiting for player 2");
-                me = new DisplayCharacter(scene1, pane1, listCharacter.get(0));
-                System.out.println(me.getCharacter().getName());
-                friend = new DisplayCharacter(scene1, pane1,listCharacter.get(2));
             } else {
-                me = new DisplayCharacter(scene1, pane1, listCharacter.get(2));
-                System.out.println(me.getCharacter().getName());
-                friend = new DisplayCharacter(scene1, pane1,listCharacter.get(0));
                 button.setDisable(true);
             }
             button.setOnMouseClicked(mouseEvent -> {
@@ -114,37 +113,103 @@ public class Player {
                 try {
                     dos.writeUTF("Bonjour");
 
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            confirmMap.setDisable(true);
+            confirmButton.setDisable(true);
+
+            for(Character character : listCharacter){
+                Button b = new Button(character.getName());
+                b.setDisable(true);
+                vboxPerso.getChildren().add(b);
+
+                b.setOnMouseClicked(mouseEvent -> {
+                    if(playerID == 1){
+                        for(Node ba : vboxPerso.getChildren()){
+
+                            ba.setDisable(false);
+                        }
+                    }else {
+                        for(Node ba : vboxPerso.getChildren()){
+                            if(nameOfFriend.contains(((Button)ba).getText())) {
+                                ba.setDisable(true);
+                            }else {
+                                ba.setDisable(false);
+                            }
+                        }
+                    }
+
+                        b.setDisable(true);
+                        nameOfMe = character.getName();
+                        confirmButton.setDisable(false);
+                });
+            }
+            pane.getChildren().add(confirmButton);
+            confirmButton.setTranslateX(300);
+
+            if(playerID == 1){
+                forest.setDisable(true);
+                castle.setDisable(true);
+                VBox vBoxMap = new VBox();
+                forest.setOnMouseClicked(mouseEvent -> {
+                    nameOfMap = "Forest";
+                    forest.setDisable(true);
+                    castle.setDisable(false);
+                    confirmMap.setDisable(false);
+                });
+                castle.setOnMouseClicked(mouseEvent -> {
+                    nameOfMap= "Castle";
+                    castle.setDisable(true);
+                    forest.setDisable(false);
+                    confirmMap.setDisable(false);
+                });
+
+                vBoxMap.getChildren().addAll(forest,castle);
+                vBoxMap.setTranslateX(200);
+                vBoxMap.setTranslateY(200);
+                confirmMap.setTranslateX(300);
+                confirmMap.setTranslateY(200);
+
+                confirmMap.setOnMouseClicked(mouseEvent -> {
+                    confirmMap.setDisable(true);
+
+                    finito = true;
+
+                        try {
+                            dos.writeUTF(nameOfMap);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    castle.setDisable(true);
+                    forest.setDisable(true);
+
+                });
+                pane.getChildren().addAll(confirmMap,vBoxMap);
+            }
+
+            confirmButton.setOnMouseClicked(mouseEvent->{
+                try {
+                    dos.writeUTF(nameOfMe);
+                    dos.flush();
+                    confirmButton.setDisable(true);
+                    for(Node ba : vboxPerso.getChildren()){
+                        ba.setDisable(true);
+                    }
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             });
 
-            /*for(Character character : listCharacter){
-                Button b = new Button(character.getName());
-                vboxPerso.getChildren().add(b);
-                b.setDisable(true);
-                b.setOnMouseClicked(mouseEvent -> {
-                    try {
-                            me = new DisplayCharacter(scene,pane,character,collide);
 
-                            System.out.println("voila mon perso " + me.getCharacter().getName() +" " + playerID);
-
-                        for(Node ba : vboxPerso.getChildren()){
-
-                            ba.setDisable(false);
-                        }
-                        b.setDisable(true);
-                        System.out.println(b.getText());
-                            dos.writeUTF(character.getName());
-                            dos.flush();
+            pane.getChildren().add(vboxPerso);
 
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-            }
-*/
 
 
             listenArrayPlayers(dis);
@@ -159,40 +224,46 @@ public class Player {
             e.printStackTrace();
         }
     }
-/*
+
     public void readForCharacter(DataInputStream dis){
         Thread t = new Thread(()->{
 
-            while (!finish){
+
                 try {
 
+                    dis.read();
                     String name = dis.readUTF();
-                    System.out.println(name + "" + playerID);
-                    for(Node node :vboxPerso.getChildren()){
-                        if(name.contains(((Button)node).getText())){
-                            node.setDisable(true);
-                        }else {
-                            //if(me.getCharacter().getName() !=((Button)node).getText())
+
+                    nameOfFriend = name;
+
+                    System.out.println(name + "   -----" + playerID);
+
+                    if (playerID == 2){
+
+                        for(Node node :vboxPerso.getChildren()){
+                            if(name.contains(((Button)node).getText())){
+                                node.setDisable(true);
+                            }else {
                                 node.setDisable(false);
+                            }
                         }
-
-
                     }
-                    for(Character character : listCharacter){
-                        if(name.contains(character.getName())){
-                            friend = new DisplayCharacter(scene,pane,character,collide);
-                        }
+
+                    if(playerID == 1){
+
+                        forest.setDisable(false);
+                        castle.setDisable(false);
                     }
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
+
 
         });
         t.start();
     }
-*/
+
    public void listenArrayPlayers(DataInputStream dis) throws IOException {
 
         Thread thread = new Thread(() ->{
@@ -203,33 +274,39 @@ public class Player {
             }
             AtomicReference<ArrayList<Integer>> otherPlayers = new AtomicReference<>(new ArrayList<>());
 
-            System.out.println("on essaie de passer "+ playerID);
+
             while (otherPlayers.get().size() < 2) {
                 try {
 
                     objectInputStream.read();
                     otherPlayers.set((ArrayList<Integer>) objectInputStream.readObject());
 
-                    System.out.println("on est passé pour " + playerID);
+
                     ArrayList<Integer> finalOtherPlayers = otherPlayers.get();
                     Platform.runLater(() -> {
                         vBox.getChildren().clear();
                         for (int id : finalOtherPlayers) {
-                            System.out.println(playerID + " ----" + id);
                             vBox.getChildren().add(new Text("Player #" + id));
                         }
 
-                        System.out.println(otherPlayers.get().size());
+
                     });
                 } catch (IOException | ClassNotFoundException ignored) {
                 }
 
+
             }
 
 
+            if(playerID == 1){
+                for(Node node :vboxPerso.getChildren()){
 
-            System.out.println("ON A FINI DE LIRE LES JOUEURS");
-            finito = true;
+                    node.setDisable(false);
+
+                }
+            }
+            readForCharacter(dis);
+
 
 
         });
@@ -255,7 +332,6 @@ public class Player {
 
                 Platform.runLater(()->{
 
-                    System.out.println("on crée la map avec les collisions " + playerID );
 
 
                     double height = Screen.getPrimary().getBounds().getHeight();
@@ -283,8 +359,6 @@ public class Player {
 
                     new Camera(scene1,me,sc,listCharacter,h,background,stage);
 
-
-
                     stage.centerOnScreen();
 
                     stage.setScene(scene1);
@@ -308,8 +382,6 @@ public class Player {
                         friend.setCharacterFriend(new Character(name, friend.getCurrentCoordinateOfTheCharacter()),pos,im);
 
                     });
-
-
                 }
 
             } catch (IOException e) {
@@ -328,17 +400,24 @@ public class Player {
                         Platform.runLater(()->{
                             button.setDisable(false);
                         });
+                    }else {
+                        nameOfMap = dis.readUTF();
+                    }
+                    map = new Map(pane1,nameOfMap);
+                    scene1 = new Scene(stackPane, map.getBackgroundImage().getImage().getWidth(), backtroundHeight);
+
+                   for(Character character : listCharacter){
+                        if(character.getName().equals(nameOfMe)){
+                            me = new DisplayCharacter(scene1,pane1,character);
+                        }else if(character.getName().equals(nameOfFriend)){
+                            friend = new DisplayCharacter(scene1,pane1,character);
+                        }
                     }
 
-
-                    finish = true;
-                    if(dis.available() != 0){
-                        dis.read();
                         String startMsg = dis.readUTF();
-                        System.out.println("le message est " + startMsg + " " + playerID);
-                        System.out.println(System.currentTimeMillis() /1000);
 
-                    }
+
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -348,7 +427,6 @@ public class Player {
                 vBox.getChildren().clear();
                 pane.getChildren().remove(button);
             });
-                System.out.println("bonjour--------------");
 
                 Thread readThread = new Thread(rfs);
                 Thread writeThread = new Thread(wts);
@@ -384,16 +462,10 @@ public class Player {
                     dos.writeDouble(me.getY());
                     dos.writeUTF(me.getCharacter().getName());
                     dos.writeInt(me.getCurrentPosition());
-
                     dos.writeInt(me.getCurrentImage());
-                    /*for(CollideObject collideObject : map.getReadFileMap().getCollisionObjectArrayList()){
-                        dos.writeDouble(collideObject.getX());
-                        dos.writeDouble(collideObject.getY());
-                    }*/
-                    //System.out.println(me.getCurrentCoordinateOfTheCharacter().getX() + " " +me.getCurrentCoordinateOfTheCharacter().getY());
                     dos.flush();
                     try {
-                        Thread.sleep(700);
+                        Thread.sleep(300);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -405,60 +477,5 @@ public class Player {
         }
     }
 
-/*
-    private class ClientSideConnection{
-        private Socket socket;
-        private DataInputStream dis;
-        private DataOutputStream dos;
-        private VBox vBox;
-        private ObjectInputStream objectInputStream;
-
-        public ClientSideConnection(VBox vBox){
-            System.out.println("----Client-----");
-            try{
-                socket = new Socket(InetAddress.getLocalHost(),5134);
-                dis = new DataInputStream(socket.getInputStream());
-                dos = new DataOutputStream(socket.getOutputStream());
-                objectInputStream = new ObjectInputStream(dis);
-                this.vBox = vBox;
-                playerID = dis.readInt();
-
-                System.out.println("Connected to Server as Player #" + playerID + ".");
-                if(playerID != 4){
-                    System.out.println("Waiting for other players");
-                }
-                Thread read = new Thread(()-> {
-
-                    ArrayList<Integer> otherPlayers;
-
-                    while (true) {
-                        try {
-                            otherPlayers = (ArrayList<Integer>) objectInputStream.readObject();
-
-                            ArrayList<Integer> finalOtherPlayers = otherPlayers;
-                            Platform.runLater(() -> {
-                                vBox.getChildren().clear();
-                                for (int id : finalOtherPlayers) {
-                                   // System.out.println(playerID +" ----" +id);
-                                    vBox.getChildren().add(new Text("Player #" + id));
-                                }
-                                //System.out.println("++++++++" + finalOtherPlayers);
-                            });
-                        } catch (IOException | ClassNotFoundException ignored) {
-
-                        }
-                    }
-
-                });
-                read.setDaemon(true);
-                read.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("Aucun serveur n'a été trouvé");
-            }
-        }
-
-    }
- */
 
 }
