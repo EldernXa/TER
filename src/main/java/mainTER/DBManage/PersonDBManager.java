@@ -91,6 +91,16 @@ public class PersonDBManager {
     }
 
     /**
+     * Get if a character exist in the databases.
+     * @param nameCharacter the name of the character where we want to know it exists or not.
+     * @return true if the character exist, false otherwise.
+     */
+    public boolean isCharacterExist(String nameCharacter){
+        List<String> listCharacter = getListNameFromDatabase();
+        return listCharacter.contains(nameCharacter);
+    }
+
+    /**
      *
      * @return list of the name present in the table person.
      */

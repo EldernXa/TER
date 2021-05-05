@@ -222,6 +222,19 @@ public class SkillDBManager {
         }
     }
 
+    private void verifyCharacterExist(String nameCharacter) throws SkillCharacterNotExistException {
+        PersonDBManager personDBManager;
+        if(isForTest){
+            personDBManager = new PersonDBManager(nameDatabase);
+        }else{
+            personDBManager = new PersonDBManager();
+        }
+
+        if(!personDBManager.isCharacterExist(nameCharacter)){
+            throw new SkillCharacterNotExistException(nameCharacter);
+        }
+    }
+
     /**
      * Insert a Skill in the database.
      * @param nameSkill the name of the skill.
@@ -236,9 +249,10 @@ public class SkillDBManager {
      */
     public void insertIntoTableSkill(String nameSkill, String ctrlKey, String nameCharacter, boolean animateMvt, boolean animateAction, boolean isMode)
             throws SkillAlreadyExistException, SkillCtrlAlreadyUsedException, SkillDataNotCorrectException,
-            SkillCtrlAlreadyUsedByMovementControlException{
+            SkillCtrlAlreadyUsedByMovementControlException, SkillCharacterNotExistException {
 
         verifyCtrlNotUsedByControlMovement(ctrlKey);
+        verifyCharacterExist(nameCharacter);
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try {
             while (resultSet.next()) {
@@ -252,8 +266,6 @@ public class SkillDBManager {
         }catch(SQLException ignored){
 
         }
-
-        // TODO add exception for if character exist or not.
         int numSkill;
         if(ctrlKey.compareTo("")==0){
             numSkill = getNumberSkillPassiveOfACharacter(nameCharacter)+1;

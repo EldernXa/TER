@@ -11,6 +11,7 @@ public class TestSkillDBManager {
 
     private final SkillDBManager skillDBManager = new SkillDBManager("testDB");
     private final ControlsDBManager controlsDBManager = new ControlsDBManager("testDB");
+    private final PersonDBManager personDBManager = new PersonDBManager("testDB");
     private final String nameSkill1 = "SHIELD";
     private final int numSkill1 = 1;
     private final String ctrlKey1 = "R";
@@ -24,12 +25,15 @@ public class TestSkillDBManager {
     @BeforeEach
     public void init(){
         skillDBManager.dropCascade();
+        personDBManager.dropCascade();
+        personDBManager.createTablePerson();
         controlsDBManager.createTableControls();
     }
 
     @AfterEach
     public void afterTest(){
         skillDBManager.removeTableSkill();
+        personDBManager.removeTablePerson();
         controlsDBManager.removeTableControls();
     }
 
@@ -47,10 +51,22 @@ public class TestSkillDBManager {
     public void testInsertIntoSkill(){
         try {
             skillDBManager.createTableSkill();
+            personDBManager.insertIntoTablePerson(nameCharacter, 1.0, 2.0, 1.0, 5.0, true);
             skillDBManager.insertIntoTableSkill(nameSkill1, ctrlKey1, nameCharacter, animateMvt, animateAction, isMode);
             assertTrue(true);
         }catch(Exception exception)
         {
+            fail();
+        }
+    }
+
+    @Test
+    public void testInsertIntoSkillACharacterWhoDoesntExistThrowException(){
+        try{
+            insertValueIntoSkill();
+            assertThrows(SkillCharacterNotExistException.class,
+                    ()->skillDBManager.insertIntoTableSkill("Planer", ctrlKey1, "Serpent", animateMvt, animateAction, isMode));
+        }catch (Exception exception){
             fail();
         }
     }
@@ -254,12 +270,16 @@ public class TestSkillDBManager {
             assertThrows(SkillCtrlAlreadyUsedByMovementControlException.class, ()->
                     skillDBManager.modifyCtrlOfACharacter(nameCharacter, nameSkill2, "A"));
         }catch(Exception exception){
+            exception.printStackTrace();
             fail();
         }
     }
 
-    private void insertValueIntoSkill() throws SkillAlreadyExistException, SkillCtrlAlreadyUsedException, SkillDataNotCorrectException, SkillCtrlAlreadyUsedByMovementControlException {
+    private void insertValueIntoSkill() throws SkillAlreadyExistException, SkillCtrlAlreadyUsedException, SkillDataNotCorrectException,
+            SkillCtrlAlreadyUsedByMovementControlException, SkillCharacterNotExistException, PersonDataAlreadyExistException,
+            PersonDataNotCorrectException {
         skillDBManager.createTableSkill();
+        personDBManager.insertIntoTablePerson(nameCharacter, 1.0, 2.0, 1.0, 5.0, true);
         skillDBManager.insertIntoTableSkill(nameSkill1, ctrlKey1, nameCharacter, animateMvt, animateAction, isMode);
 
     }
