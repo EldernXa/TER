@@ -61,7 +61,7 @@ public class DisplayCharacter extends CollideObject {
             scene.getRoot().getTransforms().add(scale);
         }
         stackPane.getChildren().add(switchCharacter);
-        camera = new Camera(scene, this, switchCharacter, listCharacter, h, background);
+        camera = new Camera(scene, this, switchCharacter, listCharacter, h, background,stage);
         characterMovementAndDisplayManagement.setCamera(camera);
     }
 

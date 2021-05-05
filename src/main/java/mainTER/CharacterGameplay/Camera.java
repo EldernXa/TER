@@ -6,11 +6,14 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.transform.Scale;
-import javafx.stage.Screen;
-import javafx.stage.WindowEvent;
+import javafx.stage.*;
 import mainTER.DBManage.ControlsDBManager;
 import mainTER.MapPackage.SwitchCharacter;
+import mainTER.Menu.MenuPause;
+import mainTER.Menu.SkillsMenu;
 import mainTER.Tools.CharacterMovementAndDisplayManagement;
 import mainTER.Tools.Coordinate;
 import mainTER.exception.ControlsDataGetException;
@@ -35,9 +38,11 @@ public class Camera {
     private String switchUp;
     private String switchDown;
     private boolean isActivated = false;
+    Stage stage;
 
 
-    public Camera(Scene scene, DisplayCharacter displayCharacter, SwitchCharacter sc, ArrayList<Character> listCharacter, double scalingValue, ImageView background) {
+
+    public Camera(Scene scene, DisplayCharacter displayCharacter, SwitchCharacter sc, ArrayList<Character> listCharacter, double scalingValue, ImageView background,Stage stage) {
         this.scene = scene;
         this.displayCharacter = displayCharacter;
         this.sc = sc;
@@ -48,6 +53,7 @@ public class Camera {
         left = "";
         switchUp = "";
         switchDown = "";
+        this.stage = stage;
 
 
         ControlsDBManager controlsDBManager = new ControlsDBManager();
@@ -110,6 +116,30 @@ public class Camera {
                     displayCharacter.setCharacter(listCharacter.get((k - 1) % listCharacter.size()));
                 }
                 sc.changeToDown();
+            }
+            else if(event2.getCode() == KeyCode.ESCAPE) {
+
+                Stage stagea = new Stage(StageStyle.TRANSPARENT);
+                MenuPause menuPause = new MenuPause(stagea);
+                stagea.initOwner(stage);
+                stagea.initModality(Modality.APPLICATION_MODAL);
+                stagea.setScene(new Scene(menuPause.getVbox(), Color.TRANSPARENT));
+                stagea.show();
+            }
+            else if(event2.getCode() == KeyCode.TAB){
+
+                Stage stagep = new Stage(StageStyle.TRANSPARENT);
+
+                SkillsMenu skillsMenu = new SkillsMenu(stage,listCharacter,displayCharacter.getCharacter());
+                stagep.initOwner(stage);
+                stagep.initModality(Modality.APPLICATION_MODAL);
+                stagep.setScene(skillsMenu.getScene());
+                stagep.show();
+                skillsMenu.getScene().addEventHandler(KeyEvent.KEY_PRESSED, event3 -> {
+                    if(event3.getCode() == KeyCode.TAB)
+                        stagep.close();
+                });
+
             }
         });
 

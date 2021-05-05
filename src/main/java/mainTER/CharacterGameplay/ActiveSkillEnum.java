@@ -5,5 +5,6 @@ public enum ActiveSkillEnum {
     ATTACK,
     BARRIER_MODE,
     FLY_MODE,
-    MOULT
+    MOULT,
+    WALL_JUMP
 }

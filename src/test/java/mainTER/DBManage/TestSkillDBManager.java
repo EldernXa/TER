@@ -52,7 +52,7 @@ public class TestSkillDBManager {
         try {
             skillDBManager.createTableSkill();
             personDBManager.insertIntoTablePerson(nameCharacter, 1.0, 2.0, 1.0, 5.0, true);
-            skillDBManager.insertIntoTableSkill(nameSkill1, ctrlKey1, nameCharacter, animateMvt, animateAction, isMode);
+            skillDBManager.insertIntoTableSkill(nameSkill1, ctrlKey1, nameCharacter, animateMvt, animateAction, isMode,"a");
             assertTrue(true);
         }catch(Exception exception)
         {
@@ -65,7 +65,7 @@ public class TestSkillDBManager {
         try{
             insertValueIntoSkill();
             assertThrows(SkillCharacterNotExistException.class,
-                    ()->skillDBManager.insertIntoTableSkill("Planer", ctrlKey1, "Serpent", animateMvt, animateAction, isMode));
+                    ()->skillDBManager.insertIntoTableSkill("Planer", ctrlKey1, "Serpent", animateMvt, animateAction, isMode,"a"));
         }catch (Exception exception){
             fail();
         }
@@ -75,7 +75,7 @@ public class TestSkillDBManager {
     public void testGetListNameSkill(){
         try{
             insertValueIntoSkill();
-            skillDBManager.insertIntoTableSkill(nameSkill2, ctrlKey2, nameCharacter, animateMvt, animateAction, isMode);
+            skillDBManager.insertIntoTableSkill(nameSkill2, ctrlKey2, nameCharacter, animateMvt, animateAction, isMode,"a");
             assertEquals(2, skillDBManager.getListSkillName().size());
         }catch(Exception exception){
             fail();
@@ -86,7 +86,7 @@ public class TestSkillDBManager {
     public void testGetListNameCharacter(){
         try{
             insertValueIntoSkill();
-            skillDBManager.insertIntoTableSkill(nameSkill2, ctrlKey2, nameCharacter, animateMvt, animateAction, isMode);
+            skillDBManager.insertIntoTableSkill(nameSkill2, ctrlKey2, nameCharacter, animateMvt, animateAction, isMode,"a");
             assertEquals(1, skillDBManager.getListNameCharacterWithSkill().size());
             assertEquals(nameCharacter, skillDBManager.getListNameCharacterWithSkill().get(0));
         }catch(Exception exception){
@@ -98,7 +98,7 @@ public class TestSkillDBManager {
     public void testGetNumberOfSkillOfACharacter(){
         try{
             insertValueIntoSkill();
-            skillDBManager.insertIntoTableSkill(nameSkill2, ctrlKey2, nameCharacter, animateMvt, animateAction, isMode);
+            skillDBManager.insertIntoTableSkill(nameSkill2, ctrlKey2, nameCharacter, animateMvt, animateAction, isMode,"a");
             assertEquals(2, skillDBManager.getNumberSkillOfACharacter(nameCharacter));
         }catch(Exception exception){
             fail();
@@ -210,7 +210,7 @@ public class TestSkillDBManager {
     public void testThrowSkillAlreadyExist(){
         try{
             insertValueIntoSkill();
-            assertThrows(SkillAlreadyExistException.class, ()->skillDBManager.insertIntoTableSkill(nameSkill1, "P", nameCharacter, animateMvt, animateAction, isMode));
+            assertThrows(SkillAlreadyExistException.class, ()->skillDBManager.insertIntoTableSkill(nameSkill1, "P", nameCharacter, animateMvt, animateAction, isMode,"a"));
         }catch(Exception exception){
             fail();
         }
@@ -220,7 +220,7 @@ public class TestSkillDBManager {
     public void testThrowSkillCtrlAlreadyUsed(){
         try{
             insertValueIntoSkill();
-            assertThrows(SkillCtrlAlreadyUsedException.class, ()->skillDBManager.insertIntoTableSkill("test", ctrlKey1, nameCharacter, animateMvt, animateAction, isMode));
+            assertThrows(SkillCtrlAlreadyUsedException.class, ()->skillDBManager.insertIntoTableSkill("test", ctrlKey1, nameCharacter, animateMvt, animateAction, isMode,"a"));
         }catch(Exception exception){
             fail();
         }
@@ -243,7 +243,7 @@ public class TestSkillDBManager {
     public void testModifyCtrlOfASkillWithACtrlAlreadyUsedByTheSameCharacterThrowException(){
         try{
             insertValueIntoSkill();
-            skillDBManager.insertIntoTableSkill(nameSkill2, ctrlKey2, nameCharacter, animateMvt, animateAction, isMode);
+            skillDBManager.insertIntoTableSkill(nameSkill2, ctrlKey2, nameCharacter, animateMvt, animateAction, isMode,"a");
             assertThrows(SkillCtrlAlreadyUsedException.class, ()-> skillDBManager.modifyCtrlOfACharacter(nameCharacter, nameSkill2, ctrlKey1));
         }catch(Exception exception){
             fail();
@@ -255,7 +255,7 @@ public class TestSkillDBManager {
         try{
             insertValueIntoSkill();
             controlsDBManager.insertIntoTableControls("N", "A", "B", "R", "T");
-            assertThrows(SkillCtrlAlreadyUsedByMovementControlException.class, ()-> skillDBManager.insertIntoTableSkill(nameSkill2, "T", nameCharacter, animateMvt, animateAction, isMode));
+            assertThrows(SkillCtrlAlreadyUsedByMovementControlException.class, ()-> skillDBManager.insertIntoTableSkill(nameSkill2, "T", nameCharacter, animateMvt, animateAction, isMode,"a"));
         }catch(Exception exception){
             fail();
         }
@@ -266,7 +266,7 @@ public class TestSkillDBManager {
         try{
             insertValueIntoSkill();
             controlsDBManager.insertIntoTableControls("N", "A", "B", "R", "T");
-            skillDBManager.insertIntoTableSkill(nameSkill2, ctrlKey2, nameCharacter, animateMvt, animateAction, isMode);
+            skillDBManager.insertIntoTableSkill(nameSkill2, ctrlKey2, nameCharacter, animateMvt, animateAction, isMode,"a");
             assertThrows(SkillCtrlAlreadyUsedByMovementControlException.class, ()->
                     skillDBManager.modifyCtrlOfACharacter(nameCharacter, nameSkill2, "A"));
         }catch(Exception exception){
@@ -280,7 +280,7 @@ public class TestSkillDBManager {
             PersonDataNotCorrectException {
         skillDBManager.createTableSkill();
         personDBManager.insertIntoTablePerson(nameCharacter, 1.0, 2.0, 1.0, 5.0, true);
-        skillDBManager.insertIntoTableSkill(nameSkill1, ctrlKey1, nameCharacter, animateMvt, animateAction, isMode);
+        skillDBManager.insertIntoTableSkill(nameSkill1, ctrlKey1, nameCharacter, animateMvt, animateAction, isMode,"a");
 
     }
 

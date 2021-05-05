@@ -50,11 +50,12 @@ public class DataInsert {
             skillDBManager.createTableSkill();
 
             try {
-                skillDBManager.insertIntoTableSkill("SHIELD", "1", "Paladin", true, false, true);
-                skillDBManager.insertIntoTableSkill("ATTACK", "2", "Paladin", false, true, false);
-                skillDBManager.insertIntoTableSkill("BARRIER", "3", "Paladin", true, false, true);
-                skillDBManager.insertIntoTableSkill("FLY", "1", "Demon", true, false, true);
-                skillDBManager.insertIntoTableSkill("MOULT", "1", "Serpent", false, false, false);
+                skillDBManager.insertIntoTableSkill("SHIELD", "1", "Paladin", true, false, true,"porte");
+                skillDBManager.insertIntoTableSkill("ATTACK", "2", "Paladin", false, true, false,"attaque");
+                skillDBManager.insertIntoTableSkill("BARRIER", "3", "Paladin", true, false, true,"protege");
+                skillDBManager.insertIntoTableSkill("FLY", "1", "Demon", true, false, true,"sprinter");
+                skillDBManager.insertIntoTableSkill("MOULT", "1", "Serpent", false, false, false,"muer");
+                skillDBManager.insertIntoTableSkill("WALL_JUMP","1","HommeDragon",false,false,false,"grimper");
             } catch (SkillAlreadyExistException | SkillCtrlAlreadyUsedException | SkillDataNotCorrectException |
                     SkillCtrlAlreadyUsedByMovementControlException | SkillCharacterNotExistException exception) {
                 System.out.println(exception.getMessage());

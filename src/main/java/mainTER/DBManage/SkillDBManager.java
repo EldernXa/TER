@@ -34,6 +34,10 @@ public class SkillDBManager {
      */
     private static final String NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL = "nameCharacter";
 
+
+
+    private static final String NAME_ATTRIBUTE_FOR_DESCRIPTION_OF_SKILL = "Description";
+
     /**
      * static variable uses to display an error when trying to get data who doesn't exist.
      */
@@ -79,6 +83,7 @@ public class SkillDBManager {
                 "animateMvt VARCHAR(30)," +
                 "animateAction VARCHAR(30)," +
                 "isMode VARCHAR(30)," +
+                "Description VARCHAR(500)," +
                 "CONSTRAINT PK_Person PRIMARY KEY (nameCharacter,numSkill, ctrlKey)" +
                 ");");
     }
@@ -92,6 +97,9 @@ public class SkillDBManager {
      */
     public String getNameSkill(String nameCharacter, int numSkill) throws SkillDataGetException {
         return gettingData(nameCharacter, numSkill, NAME_ATTRIBUTE_FOR_NAME_SKILL);
+    }
+    public String getDescription(String nameCharacter,int numSkill) throws SkillDataGetException {
+        return gettingData(nameCharacter,numSkill,NAME_ATTRIBUTE_FOR_DESCRIPTION_OF_SKILL);
     }
 
     /**
@@ -247,7 +255,8 @@ public class SkillDBManager {
      * @throws SkillCtrlAlreadyUsedException if the key is already used for an another skill of the same character.
      * @throws SkillDataNotCorrectException if we try to insert data that doesn't correct.
      */
-    public void insertIntoTableSkill(String nameSkill, String ctrlKey, String nameCharacter, boolean animateMvt, boolean animateAction, boolean isMode)
+    public void insertIntoTableSkill(String nameSkill, String ctrlKey, String nameCharacter, boolean animateMvt, boolean animateAction,
+                                     boolean isMode, String description)
             throws SkillAlreadyExistException, SkillCtrlAlreadyUsedException, SkillDataNotCorrectException,
             SkillCtrlAlreadyUsedByMovementControlException, SkillCharacterNotExistException {
 
@@ -284,7 +293,7 @@ public class SkillDBManager {
                 + "','" +SecureManage.getEncrypted(nameCharacter) +"','" + SecureManage.getEncrypted(convertBoolToString(animateMvt))
                 + "','" + SecureManage.getEncrypted(convertBoolToString(animateAction))
                 + "','" + SecureManage.getEncrypted(convertBoolToString(isMode)) +
-                "')";
+                "','" +SecureManage.getEncrypted(description) + "')";
         dbManager.createTableOrInsert(reqValues);
     }
 
