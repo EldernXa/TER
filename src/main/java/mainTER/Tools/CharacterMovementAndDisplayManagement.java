@@ -35,7 +35,7 @@ public class CharacterMovementAndDisplayManagement {
 
         pane.getChildren().add(imgView);
 
-        if(camera!=null && (tempX != x || tempY !=y) ) {
+        if(camera!=null && (Math.abs(x-tempX) >=30 || Math.abs(y-tempY) >=30) ) {
 
             camera.moveOnlyCamera();
 
