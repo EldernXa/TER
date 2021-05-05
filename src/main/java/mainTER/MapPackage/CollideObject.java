@@ -79,9 +79,26 @@ public abstract class CollideObject {
             rect.setX(this.getX());
             rect.setY(this.getY());
             rect.setX(rect.getX()+i);
+
             for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
                 if((!this.equals(collideObject2))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))&&(collideObject2.getAppropriateNode().getBoundsInParent().getMinX()-this.getAppropriateNode().getBoundsInParent().getMaxX() >= 0)&&(collideObject2.getAppropriateNode().getBoundsInParent().getMinX()-this.getAppropriateNode().getBoundsInParent().getMaxX() <= this.getHMouvementSpan())){//Prob it considers that it's true at the begening
                     collideObject2.interaction(this);
+
+                    for(ObjectLinker objectLinker : Map.objectLinkers) {
+                        if (objectLinker.getCollideObject1().equals(collideObject2)) {
+                            objectLinker.collideObject1.interaction(this);
+                            objectLinker.collideObject2.setX(collideObject2.getX());
+                            objectLinker.collideObject2.setY(collideObject2.getY());
+
+                        } else if (objectLinker.getCollideObject2().equals(collideObject2)) {
+                            objectLinker.collideObject1.setX(collideObject2.getX());
+                            objectLinker.collideObject1.setY(collideObject2.getY());
+                        } else {
+//                            System.out.println(collideObject2);
+//                            System.out.println("Cet Objet nexiste pas");
+                        }
+                    }
+
                     System.out.println("minX " + collideObject2.getAppropriateNode().getBoundsInParent().getMinX());
                     System.out.println("Droit serpent " + this.getAppropriateNode().getBoundsInParent().getMaxX());
                     System.out.println("maxX " + collideObject2.getAppropriateNode().getBoundsInParent().getMaxX());
@@ -102,9 +119,27 @@ public abstract class CollideObject {
             rect.setY(this.getY());
             rect.setX(rect.getX()-i);
             for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
-                if((!this.equals(collideObject2))&&((rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))&&(this.getAppropriateNode().getBoundsInParent().getMinX()-collideObject2.getAppropriateNode().getBoundsInParent().getMaxX() >= 0)&&(this.getAppropriateNode().getBoundsInParent().getMinX()-collideObject2.getAppropriateNode().getBoundsInParent().getMaxX() <= this.getHMouvementSpan()))){
+                if((!this.equals(collideObject2))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))&&(this.getAppropriateNode().getBoundsInParent().getMinX()-collideObject2.getAppropriateNode().getBoundsInParent().getMaxX() >= 0)&&(this.getAppropriateNode().getBoundsInParent().getMinX()-collideObject2.getAppropriateNode().getBoundsInParent().getMaxX() <= this.getHMouvementSpan())){
                     collideObject2.interaction(this);
-                    System.out.println("Left space = " + (this.getAppropriateNode().getBoundsInParent().getMinX() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxX()));
+
+                    for(ObjectLinker objectLinker : Map.objectLinkers){
+                        if(objectLinker.getCollideObject1().equals(collideObject2)){
+                            objectLinker.collideObject1.interaction(this);
+                            objectLinker.collideObject2.setX(collideObject2.getX());
+                            objectLinker.collideObject2.setY(collideObject2.getY());
+
+                        }
+                        else if(objectLinker.getCollideObject2().equals(collideObject2)){
+                            objectLinker.collideObject1.setX(collideObject2.getX());
+                            objectLinker.collideObject1.setY(collideObject2.getY());
+                        }
+
+                        else{
+//                            System.out.println(collideObject2);
+//                            System.out.println("Cet Objet nexiste pas");
+                        }
+                    }
+//                    System.out.println("Left space = " + (this.getAppropriateNode().getBoundsInParent().getMinX() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxX()));
                     return this.getAppropriateNode().getBoundsInParent().getMinX() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxX();
                 }
             }
@@ -124,10 +159,28 @@ public abstract class CollideObject {
                     System.out.println("Perso Y : " + this.getAppropriateNode().getBoundsInParent().getMinY());
                     System.out.println("Platform Y : " + collideObject2.getAppropriateNode().getBoundsInParent().getMaxY());
                 }
-                System.out.println("On rencontre un objet = " + (rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent())));
+//                System.out.println("On rencontre un objet = " + (rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent())));
                 if((!this.equals(collideObject2))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))&&(this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY() >= 0)){
-                    System.out.println(collideObject2);
                     collideObject2.interaction(this);
+
+                    for(ObjectLinker objectLinker : Map.objectLinkers){
+                        if(objectLinker.getCollideObject1().equals(collideObject2)){
+                            objectLinker.collideObject1.interaction(this);
+                            objectLinker.collideObject2.setX(collideObject2.getX());
+                            objectLinker.collideObject2.setY(collideObject2.getY());
+
+                        }
+                        else if(objectLinker.getCollideObject2().equals(collideObject2)){
+                            objectLinker.collideObject1.setX(collideObject2.getX());
+                            objectLinker.collideObject1.setY(collideObject2.getY());
+                        }
+
+                        else{
+//                            System.out.println(collideObject2);
+//                            System.out.println("Cet Objet nexiste pas");
+                        }
+                    }
+
                     return this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY();
                 }
             }
@@ -142,9 +195,26 @@ public abstract class CollideObject {
             rect.setY(this.getY()+i);
             for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
                 if((!this.equals(collideObject2))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))&&(collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY() >= 0)){
-//                    System.out.println("Collide with " + collideObject2);
-//                    System.out.println("distance " + (collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY()));
                     collideObject2.interaction(this);
+
+                    for(ObjectLinker objectLinker : Map.objectLinkers){
+                        if(objectLinker.getCollideObject1().equals(collideObject2)){
+                            objectLinker.collideObject1.interaction(this);
+                            objectLinker.collideObject2.setX(collideObject2.getX());
+                            objectLinker.collideObject2.setY(collideObject2.getY());
+
+                        }
+                        else if(objectLinker.getCollideObject2().equals(collideObject2)){
+                            objectLinker.collideObject1.setX(collideObject2.getX());
+                            objectLinker.collideObject1.setY(collideObject2.getY());
+                        }
+
+                        else{
+//                            System.out.println(collideObject2);
+//                            System.out.println("Cet Objet nexiste pas");
+                        }
+                    }
+
                     return (collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY());
                 }
             }
