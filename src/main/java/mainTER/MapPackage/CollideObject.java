@@ -84,7 +84,7 @@ public abstract class CollideObject {
                 if((!this.equals(collideObject2))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))&&(collideObject2.getAppropriateNode().getBoundsInParent().getMinX()-this.getAppropriateNode().getBoundsInParent().getMaxX() >= 0)&&(collideObject2.getAppropriateNode().getBoundsInParent().getMinX()-this.getAppropriateNode().getBoundsInParent().getMaxX() <= this.getHMouvementSpan())){//Prob it considers that it's true at the begening
                     collideObject2.interaction(this);
 
-                    for(ObjectLinker objectLinker : Map.objectLinkers) {
+                    for(ObjectLinker objectLinker : Map.objectLinkers) {//TODO faire en sort que ce soit une interaction qui se déclenche et pas seulement des coordonnées qui se modifient
                         if (objectLinker.getCollideObject1().equals(collideObject2)) {
                             objectLinker.collideObject2.setX(collideObject2.getX());
                             objectLinker.collideObject2.setY(collideObject2.getY());
