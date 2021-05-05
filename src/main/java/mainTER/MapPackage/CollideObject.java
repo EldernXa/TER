@@ -83,6 +83,7 @@ public abstract class CollideObject {
                 if((!this.equals(collideObject2))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))&&(collideObject2.getAppropriateNode().getBoundsInParent().getMinX()-this.getAppropriateNode().getBoundsInParent().getMaxX() >= 0)&&(collideObject2.getAppropriateNode().getBoundsInParent().getMinX()-this.getAppropriateNode().getBoundsInParent().getMaxX() <= this.getHMouvementSpan())){//Prob it considers that it's true at the begening
                     collideObject2.interaction(this);
                     System.out.println("minX " + collideObject2.getAppropriateNode().getBoundsInParent().getMinX());
+                    System.out.println("Droit serpent " + this.getAppropriateNode().getBoundsInParent().getMaxX());
                     System.out.println("maxX " + collideObject2.getAppropriateNode().getBoundsInParent().getMaxX());
                     System.out.println("minY " + collideObject2.getAppropriateNode().getBoundsInParent().getMinY());
                     System.out.println("maxY " + collideObject2.getAppropriateNode().getBoundsInParent().getMaxY());
@@ -118,7 +119,14 @@ public abstract class CollideObject {
             rect.setY(this.getY());
             rect.setY(rect.getY()-i);
             for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
+                if (rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent())){
+                    System.out.println(collideObject2);
+                    System.out.println("Perso Y : " + this.getAppropriateNode().getBoundsInParent().getMinY());
+                    System.out.println("Platform Y : " + collideObject2.getAppropriateNode().getBoundsInParent().getMaxY());
+                }
+                System.out.println("On rencontre un objet = " + (rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent())));
                 if((!this.equals(collideObject2))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))&&(this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY() >= 0)){
+                    System.out.println(collideObject2);
                     collideObject2.interaction(this);
                     return this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY();
                 }

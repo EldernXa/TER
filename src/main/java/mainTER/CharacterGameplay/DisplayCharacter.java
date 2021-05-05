@@ -61,7 +61,7 @@ public class DisplayCharacter extends CollideObject {
             scene.getRoot().getTransforms().add(scale);
         }
         stackPane.getChildren().add(switchCharacter);
-        camera = new Camera(scene, this, switchCharacter, listCharacter, h, background,stage);
+        camera = new Camera(scene, this, switchCharacter, listCharacter, h, background);
         characterMovementAndDisplayManagement.setCamera(camera);
     }
 
@@ -282,7 +282,7 @@ public class DisplayCharacter extends CollideObject {
     }
 
     private void doJump() {
-        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() - jumpStrength);
+        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() - calcMvt(CommingFrom.DOWN));
         jumpStrength -= character.getWeight() * 0.2;
         if (jumpStrength <= 0) {
             isJumping = false;
@@ -328,7 +328,7 @@ public class DisplayCharacter extends CollideObject {
         else
             animationForTheCharacter.setReverseJump();
 
-        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() - jumpStrength - newHeight);
+        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() - calcMvt(CommingFrom.DOWN) - newHeight);
         jumpStrength -= character.getWeight() * 0.2;
         if (jumpStrength <= 0) {
             isJumping = false;

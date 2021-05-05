@@ -103,7 +103,7 @@ public class MenuItem extends StackPane {
                 break;
                 case "Level 1 - Forest": {
                     for(String nameCharacter : listName){
-                        listCharacter.add(new Character(nameCharacter, new Coordinate(4500, 600)));
+                        listCharacter.add(new Character(nameCharacter, new Coordinate(1200, 600)));
                     }
                    createLvl("Forest");
                 }
@@ -233,7 +233,7 @@ public class MenuItem extends StackPane {
         StackPane stackPane = new StackPane();
         Pane pane = new Pane();
         stackPane.getChildren().add(pane);
-        Map map =  new Map(pane,mapName,true);
+        Map map =  new Map(pane,mapName);
         map.displayMap(pane);
         ImageView background = map.getBackgroundImage();
 
