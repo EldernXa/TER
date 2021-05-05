@@ -1,8 +1,5 @@
 package mainTER.DBManage;
 
-import mainTER.exception.ControlsDataAlreadyExistsException;
-import mainTER.exception.ControlsDataGetException;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -16,7 +13,9 @@ public class CheckpointsDBManager {
         this.dbManager = new DBManager(nameFileDB,"test");
     }
 
-    public CheckpointsDBManager(){this.dbManager = new DBManager(); }
+    public CheckpointsDBManager(){
+        this.dbManager = new DBManager();
+    }
 
     public void createTableCheckPoints(){
         dbManager.createTableOrInsert("CREATE TABLE Checkpoints (" +
@@ -50,6 +49,8 @@ public class CheckpointsDBManager {
     public void insertIntoTableControls(double x, double y, String characterName, String mapName) {
         // TODO verify insert data
         // TODO verify data doesn't exist already
+        // TODO verify if Character exist.
+        // TODO verify if the map exist.
 
 
 
@@ -63,7 +64,7 @@ public class CheckpointsDBManager {
         dbManager.createTableOrInsert(reqValues);
     }
     public void setX(double x) {
-        String request = "UPDATE Controls " +
+        String request = "UPDATE Checkpoints " +
                 "SET " +
                 "x = '" + SecureManage.getEncrypted(String.valueOf(x)) + "';";
         dbManager.updateTable(request);
@@ -77,7 +78,7 @@ public class CheckpointsDBManager {
         }
     }
     public void setY(double y) {
-        String request = "UPDATE Controls " +
+        String request = "UPDATE Checkpoints " +
                 "SET " +
                 "y = '" + SecureManage.getEncrypted(String.valueOf(y)) + "';";
         dbManager.updateTable(request);
@@ -91,7 +92,7 @@ public class CheckpointsDBManager {
         }
     }
     public void setCharacterName(String characterName) {
-        String request = "UPDATE Controls " +
+        String request = "UPDATE Checkpoints " +
                 "SET " +
                 "characterName = '" + SecureManage.getEncrypted(characterName) + "';";
         dbManager.updateTable(request);
@@ -106,7 +107,7 @@ public class CheckpointsDBManager {
     }
 
     public void setMapName(String mapName) {
-        String request = "UPDATE Controls " +
+        String request = "UPDATE Checkpoints " +
                 "SET " +
                 "mapName = '" + SecureManage.getEncrypted(mapName) + "';";
         dbManager.updateTable(request);
