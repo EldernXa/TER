@@ -263,10 +263,7 @@ public class Player {
                     Scale scale = new Scale(h, h, 0, 0);
                     scene1.getRoot().getTransforms().add(scale);
 
-/*                  mainStage.setHeight(Screen.getPrimary().getBounds().getHeight());
-                    mainStage.setWidth(5548);*/
                     stage.setFullScreen(true);
-                    //mainStage.setMaximized(true);
                     stage.setResizable(false);
                     stage.sizeToScene();
 
@@ -276,7 +273,6 @@ public class Player {
                     }else {
                         map.addCollisionObjectNetwork(false);
                     }
-                    System.out.println(playerID + "  --------  " + pane1.getChildren());
                     me.startDisplay();
                     friend.startDisplayFriend();
 
@@ -310,38 +306,9 @@ public class Player {
                     Platform.runLater(()-> {
 
                         friend.setCharacterFriend(new Character(name, friend.getCurrentCoordinateOfTheCharacter()),pos,im);
-                        //map.clearColissionObjectNetwork();
-                        //System.out.println(playerID +" " + pane1.getChildren());
-                        //System.out.println( pane.getChildren().get(0).getTranslateX());
 
-                        for (int i = 0;i<map.getReadFileMap().getCollisionObjectArrayList().size();i++) {
-                            //System.out.println(playerID +" -----  " +node.getTranslateX());
-                            CollideObject collideObject;
-                            Node node = pane1.getChildren().get(i);
-                            if(playerID == 1){
-
-                                collideObject = map.getReadFileMap().getCollisionObjectArrayList().get(i);
-                            }else {
-                                 collideObject = map.getCollideObjects1().get(i);
-                            }
-                            //System.out.println(collideObject.getAppropriateNode());
-                            //System.out.println(node);
-                            if(node == collideObject.getAppropriateNode() ){
-                                //System.out.println(playerID + " on passe");
-                               // System.out.println(playerID + " ------  " + i +" ----  " +collideObject.getX());
-
-                            }
-                        }
-                        //map.addCollisionObjectNetwork();
                     });
 
-
-
-                    /*
-                    for (CollideObject collideObject : map.getReadFileMap().getCollisionObjectArrayList()){
-                        collideObject.setX(dis.readDouble());
-                        collideObject.setY(dis.readDouble());
-                    }*/
 
                 }
 
@@ -357,15 +324,11 @@ public class Player {
 
                     }
 
-                    System.out.println("on passe hors de la boucle");
                     if(playerID == 1){
                         Platform.runLater(()->{
                             button.setDisable(false);
                         });
                     }
-
-                    System.out.println("ON SORT DE LA BOUCLE");
-                    System.out.println("on essaie de lire le message start " + playerID);
 
 
                     finish = true;

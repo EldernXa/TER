@@ -211,4 +211,17 @@ public class PersonDBManager {
         }
     }
 
+    public ArrayList<String> toArray(String nameCharacter) throws  SQLException {
+        ArrayList<String> result = new ArrayList<>();
+        ResultSet rs = selectIntoTablePerson(nameCharacter);
+
+        int columnCount = rs.getMetaData().getColumnCount();
+
+        for (int i = 0; i <columnCount ; i++)
+        {
+            result.add(SecureManage.getDecrypted(rs.getString(i + 1)) );
+        }
+        return result;
+    }
+
 }
