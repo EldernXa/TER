@@ -14,29 +14,28 @@ public class Map {
     private Pane pane = new Pane();
     private ImageView backgroundImage;
     private String fileName;
+    ArrayList<CollideObject> collideObjects1 = new ArrayList<>();
+    static ArrayList<ObjectLinker> objectLinkers = new ArrayList<>();
+
 
 
     public Map( Pane pane,String fileName) {
 
-
+        this.pane = pane;
         String url = "./src/main/resources/mainTER/MapPackage/Files/";
         this.fileName = fileName;
 
         this.backgroundImage = new ImageView(new Image(new File("src/main/resources/mainTER/MapPackage/Sprites/Back/Background"+fileName +".png").toURI().toString()));
 
-
-
-
         mapFileReader = new MapFileReader(url , fileName);
 
 
     }
-    public void displayMap(Pane pane){
-        this.pane = pane;
+    public void displayMap(){
+
         pane.setBackground( new Background(new BackgroundImage(backgroundImage.getImage(),BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT, new BackgroundSize(backgroundImage.getImage().getWidth(),
                 backgroundImage.getImage().getHeight(),false,false,false,false))));
-        addCollisionObjectNetwork();
 
     }
 
@@ -52,15 +51,21 @@ public class Map {
         }
     }
 
-    public void addCollisionObjectNetwork(){
-        ArrayList<ObjectLinker> objectLinkers = new ArrayList<>();
+    public void addCollisionObjectNetwork(boolean bool){
+
         Iterator<CollideObject> list = this.getReadFileMap().getCollisionObjectArrayList().iterator();
         while (list.hasNext()) {
             CollideObject collideObject = list.next();
             CollideObject collideObject2 = collideObject.clone();
             objectLinkers.add(new ObjectLinker(collideObject, collideObject2));
             //TODO Add second pane for the clones
-            pane.getChildren().add(collideObject.getAppropriateNode());
+            collideObjects1.add(collideObject2);
+            if(bool){
+                pane.getChildren().add(collideObject.getAppropriateNode());
+            }else {
+                pane.getChildren().add(collideObject2.getAppropriateNode());
+            }
+
         }
 
     }
@@ -69,6 +74,10 @@ public class Map {
         for (CollideObject collideObject : this.getReadFileMap().getCollisionObjectArrayList()){
             pane.getChildren().remove(collideObject.getAppropriateNode());
         }
+    }
+
+    public ArrayList<CollideObject> getCollideObjects1() {
+        return collideObjects1;
     }
 
     public Pane getPane() {

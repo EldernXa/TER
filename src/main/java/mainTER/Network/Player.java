@@ -64,7 +64,7 @@ public class Player {
     Scene scene1 = new Scene(pane1);
     ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/BackgroundForest.png").toURI().toString()));
     double backtroundHeight = background.getImage().getHeight();
-
+    StackPane stackPane = new StackPane();
 
 
     public void connectToServer(Stage stage, Scene scene,Pane pane, ArrayList<Character> listCharacter) {
@@ -84,9 +84,6 @@ public class Player {
             vboxPerso.setTranslateX(200);
             button.setTranslateX(60);
 
-
-            map = new Map(pane1,"Forest");
-
             pane.getChildren().add(button);
             pane.getChildren().add(vBox);
             System.out.println("Connected to Server as Player #" + playerID + ".");
@@ -94,8 +91,8 @@ public class Player {
                 backtroundHeight =  Screen.getPrimary().getBounds().getHeight();
             }
 
+            map = new Map(pane1,"Forest");
 
-            StackPane stackPane = new StackPane();
             stackPane.getChildren().add(pane1);
 
             scene1 = new Scene(stackPane, map.getBackgroundImage().getImage().getWidth(), backtroundHeight);
@@ -261,7 +258,6 @@ public class Player {
                     System.out.println("on crée la map avec les collisions " + playerID );
 
 
-
                     double height = Screen.getPrimary().getBounds().getHeight();
                     double h = height/background.getImage().getHeight();
                     Scale scale = new Scale(h, h, 0, 0);
@@ -274,7 +270,13 @@ public class Player {
                     stage.setResizable(false);
                     stage.sizeToScene();
 
-                    map.displayMap(pane1);
+                    map.displayMap();
+                    if(playerID == 1){
+                        map.addCollisionObjectNetwork(true);
+                    }else {
+                        map.addCollisionObjectNetwork(false);
+                    }
+                    System.out.println(playerID + "  --------  " + pane1.getChildren());
                     me.startDisplay();
                     friend.startDisplayFriend();
 
@@ -282,9 +284,10 @@ public class Player {
 
                     pane1.getChildren().add(sc);
 
-                    new Camera(scene1,me,sc,listCharacter,h,background);
 
-                    System.out.println(playerID +" " + pane1.getChildren());
+                    new Camera(scene1,me,sc,listCharacter,h,background,stage);
+
+
 
                     stage.centerOnScreen();
 
@@ -307,7 +310,29 @@ public class Player {
                     Platform.runLater(()-> {
 
                         friend.setCharacterFriend(new Character(name, friend.getCurrentCoordinateOfTheCharacter()),pos,im);
+                        //map.clearColissionObjectNetwork();
+                        //System.out.println(playerID +" " + pane1.getChildren());
+                        //System.out.println( pane.getChildren().get(0).getTranslateX());
 
+                        for (int i = 0;i<map.getReadFileMap().getCollisionObjectArrayList().size();i++) {
+                            //System.out.println(playerID +" -----  " +node.getTranslateX());
+                            CollideObject collideObject;
+                            Node node = pane1.getChildren().get(i);
+                            if(playerID == 1){
+
+                                collideObject = map.getReadFileMap().getCollisionObjectArrayList().get(i);
+                            }else {
+                                 collideObject = map.getCollideObjects1().get(i);
+                            }
+                            //System.out.println(collideObject.getAppropriateNode());
+                            //System.out.println(node);
+                            if(node == collideObject.getAppropriateNode() ){
+                                //System.out.println(playerID + " on passe");
+                               // System.out.println(playerID + " ------  " + i +" ----  " +collideObject.getX());
+
+                            }
+                        }
+                        //map.addCollisionObjectNetwork();
                     });
 
 
