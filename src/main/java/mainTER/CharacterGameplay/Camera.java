@@ -123,8 +123,14 @@ public class Camera {
                 MenuPause menuPause = new MenuPause(stagea);
                 stagea.initOwner(stage);
                 stagea.initModality(Modality.APPLICATION_MODAL);
-                stagea.setScene(new Scene(menuPause.getVbox(), Color.TRANSPARENT));
+                Scene scene = new Scene(menuPause.getVbox(), Color.TRANSPARENT);
+                stagea.setScene(scene);
                 stagea.show();
+                scene.addEventHandler(KeyEvent.KEY_PRESSED, event3 -> {
+                    if(event3.getCode() == KeyCode.ESCAPE)
+                        stagea.close();
+                });
+
             }
             else if(event2.getCode() == KeyCode.TAB){
 
