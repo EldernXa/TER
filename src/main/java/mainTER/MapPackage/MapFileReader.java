@@ -102,7 +102,7 @@ public class MapFileReader {
                                 imageHeight2 = heightFromName(line[0]);
                                 collideObjectArrayList.add(new RndObj(pathName, line[0],new Coordinate(doubles[1], doubles[2]-imageHeight2)));
                                 break;
-                            case "lever" :
+                            case "lever" : //TODO ajouter une valeur pour l'object qui subit
                                 collideObjectArrayList.add(new Lever(new Coordinate(doubles[1], doubles[2])));
                                 break;
                             case  "forgottensword":
