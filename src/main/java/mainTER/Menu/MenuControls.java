@@ -10,8 +10,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
 import mainTER.DBManage.ControlsDBManager;
 import mainTER.DBManage.SkillDBManager;
+import mainTER.Tools.ReturnBack;
 import mainTER.exception.SkillCtrlAlreadyUsedByMovementControlException;
 import mainTER.exception.SkillCtrlAlreadyUsedException;
 import mainTER.exception.SkillDataGetException;
@@ -31,17 +33,17 @@ public class MenuControls {
 
 
 
-    public MenuControls() throws SQLException {
+    public MenuControls(Stage stage) throws SQLException {
 
-        /*controlsDBManager.dropCascade();
-        /controlsDBManager.createTableControls();
-        //controlsDBManager.insertIntoTableControls("d","q", " ","a", "e"); */
+
         listControls = controlsDBManager.toArray();
-
         pane.getChildren().addAll(vbox);
         pane.getChildren().add(labelTitre);
         controlDisplay();
         controlSkillDisplay();
+
+        ReturnBack.setRevenir(stage,stage.getScene(),pane);
+
 
     }
 
@@ -85,6 +87,7 @@ public class MenuControls {
 
                 hbox.getChildren().addAll(labelNameSkill, button);
                 vbox.getChildren().addAll(hbox);
+                vbox.setTranslateX(100);
                 setControlsSkill(button, labelNameSkill, nameCharacter);
             }
         }

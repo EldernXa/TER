@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import mainTER.Tools.ReturnBack;
 
 
 public class MenuSettings {
@@ -35,6 +36,7 @@ public class MenuSettings {
 
             pane.getChildren().add(vbox);
             StackPane.setAlignment(titre,Pos.TOP_CENTER);
+            ReturnBack.setRevenir(stage,stage.getScene(),pane);
 
 
 

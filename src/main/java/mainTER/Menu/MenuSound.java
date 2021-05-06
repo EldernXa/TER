@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import mainTER.Music.Music;
+import mainTER.Tools.ReturnBack;
 
 public class MenuSound {
 
@@ -25,17 +26,15 @@ public class MenuSound {
    private final Label labelSon = new Label("Régler le niveau du son :");
 
 
-    public MenuSound() {
+    public MenuSound(Stage stage) {
         pane.setStyle("-fx-background-color: lightgray");
         setVolumeSlider();
         styleLabelSon();
         son.getChildren().addAll(labelSon,volumeSlider);
         son.setAlignment(Pos.CENTER_LEFT);
         pane.getChildren().add(son);
-        //setRevenir(stage,sceneBack);
-       // setdisable(game);
-        //pane.getChildren().add(revenir.getImageView());
-        //StackPane.setAlignment(revenir.getImageView(),Pos.TOP_LEFT);
+        ReturnBack.setRevenir(stage,stage.getScene(),pane);
+
     }
 
 

@@ -93,10 +93,18 @@ public class MenuItem extends StackPane {
 
             switch (name) {
 
-                case "SINGLEPLAYER":{
-                    MenuLevel menuLevel = new MenuLevel(stage);
+                case "SINGLEPLAYER":
+                case "BACK TO MENU" : {
+                    stage.close();
+
+                    Stage newStage = new Stage();
+                    MenuLevel menuLevel = new MenuLevel(newStage);
                     Scene scene = new Scene( menuLevel.getPane(), 860,600);
-                    stage.setScene(scene);
+
+
+                    newStage.setScene(scene);
+                    newStage.show();
+
 
                 }
                 break;
@@ -123,6 +131,7 @@ public class MenuItem extends StackPane {
                 break;
                 case "SETTINGS": {
                     MenuSettings menuSettings = new MenuSettings(stage);
+
                     Scene scene=  new Scene(menuSettings.getPane(), Screen.getPrimary().getVisualBounds().getWidth()/2,Screen.getPrimary().getVisualBounds().getHeight()/2);
 
                     stage.setScene(scene);
@@ -171,7 +180,7 @@ public class MenuItem extends StackPane {
                     break;
                 }
                 case "SOUND SETTINGS": {
-                    MenuSound menuSound = new MenuSound();
+                    MenuSound menuSound = new MenuSound(stage);
 
                     stage.setScene(menuSound.getScene());
                     stage.centerOnScreen();
@@ -180,7 +189,7 @@ public class MenuItem extends StackPane {
                 case "CONTROLS SETTINGS" : {
 
                     try {
-                        MenuControls menuControls = new MenuControls();
+                        MenuControls menuControls = new MenuControls(stage);
                         stage.setScene(menuControls.getScene());
                         stage.centerOnScreen();
                     } catch (SQLException throwables) {

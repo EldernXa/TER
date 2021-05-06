@@ -12,6 +12,7 @@ public class MenuPause {
         vbox = new MenuBox(
                 new MenuItem("BACK TO GAME",stage),
                 new MenuItem("SETTINGS",stage),
+                new MenuItem("BACK TO MENU",stage),
                 new MenuItem("QUIT",stage)
         );
         vbox.setTranslateX(50);

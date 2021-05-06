@@ -6,6 +6,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import mainTER.LoadOfFXML;
+import mainTER.Tools.ReturnBack;
 
 import java.awt.*;
 
@@ -28,6 +29,7 @@ public class MultiplayerMenu extends StackPane {
         vbox.setTranslateY(250);
         vbox.setSpacing(5);
         pane.getChildren().add(vbox);
+        ReturnBack.setRevenir(stage,stage.getScene(),pane);
     }
 
 

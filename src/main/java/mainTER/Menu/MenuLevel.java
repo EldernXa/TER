@@ -3,6 +3,7 @@ package mainTER.Menu;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import mainTER.Tools.ReturnBack;
 
 public class MenuLevel extends StackPane {
 
@@ -20,7 +21,7 @@ public class MenuLevel extends StackPane {
         vbox.setTranslateY(250);
         vbox.setSpacing(5);
         pane.getChildren().add(vbox);
-
+        ReturnBack.setRevenir(stage,stage.getScene(),pane);
 
     }
 
