@@ -1,10 +1,11 @@
 package mainTER.MapPackage;
 
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
-
 import java.io.File;
 
 public class Lever extends InteractiveObject{
@@ -29,15 +30,14 @@ public class Lever extends InteractiveObject{
     }
 
     @Override
-    public void interaction(CollideObject collideObject) {
-        System.out.println(new Image(new File("/mainTER/MapPackage/Objects/lever_left.png").toURI().toString()).getUrl());//TODO essayé de le rendre plus propre
+    public void interaction(CollideObject collideObject) {}
+
+    @Override
+    public void Action() {
         if (this.getImageView().getImage().getUrl().contains("lever_left")){
-            System.out.println("Gauche droite");
             this.getImageView().setImage(new Image(new File("./src/main/resources/mainTER/MapPackage/Objects/lever_right.png").toURI().toString()));
         }
         else{
-
-            System.out.println("Doite gauche");
             this.getImageView().setImage(new Image(new File("./src/main/resources/mainTER/MapPackage/Objects/lever_left.png").toURI().toString()));
         }
     }
