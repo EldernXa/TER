@@ -68,7 +68,7 @@ public class MenuItem extends StackPane {
         listCharacter = new ArrayList<>();
         this.listName = personDBManager.getListNameFromDatabase();
 
-        setUpMouse(stage, name);
+        setUpMouse(this.stage, name);
 
 
 
@@ -78,10 +78,9 @@ public class MenuItem extends StackPane {
     /**
      * When we click on the rectangle
      *
-     * @param stage current stage which we are going to change his scene
      * @param name  name of the item
      */
-    public void clickOn(Stage stage, String name) {
+    public void clickOn(String name) {
 
         setOnMousePressed(event -> {
             rectangleText.setFill(Color.DARKVIOLET);
@@ -90,7 +89,7 @@ public class MenuItem extends StackPane {
 
 
         setOnMouseClicked(event -> {
-            Music.stopMusique();
+           // Music.stopMusique();
 
             switch (name) {
 
@@ -123,15 +122,11 @@ public class MenuItem extends StackPane {
                 }
                 break;
                 case "SETTINGS": {
+                    MenuSettings menuSettings = new MenuSettings(stage);
+                    Scene scene=  new Scene(menuSettings.getPane(), Screen.getPrimary().getVisualBounds().getWidth()/2,Screen.getPrimary().getVisualBounds().getHeight()/2);
 
-
-                    Stage mainStage = new Stage();
-
-                    MenuSettings menuSettings = new MenuSettings();
-
-                    mainStage.setScene(menuSettings.getScene());
-                    mainStage.centerOnScreen();
-                    mainStage.show();
+                    stage.setScene(scene);
+                    stage.centerOnScreen();
                 }
                 break;
                 case "QUIT": {
@@ -176,8 +171,10 @@ public class MenuItem extends StackPane {
                     break;
                 }
                 case "SOUND SETTINGS": {
-                    MenuSound menuSound = new MenuSound(stage);
+                    MenuSound menuSound = new MenuSound();
+
                     stage.setScene(menuSound.getScene());
+                    stage.centerOnScreen();
                     break;
                 }
                 case "CONTROLS SETTINGS" : {
@@ -185,6 +182,7 @@ public class MenuItem extends StackPane {
                     try {
                         MenuControls menuControls = new MenuControls();
                         stage.setScene(menuControls.getScene());
+                        stage.centerOnScreen();
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
@@ -221,7 +219,7 @@ public class MenuItem extends StackPane {
             textMenu.setFill(Color.DARKGREY);
         });
 
-        clickOn(stage, name);
+        clickOn( name);
 
         setOnMouseReleased(event -> rectangleText.setFill(gradient));
     }

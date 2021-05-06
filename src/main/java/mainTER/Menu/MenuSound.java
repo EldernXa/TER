@@ -25,7 +25,7 @@ public class MenuSound {
    private final Label labelSon = new Label("Régler le niveau du son :");
 
 
-    public MenuSound(Stage stage) {
+    public MenuSound() {
         pane.setStyle("-fx-background-color: lightgray");
         setVolumeSlider();
         styleLabelSon();
