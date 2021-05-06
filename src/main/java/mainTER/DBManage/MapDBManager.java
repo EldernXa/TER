@@ -1,6 +1,7 @@
 package mainTER.DBManage;
 
 import mainTER.Tools.Coordinate;
+import mainTER.exception.MapDataGetException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,15 +35,23 @@ public class MapDBManager {
         dbManager.createTableOrInsert(reqValues);
     }
 
-    public String getFirstCharacter(String mapName) throws SQLException {
+    public String getFirstCharacter(String mapName) throws MapDataGetException {
         ResultSet resultSet = selectMapIntoTableMap(mapName);
-        return SecureManage.getDecrypted(resultSet.getString("nameFirstCharacter"));
+        try {
+            return SecureManage.getDecrypted(resultSet.getString("nameFirstCharacter"));
+        }catch(SQLException sqlException){
+            throw new MapDataGetException(mapName);
+        }
     }
 
-    public Coordinate getInitialCoordinate(String mapName) throws SQLException{
+    public Coordinate getInitialCoordinate(String mapName) throws MapDataGetException{
         ResultSet resultSet = selectMapIntoTableMap(mapName);
-        return new Coordinate(Double.parseDouble(SecureManage.getDecrypted(resultSet.getString("coordinateX"))),
-                Double.parseDouble(SecureManage.getDecrypted(resultSet.getString("coordinateY"))));
+        try {
+            return new Coordinate(Double.parseDouble(SecureManage.getDecrypted(resultSet.getString("coordinateX"))),
+                    Double.parseDouble(SecureManage.getDecrypted(resultSet.getString("coordinateY"))));
+        }catch(SQLException sqlException){
+            throw new MapDataGetException(mapName);
+        }
     }
 
     private ResultSet selectMapIntoTableMap(String mapName){

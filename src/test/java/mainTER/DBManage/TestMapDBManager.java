@@ -1,6 +1,7 @@
 package mainTER.DBManage;
 
 import mainTER.Tools.Coordinate;
+import mainTER.exception.MapDataGetException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,6 +58,16 @@ public class TestMapDBManager {
     }
 
     @Test
+    public void testGettingFirstNameCharacterWithFalseNameMapThrowException(){
+        try{
+            insertDataForMap();
+            assertThrows(MapDataGetException.class, ()->mapDBManager.getFirstCharacter("Castle"));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
     public void testGettingInitialCoordinate(){
         try{
             insertDataForMap();
@@ -65,6 +76,16 @@ public class TestMapDBManager {
             assertEquals(coordinateY, c.getY());
         }catch(Exception exception){
             exception.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
+    public void testGettingInitialCoordinateWithFalseNameMapThrowException(){
+        try{
+            insertDataForMap();
+            assertThrows(MapDataGetException.class, ()->mapDBManager.getInitialCoordinate("Castle"));
+        }catch(Exception exception){
             fail();
         }
     }
