@@ -27,7 +27,7 @@ public abstract class InteractiveObject extends CollideObject {
     }
 
     @Override
-    public InteractiveObject clone() {
+    public InteractiveObject clone() { //Always redefine clone
         return null;
     }
 
