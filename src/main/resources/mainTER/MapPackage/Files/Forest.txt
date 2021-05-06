@@ -18,3 +18,4 @@ crate 1400 710
 crate 1100 710
 trunk 1693 738 100
 forgottensword 5216 658
+lever 1325 689

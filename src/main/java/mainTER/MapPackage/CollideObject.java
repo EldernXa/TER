@@ -98,12 +98,12 @@ public abstract class CollideObject {
                         }
                     }
 
-                    System.out.println("minX " + collideObject2.getAppropriateNode().getBoundsInParent().getMinX());
+                    /*System.out.println("minX " + collideObject2.getAppropriateNode().getBoundsInParent().getMinX());
                     System.out.println("Droit serpent " + this.getAppropriateNode().getBoundsInParent().getMaxX());
                     System.out.println("maxX " + collideObject2.getAppropriateNode().getBoundsInParent().getMaxX());
                     System.out.println("minY " + collideObject2.getAppropriateNode().getBoundsInParent().getMinY());
                     System.out.println("maxY " + collideObject2.getAppropriateNode().getBoundsInParent().getMaxY());
-                    System.out.println("Right space = " + (collideObject2.getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX()));
+                    System.out.println("Right space = " + (collideObject2.getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX()));*/
                     return collideObject2.getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX();
                 }
             }
