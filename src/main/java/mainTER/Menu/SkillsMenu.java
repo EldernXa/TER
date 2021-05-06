@@ -1,11 +1,15 @@
 package mainTER.Menu;
 
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import mainTER.CharacterGameplay.Character;
 import mainTER.DBManage.ControlsDBManager;
 import mainTER.DBManage.PersonDBManager;
@@ -15,6 +19,7 @@ import mainTER.Tools.ImageViewSizePos;
 import mainTER.exception.ControlsDataGetException;
 import mainTER.exception.SkillDataGetException;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -25,7 +30,7 @@ public class SkillsMenu {
     PersonDBManager personDBManager = new PersonDBManager();
     ControlsDBManager controlsDBManager = new ControlsDBManager();
     SkillDBManager skillDBManager = new SkillDBManager();
-    Scene scene = new Scene(pane,800,500);
+    Scene scene = new Scene(pane,800,500, Color.TRANSPARENT);
     Character currentCharacter;
     Text nameSkill = new Text();
     Stage stage;
@@ -42,6 +47,7 @@ public class SkillsMenu {
         listCharacter = characterArrayList;
         display();
         changePerso();
+        pane.setStyle("-fx-background-color: rgba(14, 14, 14, 0.7); -fx-background-radius: 100;");
 
     }
 
@@ -50,13 +56,16 @@ public class SkillsMenu {
         vbGen.getChildren().clear();
         pane.getChildren().clear();
         nameCharacter.setText(currentCharacter.getName());
-        System.out.println(currentCharacter.getName());
-        logo = new ImageViewSizePos(currentCharacter.getLogo().getPathImage(),new Coordinate(0,0));
-        logo.setSize(40,40);
+        logo = new ImageViewSizePos(currentCharacter.getLogo().getPathImage(),new Coordinate(10,10));
+        //logo.setSize(100,100);
 
         nameCharacter.setLayoutX(300);
-        nameCharacter.setLayoutY(30);
+        nameCharacter.setLayoutY(60);
 
+        nameCharacter.setFill(Color.WHITE);
+        nameCharacter.setStyle("-fx-font-weight: bold");
+        nameCharacter.setFont(Font.font("Tw Cen Mt Condensed",60));
+        nameCharacter.setStyle("--fx-text-fill: white");
 
         for(int i = 1;i <= currentCharacter.getListSkill().size();i++ ){
 
@@ -64,6 +73,12 @@ public class SkillsMenu {
                 VBox vBox = new VBox();
                 nameSkill = new Text(skillDBManager.getNameSkill(currentCharacter.getName(),i));
                 description = new Text( skillDBManager.getDescription(currentCharacter.getName(),i));
+                nameSkill.setFill(Color.WHITE);
+                description.setFill(Color.WHITE);
+
+                nameSkill.setFont(Font.font("Tw Cen Mt Condensed",40));
+                description.setFont(Font.font("Tw Cen Mt Condensed",30));
+
 
                 vBox.getChildren().add(nameSkill);
                 vBox.getChildren().add(description);
@@ -78,9 +93,17 @@ public class SkillsMenu {
 
             try {
                 ArrayList<String> stats = personDBManager.toArray(currentCharacter.getName());
-                vbStat.getChildren().add(new Text("Speed: "+ stats.get(1)));
+                Text speed = new Text("Speed: "+ stats.get(1));
+                Text weight  =new Text("Weight: "+ stats.get(2));
 
-                vbStat.getChildren().add(new Text("Weight: "+ stats.get(2)));
+                speed.setFont(Font.font("Tw Cen Mt Condensed",30));
+                weight.setFont(Font.font("Tw Cen Mt Condensed",30));
+
+
+                speed.setFill(Color.WHITE);
+                weight.setFill(Color.WHITE);
+                vbStat.getChildren().add(speed);
+                vbStat.getChildren().add(weight);
 
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -88,7 +111,7 @@ public class SkillsMenu {
 
 
         vbGen.setLayoutX(300);
-        vbGen.setLayoutY(50);
+        vbGen.setLayoutY(70);
         vbStat.setLayoutY(300);
         pane.getChildren().addAll(vbGen,logo.getImageView(),nameCharacter,vbStat);
 

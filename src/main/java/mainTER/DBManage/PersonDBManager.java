@@ -1,5 +1,6 @@
 package mainTER.DBManage;
 
+import mainTER.CharacterGameplay.Character;
 import mainTER.exception.PersonDataAlreadyExistException;
 import mainTER.exception.PersonDataNotCorrectException;
 import mainTER.exception.PersonDataGetException;
@@ -98,6 +99,11 @@ public class PersonDBManager {
     public boolean isCharacterExist(String nameCharacter){
         List<String> listCharacter = getListNameFromDatabase();
         return listCharacter.contains(nameCharacter);
+    }
+
+    public Character getCharacter(String nameCharacter){
+        // TODO verify exist
+        return new Character(nameCharacter);
     }
 
     /**

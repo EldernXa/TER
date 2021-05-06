@@ -19,6 +19,7 @@ public class App extends Application {
     public void start(Stage stage) {
         DataInsert.insertPerson();
         DataInsert.insertSkill();
+        DataInsert.insertMap();
 //        DataInsert.insertControls();
         var scene = new Scene(createContent(stage));
         stage.setScene(scene);

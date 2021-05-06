@@ -1,6 +1,7 @@
 package mainTER.Tools;
 
 import mainTER.DBManage.ControlsDBManager;
+import mainTER.DBManage.MapDBManager;
 import mainTER.DBManage.PersonDBManager;
 import mainTER.DBManage.SkillDBManager;
 import mainTER.exception.*;
@@ -50,17 +51,35 @@ public class DataInsert {
             skillDBManager.createTableSkill();
 
             try {
-                skillDBManager.insertIntoTableSkill("SHIELD", "1", "Paladin", true, false, true,"porte");
-                skillDBManager.insertIntoTableSkill("ATTACK", "2", "Paladin", false, true, false,"attaque");
-                skillDBManager.insertIntoTableSkill("BARRIER", "3", "Paladin", true, false, true,"protege");
-                skillDBManager.insertIntoTableSkill("FLY", "1", "Demon", true, false, true,"sprinter");
-                skillDBManager.insertIntoTableSkill("MOULT", "1", "Serpent", false, false, false,"muer");
-                skillDBManager.insertIntoTableSkill("WALL_JUMP","1","HommeDragon",false,false,false,"grimper");
+                skillDBManager.insertIntoTableSkill("SHIELD", "1", "Paladin", true, false, true,"Use the shield" +
+                        "to lift other characters");
+                skillDBManager.insertIntoTableSkill("ATTACK", "2", "Paladin", false, true, false,"Use the sword to " +
+                        "break obstacles");
+                skillDBManager.insertIntoTableSkill("BARRIER", "3", "Paladin", true, false, true,"Create a barrier" +
+                        "which absorb all damages for a short \ntime");
+                skillDBManager.insertIntoTableSkill("FLY", "1", "Demon", true, false, true,"Increase the speed for a " +
+                        "short time");
+                skillDBManager.insertIntoTableSkill("MOULT", "1", "Serpent", false, false, false,"Create a moult of" +
+                        "himself. The moult is usable as a \nplatform for one time");
+                skillDBManager.insertIntoTableSkill("WALL_JUMP","1","HommeDragon",false,false,false,"Will grab walls" +
+                        "while jumping");
             } catch (SkillAlreadyExistException | SkillCtrlAlreadyUsedException | SkillDataNotCorrectException |
                     SkillCtrlAlreadyUsedByMovementControlException | SkillCharacterNotExistException exception) {
                 System.out.println(exception.getMessage());
             }
 //        }
+    }
+
+    public static void insertMap(){
+        MapDBManager mapDBManager = new MapDBManager();
+        mapDBManager.removeTableMap();
+        mapDBManager.createTableMap();
+        try {
+            mapDBManager.insertIntoTableMap("Forest", "Demon", 1200, 600);
+            mapDBManager.insertIntoTableMap("Castle", "Demon", 1985, 20);
+        }catch(MapCharacterNotExistException exception){
+            exception.printStackTrace();
+        }
     }
 
 }

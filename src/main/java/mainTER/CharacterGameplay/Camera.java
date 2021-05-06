@@ -134,9 +134,11 @@ public class Camera {
             }
             else if(event2.getCode() == KeyCode.TAB){
 
-                Stage stagep = new Stage(StageStyle.TRANSPARENT);
 
+
+                Stage stagep = new Stage(StageStyle.TRANSPARENT);
                 SkillsMenu skillsMenu = new SkillsMenu(stage,listCharacter,displayCharacter.getCharacter());
+               // skillsMenu.getPane().setStyle("-fx-background-color: rgba(14, 14, 14, 0.5); -fx-background-radius: 100;");
                 stagep.initOwner(stage);
                 stagep.initModality(Modality.APPLICATION_MODAL);
                 stagep.setScene(skillsMenu.getScene());
