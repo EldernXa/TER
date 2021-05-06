@@ -74,9 +74,12 @@ public class DataInsert {
         MapDBManager mapDBManager = new MapDBManager();
         mapDBManager.removeTableMap();
         mapDBManager.createTableMap();
-
-        mapDBManager.insertIntoTableMap("Forest", "Demon", 1200, 600);
-        mapDBManager.insertIntoTableMap("Castle", "Demon", 1985, 20);
+        try {
+            mapDBManager.insertIntoTableMap("Forest", "Demon", 1200, 600);
+            mapDBManager.insertIntoTableMap("Castle", "Demon", 1985, 20);
+        }catch(MapCharacterNotExistException exception){
+            exception.printStackTrace();
+        }
     }
 
 }

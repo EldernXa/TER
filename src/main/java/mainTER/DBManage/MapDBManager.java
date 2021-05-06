@@ -2,6 +2,7 @@ package mainTER.DBManage;
 
 import mainTER.Tools.Coordinate;
 import mainTER.exception.MapDataGetException;
+import mainTER.exception.MapCharacterNotExistException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,12 +11,20 @@ public class MapDBManager {
 
     private final DBManager dbManager;
 
+    private final boolean isForTest;
+
+    private final String nameDatabases;
+
     public MapDBManager(){
         this.dbManager = new DBManager();
+        isForTest = false;
+        nameDatabases = "";
     }
 
     public MapDBManager(String name){
         this.dbManager = new DBManager(name, "test");
+        isForTest = true;
+        nameDatabases = name;
     }
 
     public void createTableMap(){
@@ -27,7 +36,19 @@ public class MapDBManager {
                 ");");
     }
 
-    public void insertIntoTableMap(String mapName, String nameFirstCharacter, double coordinateX, double coordinateY){
+    public void insertIntoTableMap(String mapName, String nameFirstCharacter, double coordinateX, double coordinateY)
+            throws MapCharacterNotExistException{
+        PersonDBManager personDBManager;
+        if(isForTest){
+            personDBManager = new PersonDBManager(nameDatabases);
+        }else{
+            personDBManager = new PersonDBManager();
+        }
+
+        if(!personDBManager.isCharacterExist(nameFirstCharacter)){
+            throw new MapCharacterNotExistException(mapName, nameFirstCharacter);
+        }
+
         String reqValues = "INSERT INTO Map VALUES (" +
                 "'"+SecureManage.getEncrypted(mapName)+"','" +
                 SecureManage.getEncrypted(nameFirstCharacter)+"','" +

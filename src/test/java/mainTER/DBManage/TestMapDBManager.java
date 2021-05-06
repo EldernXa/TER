@@ -1,7 +1,10 @@
 package mainTER.DBManage;
 
 import mainTER.Tools.Coordinate;
+import mainTER.exception.MapCharacterNotExistException;
 import mainTER.exception.MapDataGetException;
+import mainTER.exception.PersonDataAlreadyExistException;
+import mainTER.exception.PersonDataNotCorrectException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestMapDBManager {
 
     private final MapDBManager mapDBManager = new MapDBManager("testDB");
+    private final PersonDBManager personDBManager = new PersonDBManager("testDB");
     private final String mapName = "Forest";
     private final String nameFirstCharacter = "Paladin";
     private final double coordinateX = 5.0;
@@ -19,16 +23,19 @@ public class TestMapDBManager {
     @BeforeEach
     public void beforeTest(){
         mapDBManager.dropCascade();
+        personDBManager.dropCascade();
     }
 
     @AfterEach
     public void afterTest(){
         mapDBManager.removeTableMap();
+        personDBManager.removeTablePerson();
     }
 
     @Test
     public void testCreatingTable(){
         try{
+            personDBManager.createTablePerson();
             mapDBManager.createTableMap();
             assertTrue(true);
         }catch(Exception exception){
@@ -40,6 +47,8 @@ public class TestMapDBManager {
     public void testInsertingDataIntoMap(){
         try{
             mapDBManager.createTableMap();
+            personDBManager.createTablePerson();
+            personDBManager.insertIntoTablePerson("Paladin", 5, 5, 5, 5, true);
             mapDBManager.insertIntoTableMap(mapName, nameFirstCharacter, coordinateX, coordinateY);
             assertTrue(true);
         }catch(Exception exception){
@@ -90,8 +99,20 @@ public class TestMapDBManager {
         }
     }
 
-    private void insertDataForMap(){
+    @Test
+    public void testInsertingMapWithFirstCharacterWhoDoesntExistThrowException(){
+        try{
+            insertDataForMap();
+            assertThrows(MapCharacterNotExistException.class, ()->mapDBManager.insertIntoTableMap("Castle", "Sazer", 5, 5));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    private void insertDataForMap() throws MapCharacterNotExistException, PersonDataAlreadyExistException, PersonDataNotCorrectException {
         mapDBManager.createTableMap();
+        personDBManager.createTablePerson();
+        personDBManager.insertIntoTablePerson("Paladin", 5, 5, 5, 5, true);
         mapDBManager.insertIntoTableMap(mapName, nameFirstCharacter, coordinateX, coordinateY);
     }
 
