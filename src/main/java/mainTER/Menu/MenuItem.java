@@ -251,7 +251,7 @@ public class MenuItem extends StackPane {
         stage.setResizable(false);
         stage.sizeToScene();
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0), mapName, listCharacter, stackPane, background,stage);
+        DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, mapName, listCharacter, stackPane, background,stage);
         displayCharacter.startDisplay();
         //Make the scene scale if the screen is larger
 

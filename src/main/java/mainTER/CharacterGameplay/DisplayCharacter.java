@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import mainTER.DBManage.ControlsDBManager;
 import mainTER.DBManage.MapDBManager;
+import mainTER.DBManage.PersonDBManager;
 import mainTER.MapPackage.CollideObject;
 import mainTER.MapPackage.CommingFrom;
 import mainTER.MapPackage.SwitchCharacter;
@@ -50,10 +51,9 @@ public class DisplayCharacter extends CollideObject {
      *
      * @param scene scene of the game.
      * @param pane is the level of the game.
-     * @param character is the character we will display.
      */
-    public DisplayCharacter(Scene scene, Pane pane, Character character, String mapName, ArrayList<Character> listCharacter, StackPane stackPane, ImageView background, Stage stage){
-        this(scene, pane, character, mapName);
+    public DisplayCharacter(Scene scene, Pane pane, String mapName, ArrayList<Character> listCharacter, StackPane stackPane, ImageView background, Stage stage){
+        this(scene, pane, mapName);
         SwitchCharacter switchCharacter = new SwitchCharacter(listCharacter,this);
         double height = Screen.getPrimary().getBounds().getHeight();
         double h = 1;
@@ -67,12 +67,48 @@ public class DisplayCharacter extends CollideObject {
         characterMovementAndDisplayManagement.setCamera(camera);
     }
 
+    public DisplayCharacter(Scene scene, Pane pane, String mapName){
+        MapDBManager mapDBManager = new MapDBManager();
+        this.lvlOfTheGame = scene;
+        listCurrentKeyCode = new ArrayList<>();
+        characterMovementAndDisplayManagement = new CharacterMovementAndDisplayManagement(pane, null);
+        String nameFirstCharacter = "";
+        try{
+            nameFirstCharacter = mapDBManager.getFirstCharacter(mapName);
+        }catch(Exception ignored){
+
+        }
+        this.character = new PersonDBManager().getCharacter(nameFirstCharacter);
+        Coordinate coordinate = null;
+        try {
+            coordinate = mapDBManager.getInitialCoordinate(mapName);
+        }catch(Exception ignored){
+
+        }
+        currentCoordinateOfTheCharacter = coordinate;
+        initialCoordinateOfTheMap = coordinate;
+        animationForTheCharacter = new AnimationCharacter(character);
+        ControlsDBManager controlsDBManager = new ControlsDBManager();
+        camera = null;
+
+        left = "";
+        right = "";
+        jump = "";
+        try {
+            left = controlsDBManager.getLeft().toUpperCase();
+            right = controlsDBManager.getRight().toUpperCase();
+            jump = controlsDBManager.getJump();
+        } catch (ControlsDataGetException e) {
+            e.printStackTrace();
+        }
+    }
+
     public DisplayCharacter(Scene scene, Pane pane, Character character, String mapName){
+        MapDBManager mapDBManager = new MapDBManager();
         this.lvlOfTheGame = scene;
         listCurrentKeyCode = new ArrayList<>();
         characterMovementAndDisplayManagement = new CharacterMovementAndDisplayManagement(pane, null);
         this.character = character;
-        MapDBManager mapDBManager = new MapDBManager();
         Coordinate coordinate = null;
         try {
             coordinate = mapDBManager.getInitialCoordinate(mapName);
