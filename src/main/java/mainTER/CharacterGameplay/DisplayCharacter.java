@@ -16,9 +16,7 @@ import javafx.util.Duration;
 import mainTER.DBManage.ControlsDBManager;
 import mainTER.DBManage.MapDBManager;
 import mainTER.DBManage.PersonDBManager;
-import mainTER.MapPackage.CollideObject;
-import mainTER.MapPackage.CommingFrom;
-import mainTER.MapPackage.SwitchCharacter;
+import mainTER.MapPackage.*;
 import mainTER.Tools.CharacterMovementAndDisplayManagement;
 import mainTER.Tools.Coordinate;
 import mainTER.exception.ControlsDataGetException;
@@ -46,6 +44,7 @@ public class DisplayCharacter extends CollideObject {
     private  String right;
     private  String left;
     private  String jump;
+    private String action;
     private Camera camera;
     /**
      *
@@ -109,10 +108,12 @@ public class DisplayCharacter extends CollideObject {
         left = "";
         right = "";
         jump = "";
+        action = "";
         try {
             left = controlsDBManager.getLeft().toUpperCase();
             right = controlsDBManager.getRight().toUpperCase();
             jump = controlsDBManager.getJump();
+            action = controlsDBManager.getAction();
         } catch (ControlsDataGetException e) {
             e.printStackTrace();
         }
@@ -139,10 +140,12 @@ public class DisplayCharacter extends CollideObject {
         left = "";
         right = "";
         jump = "";
+        action = "";
         try {
             left = controlsDBManager.getLeft().toUpperCase();
             right = controlsDBManager.getRight().toUpperCase();
             jump = controlsDBManager.getJump();
+            action = controlsDBManager.getAction();
         } catch (ControlsDataGetException e) {
             e.printStackTrace();
         }
@@ -486,6 +489,23 @@ public class DisplayCharacter extends CollideObject {
             listCurrentKeyCode.add(keyCode);
             isJumping = true;
             this.jumpStrength = character.getJumpStrength();
+        }
+    }
+
+    private void eventForAction(KeyEvent eventForPressedKey){
+        KeyCode keyCode = KeyCode.getKeyCode(action);
+        if(eventForPressedKey.getCode() == keyCode && !listCurrentKeyCode.contains(keyCode)){
+            for(CollideObject collideObject : MapFileReader.collideObjectArrayList){
+
+                if(collideObject.getAppropriateNode().getBoundsInParent().intersects(this.getAppropriateNode().getBoundsInParent())){
+                    try{
+                    ((InteractiveObject) collideObject).Action();
+                    }catch (Exception e){
+                        System.out.println("Cant be an Inetractive object");
+                    }
+                }
+
+            }
         }
     }
 

@@ -23,6 +23,10 @@ public abstract class InteractiveObject extends CollideObject {
         return coordinate;
     }
 
+    public void Action(){
+
+    }
+
     @Override
     public double getX() {
         return this.coordinate.getX();
