@@ -24,7 +24,8 @@ public class ControlsDBManager {
                 "leftControl VARCHAR(30)," +
                 "jump VARCHAR(30)," +
                 "switchUp VARCHAR(30)," +
-                "switchDown VARCHAR(30)" +
+                "switchDown VARCHAR(30)," +
+                "action VARCHAR(30)"+
                 ");");
     }
     public void removeTableControls(){
@@ -150,6 +151,21 @@ public class ControlsDBManager {
         String request = "UPDATE Controls " +
                 "SET " +
                 "switchDown = '" + SecureManage.getEncrypted(switchDown) + "';";
+        dbManager.updateTable(request);
+    }
+
+    public String getAction() throws ControlsDataGetException{
+        ResultSet rs = selectIntoTableControls();
+        try{
+            return SecureManage.getDecrypted((String) rs.getObject("action"));
+        }catch(SQLException sqlException){
+            throw new ControlsDataGetException();
+        }
+    }
+    public void setAction(String action) {
+        String request = "UPDATE Controls " +
+                "SET " +
+                "action = '" + SecureManage.getEncrypted(action) + "';";
         dbManager.updateTable(request);
     }
 

@@ -27,7 +27,7 @@ public class MenuControls {
     List<String> listControls;
     Label labelTitre = new Label();
     private final StackPane pane = new StackPane();
-    private final Scene scene = new Scene(pane, Screen.getPrimary().getVisualBounds().getWidth()/1.5,Screen.getPrimary().getVisualBounds().getHeight()- (Screen.getPrimary().getVisualBounds().getHeight()/5));
+    private final Scene scene = new Scene(pane, Screen.getPrimary().getVisualBounds().getWidth()/1.5,Screen.getPrimary().getVisualBounds().getHeight()- (Screen.getPrimary().getVisualBounds().getHeight()/7));
 
     VBox vbox = new VBox(20);
 
@@ -108,19 +108,22 @@ public class MenuControls {
                     break;
                 }
                 case 2: {
-                    label.setText("jump");
+                    label.setText("Jump");
                     break;
                 }
                 case 3:{
-                    label.setText("switchUp");
+                    label.setText("SwitchUp");
                     break;
                 }
                 case 4:{
-                    label.setText("switchDown");
+                    label.setText("SwitchDown");
                     break;
                 } case 0:{
-                    label.setText("right");
+                    label.setText("Right");
                     break;
+                }
+                case 5: {
+                    label.setText("Action");
                 }
 
             }

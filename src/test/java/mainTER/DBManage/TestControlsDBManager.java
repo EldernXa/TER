@@ -14,6 +14,7 @@ public class TestControlsDBManager {
     private final String jump = " " ;
     private final String switchUp = "a";
     private final String switchDown = "e";
+    private final String action = "f";
 
 
 
@@ -41,7 +42,7 @@ public class TestControlsDBManager {
     public void testInsertDataIntoTablePerson(){
         try {
             controlsDBManager.createTableControls();
-            controlsDBManager.insertIntoTableControls(right,left,jump,switchUp,switchDown);
+            controlsDBManager.insertIntoTableControls(right,left,jump,switchUp,switchDown,action);
         }catch(Exception exception){
             fail();
         }
@@ -151,12 +152,32 @@ public class TestControlsDBManager {
             fail();
         }
     }
+    @Test
+    public void testGettingActionFromTableControls(){
+        try {
+            insertValuesIntoControls();
+            assertEquals(action, controlsDBManager.getAction());
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testSetActionFromTableControls(){
+        try {
+            insertValuesIntoControls();
+            controlsDBManager.setRight("f");
+            assertEquals("f",controlsDBManager.getAction());
+        }catch (Exception e){
+            fail();
+        }
+    }
 
 
     private void insertValuesIntoControls(){
         try{
             controlsDBManager.createTableControls();
-            controlsDBManager.insertIntoTableControls(right,left,jump,switchUp,switchDown);
+            controlsDBManager.insertIntoTableControls(right,left,jump,switchUp,switchDown,action);
 
             //System.out.println(controlsDBManager.toArray());
         }catch(Exception sqlException){
