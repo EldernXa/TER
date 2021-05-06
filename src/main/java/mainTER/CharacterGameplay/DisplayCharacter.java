@@ -67,6 +67,21 @@ public class DisplayCharacter extends CollideObject {
         characterMovementAndDisplayManagement.setCamera(camera);
     }
 
+    public DisplayCharacter(Scene scene, Pane pane, String mapName, Character character, ArrayList<Character> listCharacter, StackPane stackPane, ImageView background, Stage stage){
+        this(scene, pane, character, mapName);
+        SwitchCharacter switchCharacter = new SwitchCharacter(listCharacter,this);
+        double height = Screen.getPrimary().getBounds().getHeight();
+        double h = 1;
+        if(height>background.getImage().getHeight()){
+            h = height/background.getImage().getHeight();
+            Scale scale = new Scale(h, h, 0, 0);
+            scene.getRoot().getTransforms().add(scale);
+        }
+        stackPane.getChildren().add(switchCharacter);
+        camera = new Camera(scene, this, switchCharacter, listCharacter, h, background,stage);
+        characterMovementAndDisplayManagement.setCamera(camera);
+    }
+
     public DisplayCharacter(Scene scene, Pane pane, String mapName){
         MapDBManager mapDBManager = new MapDBManager();
         this.lvlOfTheGame = scene;

@@ -25,7 +25,7 @@ public class MenuControls {
     List<String> listControls;
     Label labelTitre = new Label();
     private final StackPane pane = new StackPane();
-    private final Scene scene = new Scene(pane, Screen.getPrimary().getVisualBounds().getWidth()/1.5,Screen.getPrimary().getVisualBounds().getHeight()- (Screen.getPrimary().getVisualBounds().getHeight()/4));
+    private final Scene scene = new Scene(pane, Screen.getPrimary().getVisualBounds().getWidth()/1.5,Screen.getPrimary().getVisualBounds().getHeight()- (Screen.getPrimary().getVisualBounds().getHeight()/5));
 
     VBox vbox = new VBox(20);
 
