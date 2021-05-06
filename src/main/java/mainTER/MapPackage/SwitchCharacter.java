@@ -19,7 +19,7 @@ public class SwitchCharacter extends VBox{
 
 
         for(int i = 0;i<characterList.size();i++){
-            if(characterList.get(i) == displayCharacter.getCharacter()){
+          if(characterList.get(i).getName().equals(displayCharacter.getCharacter().getName())){
                 ImageView first;
                 if(i == 0){
                      first= characterList.get(characterList.size()-1).getLogo().getImageView();
@@ -38,9 +38,9 @@ public class SwitchCharacter extends VBox{
                 getChildren().add(third);
                 vBoxList.add(third);
                 vBoxList.add(fourth);
+                System.out.println(vBoxList);
             }
         }
-
 
 
 
