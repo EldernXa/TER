@@ -62,6 +62,10 @@ public class MapFileReader {
                     lastCategorie = "objects";
                     i++;
                     break;
+                case "levers":
+                    lastCategorie = "levers";
+                    i++;
+                    break;
                 default: //Add else if if you add section
                     if(lastCategorie.equals("floor")){
                         line = file[i].split("\\s+");
@@ -102,14 +106,32 @@ public class MapFileReader {
                                 imageHeight2 = heightFromName(line[0]);
                                 collideObjectArrayList.add(new RndObj(pathName, line[0],new Coordinate(doubles[1], doubles[2]-imageHeight2)));
                                 break;
-                            case "lever" : //TODO ajouter une valeur pour l'object qui subit
-                                collideObjectArrayList.add(new Lever(new Coordinate(doubles[1], doubles[2])));
-                                break;
                             case  "forgottensword":
                                 collideObjectArrayList.add(new EndObject( new Coordinate(doubles[1], doubles[2])));
                                 break;
 
                         }
+                    }
+
+                    else if(lastCategorie.equals("levers")){
+                        line = file[i].split("\\s+");
+
+                        double[] doubles = new double[line.length];
+                        for(int j=0; j< line.length; j++){
+                            if(j != 2){
+                                doubles[j] = Integer.parseInt(line[j]);
+                            }
+                        }
+
+                        switch (line[2]){
+                            case "portcullis":
+                                Portcullis portcullis = new Portcullis(new Coordinate(doubles[3],doubles[4]));
+                                collideObjectArrayList.add(new Lever(portcullis, new Coordinate(doubles[0], doubles[1])));
+                                collideObjectArrayList.add(portcullis);
+                                break;
+                        }
+
+
                     }
                     i++;
             }

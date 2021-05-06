@@ -1,17 +1,23 @@
 package mainTER.MapPackage;
 
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
+
 import java.io.File;
 
 public class Lever extends InteractiveObject{
 
-    public Lever(Coordinate coordinate){
+    InteractiveObject interactiveObject;
+
+    public Lever(InteractiveObject interactiveObject, Coordinate coordinate){
         super(coordinate,new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/lever_left.png", coordinate));
+        this.interactiveObject = interactiveObject;
+    }
+
+    public InteractiveObject getCollideObject() {
+        return interactiveObject;
     }
 
     @Override
@@ -21,7 +27,7 @@ public class Lever extends InteractiveObject{
 
     @Override
     public Lever clone() {
-        return new Lever(new Coordinate(this.getX(),this.getY()));
+        return new Lever(interactiveObject.clone(), new Coordinate(this.getX(),this.getY()));
     }
 
     @Override
@@ -33,12 +39,15 @@ public class Lever extends InteractiveObject{
     public void interaction(CollideObject collideObject) {}
 
     @Override
-    public void Action() {
+    public void action() {
+        System.out.println("Interact with " + interactiveObject);
         if (this.getImageView().getImage().getUrl().contains("lever_left")){
             this.getImageView().setImage(new Image(new File("./src/main/resources/mainTER/MapPackage/Objects/lever_right.png").toURI().toString()));
+            interactiveObject.action();
         }
         else{
             this.getImageView().setImage(new Image(new File("./src/main/resources/mainTER/MapPackage/Objects/lever_left.png").toURI().toString()));
+            interactiveObject.action();
         }
     }
 }
