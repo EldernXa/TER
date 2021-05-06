@@ -1,9 +1,13 @@
 package mainTER.Menu;
 
+import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import mainTER.Tools.ReturnBack;
+
+import static mainTER.Menu.MainMenu.createContent;
 
 public class MenuLevel extends StackPane {
 
@@ -21,7 +25,8 @@ public class MenuLevel extends StackPane {
         vbox.setTranslateY(250);
         vbox.setSpacing(5);
         pane.getChildren().add(vbox);
-        ReturnBack.setRevenir(stage,stage.getScene(),pane);
+        stage.initStyle(StageStyle.UNDECORATED);
+        ReturnBack.setRevenir(stage,new Scene(createContent(stage)),pane);
 
     }
 

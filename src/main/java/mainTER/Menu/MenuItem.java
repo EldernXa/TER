@@ -20,6 +20,7 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import mainTER.CharacterGameplay.ActiveSkill;
 import mainTER.CharacterGameplay.Camera;
@@ -96,7 +97,8 @@ public class MenuItem extends StackPane {
                 case "SINGLEPLAYER":
                 case "BACK TO MENU" : {
                     stage.close();
-
+                     //Stage.getWindows().stream().filter(Window::isShowing).close();
+                    stage.close();
                     Stage newStage = new Stage();
                     MenuLevel menuLevel = new MenuLevel(newStage);
                     Scene scene = new Scene( menuLevel.getPane(), 860,600);

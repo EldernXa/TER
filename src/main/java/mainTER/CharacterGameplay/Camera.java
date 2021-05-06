@@ -120,7 +120,7 @@ public class Camera {
             else if(event2.getCode() == KeyCode.ESCAPE) {
 
                 Stage stagea = new Stage(StageStyle.TRANSPARENT);
-                MenuPause menuPause = new MenuPause(stagea);
+                MenuPause menuPause = new MenuPause(stage,stagea);
                 stagea.initOwner(stage);
                 stagea.initModality(Modality.APPLICATION_MODAL);
                 Scene scene = new Scene(menuPause.getVbox(), Color.TRANSPARENT);

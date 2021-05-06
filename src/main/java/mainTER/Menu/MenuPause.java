@@ -8,12 +8,12 @@ public class MenuPause {
 
 
     VBox vbox ;
-     public MenuPause(Stage stage){
+     public MenuPause(Stage stage,Stage stagea){
         vbox = new MenuBox(
-                new MenuItem("BACK TO GAME",stage),
-                new MenuItem("SETTINGS",stage),
+                new MenuItem("BACK TO GAME",stagea),
+                new MenuItem("SETTINGS",stagea),
                 new MenuItem("BACK TO MENU",stage),
-                new MenuItem("QUIT",stage)
+                new MenuItem("QUIT",stagea)
         );
         vbox.setTranslateX(50);
         vbox.setTranslateY(250);
