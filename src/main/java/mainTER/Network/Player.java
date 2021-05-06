@@ -1,15 +1,11 @@
 package mainTER.Network;
 
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCombination;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -21,30 +17,19 @@ import mainTER.CharacterGameplay.Camera;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
 
-import mainTER.MapPackage.CollideObject;
 import mainTER.MapPackage.Map;
 import mainTER.MapPackage.SwitchCharacter;
-import mainTER.Tools.Coordinate;
-
-import java.awt.*;
 import java.io.*;
-import java.net.InetAddress;
 import java.net.Socket;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-//TODO faire le choix de personnage au début
-//TODO faire 2 différentes map pour les persos
 public class Player {
 
-    //private ClientSideConnection csc;
+
     Socket socket;
     private int playerID;
-    private int otherPlayer;
     ReadFromServer rfs;
     WriteToServer wts;
     VBox vBox = new VBox(10);
@@ -67,6 +52,7 @@ public class Player {
     volatile String nameOfMe;
     volatile static String nameOfMap;
     volatile String nameOfFriend;
+    DataOutputStream dos;
 
     Button forest = new Button("Forest");
     Button castle = new Button("Castle");
@@ -82,7 +68,7 @@ public class Player {
             socket = new Socket("localhost", 5134);
             DataInputStream dis = new DataInputStream(socket.getInputStream());
             playerID = dis.readInt();
-            DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+            dos = new DataOutputStream(socket.getOutputStream());
 
             this.pane = pane;
             this.stage = stage;
@@ -91,23 +77,13 @@ public class Player {
             vboxPerso.setTranslateX(200);
             button.setTranslateX(60);
 
-            pane.getChildren().add(button);
+
             pane.getChildren().add(vBox);
             System.out.println("Connected to Server as Player #" + playerID + ".");
             if(background.getImage().getHeight() < Screen.getPrimary().getBounds().getHeight()){
                 backtroundHeight =  Screen.getPrimary().getBounds().getHeight();
             }
-
-
-
             stackPane.getChildren().add(pane1);
-
-
-            if (playerID == 1) {
-                button.setDisable(true);
-            } else {
-                button.setDisable(true);
-            }
             button.setOnMouseClicked(mouseEvent -> {
 
                 try {
@@ -134,11 +110,7 @@ public class Player {
                         }
                     }else {
                         for(Node ba : vboxPerso.getChildren()){
-                            if(nameOfFriend.contains(((Button)ba).getText())) {
-                                ba.setDisable(true);
-                            }else {
-                                ba.setDisable(false);
-                            }
+                            ba.setDisable(nameOfFriend.contains(((Button) ba).getText()));
                         }
                     }
 
@@ -151,45 +123,9 @@ public class Player {
             confirmButton.setTranslateX(300);
 
             if(playerID == 1){
-                forest.setDisable(true);
-                castle.setDisable(true);
-                VBox vBoxMap = new VBox();
-                forest.setOnMouseClicked(mouseEvent -> {
-                    nameOfMap = "Forest";
-                    forest.setDisable(true);
-                    castle.setDisable(false);
-                    confirmMap.setDisable(false);
-                });
-                castle.setOnMouseClicked(mouseEvent -> {
-                    nameOfMap= "Castle";
-                    castle.setDisable(true);
-                    forest.setDisable(false);
-                    confirmMap.setDisable(false);
-                });
-
-                vBoxMap.getChildren().addAll(forest,castle);
-                vBoxMap.setTranslateX(200);
-                vBoxMap.setTranslateY(200);
-                confirmMap.setTranslateX(300);
-                confirmMap.setTranslateY(200);
-
-                confirmMap.setOnMouseClicked(mouseEvent -> {
-                    confirmMap.setDisable(true);
-
-                    finito = true;
-
-                        try {
-                            dos.writeUTF(nameOfMap);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-
-                    castle.setDisable(true);
-                    forest.setDisable(true);
-
-                });
-                pane.getChildren().addAll(confirmMap,vBoxMap);
+               setDisplayForPLayer1();
+            }else {
+                setDisplayForPlayer2();
             }
 
             confirmButton.setOnMouseClicked(mouseEvent->{
@@ -224,6 +160,9 @@ public class Player {
             e.printStackTrace();
         }
     }
+    public void setDisplayForPlayer2(){
+        button.setDisable(true);
+    }
 
     public void readForCharacter(DataInputStream dis){
         Thread t = new Thread(()->{
@@ -241,11 +180,7 @@ public class Player {
                     if (playerID == 2){
 
                         for(Node node :vboxPerso.getChildren()){
-                            if(name.contains(((Button)node).getText())){
-                                node.setDisable(true);
-                            }else {
-                                node.setDisable(false);
-                            }
+                            node.setDisable(name.contains(((Button) node).getText()));
                         }
                     }
 
@@ -262,6 +197,50 @@ public class Player {
 
         });
         t.start();
+    }
+
+    public void setDisplayForPLayer1(){
+        button.setDisable(true);
+        pane.getChildren().add(button);
+        forest.setDisable(true);
+        castle.setDisable(true);
+        VBox vBoxMap = new VBox();
+        forest.setOnMouseClicked(mouseEvent -> {
+            nameOfMap = "Forest";
+            forest.setDisable(true);
+            castle.setDisable(false);
+            confirmMap.setDisable(false);
+        });
+        castle.setOnMouseClicked(mouseEvent -> {
+            nameOfMap= "Castle";
+            castle.setDisable(true);
+            forest.setDisable(false);
+            confirmMap.setDisable(false);
+        });
+
+        vBoxMap.getChildren().addAll(forest,castle);
+        vBoxMap.setTranslateX(200);
+        vBoxMap.setTranslateY(200);
+        confirmMap.setTranslateX(300);
+        confirmMap.setTranslateY(200);
+
+        confirmMap.setOnMouseClicked(mouseEvent -> {
+            confirmMap.setDisable(true);
+
+            finito = true;
+
+            try {
+                dos.writeUTF(nameOfMap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            castle.setDisable(true);
+            forest.setDisable(true);
+
+        });
+        pane.getChildren().addAll(confirmMap,vBoxMap);
     }
 
    public void listenArrayPlayers(DataInputStream dis) throws IOException {
@@ -286,6 +265,7 @@ public class Player {
                     Platform.runLater(() -> {
                         vBox.getChildren().clear();
                         for (int id : finalOtherPlayers) {
+
                             vBox.getChildren().add(new Text("Player #" + id));
                         }
 
@@ -316,7 +296,7 @@ public class Player {
 
     private class ReadFromServer implements Runnable{
 
-        private DataInputStream dis;
+        private final DataInputStream dis;
 
 
 
@@ -344,11 +324,7 @@ public class Player {
                     stage.sizeToScene();
 
                     map.displayMap();
-                    if(playerID == 1){
-                        map.addCollisionObjectNetwork(true);
-                    }else {
-                        map.addCollisionObjectNetwork(false);
-                    }
+                    map.addCollisionObjectNetwork(playerID == 1);
                     me.startDisplay();
                     friend.startDisplayFriend();
 
@@ -377,11 +353,7 @@ public class Player {
                     String name = dis.readUTF();
                     int pos = dis.readInt();
                     int im = dis.readInt();
-                    Platform.runLater(()-> {
-
-                        friend.setCharacterFriend(new Character(name),pos,im);
-
-                    });
+                    Platform.runLater(()-> friend.setCharacterFriend(new Character(name),pos,im));
                 }
 
             } catch (IOException e) {
@@ -392,14 +364,13 @@ public class Player {
         public void waitForStartMsg(){
             Thread t = new Thread(()->{
                 try {
-                    while (!finito){
+                    while (!finito) {
+                        Thread.onSpinWait();
 
                     }
 
                     if(playerID == 1){
-                        Platform.runLater(()->{
-                            button.setDisable(false);
-                        });
+                        Platform.runLater(()-> button.setDisable(false));
                     }else {
                         nameOfMap = dis.readUTF();
                     }
@@ -414,7 +385,7 @@ public class Player {
                         }
                     }
 
-                        String startMsg = dis.readUTF();
+                        dis.readUTF();
 
 
 
@@ -445,7 +416,7 @@ public class Player {
 
     private class WriteToServer implements Runnable{
 
-        private DataOutputStream dos;
+        private final DataOutputStream dos;
 
         public WriteToServer(DataOutputStream dataOut){
             dos = dataOut;
