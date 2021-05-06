@@ -113,7 +113,7 @@ public class DisplayCharacter extends CollideObject {
             left = controlsDBManager.getLeft().toUpperCase();
             right = controlsDBManager.getRight().toUpperCase();
             jump = controlsDBManager.getJump();
-            action = controlsDBManager.getAction();
+            action = controlsDBManager.getAction().toUpperCase();
         } catch (ControlsDataGetException e) {
             e.printStackTrace();
         }
@@ -145,7 +145,7 @@ public class DisplayCharacter extends CollideObject {
             left = controlsDBManager.getLeft().toUpperCase();
             right = controlsDBManager.getRight().toUpperCase();
             jump = controlsDBManager.getJump();
-            action = controlsDBManager.getAction();
+            action = controlsDBManager.getAction().toUpperCase();
         } catch (ControlsDataGetException e) {
             e.printStackTrace();
         }
@@ -452,6 +452,7 @@ public class DisplayCharacter extends CollideObject {
         lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForLeftMovement);
         lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForRightMovement);
         lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForJumpMovement);
+        lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForAction);
 
         lvlOfTheGame.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
             listCurrentKeyCode.remove(event.getCode());
@@ -495,13 +496,13 @@ public class DisplayCharacter extends CollideObject {
     private void eventForAction(KeyEvent eventForPressedKey){
         KeyCode keyCode = KeyCode.getKeyCode(action);
         if(eventForPressedKey.getCode() == keyCode && !listCurrentKeyCode.contains(keyCode)){
+            listCurrentKeyCode.add(keyCode);
             for(CollideObject collideObject : MapFileReader.collideObjectArrayList){
 
                 if(collideObject.getAppropriateNode().getBoundsInParent().intersects(this.getAppropriateNode().getBoundsInParent())){
                     try{
                     ((InteractiveObject) collideObject).Action();
                     }catch (Exception e){
-                        System.out.println("Cant be an Inetractive object");
                     }
                 }
 

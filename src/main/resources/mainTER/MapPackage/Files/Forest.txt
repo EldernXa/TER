@@ -14,8 +14,7 @@ eau1 N 3810 788 100
 limits N 5533 788 100
 limits N 0 788 100
 objects
-crate 1400 710
-crate 1100 710
 trunk 1693 738 100
 forgottensword 5216 658
 lever 1325 689
+lever 1172 689
