@@ -1,6 +1,7 @@
 package mainTER.Tools;
 
 import mainTER.DBManage.ControlsDBManager;
+import mainTER.DBManage.MapDBManager;
 import mainTER.DBManage.PersonDBManager;
 import mainTER.DBManage.SkillDBManager;
 import mainTER.exception.*;
@@ -67,6 +68,15 @@ public class DataInsert {
                 System.out.println(exception.getMessage());
             }
 //        }
+    }
+
+    public static void insertMap(){
+        MapDBManager mapDBManager = new MapDBManager();
+        mapDBManager.removeTableMap();
+        mapDBManager.createTableMap();
+
+        mapDBManager.insertIntoTableMap("Forest", "Demon", 1200, 600);
+        mapDBManager.insertIntoTableMap("Castle", "Demon", 1985, 20);
     }
 
 }

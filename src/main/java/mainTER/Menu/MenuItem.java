@@ -103,14 +103,14 @@ public class MenuItem extends StackPane {
                 break;
                 case "Level 1 - Forest": {
                     for(String nameCharacter : listName){
-                        listCharacter.add(new Character(nameCharacter, new Coordinate(1200, 600)));
+                        listCharacter.add(new Character(nameCharacter));
                     }
                    createLvl("Forest");
                 }
                 break;
                 case "Level 2 - Castle": {
                     for(String nameCharacter : listName){
-                        listCharacter.add(new Character(nameCharacter, new Coordinate(1985, 20)));
+                        listCharacter.add(new Character(nameCharacter));
                     }
                    createLvl("Castle");
                 }break;
@@ -140,7 +140,7 @@ public class MenuItem extends StackPane {
                 }
                 case "CREER": {
                     for(String nameCharacter : listName){
-                        listCharacter.add(new Character(nameCharacter, new Coordinate(1200, 630)));
+                        listCharacter.add(new Character(nameCharacter));
                     }
                     Stage newStage = new Stage();
                     Pane pane = new Pane();
@@ -162,7 +162,7 @@ public class MenuItem extends StackPane {
                 }
                 case "REJOINDRE": {
                     for(String nameCharacter : listName){
-                        listCharacter.add(new Character(nameCharacter, new Coordinate(1200, 630)));
+                        listCharacter.add(new Character(nameCharacter));
                     }
                     Stage newStage = new Stage();
                     Pane pane = new Pane();
@@ -251,7 +251,7 @@ public class MenuItem extends StackPane {
         stage.setResizable(false);
         stage.sizeToScene();
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0), listCharacter, stackPane, background,stage);
+        DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, listCharacter.get(0), mapName, listCharacter, stackPane, background,stage);
         displayCharacter.startDisplay();
         //Make the scene scale if the screen is larger
 

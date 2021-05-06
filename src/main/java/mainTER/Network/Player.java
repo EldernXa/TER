@@ -379,7 +379,7 @@ public class Player {
                     int im = dis.readInt();
                     Platform.runLater(()-> {
 
-                        friend.setCharacterFriend(new Character(name, friend.getCurrentCoordinateOfTheCharacter()),pos,im);
+                        friend.setCharacterFriend(new Character(name),pos,im);
 
                     });
                 }
@@ -408,9 +408,9 @@ public class Player {
 
                    for(Character character : listCharacter){
                         if(character.getName().equals(nameOfMe)){
-                            me = new DisplayCharacter(scene1,pane1,character);
+                            me = new DisplayCharacter(scene1,pane1,character, nameOfMap);
                         }else if(character.getName().equals(nameOfFriend)){
-                            friend = new DisplayCharacter(scene1,pane1,character);
+                            friend = new DisplayCharacter(scene1,pane1,character, nameOfMap);
                         }
                     }
 

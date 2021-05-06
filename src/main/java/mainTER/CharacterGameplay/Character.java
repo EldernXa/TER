@@ -22,17 +22,15 @@ import mainTER.exception.SkillDataGetException;
 
 public class Character {
     private final String name;
-    private final Coordinate initialCoordinate;
     private final Characteristics characteristics;
     private final ImageViewSizePos logo ;
     private final ArrayList<Skill> listSkill;
 
     // TODO Put error on graphics interface.
 
-    public Character(String name, Coordinate coordinate) {
+    public Character(String name) {
         listSkill = new ArrayList<>();
         this.name = name;
-        this.initialCoordinate = coordinate;
         characteristics = initCharacterWithDatabase();
         this.logo = new ImageViewSizePos(Objects.requireNonNull(this.getClass().getResource("/mainTER/CharacterGameplay/Logo/" + name + ".png")).getPath(),new Coordinate(0,0));
 
@@ -152,11 +150,6 @@ public class Character {
 
     public List<ArrayList<ImageView>> getListOfPictureOfTheCharacter(){
         return characteristics.getListOfPictureOfTheCharacter();
-    }
-
-
-    public Coordinate getInitialCoordinate() {
-        return initialCoordinate;
     }
 
 

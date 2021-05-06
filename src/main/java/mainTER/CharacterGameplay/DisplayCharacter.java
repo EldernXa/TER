@@ -14,6 +14,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import mainTER.DBManage.ControlsDBManager;
+import mainTER.DBManage.MapDBManager;
 import mainTER.MapPackage.CollideObject;
 import mainTER.MapPackage.CommingFrom;
 import mainTER.MapPackage.SwitchCharacter;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 public class DisplayCharacter extends CollideObject {
 
     private final Coordinate currentCoordinateOfTheCharacter;
+    private final Coordinate initialCoordinateOfTheMap;
     private final AnimationCharacter animationForTheCharacter;
     private Character character;
     private final Scene lvlOfTheGame;
@@ -50,8 +52,8 @@ public class DisplayCharacter extends CollideObject {
      * @param pane is the level of the game.
      * @param character is the character we will display.
      */
-    public DisplayCharacter(Scene scene, Pane pane, Character character, ArrayList<Character> listCharacter, StackPane stackPane, ImageView background, Stage stage){
-        this(scene, pane, character);
+    public DisplayCharacter(Scene scene, Pane pane, Character character, String mapName, ArrayList<Character> listCharacter, StackPane stackPane, ImageView background, Stage stage){
+        this(scene, pane, character, mapName);
         SwitchCharacter switchCharacter = new SwitchCharacter(listCharacter,this);
         double height = Screen.getPrimary().getBounds().getHeight();
         double h = 1;
@@ -65,12 +67,20 @@ public class DisplayCharacter extends CollideObject {
         characterMovementAndDisplayManagement.setCamera(camera);
     }
 
-    public DisplayCharacter(Scene scene, Pane pane, Character character){
+    public DisplayCharacter(Scene scene, Pane pane, Character character, String mapName){
         this.lvlOfTheGame = scene;
         listCurrentKeyCode = new ArrayList<>();
         characterMovementAndDisplayManagement = new CharacterMovementAndDisplayManagement(pane, null);
         this.character = character;
-        currentCoordinateOfTheCharacter = new Coordinate(character.getInitialCoordinate().getX(), character.getInitialCoordinate().getY());
+        MapDBManager mapDBManager = new MapDBManager();
+        Coordinate coordinate = null;
+        try {
+            coordinate = mapDBManager.getInitialCoordinate(mapName);
+        }catch(Exception ignored){
+
+        }
+        currentCoordinateOfTheCharacter = coordinate;
+        initialCoordinateOfTheMap = coordinate;
         animationForTheCharacter = new AnimationCharacter(character);
         ControlsDBManager controlsDBManager = new ControlsDBManager();
         camera = null;
@@ -135,8 +145,8 @@ public class DisplayCharacter extends CollideObject {
             //animationForTheCharacter.changeCharacter(characterToSwitch);
 
             ImageView imgView = characterToSwitch.getListOfPictureOfTheCharacter().get(pos).get(im);
-            currentCoordinateOfTheCharacter.setY(characterToSwitch.getInitialCoordinate().getY());
-            currentCoordinateOfTheCharacter.setX(characterToSwitch.getInitialCoordinate().getX());
+            currentCoordinateOfTheCharacter.setY(initialCoordinateOfTheMap.getY());
+            currentCoordinateOfTheCharacter.setX(initialCoordinateOfTheMap.getX());
             //double newHeight = height - imgView.getImage().getHeight();
             //urrentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + newHeight);
             characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
