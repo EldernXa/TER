@@ -89,73 +89,13 @@ public class Camera {
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, event2 -> {
 
-            String event = event2.getCode().getChar().toLowerCase();
-
             coordCamera();
             isActivated = true;
-            if (event.equals(switchUp)) {
-                int k = 0;
-                for (int i = 0; i < listCharacter.size(); i++) {
-                    if (listCharacter.get(i) == displayCharacter.getCharacter()) {
-                        k = i;
-                    }
-                }
-                displayCharacter.setCharacter(listCharacter.get((k + 1) % listCharacter.size()));
-                sc.changeToUp();
-
-            } else if (event.equals(switchDown)) {
-                int k = 0;
-                for (int i = 0; i < listCharacter.size(); i++) {
-                    if (listCharacter.get(i) == displayCharacter.getCharacter()) {
-                        k = i;
-                    }
-                }
-                if (k == 0) {
-                    displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 1));
-                } else {
-                    displayCharacter.setCharacter(listCharacter.get((k - 1) % listCharacter.size()));
-                }
-                sc.changeToDown();
-            }
-            else if(event2.getCode() == KeyCode.ESCAPE) {
-
-                Stage stagea = new Stage(StageStyle.TRANSPARENT);
-                MenuPause menuPause = new MenuPause(stage,stagea);
-                stagea.initOwner(stage);
-                stagea.initModality(Modality.APPLICATION_MODAL);
-                Scene scene = new Scene(menuPause.getVbox(), Color.TRANSPARENT);
-                stagea.setScene(scene);
-                stagea.show();
-                scene.addEventHandler(KeyEvent.KEY_PRESSED, event3 -> {
-                    if(event3.getCode() == KeyCode.ESCAPE)
-                        stagea.close();
-                });
-
-            }
-            else if(event2.getCode() == KeyCode.TAB){
-
-
-
-                Stage stagep = new Stage(StageStyle.TRANSPARENT);
-                SkillsMenu skillsMenu = new SkillsMenu(stage,listCharacter,displayCharacter.getCharacter());
-               // skillsMenu.getPane().setStyle("-fx-background-color: rgba(14, 14, 14, 0.5); -fx-background-radius: 100;");
-                stagep.initOwner(stage);
-                stagep.initModality(Modality.APPLICATION_MODAL);
-                stagep.setScene(skillsMenu.getScene());
-                stagep.show();
-                skillsMenu.getScene().addEventHandler(KeyEvent.KEY_PRESSED, event3 -> {
-                    if(event3.getCode() == KeyCode.TAB)
-                        stagep.close();
-                });
-
-            }
+            KeyHandler keyHandler = new KeyHandler(scene,stage,displayCharacter,listCharacter,sc);
+            keyHandler.handleEvend(event2);
         });
 
-
-
         scene.addEventHandler(KeyEvent.KEY_RELEASED, event2 -> isActivated = false);
-
-
 
     }
 
