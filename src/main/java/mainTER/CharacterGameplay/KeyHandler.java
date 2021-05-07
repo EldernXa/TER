@@ -16,23 +16,21 @@ import mainTER.exception.ControlsDataGetException;
 import java.util.ArrayList;
 
 public class KeyHandler {
-    Scene scene;
-    Stage stage;
-    DisplayCharacter displayCharacter;
-    ArrayList<Character> listCharacter;
-    ControlsDBManager controlsDBManager = new ControlsDBManager();
-    SwitchCharacter sc ;
-    String switchUp;
-    String switchDown;
+    private final Stage stage;
+    private final DisplayCharacter displayCharacter;
+    private final ArrayList<Character> listCharacter;
+    private final SwitchCharacter sc ;
+    private String switchUp;
+    private String switchDown;
 
 
-    public KeyHandler(Scene scene, Stage stage, DisplayCharacter displayCharacter, ArrayList<Character> listCharacter, SwitchCharacter sc) {
-        this.scene = scene;
+    public KeyHandler(Stage stage, DisplayCharacter displayCharacter, ArrayList<Character> listCharacter, SwitchCharacter sc) {
         this.stage = stage;
         this.displayCharacter = displayCharacter;
         this.listCharacter = listCharacter;
         this.sc = sc;
         try {
+            ControlsDBManager controlsDBManager = new ControlsDBManager();
             switchDown = controlsDBManager.getSwitchDown();
             switchUp = controlsDBManager.getSwitchUp();
         } catch (ControlsDataGetException e) {

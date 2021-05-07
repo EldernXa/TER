@@ -70,10 +70,7 @@ public class MenuItem extends StackPane {
      */
     public void clickOn(String name) {
 
-        setOnMousePressed(event -> {
-            rectangleText.setFill(Color.DARKVIOLET);
-
-        });
+        setOnMousePressed(event -> rectangleText.setFill(Color.DARKVIOLET));
 
 
         setOnMouseClicked(event -> {
