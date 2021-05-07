@@ -1,41 +1,28 @@
 package mainTER.Menu;
 
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Scale;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.Window;
-import javafx.stage.WindowEvent;
-import mainTER.CharacterGameplay.ActiveSkill;
-import mainTER.CharacterGameplay.Camera;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.DBManage.PersonDBManager;
 import mainTER.LoadOfFXML;
 import mainTER.MapPackage.Map;
-import mainTER.MapPackage.SwitchCharacter;
-import mainTER.Music.Music;
 import mainTER.Network.GameServer;
 import mainTER.Network.Player;
-import mainTER.Tools.Coordinate;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -160,7 +147,7 @@ public class MenuItem extends StackPane {
                     Thread t = new Thread(gs);
                     t.start();
                     Player p = new Player();
-                    p.connectToServer(newStage,sceneServ,pane,listCharacter);
+                    p.connectToServer(newStage, pane,listCharacter);
                     newStage.show();
                     newStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
                     break;
@@ -177,7 +164,7 @@ public class MenuItem extends StackPane {
                     newStage.setScene(sceneCli);
 
                     Player p = new Player();
-                    p.connectToServer(newStage,sceneCli,pane,listCharacter);
+                    p.connectToServer(newStage, pane,listCharacter);
                     newStage.show();
                     break;
                 }

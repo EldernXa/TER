@@ -38,13 +38,8 @@ public class SwitchCharacter extends VBox{
                 getChildren().add(third);
                 vBoxList.add(third);
                 vBoxList.add(fourth);
-                System.out.println(vBoxList);
             }
         }
-
-
-
-            //getChildren().add(characterList.get(1).getLogo().getImageView());
 
     }
 

@@ -4,21 +4,18 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Scale;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import mainTER.CharacterGameplay.Camera;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
 
 import mainTER.MapPackage.Map;
-import mainTER.MapPackage.SwitchCharacter;
 import java.io.*;
 import java.net.Socket;
 
@@ -28,51 +25,47 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Player {
 
 
-    Socket socket;
     private int playerID;
-    ReadFromServer rfs;
-    WriteToServer wts;
-    VBox vBox = new VBox(10);
-    ObjectInputStream objectInputStream;
-    Pane pane;
-    Stage stage;
-    DisplayCharacter me;
-    DisplayCharacter friend;
-    Scene scene;
-    Map map;
-    Button button = new Button("cliquer");
+    private ReadFromServer rfs;
+    private WriteToServer wts;
+    private final VBox vBox = new VBox(10);
+    private ObjectInputStream objectInputStream;
+    private Pane pane;
+    private Stage stage;
+    private DisplayCharacter me;
+    private DisplayCharacter friend;
+    private Map map;
+    private final Button button = new Button("cliquer");
     volatile static boolean finito = false;
-    ArrayList<Character> listCharacter;
-    VBox vboxPerso = new VBox(10);
-    Pane pane1 = new Pane();
-    Scene scene1 = new Scene(pane1);
-    ImageView background = new ImageView(new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Back/BackgroundForest.png").toURI().toString()));
-    double backtroundHeight = background.getImage().getHeight();
-    StackPane stackPane = new StackPane();
-    volatile String nameOfMe;
+    private ArrayList<Character> listCharacter;
+    private final VBox vboxPerso = new VBox(10);
+    private final Pane pane1 = new Pane();
+    private Scene scene1 = new Scene(pane1);
+
+    private final StackPane stackPane = new StackPane();
+    private volatile String nameOfMe;
     volatile static String nameOfMap;
-    volatile String nameOfFriend;
-    DataOutputStream dos;
+    private volatile String nameOfFriend;
+    private DataOutputStream dos;
 
-    Button forest = new Button("Forest");
-    Button castle = new Button("Castle");
+    private final Button forest = new Button("Forest");
+    private final Button castle = new Button("Castle");
 
-    Button confirmButton = new Button("Confirm character");
-    Button confirmMap = new Button("Confirm Map");
+    private final Button confirmButton = new Button("Confirm character");
+    private final Button confirmMap = new Button("Confirm Map");
 
 
-    public void connectToServer(Stage stage, Scene scene,Pane pane, ArrayList<Character> listCharacter) {
+    public void connectToServer(Stage stage, Pane pane, ArrayList<Character> listCharacter) {
         System.out.println("-----Client------------");
         try {
 
-            socket = new Socket("localhost", 5134);
+            Socket socket = new Socket("localhost", 5134);
             DataInputStream dis = new DataInputStream(socket.getInputStream());
             playerID = dis.readInt();
             dos = new DataOutputStream(socket.getOutputStream());
 
             this.pane = pane;
             this.stage = stage;
-            this.scene = scene;
             this.listCharacter = listCharacter;
             vboxPerso.setTranslateX(200);
             button.setTranslateX(60);
@@ -80,9 +73,7 @@ public class Player {
 
             pane.getChildren().add(vBox);
             System.out.println("Connected to Server as Player #" + playerID + ".");
-            if(background.getImage().getHeight() < Screen.getPrimary().getBounds().getHeight()){
-                backtroundHeight =  Screen.getPrimary().getBounds().getHeight();
-            }
+
             stackPane.getChildren().add(pane1);
             button.setOnMouseClicked(mouseEvent -> {
 
@@ -172,10 +163,7 @@ public class Player {
 
                     dis.read();
                     String name = dis.readUTF();
-
                     nameOfFriend = name;
-
-                    System.out.println(name + "   -----" + playerID);
 
                     if (playerID == 2){
 
@@ -311,33 +299,18 @@ public class Player {
 
 
                 Platform.runLater(()->{
-
-
-
-                    double height = Screen.getPrimary().getBounds().getHeight();
-                    double h = height/background.getImage().getHeight();
-                    Scale scale = new Scale(h, h, 0, 0);
-                    scene1.getRoot().getTransforms().add(scale);
-
-                    stage.setFullScreen(true);
-                    stage.setResizable(false);
-                    stage.sizeToScene();
-
                     map.displayMap();
                     map.addCollisionObjectNetwork(playerID == 1);
                     me.startDisplay();
                     friend.startDisplayFriend();
-
-                    SwitchCharacter sc = new SwitchCharacter(listCharacter,me);
-
-                    pane1.getChildren().add(sc);
-
-
-                    new Camera(scene1,me,sc,listCharacter,h,background,stage);
+                    stage.setFullScreen(true);
+                    stage.setResizable(false);
+                    stage.sizeToScene();
+                    stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 
                     stage.centerOnScreen();
-
                     stage.setScene(scene1);
+                    stage.show();
 
 
                 });
@@ -375,19 +348,28 @@ public class Player {
                         nameOfMap = dis.readUTF();
                     }
                     map = new Map(pane1,nameOfMap);
-                    scene1 = new Scene(stackPane, map.getBackgroundImage().getImage().getWidth(), backtroundHeight);
+                    ImageView background = map.getBackgroundImage();
 
-                   for(Character character : listCharacter){
+
+
+                    double backtroundHeight = background.getImage().getHeight();
+                    if(background.getImage().getHeight() < Screen.getPrimary().getBounds().getHeight()){
+                        backtroundHeight =  Screen.getPrimary().getBounds().getHeight();
+                    }
+                    scene1 = new Scene(stackPane, background.getImage().getWidth(), backtroundHeight);
+
+                    for(Character character : listCharacter){
                         if(character.getName().equals(nameOfMe)){
-                            me = new DisplayCharacter(scene1,pane1,character, nameOfMap);
+                            me = new DisplayCharacter(scene1,pane1,nameOfMap,character,listCharacter,stackPane,background,stage);
                         }else if(character.getName().equals(nameOfFriend)){
-                            friend = new DisplayCharacter(scene1,pane1,character, nameOfMap);
+                            friend = new DisplayCharacter(scene1,pane1,character,nameOfMap);
                         }
                     }
 
-                        dis.readUTF();
 
 
+
+                   dis.readUTF();
 
                 } catch (IOException e) {
                     e.printStackTrace();
