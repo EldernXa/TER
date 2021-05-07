@@ -41,66 +41,66 @@ public class DisplayCharacter extends CollideObject {
     private boolean isJumping = false;
     private double jumpStrength;
     private static final int TPS_DURATION_TIMELINE = 100;
-    private  String right;
-    private  String left;
-    private  String jump;
+    private String right;
+    private String left;
+    private String jump;
     private String action;
     private Camera camera;
+
     /**
-     *
      * @param scene scene of the game.
-     * @param pane is the level of the game.
+     * @param pane  is the level of the game.
      */
-    public DisplayCharacter(Scene scene, Pane pane, String mapName, ArrayList<Character> listCharacter, StackPane stackPane, ImageView background, Stage stage){
+    public DisplayCharacter(Scene scene, Pane pane, String mapName, ArrayList<Character> listCharacter, StackPane stackPane, ImageView background, Stage stage) {
         this(scene, pane, mapName);
-        SwitchCharacter switchCharacter = new SwitchCharacter(listCharacter,this);
+        SwitchCharacter switchCharacter = new SwitchCharacter(listCharacter, this);
         double height = Screen.getPrimary().getBounds().getHeight();
         double h = 1;
-        if(height>background.getImage().getHeight()){
-            h = height/background.getImage().getHeight();
+        if (height > background.getImage().getHeight()) {
+            h = height / background.getImage().getHeight();
             Scale scale = new Scale(h, h, 0, 0);
             scene.getRoot().getTransforms().add(scale);
         }
         stackPane.getChildren().add(switchCharacter);
-        camera = new Camera(scene, this, switchCharacter, listCharacter, h, background,stage);
+        camera = new Camera(scene, this, switchCharacter, listCharacter, h, background, stage);
         characterMovementAndDisplayManagement.setCamera(camera);
     }
 
-    public DisplayCharacter(Scene scene, Pane pane, String mapName, Character character, ArrayList<Character> listCharacter, StackPane stackPane, ImageView background, Stage stage){
+    public DisplayCharacter(Scene scene, Pane pane, String mapName, Character character, ArrayList<Character> listCharacter, StackPane stackPane, ImageView background, Stage stage) {
         this(scene, pane, character, mapName);
-        SwitchCharacter switchCharacter = new SwitchCharacter(listCharacter,this);
+        SwitchCharacter switchCharacter = new SwitchCharacter(listCharacter, this);
         double height = Screen.getPrimary().getBounds().getHeight();
         double h = 1;
-        if(height>background.getImage().getHeight()){
-            h = height/background.getImage().getHeight();
+        if (height > background.getImage().getHeight()) {
+            h = height / background.getImage().getHeight();
             Scale scale = new Scale(h, h, 0, 0);
             scene.getRoot().getTransforms().add(scale);
         }
         stackPane.getChildren().add(switchCharacter);
-        camera = new Camera(scene, this, switchCharacter, listCharacter, h, background,stage);
+        camera = new Camera(scene, this, switchCharacter, listCharacter, h, background, stage);
         characterMovementAndDisplayManagement.setCamera(camera);
     }
 
-    public DisplayCharacter(Scene scene, Pane pane, String mapName){
+    public DisplayCharacter(Scene scene, Pane pane, String mapName) {
         MapDBManager mapDBManager = new MapDBManager();
         this.lvlOfTheGame = scene;
         listCurrentKeyCode = new ArrayList<>();
         characterMovementAndDisplayManagement = new CharacterMovementAndDisplayManagement(pane, null);
         String nameFirstCharacter = "";
-        try{
+        try {
             nameFirstCharacter = mapDBManager.getFirstCharacter(mapName);
-        }catch(Exception ignored){
+        } catch (Exception ignored) {
 
         }
         this.character = new PersonDBManager().getCharacter(nameFirstCharacter);
         Coordinate coordinate = null;
         try {
             coordinate = mapDBManager.getInitialCoordinate(mapName);
-        }catch(Exception ignored){
+        } catch (Exception ignored) {
 
         }
         currentCoordinateOfTheCharacter = coordinate;
-        initialCoordinateOfTheMap = coordinate;
+        initialCoordinateOfTheMap = new Coordinate(coordinate.getX(), coordinate.getY());
         animationForTheCharacter = new AnimationCharacter(character);
         ControlsDBManager controlsDBManager = new ControlsDBManager();
         camera = null;
@@ -119,7 +119,7 @@ public class DisplayCharacter extends CollideObject {
         }
     }
 
-    public DisplayCharacter(Scene scene, Pane pane, Character character, String mapName){
+    public DisplayCharacter(Scene scene, Pane pane, Character character, String mapName) {
         MapDBManager mapDBManager = new MapDBManager();
         this.lvlOfTheGame = scene;
         listCurrentKeyCode = new ArrayList<>();
@@ -128,11 +128,12 @@ public class DisplayCharacter extends CollideObject {
         Coordinate coordinate = null;
         try {
             coordinate = mapDBManager.getInitialCoordinate(mapName);
-        }catch(Exception ignored){
+        } catch (Exception ignored) {
 
         }
         currentCoordinateOfTheCharacter = coordinate;
-        initialCoordinateOfTheMap = coordinate;
+        initialCoordinateOfTheMap = new Coordinate(coordinate.getX(), coordinate.getY());
+
         animationForTheCharacter = new AnimationCharacter(character);
         ControlsDBManager controlsDBManager = new ControlsDBManager();
         camera = null;
@@ -151,27 +152,29 @@ public class DisplayCharacter extends CollideObject {
         }
     }
 
-    public void startDisplay(){
+    public void startDisplay() {
         characterMovementAndDisplayManagement.displayNode(animationForTheCharacter.nextImage(), currentCoordinateOfTheCharacter.getX(), currentCoordinateOfTheCharacter.getY());
         enableEvent();
         enableEventForSkill();
         timelineForMotionlessCharacter();
     }
 
-    public void startDisplayFriend(){
+    public void startDisplayFriend() {
         characterMovementAndDisplayManagement.displayNode(animationForTheCharacter.nextImage(), currentCoordinateOfTheCharacter.getX(),
                 currentCoordinateOfTheCharacter.getY());
         timelineForMotionlessCharacter();
     }
-    public int getCurrentPosition(){
+
+    public int getCurrentPosition() {
         return animationForTheCharacter.getCurrentPosition().ordinal();
     }
-    public int getCurrentImage(){
+
+    public int getCurrentImage() {
         return animationForTheCharacter.getIndImgToAnimate();
     }
 
-    public void setCharacter(Character characterToSwitch){
-        if(character.canChangeCharacter()) {
+    public void setCharacter(Character characterToSwitch) {
+        if (character.canChangeCharacter()) {
             disableEventForSkill();
             animationForTheCharacter.getTimeline().stop();
             double height = animationForTheCharacter.actualImg().getImage().getHeight();
@@ -192,8 +195,9 @@ public class DisplayCharacter extends CollideObject {
             }
         }
     }
-    public void setCharacterFriend(Character characterToSwitch,int pos,int im){
-        if(character.canChangeCharacter()) {
+
+    public void setCharacterFriend(Character characterToSwitch, int pos, int im) {
+        if (character.canChangeCharacter()) {
             animationForTheCharacter.getTimeline().stop();
             //double height = animationForTheCharacter.actualImg().getImage().getHeight();
             //animationForTheCharacter.changeCharacter(characterToSwitch);
@@ -210,28 +214,28 @@ public class DisplayCharacter extends CollideObject {
         }
     }
 
-    private void disableEventForSkill(){
-        for(Skill skill : character.getListSkill()){
-            if(skill.getClass() == ActiveSkill.class){
+    private void disableEventForSkill() {
+        for (Skill skill : character.getListSkill()) {
+            if (skill.getClass() == ActiveSkill.class) {
                 ((ActiveSkill) skill).init();
-                lvlOfTheGame.removeEventHandler(KeyEvent.KEY_PRESSED, ((ActiveSkill)skill).eventForSkill(animationForTheCharacter,
+                lvlOfTheGame.removeEventHandler(KeyEvent.KEY_PRESSED, ((ActiveSkill) skill).eventForSkill(animationForTheCharacter,
                         characterMovementAndDisplayManagement, TPS_DURATION_TIMELINE));
             }
         }
     }
 
-    private void enableEventForSkill(){
-        for(Skill skill : character.getListSkill()){
-            if(skill.getClass() == ActiveSkill.class){
-                ((ActiveSkill)skill).init();
-                lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, ((ActiveSkill)skill).eventForSkill(animationForTheCharacter,
+    private void enableEventForSkill() {
+        for (Skill skill : character.getListSkill()) {
+            if (skill.getClass() == ActiveSkill.class) {
+                ((ActiveSkill) skill).init();
+                lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, ((ActiveSkill) skill).eventForSkill(animationForTheCharacter,
                         characterMovementAndDisplayManagement, TPS_DURATION_TIMELINE));
             }
         }
     }
 
-    private void timelineForWalk(){
-        if(animationForTheCharacter.getCanMove()) {
+    private void timelineForWalk() {
+        if (animationForTheCharacter.getCanMove()) {
             animationForTheCharacter.getTimeline().stop();
             animationForTheCharacter.getTimeline().getKeyFrames().clear();
             animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
@@ -255,8 +259,8 @@ public class DisplayCharacter extends CollideObject {
         }
     }
 
-    private void timelineForReverseWalk(){
-        if(animationForTheCharacter.getCanMove()) {
+    private void timelineForReverseWalk() {
+        if (animationForTheCharacter.getCanMove()) {
             animationForTheCharacter.getTimeline().stop();
             animationForTheCharacter.getTimeline().getKeyFrames().clear();
             animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
@@ -267,7 +271,7 @@ public class DisplayCharacter extends CollideObject {
                         } else if (calcMvt(CommingFrom.UP) > 0) {
                             // TODO change gravity limit.
                             moveReverseWalkFalling();
-                        } else if (calcMvt(CommingFrom.RIGHT)  > 0) {
+                        } else if (calcMvt(CommingFrom.RIGHT) > 0) {
                             moveReverseWalkNormally();
                         } else {
                             timelineForMotionlessCharacter();
@@ -279,8 +283,8 @@ public class DisplayCharacter extends CollideObject {
         }
     }
 
-    private void timelineForMotionlessCharacter(){
-        if(animationForTheCharacter.getCanMove()) {
+    private void timelineForMotionlessCharacter() {
+        if (animationForTheCharacter.getCanMove()) {
             animationForTheCharacter.getTimeline().stop();
             animationForTheCharacter.getTimeline().getKeyFrames().clear();
             animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
@@ -296,8 +300,7 @@ public class DisplayCharacter extends CollideObject {
 
                         if (isJumping) {
                             moveMotionlessJumping(newHeight);
-                        }
-                        else if (calcMvt(CommingFrom.UP) >= 0) {
+                        } else if (calcMvt(CommingFrom.UP) >= 0) {
                             // TODO change gravity limit.
 
                             moveMotionlessFalling();
@@ -311,24 +314,23 @@ public class DisplayCharacter extends CollideObject {
         }
     }
 
-    private void moveWalkJumping(){
+    private void moveWalkJumping() {
         animationForTheCharacter.setWalk();
-        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+calcMvt(CommingFrom.LEFT));
+        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() + calcMvt(CommingFrom.LEFT));
         doJump();
     }
 
-    private void moveWalkFalling(){
-        if(calcMvt(CommingFrom.LEFT) > 0){
+    private void moveWalkFalling() {
+        if (calcMvt(CommingFrom.LEFT) > 0) {
             animationForTheCharacter.setWalk();
-            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX()+calcMvt(CommingFrom.LEFT));
+            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() + calcMvt(CommingFrom.LEFT));
             fallingCharacter();
-        }
-        else{
+        } else {
             timelineForMotionlessCharacter();
         }
     }
 
-    private void moveWalkNormally(){
+    private void moveWalkNormally() {
         fallingStep = 1;
         double height = animationForTheCharacter.actualImg().getImage().getHeight();
         animationForTheCharacter.setWalk();
@@ -339,7 +341,7 @@ public class DisplayCharacter extends CollideObject {
     private double adaptYToHeight(double height) {
         ImageView imgView = animationForTheCharacter.nextImage();
         double newHeight = height - imgView.getImage().getHeight();
-        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()+newHeight);
+        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + newHeight);
         characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
                 currentCoordinateOfTheCharacter.getY());
         return newHeight;
@@ -355,29 +357,29 @@ public class DisplayCharacter extends CollideObject {
         double height = character.getCharacteristics().getBestHeightOfAPosition(animationForTheCharacter.getCurrentPosition());
         ImageView imgView = animationForTheCharacter.nextImage();
         double newHeight = height - imgView.getImage().getHeight();
-        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()+newHeight);
+        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + newHeight);
         characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
                 currentCoordinateOfTheCharacter.getY());
 
     }
 
-    private void moveReverseWalkJumping(){
-            animationForTheCharacter.setReverseWalk();
-            currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - calcMvt(CommingFrom.RIGHT));
-            doJump();
+    private void moveReverseWalkJumping() {
+        animationForTheCharacter.setReverseWalk();
+        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - calcMvt(CommingFrom.RIGHT));
+        doJump();
     }
 
-    private void moveReverseWalkFalling(){
+    private void moveReverseWalkFalling() {
         if (calcMvt(CommingFrom.RIGHT) > 0) {
             animationForTheCharacter.setReverseWalk();
             currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - calcMvt(CommingFrom.RIGHT));
             fallingCharacter();
-        }else{
+        } else {
             timelineForMotionlessCharacter();
         }
     }
 
-    private void moveReverseWalkNormally(){
+    private void moveReverseWalkNormally() {
         fallingStep = 1;
         double height = animationForTheCharacter.actualImg().getImage().getHeight();
         animationForTheCharacter.setReverseWalk();
@@ -385,7 +387,7 @@ public class DisplayCharacter extends CollideObject {
         adaptYToHeight(height);
     }
 
-    private void moveMotionlessJumping(double newHeight){
+    private void moveMotionlessJumping(double newHeight) {
 
         if (walkToRight)
             animationForTheCharacter.setJump();
@@ -400,55 +402,55 @@ public class DisplayCharacter extends CollideObject {
         }
         ImageView imgView = animationForTheCharacter.nextImage();
         newHeight = character.getCharacteristics().getHeightMotionless() - imgView.getImage().getHeight();
-        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY()+newHeight);
+        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + newHeight);
         characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
                 currentCoordinateOfTheCharacter.getY());
     }
 
-    private void moveMotionlessFalling(){
+    private void moveMotionlessFalling() {
         fallingCharacter();
     }
 
-    private void moveMotionlessNormally(){
+    private void moveMotionlessNormally() {
         fallingStep = 1;
     }
 
-    public Character getCharacter(){
+    public Character getCharacter() {
         return character;
     }
 
-    private void fallingCharacter(){
+    private void fallingCharacter() {
 
 
         double pasToDo = calcMvt(CommingFrom.UP);//moved it here
         ImageView imgView = animationForTheCharacter.nextImage();
-        double newHeight = animationForTheCharacter.getHeightMotionless()-imgView.getImage().getHeight();
+        double newHeight = animationForTheCharacter.getHeightMotionless() - imgView.getImage().getHeight();
         //instead of here
 
         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + pasToDo);
-        if(pasToDo<=0){
+        if (pasToDo <= 0) {
             pasToDo = 1;
             currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + newHeight);
         }
         characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
                 currentCoordinateOfTheCharacter.getY());
-        if(fallingStep < 40) {
+        if (fallingStep < 40) {
             fallingStep += 0.5 * fallingStep;
-        }else{
+        } else {
             fallingStep = 40;
         }
-        if(pasToDo == 1)
+        if (pasToDo == 1)
             isJumping = false;
     }
 
-    public Coordinate getCurrentCoordinateOfTheCharacter(){
+    public Coordinate getCurrentCoordinateOfTheCharacter() {
         return currentCoordinateOfTheCharacter;
     }
 
     /**
      * Enable event for the key on the level of the game
      */
-    private void enableEvent(){
+    private void enableEvent() {
         lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForLeftMovement);
         lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForRightMovement);
         lvlOfTheGame.addEventHandler(KeyEvent.KEY_PRESSED, this::eventForJumpMovement);
@@ -457,57 +459,62 @@ public class DisplayCharacter extends CollideObject {
         lvlOfTheGame.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
             listCurrentKeyCode.remove(event.getCode());
 
-            if(listCurrentKeyCode.isEmpty())
+            if (listCurrentKeyCode.isEmpty())
                 timelineForMotionlessCharacter();
         });
     }
 
-    private void eventForRightMovement(KeyEvent eventForPressedKey){
+    private void eventForRightMovement(KeyEvent eventForPressedKey) {
         KeyCode keyCode = KeyCode.getKeyCode(right);
 
-        if(eventForPressedKey.getCode() == keyCode && !listCurrentKeyCode.contains(keyCode)){
+        if (eventForPressedKey.getCode() == keyCode && !listCurrentKeyCode.contains(keyCode)) {
             walkToRight = true;
             listCurrentKeyCode.add(keyCode);
             timelineForWalk();
         }
     }
 
-    private void eventForLeftMovement(KeyEvent eventForPressedKey){
+    private void eventForLeftMovement(KeyEvent eventForPressedKey) {
         KeyCode keyCode = KeyCode.getKeyCode(left);
-        if(eventForPressedKey.getCode() == keyCode && !listCurrentKeyCode.contains(keyCode)){
+        if (eventForPressedKey.getCode() == keyCode && !listCurrentKeyCode.contains(keyCode)) {
             walkToRight = false;
             listCurrentKeyCode.add(keyCode);
             timelineForReverseWalk();
         }
     }
 
-    private void eventForJumpMovement(KeyEvent eventForPressedKey){
+    private void eventForJumpMovement(KeyEvent eventForPressedKey) {
         KeyCode keyCode = KeyCode.getKeyCode(jump);
-        if(jump.equals(" ")){
+        if (jump.equals(" ")) {
             keyCode = KeyCode.SPACE;
         }
-        if(eventForPressedKey.getCode() == keyCode && (calcMvt(CommingFrom.UP)  <= 0) && !listCurrentKeyCode.contains(keyCode) && character.canJump()){
+        if (eventForPressedKey.getCode() == keyCode && (calcMvt(CommingFrom.UP) <= 0) && !listCurrentKeyCode.contains(keyCode) && character.canJump()) {
             listCurrentKeyCode.add(keyCode);
             isJumping = true;
             this.jumpStrength = character.getJumpStrength();
         }
     }
 
-    private void eventForAction(KeyEvent eventForPressedKey){
+    private void eventForAction(KeyEvent eventForPressedKey) {
         KeyCode keyCode = KeyCode.getKeyCode(action);
-        if(eventForPressedKey.getCode() == keyCode && !listCurrentKeyCode.contains(keyCode)){
+        if (eventForPressedKey.getCode() == keyCode && !listCurrentKeyCode.contains(keyCode)) {
             listCurrentKeyCode.add(keyCode);
-            for(CollideObject collideObject : MapFileReader.collideObjectArrayList){
+            for (CollideObject collideObject : MapFileReader.collideObjectArrayList) {
 
-                if(collideObject.getAppropriateNode().getBoundsInParent().intersects(this.getAppropriateNode().getBoundsInParent())){
-                    try{
-                    ((InteractiveObject) collideObject).action();
-                    }catch (Exception e){
+                if (collideObject.getAppropriateNode().getBoundsInParent().intersects(this.getAppropriateNode().getBoundsInParent())) {
+                    try {
+                        ((InteractiveObject) collideObject).action();
+                    } catch (Exception e) {
                     }
                 }
 
             }
         }
+    }
+
+    public void death() {
+        setX(initialCoordinateOfTheMap.getX());
+        setY(initialCoordinateOfTheMap.getY());
     }
 
     @Override

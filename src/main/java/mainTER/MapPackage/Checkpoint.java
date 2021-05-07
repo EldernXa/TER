@@ -2,16 +2,55 @@ package mainTER.MapPackage;
 
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
+import mainTER.CharacterGameplay.DisplayCharacter;
+import mainTER.DBManage.CheckpointsDBManager;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
-public class Checkpoint extends CollideObject{
+public class Checkpoint extends CollideObject {
+    private Coordinate coordinate;
+    private ImageViewSizePos defaultImage;
+    private ImageViewSizePos activatedImage;
+    private String mapName;
+    private boolean isActivated;
 
-    public Checkpoint(){
+    public Checkpoint( Coordinate coordinate, String mapName) {
+
+        this.coordinate = coordinate;
+        this.isActivated = false;
+        this.mapName = mapName;
+
+        this.defaultImage = new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/checkpointDefault.png", coordinate);
+        this.activatedImage = new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/checkpointActivated.png", coordinate);
+
     }
+
+
+    public void collide(CollideObject collideObject) {
+        if (collideObject.getAppropriateNode().intersects(this.getAppropriateNode().getBoundsInParent())) {
+            isActivated = true;
+        }
+    }
+
+    public void effect(DisplayCharacter displayCharacter) {
+
+        CheckpointsDBManager checkpointsDBManager = new CheckpointsDBManager();
+        checkpointsDBManager.setX(getX());
+        checkpointsDBManager.setY(getY());
+        checkpointsDBManager.setMapName(mapName);
+        checkpointsDBManager.setCharacterName(displayCharacter.getCharacter().getName());
+
+    }
+
+
+    public boolean isActivated() {
+        return isActivated;
+    }
+
+
     @Override
     public Node getAppropriateNode() {
-        return new ImageView();
+        return defaultImage.getImageView();
     }
 
     @Override

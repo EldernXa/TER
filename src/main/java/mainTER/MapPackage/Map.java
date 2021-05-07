@@ -3,6 +3,7 @@ package mainTER.MapPackage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import mainTER.Music.Music;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,6 +37,8 @@ public class Map {
         pane.setBackground( new Background(new BackgroundImage(backgroundImage.getImage(),BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT, new BackgroundSize(backgroundImage.getImage().getWidth(),
                 backgroundImage.getImage().getHeight(),false,false,false,false))));
+        Music.stopMusique();
+        Music.launchMenuSound(fileName);
 
     }
 

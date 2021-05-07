@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 /**
  * Read a file where you can data from map.
- *
  */
 public class MapFileReader {
 
@@ -22,13 +21,12 @@ public class MapFileReader {
     private String pathName;
 
     /**
-     *
      * @param pathName Map file path
      */
-    public MapFileReader(String url,String pathName) {
+    public MapFileReader(String url, String pathName) {
         collideObjectArrayList = new ArrayList<>();
         this.pathName = pathName;
-        Path path = Paths.get(url +  pathName + ".txt");
+        Path path = Paths.get(url + pathName + ".txt");
         try {
             this.file = Files.readString(path).split("\n");
 
@@ -50,10 +48,10 @@ public class MapFileReader {
         MapFieldFromSprite fieldFromSprite;
         MapFieldFromLilPict fieldFromLilPict;
 
-        while(i < file.length){
+        while (i < file.length) {
             line = file[i].split("\\s+");
 
-            switch (line[0]){//Add case if you add section
+            switch (line[0]) {//Add case if you add section
                 case "floor":
                     lastCategorie = "floor";
                     i++;
@@ -66,8 +64,12 @@ public class MapFileReader {
                     lastCategorie = "levers";
                     i++;
                     break;
+                case "checkpoints":
+                    lastCategorie = "checkpoints";
+                    i++;
+                    break;
                 default: //Add else if if you add section
-                    if(lastCategorie.equals("floor")){
+                    if (lastCategorie.equals("floor")) {
                         line = file[i].split("\\s+");
                         spriteName = line[0];
                         double[] doubles = new double[line.length];
@@ -77,17 +79,15 @@ public class MapFileReader {
                         }
 
                         if (line[1].equals("L")) {
-                            fieldFromLilPict = new MapFieldFromLilPict(pathName,spriteName, new Coordinate(doubles[2], doubles[3]), doubles[4], doubles[5]);
+                            fieldFromLilPict = new MapFieldFromLilPict(pathName, spriteName, new Coordinate(doubles[2], doubles[3]), doubles[4], doubles[5]);
                             collideObjectArrayList.add(fieldFromLilPict);
-                        }
-                        else {
+                        } else {
 
                             double imageHeight = heightFromName(spriteName);
-                            fieldFromSprite = new MapFieldFromSprite(pathName,spriteName, new Coordinate(doubles[2], doubles[3]-imageHeight), doubles[4]);
+                            fieldFromSprite = new MapFieldFromSprite(pathName, spriteName, new Coordinate(doubles[2], doubles[3] - imageHeight), doubles[4]);
                             collideObjectArrayList.add(fieldFromSprite);
                         }
-                    }
-                    else if(lastCategorie.equals("objects")){
+                    } else if (lastCategorie.equals("objects")) {
                         line = file[i].split("\\s+");
 
                         double[] doubles = new double[line.length];
@@ -102,48 +102,60 @@ public class MapFileReader {
                             case "crate":
                                 collideObjectArrayList.add(new Crate(new Coordinate(doubles[1], doubles[2])));
                                 break;
-                            case "trunk" :
+                            case "trunk":
                                 imageHeight2 = heightFromName(line[0]);
-                                collideObjectArrayList.add(new RndObj(pathName, line[0],new Coordinate(doubles[1], doubles[2]-imageHeight2)));
+                                collideObjectArrayList.add(new RndObj(pathName, line[0], new Coordinate(doubles[1], doubles[2] - imageHeight2)));
                                 break;
                             case "car":
-                            case  "forgottensword":
+                            case "forgottensword":
                             case "sword":
                                 collideObjectArrayList.add(new EndObject(line[0], new Coordinate(doubles[1], doubles[2])));
                                 break;
 
-                        }
-                    }
+                            case "eau1":
+                            case "spikes":
+                                collideObjectArrayList.add(new DeathObject(line[0], new Coordinate(doubles[1], doubles[2])));
 
-                    else if(lastCategorie.equals("levers")){
+                        }
+                    } else if (lastCategorie.equals("levers")) {
                         line = file[i].split("\\s+");
 
                         double[] doubles = new double[line.length];
-                        for(int j=0; j< line.length; j++){
-                            if(j != 2){
+                        for (int j = 0; j < line.length; j++) {
+                            if (j != 2) {
                                 doubles[j] = Integer.parseInt(line[j]);
                             }
                         }
 
-                        switch (line[2]){
+                        switch (line[2]) {
                             case "portcullis":
-                                Portcullis portcullis = new Portcullis(new Coordinate(doubles[3],doubles[4]));
+                                Portcullis portcullis = new Portcullis(new Coordinate(doubles[3], doubles[4]));
                                 collideObjectArrayList.add(new Lever(portcullis, new Coordinate(doubles[0], doubles[1])));
                                 collideObjectArrayList.add(portcullis);
                                 break;
                             case "metalDoor":
-                                MetalDoor metalDoor = new MetalDoor(new Coordinate(doubles[3],doubles[4]),line[2]);
+                                MetalDoor metalDoor = new MetalDoor(new Coordinate(doubles[3], doubles[4]), line[2]);
                                 collideObjectArrayList.add(new Lever(metalDoor, new Coordinate(doubles[0], doubles[1])));
                                 collideObjectArrayList.add(metalDoor);
                                 break;
                             case "shield":
-                                ForceShield forceShield = new ForceShield(new Coordinate(doubles[3],doubles[4]),line[2]);
+                                ForceShield forceShield = new ForceShield(new Coordinate(doubles[3], doubles[4]), line[2]);
                                 collideObjectArrayList.add(new Lever(forceShield, new Coordinate(doubles[0], doubles[1])));
                                 collideObjectArrayList.add(forceShield);
                                 break;
                         }
 
 
+                    } else if (lastCategorie.equals("checkpoints")) {
+                        line = file[i].split("\\s+");
+                        double[] doubles = new double[line.length];
+                        for (int j = 0; j < line.length; j++) {
+                            if (j != 2) {
+                                doubles[j] = Integer.parseInt(line[j]);
+                            }
+                        }
+                        Checkpoint checkpoint = new Checkpoint(new Coordinate(doubles[0], doubles[1]), pathName);
+                        collideObjectArrayList.add(checkpoint);
                     }
                     i++;
             }
@@ -151,17 +163,15 @@ public class MapFileReader {
     }
 
     /**
-     *
      * @param name Name of the picture
      * @return Height of the picture
      */
-    private double heightFromName(String name){
-        Image image = new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Front/"+pathName +"/" +name+".png").toURI().toString());
+    private double heightFromName(String name) {
+        Image image = new Image(new File("./src/main/resources/mainTER/MapPackage/Sprites/Front/" + pathName + "/" + name + ".png").toURI().toString());
         return image.getHeight();
     }
 
     /**
-     *
      * @return ArrayList of CollideObject
      */
     public ArrayList<CollideObject> getCollisionObjectArrayList() {
