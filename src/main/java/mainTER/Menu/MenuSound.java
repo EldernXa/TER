@@ -38,12 +38,7 @@ public class MenuSound {
     }
 
 
-    /*public void setdisable(Game game){
-        if(game.getListMusiques().isEmpty()){
-            getVolumeSlider().setValue(0);
-            getVolumeSlider().setDisable(true);
-        }
-    }*/
+
     public void setVolumeSlider(){
         volumeSlider.setValue(Music.mediaPlayer.getVolume() *100);
         volumeSlider.valueProperty().addListener(observable -> Music.mediaPlayer.setVolume(volumeSlider.getValue()/100));
@@ -52,9 +47,6 @@ public class MenuSound {
         volumeSlider.setStyle("-fx-control-inner-background: gray!important;");
         StackPane.setAlignment(volumeSlider, Pos.CENTER_RIGHT);
 
-    }
-    public Slider getVolumeSlider() {
-        return volumeSlider;
     }
     public void styleLabelSon(){
         labelSon.setFont(Font.font("Arial",15));
