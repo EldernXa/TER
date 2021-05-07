@@ -96,6 +96,8 @@ dungeonChain1 L 2594 1150 14 56
 dungeonChain2 L 2402 1150 14 88
 dungeonWall L 2256 1127 32 219
 grass L 0 2372 180 28
+limit L 0 0 5 2400
+limit L 3200 0 5 2400
 objects
 crate 2548 1854
 crate 2602 1854
@@ -108,3 +110,4 @@ crate 2636 1854
 crate 2670 1822
 crate 2682 1854
 crate 2713 1854
+sword 2162 567

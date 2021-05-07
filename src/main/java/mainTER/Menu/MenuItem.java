@@ -107,6 +107,12 @@ public class MenuItem extends StackPane {
                     }
                    createLvl("Castle");
                 }break;
+                case "Level 3 - City": {
+                    for(String nameCharacter : listName){
+                        listCharacter.add(new Character(nameCharacter));
+                    }
+                    createLvl("City");
+                }break;
                 case "MULTIPLAYER": {
 
                     MultiplayerMenu mpm = new MultiplayerMenu(stage);

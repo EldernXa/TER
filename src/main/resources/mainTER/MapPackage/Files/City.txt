@@ -1,0 +1,77 @@
+floor
+leftWall L 336 2760 30 48
+leftWall L 336 2997 30 48
+leftWall L 336 3228 30 48
+leftWall L 336 3462 30 48
+leftWall L 336 3699 30 48
+platform1 L 365 2760 208 48
+platform1 L 365 2997 64 48
+platform1 L 365 3228 208 48
+platform1 L 365 3462 64 48
+platform1 L 365 3699 208 48
+platform1 L 704 2760 225 48
+platform1 L 704 3228 225 48
+platform1 L 704 3699 225 48
+platform1 L 704 3939 225 48
+platform1 L 552 2997 378 48
+platform1 L 552 3462 378 48
+platform1 L 552 2760 378 48
+rightPlatform L 930 2760 30 48
+rightPlatform L 930 2997 30 48
+rightPlatform L 930 3228 30 48
+rightPlatform L 930 3462 30 48
+rightPlatform L 930 3699 30 48
+leftWall L 1302 1746 30 48
+platform1 L 1332 1746 666 48
+platform1 L 2253 1746 363 48
+rightPlatform L 2615 1746 30 48
+platform1 L 1773 2001 402 48
+leftWall L 1401 2232 30 48
+platform1 L 4031 2232 390 48
+platform1 L 2126 2232 394 48
+rightPlatform L 2520 2232 30 48
+platform1 L 1554 2469 486 48
+platform1 L 2052 2703 486 48
+platform1 L 1770 2937 486 48
+platform1 L 1527 3171 243 48
+platform1 L 1737 3405 243 48
+platform1 L 2028 3639 243 48
+platform3 L 4467 3624 219 45
+platform3 L 5880 3519 219 45
+platform3 L 7656 3741 219 45
+platform2 L 4137 3591 369 48
+platform2 L 3345 3825 369 48
+platform2 L 3612 3648 369 48
+platform2 L 3849 3591 369 48
+platform2 L 4527 3663 369 48
+platform2 L 4860 3525 369 48
+platform2 L 5262 3558 369 48
+platform2 L 5532 3513 369 48
+platform2 L 5943 3594 369 48
+platform2 L 6276 3435 369 48
+platform2 L 6558 3693 369 48
+platform2 L 6834 3804 369 48
+platform2 L 7038 3759 369 48
+platform2 L 7302 3717 369 48
+platform2 L 7719 3777 369 48
+platform2 L 8049 3639 369 48
+platform2 L 8334 3861 369 48
+platform1 L 5547 3204 486 48
+platform1 L 5547 2970 396 48
+platform1 L 5547 2736 333 48
+platform1 L 5547 2502 276 48
+platform1 L 5547 2268 186 48
+platform1 L 5730 2013 2127 48
+rightPlatform L 7857 2013 30 48
+leftWall L 5424 2013 30 48
+platform1 L 5454 2013 99 48
+wireWall L 8049 3183 120 456
+ground1 L 0 4152 3366 48
+ground2 L 8766 4152 1434 48
+limit L 0 0 5 4200
+limit L 10200 0 5 4200
+objects
+car 9546 3954
+levers
+1944 1947 shield 2607 600
+1944 1947 metalDoor 2622 3783

@@ -90,8 +90,8 @@ public class Camera {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, event2 -> {
 
             coordCamera();
+            KeyHandler keyHandler = new KeyHandler(stage,displayCharacter,listCharacter,sc,switchDown,switchUp);
             isActivated = true;
-            KeyHandler keyHandler = new KeyHandler(scene,stage,displayCharacter,listCharacter,sc);
             keyHandler.handleEvend(event2);
         });
 
