@@ -24,18 +24,13 @@ public class KeyHandler {
     private String switchDown;
 
 
-    public KeyHandler(Stage stage, DisplayCharacter displayCharacter, ArrayList<Character> listCharacter, SwitchCharacter sc) {
+    public KeyHandler(Stage stage, DisplayCharacter displayCharacter, ArrayList<Character> listCharacter, SwitchCharacter sc,String switchDown, String switchUp) {
         this.stage = stage;
         this.displayCharacter = displayCharacter;
         this.listCharacter = listCharacter;
         this.sc = sc;
-        try {
-            ControlsDBManager controlsDBManager = new ControlsDBManager();
-            switchDown = controlsDBManager.getSwitchDown();
-            switchUp = controlsDBManager.getSwitchUp();
-        } catch (ControlsDataGetException e) {
-            e.printStackTrace();
-        }
+        this.switchDown = switchDown;
+        this.switchUp = switchUp;
     }
 
     public void handleEvend( KeyEvent event2){

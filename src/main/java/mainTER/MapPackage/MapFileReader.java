@@ -106,8 +106,10 @@ public class MapFileReader {
                                 imageHeight2 = heightFromName(line[0]);
                                 collideObjectArrayList.add(new RndObj(pathName, line[0],new Coordinate(doubles[1], doubles[2]-imageHeight2)));
                                 break;
+                            case "car":
                             case  "forgottensword":
-                                collideObjectArrayList.add(new EndObject( new Coordinate(doubles[1], doubles[2])));
+                            case "sword":
+                                collideObjectArrayList.add(new EndObject(line[0], new Coordinate(doubles[1], doubles[2])));
                                 break;
 
                         }
@@ -128,6 +130,16 @@ public class MapFileReader {
                                 Portcullis portcullis = new Portcullis(new Coordinate(doubles[3],doubles[4]));
                                 collideObjectArrayList.add(new Lever(portcullis, new Coordinate(doubles[0], doubles[1])));
                                 collideObjectArrayList.add(portcullis);
+                                break;
+                            case "metalDoor":
+                                MetalDoor metalDoor = new MetalDoor(new Coordinate(doubles[3],doubles[4]),line[2]);
+                                collideObjectArrayList.add(new Lever(metalDoor, new Coordinate(doubles[0], doubles[1])));
+                                collideObjectArrayList.add(metalDoor);
+                                break;
+                            case "shield":
+                                ForceShield forceShield = new ForceShield(new Coordinate(doubles[3],doubles[4]),line[2]);
+                                collideObjectArrayList.add(new Lever(forceShield, new Coordinate(doubles[0], doubles[1])));
+                                collideObjectArrayList.add(forceShield);
                                 break;
                         }
 

@@ -18,7 +18,8 @@ public class MenuLevel extends StackPane {
 
         MenuBox vbox = new MenuBox(
                 new MenuItem("Level 1 - Forest", stage),
-                new MenuItem("Level 2 - Castle", stage)
+                new MenuItem("Level 2 - Castle", stage),
+                new MenuItem("Level 3 - City", stage)
         );
 
         vbox.setTranslateX(170);

@@ -14,9 +14,11 @@ import java.util.List;
 
 public class EndObject extends InteractiveObject {
 
+    String name;
+    public EndObject(String name, Coordinate coordinate) {
 
-    public EndObject(Coordinate coordinate) {
-        super(coordinate, new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/forgottensword.png",coordinate));
+        super(coordinate, new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/"+name+".png",coordinate));
+        this.name = name;
 
     }
 
@@ -48,7 +50,7 @@ public class EndObject extends InteractiveObject {
 
     @Override
     public EndObject clone() {
-        return new EndObject(new Coordinate(this.getX(),this.getY()));
+        return new EndObject(name,new Coordinate(this.getX(),this.getY()));
     }
 
     @Override
