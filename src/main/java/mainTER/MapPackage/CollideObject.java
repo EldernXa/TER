@@ -153,9 +153,9 @@ public abstract class CollideObject {
             rect.setY(rect.getY()-i);
             for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
                 if (rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent())){
-                    System.out.println(collideObject2);
-                    System.out.println("Perso Y : " + this.getAppropriateNode().getBoundsInParent().getMinY());
-                    System.out.println("Platform Y : " + collideObject2.getAppropriateNode().getBoundsInParent().getMaxY());
+//                    System.out.println(collideObject2);
+//                    System.out.println("Perso Y : " + this.getAppropriateNode().getBoundsInParent().getMinY());
+//                    System.out.println("Platform Y : " + collideObject2.getAppropriateNode().getBoundsInParent().getMaxY());
                 }
 //                System.out.println("On rencontre un objet = " + (rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent())));
                 if((!this.equals(collideObject2))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))&&(this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY() >= 0)){
