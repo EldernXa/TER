@@ -32,7 +32,7 @@ public class DeathObject extends CollideObject{
 
     @Override
     public CollideObject clone() {
-        return null;
+        return new DeathObject(pathName,coordinate);
     }
 
     @Override

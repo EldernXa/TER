@@ -55,7 +55,7 @@ public class Checkpoint extends CollideObject {
 
     @Override
     public CollideObject clone() {
-        return null;
+        return new Checkpoint(coordinate,mapName);
     }
 
     @Override
