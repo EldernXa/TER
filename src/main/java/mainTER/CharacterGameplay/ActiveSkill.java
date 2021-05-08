@@ -110,12 +110,12 @@ public class ActiveSkill implements Skill{
     public void init(){
         isEnabled = false;
         finishSkill = true;
-        /*try {
-            initAnimateForWalk();
-            initAnimateForReverseWalk();
+        try{
+            initAnimateForWalk(character);
+            initAnimateForReverseWalk(character);
         }catch(URISyntaxException uriSyntaxException){
             System.out.println("Problème dans le path des images du personnages.");
-        }*/
+        }
     }
 
     public EventHandler<KeyEvent> getEventHandler(){
