@@ -1,6 +1,7 @@
 package mainTER.DBManage;
 
 import mainTER.Tools.Coordinate;
+import mainTER.exception.MapAlreadyExistException;
 import mainTER.exception.MapDataGetException;
 import mainTER.exception.MapCharacterNotExistException;
 
@@ -64,7 +65,17 @@ public class MapDBManager {
      * @throws MapCharacterNotExistException if the first character doesn't exist in the databases.
      */
     public void insertIntoTableMap(String mapName, String nameFirstCharacter, double coordinateX, double coordinateY)
-            throws MapCharacterNotExistException{
+            throws MapCharacterNotExistException, MapAlreadyExistException {
+        // TODO verify that mapName not exist already.
+
+        ResultSet resultSet = selectMapIntoTableMap(mapName);
+        try{
+            resultSet.getString("mapName");
+            throw new MapAlreadyExistException(mapName);
+        }catch(SQLException ignored){
+
+        }
+
         PersonDBManager personDBManager;
         if(isForTest){
             personDBManager = new PersonDBManager(nameDatabases);

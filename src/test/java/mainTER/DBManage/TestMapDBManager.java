@@ -1,10 +1,7 @@
 package mainTER.DBManage;
 
 import mainTER.Tools.Coordinate;
-import mainTER.exception.MapCharacterNotExistException;
-import mainTER.exception.MapDataGetException;
-import mainTER.exception.PersonDataAlreadyExistException;
-import mainTER.exception.PersonDataNotCorrectException;
+import mainTER.exception.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -109,10 +106,21 @@ public class TestMapDBManager {
         }
     }
 
-    private void insertDataForMap() throws MapCharacterNotExistException, PersonDataAlreadyExistException, PersonDataNotCorrectException {
+    @Test
+    public void testInsertMapThatAlreadyExistThrowException(){
+        try{
+            insertDataForMap();
+            assertThrows(MapAlreadyExistException.class, ()->mapDBManager.insertIntoTableMap(mapName, nameFirstCharacter, coordinateX, coordinateY));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    private void insertDataForMap() throws MapCharacterNotExistException, PersonDataAlreadyExistException,
+            PersonDataNotCorrectException, MapAlreadyExistException {
         mapDBManager.createTableMap();
         personDBManager.createTablePerson();
-        personDBManager.insertIntoTablePerson("Paladin", 5, 5, 5, 5, true);
+        personDBManager.insertIntoTablePerson(nameFirstCharacter, 5, 5, 5, 5, true);
         mapDBManager.insertIntoTableMap(mapName, nameFirstCharacter, coordinateX, coordinateY);
     }
 
