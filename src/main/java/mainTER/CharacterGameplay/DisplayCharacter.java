@@ -535,7 +535,7 @@ public class DisplayCharacter extends CollideObject {
 
                 if (collideObject.getAppropriateNode().getBoundsInParent().intersects(this.getAppropriateNode().getBoundsInParent())) {
                     try {
-                        ((InteractiveObject) collideObject).action();
+                        ((InteractiveObject) collideObject).actionPropre();
                     } catch (Exception e) {
                     }
                 }

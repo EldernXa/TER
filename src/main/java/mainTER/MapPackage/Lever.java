@@ -39,15 +39,15 @@ public class Lever extends InteractiveObject{
     public void interaction(CollideObject collideObject) {}
 
     @Override
-    public void action() {
+    public void actionPropre() {
 //        System.out.println("Interact with " + interactiveObject);
         if (this.getImageView().getImage().getUrl().contains("lever_left")){
             this.getImageView().setImage(new Image(new File("./src/main/resources/mainTER/MapPackage/Objects/lever_right.png").toURI().toString()));
-            interactiveObject.action();
+            interactiveObject.actionDeclenchee();
         }
         else{
             this.getImageView().setImage(new Image(new File("./src/main/resources/mainTER/MapPackage/Objects/lever_left.png").toURI().toString()));
-            interactiveObject.action();
+            interactiveObject.actionDeclenchee();
         }
     }
 }

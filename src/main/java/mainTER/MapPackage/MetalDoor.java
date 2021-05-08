@@ -19,7 +19,7 @@ public class MetalDoor extends InteractiveObject{
     }
 
     @Override
-    public void action() {
+    public void actionDeclenchee() {
         if(!isOpen){
             this.getImageView().setImage(null);
             //this.setY(this.getY()-200);
