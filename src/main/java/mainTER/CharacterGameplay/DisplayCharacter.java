@@ -250,8 +250,7 @@ public class DisplayCharacter extends CollideObject {
         for (Skill skill : character.getListSkill()) {
             if (skill.getClass() == ActiveSkill.class) {
                 ((ActiveSkill) skill).init();
-                lvlOfTheGame.removeEventHandler(KeyEvent.KEY_PRESSED, ((ActiveSkill) skill).eventForSkill(animationForTheCharacter,
-                        characterMovementAndDisplayManagement, TPS_DURATION_TIMELINE));
+                lvlOfTheGame.removeEventHandler(KeyEvent.KEY_PRESSED, ((ActiveSkill) skill).getEventHandler());
             }
         }
     }

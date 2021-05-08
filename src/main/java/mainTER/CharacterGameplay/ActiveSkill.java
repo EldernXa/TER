@@ -31,6 +31,7 @@ public class ActiveSkill implements Skill{
     private boolean finishSkill;
     private final SkillDBManager skillDBManager;
     private final int numSkill;
+    private EventHandler<KeyEvent> eventHandler;
 
     public ActiveSkill(String nameCharacter, String nameSkill, int numSkill, Character character){
         this.nameCharacter = nameCharacter;
@@ -56,12 +57,16 @@ public class ActiveSkill implements Skill{
     public void init(){
         isEnabled = false;
         finishSkill = true;
-        try {
+        /*try {
             initAnimateForWalk();
             initAnimateForReverseWalk();
         }catch(URISyntaxException uriSyntaxException){
             System.out.println("Problème dans le path des images du personnages.");
-        }
+        }*/
+    }
+
+    public EventHandler<KeyEvent> getEventHandler(){
+        return eventHandler;
     }
 
     public EventHandler<KeyEvent> eventForSkill(AnimationCharacter animationCharacter,
@@ -73,7 +78,7 @@ public class ActiveSkill implements Skill{
             System.out.println("Problème dans la récupération des données.");
         }
         String finalCtrlKey = ctrlKey;
-        return event -> {
+        eventHandler = event -> {
             if (event.getCode().getChar().equalsIgnoreCase(finalCtrlKey)){
                 if(skill == ActiveSkillEnum.SHIELD_MODE){
                     shieldSkill();
@@ -92,6 +97,7 @@ public class ActiveSkill implements Skill{
                 }
             }
         };
+        return eventHandler;
     }
 
     private void flySkill(AnimationCharacter animationCharacter) {
