@@ -1,11 +1,15 @@
 package mainTER.DBManage;
 
+import mainTER.exception.CheckpointsDataNotCorrectException;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CheckpointsDBManager {
 
     private final DBManager dbManager;
+
+    private final static String STRING_UPDATE_CHECKPOINTS = "UPDATE Checkpoints ";
 
 
 
@@ -46,11 +50,14 @@ public class CheckpointsDBManager {
     }
 
 
-    public void insertIntoTableCheckpoints(double x, double y, String characterName, String mapName) {
-        // TODO verify insert data
+    public void insertIntoTableCheckpoints(double x, double y, String characterName, String mapName)
+        throws CheckpointsDataNotCorrectException {
         // TODO verify data doesn't exist already
         // TODO verify if Character exist.
         // TODO verify if the map exist.
+        if(characterName.compareTo("")==0 || mapName.compareTo("")==0){
+            throw new CheckpointsDataNotCorrectException();
+        }
 
 
 
@@ -64,7 +71,7 @@ public class CheckpointsDBManager {
         dbManager.createTableOrInsert(reqValues);
     }
     public void setX(double x) {
-        String request = "UPDATE Checkpoints " +
+        String request = STRING_UPDATE_CHECKPOINTS +
                 "SET " +
                 "x = '" + SecureManage.getEncrypted(String.valueOf(x)) + "';";
         dbManager.updateTable(request);
@@ -78,7 +85,7 @@ public class CheckpointsDBManager {
         }
     }
     public void setY(double y) {
-        String request = "UPDATE Checkpoints " +
+        String request = STRING_UPDATE_CHECKPOINTS +
                 "SET " +
                 "y = '" + SecureManage.getEncrypted(String.valueOf(y)) + "';";
         dbManager.updateTable(request);
@@ -92,7 +99,7 @@ public class CheckpointsDBManager {
         }
     }
     public void setCharacterName(String characterName) {
-        String request = "UPDATE Checkpoints " +
+        String request = STRING_UPDATE_CHECKPOINTS +
                 "SET " +
                 "characterName = '" + SecureManage.getEncrypted(characterName) + "';";
         dbManager.updateTable(request);
@@ -107,7 +114,7 @@ public class CheckpointsDBManager {
     }
 
     public void setMapName(String mapName) {
-        String request = "UPDATE Checkpoints " +
+        String request = STRING_UPDATE_CHECKPOINTS +
                 "SET " +
                 "mapName = '" + SecureManage.getEncrypted(mapName) + "';";
         dbManager.updateTable(request);

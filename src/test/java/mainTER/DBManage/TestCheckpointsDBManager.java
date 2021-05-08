@@ -1,5 +1,6 @@
 package mainTER.DBManage;
 
+import mainTER.exception.CheckpointsDataNotCorrectException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -123,7 +124,7 @@ public class TestCheckpointsDBManager {
         }
     }
 
-    private void insertData(){
+    private void insertData() throws CheckpointsDataNotCorrectException {
         checkpointsDBManager.insertIntoTableCheckpoints(valueX, valueY, valueNameCharacter, valueNameMap);
     }
 

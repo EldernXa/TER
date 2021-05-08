@@ -80,15 +80,17 @@ public class DataInsert {
         }
     }
 
-    public static void insetCheckpoints(){
+    public static void insetCheckpoints() {
         CheckpointsDBManager checkpointsDBManager = new CheckpointsDBManager();
 
         checkpointsDBManager.removeTableCheckPoints();
         checkpointsDBManager.createTableCheckPoints();
 
-
-        checkpointsDBManager.insertIntoTableCheckpoints(0,0,"Paladin","Forest");
-
+        try {
+            checkpointsDBManager.insertIntoTableCheckpoints(0, 0, "Paladin", "Forest");
+        }catch(Exception exception){
+            exception.printStackTrace();
+        }
     }
 
 }
