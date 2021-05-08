@@ -67,7 +67,7 @@ public class ActiveSkill implements Skill{
             for(Skill skill : character.getListSkill()){
                 if(skill.getClass() == ActiveSkill.class){
                     if(((ActiveSkill) skill).getNumSkill() == numSkill){
-                        changeListAnimate(((ActiveSkill) skill).getSkillEnum(), character);
+                        changeListAnimate(((ActiveSkill) skill).getSkillEnum(), character, ((ActiveSkill) skill).nameSkill);
                     }
                 }
             }
@@ -83,10 +83,10 @@ public class ActiveSkill implements Skill{
         }
     }
 
-    private static void changeListAnimate(ActiveSkillEnum skill, Character character){
+    private static void changeListAnimate(ActiveSkillEnum skill, Character character, String nameSkill){
         if(skill == ActiveSkillEnum.SHIELD_MODE || skill == ActiveSkillEnum.BARRIER_MODE || skill == ActiveSkillEnum.FLY_MODE){
             try {
-                changeAnimateForWalk(skill.name(), character);
+                changeAnimateForWalk(nameSkill, character);
                 changeAnimateForReverseWalk(skill.name(), character);
             }catch(URISyntaxException exception){
                 exception.printStackTrace();
