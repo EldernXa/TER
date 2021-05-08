@@ -115,8 +115,8 @@ public class ActiveSkill implements Skill{
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    animationCharacter.setMotionless();
                     animationCharacter.setCanMove(false);
+                    animationCharacter.setMotionless();
                     try{
                         TimeUnit.MILLISECONDS.sleep(500);
                     }catch(Exception e){
@@ -139,14 +139,22 @@ public class ActiveSkill implements Skill{
             }
         } else {
             isEnabled = false;
+            animationCharacter.setCanMove(false);
+            animationCharacter.setMotionless();
+            try{
+                TimeUnit.MILLISECONDS.sleep(500);
+            }catch(Exception exception){
+                exception.printStackTrace();
+            }
             try {
                 initAnimateForWalk();
                 initAnimateForReverseWalk();
-                character.getCharacteristics().resetSpeed();
-                finishSkill = true;
             } catch (Exception ignored) {
 
             }
+            character.getCharacteristics().resetSpeed();
+            finishSkill = true;
+            animationCharacter.setCanMove(true);
         }
     }
 
