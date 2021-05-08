@@ -14,7 +14,7 @@ public class Portcullis extends InteractiveObject{
     }
 
     @Override
-    public void actionDeclenchee() {
+    public void actionTriggered() {
         if(!isOpen){
             this.setY(this.getY()-200);
             this.isOpen = true;

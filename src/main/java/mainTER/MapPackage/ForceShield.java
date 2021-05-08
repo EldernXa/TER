@@ -17,7 +17,7 @@ public class ForceShield extends InteractiveObject {
 
 
     @Override
-    public void actionDeclenchee() {
+    public void actionTriggered() {
         if(!isOpen){
            this.getImageView().setImage(null);
            //this.setY(this.getY()-20000);

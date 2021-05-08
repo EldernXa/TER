@@ -23,9 +23,9 @@ public abstract class InteractiveObject extends CollideObject {
         return coordinate;
     }
 
-    public void actionDeclenchee(){}
+    public void actionTriggered(){}
 
-    public void actionPropre(){}
+    public void actionGenuine(){}
 
     @Override
     public InteractiveObject clone() { //Always redefine clone
