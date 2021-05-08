@@ -273,15 +273,17 @@ public class DisplayCharacter extends CollideObject {
             animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
                     Duration.millis(TPS_DURATION_TIMELINE),
                     tps -> {
-                        if (isJumping) {
-                            moveWalkJumping();
-                        } else if (calcMvt(CommingFrom.UP) > 0) {
-                            // TODO change gravity limit.
-                            moveWalkFalling();
-                        } else if (calcMvt(CommingFrom.LEFT) > 0) {
-                            moveWalkNormally();
-                        } else {
-                            timelineForMotionlessCharacter();
+                        if(animationForTheCharacter.getCanMove()) {
+                            if (isJumping) {
+                                moveWalkJumping();
+                            } else if (calcMvt(CommingFrom.UP) > 0) {
+                                // TODO change gravity limit.
+                                moveWalkFalling();
+                            } else if (calcMvt(CommingFrom.LEFT) > 0) {
+                                moveWalkNormally();
+                            } else {
+                                timelineForMotionlessCharacter();
+                            }
                         }
                     }
             ));
@@ -298,14 +300,18 @@ public class DisplayCharacter extends CollideObject {
             animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
                     Duration.millis(TPS_DURATION_TIMELINE),
                     tps -> {
-                        if (isJumping) {
-                            moveReverseWalkJumping();
-                        } else if (calcMvt(CommingFrom.UP) > 0) {
-                            // TODO change gravity limit.
-                            moveReverseWalkFalling();
-                        } else if (calcMvt(CommingFrom.RIGHT) > 0) {
-                            moveReverseWalkNormally();
-                        } else {
+                        if(animationForTheCharacter.getCanMove()) {
+                            if (isJumping) {
+                                moveReverseWalkJumping();
+                            } else if (calcMvt(CommingFrom.UP) > 0) {
+                                // TODO change gravity limit.
+                                moveReverseWalkFalling();
+                            } else if (calcMvt(CommingFrom.RIGHT) > 0) {
+                                moveReverseWalkNormally();
+                            } else {
+                                timelineForMotionlessCharacter();
+                            }
+                        }else{
                             timelineForMotionlessCharacter();
                         }
                     }
@@ -316,7 +322,6 @@ public class DisplayCharacter extends CollideObject {
     }
 
     private void timelineForMotionlessCharacter() {
-        if (animationForTheCharacter.getCanMove()) {
             animationForTheCharacter.getTimeline().stop();
             animationForTheCharacter.getTimeline().getKeyFrames().clear();
             animationForTheCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
@@ -343,7 +348,6 @@ public class DisplayCharacter extends CollideObject {
             ));
             animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
             animationForTheCharacter.getTimeline().play();
-        }
     }
 
     private void moveWalkJumping() {

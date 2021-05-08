@@ -83,7 +83,7 @@ public class ActiveSkill implements Skill{
                     shieldSkill();
 
                 } else if (skill == ActiveSkillEnum.FLY_MODE) {
-                    flySkill();
+                    flySkill(animationCharacter);
 
                 }
                 else if(skill == ActiveSkillEnum.MOULT){
@@ -94,10 +94,9 @@ public class ActiveSkill implements Skill{
         };
     }
 
-    private void flySkill() {
+    private void flySkill(AnimationCharacter animationCharacter) {
         //Bug quand on change de perso et qu'on revient sur le démon, il arrive plus a changer de compétence
         if (!isEnabled) {
-            System.out.println("okok");
             isEnabled = true;
             finishSkill = false;
             try {
@@ -113,20 +112,27 @@ public class ActiveSkill implements Skill{
                     try {
                         TimeUnit.SECONDS.sleep(3);
 
-
                     } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    animationCharacter.setMotionless();
+                    animationCharacter.setCanMove(false);
+                    try{
+                        TimeUnit.MILLISECONDS.sleep(500);
+                    }catch(Exception e){
                         e.printStackTrace();
                     }
 
                     try {
-                        initAnimateForReverseWalk();
                         initAnimateForWalk();
+                        initAnimateForReverseWalk();
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     }
                     character.getCharacteristics().resetSpeed();
                     isEnabled = false;
                     finishSkill = true;
+                    animationCharacter.setCanMove(true);
                 });
                 t.start();
             } catch (Exception ignored) {
