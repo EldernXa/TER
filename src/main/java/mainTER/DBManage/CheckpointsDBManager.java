@@ -59,9 +59,6 @@ public class CheckpointsDBManager {
             throw new CheckpointsDataNotCorrectException();
         }
 
-
-
-
         String reqValues = "INSERT INTO Checkpoints VALUES (" +
                 "'" + SecureManage.getEncrypted(String.valueOf(x)) + "'" + ",'" + SecureManage.getEncrypted(String.valueOf(y))
                 + "','" + SecureManage.getEncrypted(characterName) + "','" + SecureManage.getEncrypted(mapName)

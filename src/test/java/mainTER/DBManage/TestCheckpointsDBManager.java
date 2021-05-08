@@ -124,6 +124,12 @@ public class TestCheckpointsDBManager {
         }
     }
 
+    @Test
+    public void testInsertIncorrectDataThrowException(){
+        assertThrows(CheckpointsDataNotCorrectException.class, ()->
+                    checkpointsDBManager.insertIntoTableCheckpoints(0.0, 0.0, "", ""));
+    }
+
     private void insertData() throws CheckpointsDataNotCorrectException {
         checkpointsDBManager.insertIntoTableCheckpoints(valueX, valueY, valueNameCharacter, valueNameMap);
     }
