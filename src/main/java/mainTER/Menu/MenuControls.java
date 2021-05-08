@@ -30,8 +30,6 @@ public class MenuControls {
     private final Scene scene = new Scene(pane, Screen.getPrimary().getVisualBounds().getWidth()/1.5,Screen.getPrimary().getVisualBounds().getHeight()- (Screen.getPrimary().getVisualBounds().getHeight()/7));
 
     VBox vbox = new VBox(20);
-    VBox buttonVboxControl = new VBox();
-    VBox vBox = new VBox(20);
 
 
 
@@ -39,7 +37,7 @@ public class MenuControls {
 
 
         listControls = controlsDBManager.toArray();
-        pane.getChildren().addAll(vbox,vBox, buttonVboxControl);
+        pane.getChildren().addAll(vbox);
         pane.getChildren().add(labelTitre);
         controlDisplay();
         controlSkillDisplay();
@@ -53,27 +51,11 @@ public class MenuControls {
         SkillDBManager skillDBManager = new SkillDBManager();
         List<String> listNameSkillCharacterWithSkill = skillDBManager.getListNameCharacterWithSkill();
         for(String nameCharacter : listNameSkillCharacterWithSkill){
-            Label name = new Label(nameCharacter);
-            name.setFont(Font.font("Arial", 30));
-            vBox.getChildren().add(name);
+            vbox.getChildren().add(new Label(nameCharacter));
             for(int i = 0 ; i<skillDBManager.getNumberSkillActiveOfACharacter(nameCharacter);i++) {
                 HBox hbox = new HBox(10);
                 Label labelNameSkill = new Label();
                 Button button = new Button();
-                button.setStyle(" -fx-background-color: "+
-                        "        linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%)," +
-                        "        linear-gradient(#020b02, #3a3a3a)" +
-                        "        linear-gradient(#9d9e9d 0%, #6b6a6b 20%, #343534 80%, #242424 100%)," +
-                        "        linear-gradient(#8a8a8a 0%, #6b6a6b 20%, #343534 80%, #262626 100%)," +
-                        "        linear-gradient(#777777 0%, #606060 50%, #505250 51%, #2a2b2a 100%);" +
-                        "    -fx-background-insets: 0,1,4,5,6;" +
-                        "    -fx-background-radius: 9,8,5,4,3;" +
-                        "    -fx-padding: 15 30 15 30;" +
-                        "    -fx-font-family: \"Helvetica\";" +
-                        "    -fx-font-size: 5px;" +
-                        "    -fx-font-weight: bold;" +
-                        "    -fx-text-fill: white;" +
-                        "    -fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1);");
                 try {
                     labelNameSkill.setText(skillDBManager.getNameSkill(nameCharacter, i+1).toLowerCase());
                     button.setText(skillDBManager.getCtrlKey(nameCharacter, i+1));
@@ -103,12 +85,9 @@ public class MenuControls {
                         break;
                 }
 
-                hbox.getChildren().addAll(labelNameSkill,button);
-                vBox.getChildren().addAll(hbox);
-
-                vBox.setTranslateX(700);
-                vBox.setTranslateY(100);
-
+                hbox.getChildren().addAll(labelNameSkill, button);
+                vbox.getChildren().addAll(hbox);
+                vbox.setTranslateX(100);
                 setControlsSkill(button, labelNameSkill, nameCharacter);
             }
         }
@@ -150,20 +129,6 @@ public class MenuControls {
             }
 
             Button button = new Button(listControls.get(i));
-            button.setStyle(" -fx-background-color: "+
-                    "        linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%)," +
-                    "        linear-gradient(#020b02, #3a3a3a)" +
-                    "        linear-gradient(#9d9e9d 0%, #6b6a6b 20%, #343534 80%, #242424 100%)," +
-                    "        linear-gradient(#8a8a8a 0%, #6b6a6b 20%, #343534 80%, #262626 100%)," +
-                    "        linear-gradient(#777777 0%, #606060 50%, #505250 51%, #2a2b2a 100%);" +
-                    "    -fx-background-insets: 0,1,4,5,6;" +
-                    "    -fx-background-radius: 9,8,5,4,3;" +
-                    "    -fx-padding: 15 30 15 30;" +
-                    "    -fx-font-family: \"Helvetica\";" +
-                    "    -fx-font-size: 9px;" +
-                    "    -fx-font-weight: bold;" +
-                    "    -fx-text-fill: white;" +
-                    "    -fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1);");
             label.setFont(Font.font("Arial", 20));
             switch (button.getText()) {
                 case "&":
@@ -185,14 +150,11 @@ public class MenuControls {
                     button.setText(button.getText().toUpperCase());
                     break;
             }
-            hbox.getChildren().addAll(label);
+            hbox.getChildren().addAll(label, button);
             vbox.getChildren().addAll(hbox);
-            buttonVboxControl.getChildren().add(button);
             setControls(button,label);
 
         }
-        buttonVboxControl.setTranslateX(150);
-        buttonVboxControl.setTranslateY(230);
         vbox.setAlignment(Pos.CENTER_LEFT);
     }
 
@@ -211,8 +173,7 @@ public class MenuControls {
                             labelTitre.setText("Ce caractère est déjà utilisé.");
                             buttonCtrlKey.setText(text);
                         }else{
-                            System.out.println(code);
-                            boolean correctChar = (code <= 110 && code >= 97) || code == 10 || code == 20 || code == 9 || code == 0 || code == 27;
+                            boolean correctChar = (code <= 110 && code >= 97) || code == 10 || code == 20 || code == 9 || code == 0|| code == 27;
                             switch (control) {
                                 case "&":
                                     buttonCtrlKey.setText("↑");
@@ -249,7 +210,7 @@ public class MenuControls {
                                     labelTitre.setText("Ce caractère est déjà utilisé par le même personnage.");
                                     buttonCtrlKey.setText(text);
                                 }catch(SkillCtrlAlreadyUsedByMovementControlException skillCtrlAlreadyUsedByMovementControlException){
-                                    labelTitre.setText("Ce caractère est déjà utilisé par les mouvements basique du personnage.");
+                                    labelTitre.setText("Ce caractère est déjà utilisée par les mouvements basique du personnage.");
                                     buttonCtrlKey.setText(text);
                                 }
                             }
@@ -260,7 +221,7 @@ public class MenuControls {
         );
     }
 
-        public void setControls(Button button,Label label){
+    public void setControls(Button button,Label label){
 
         button.setOnMouseClicked(mouseEvent -> {
 
@@ -273,11 +234,10 @@ public class MenuControls {
 
 
                 if(listControls.contains(control.toLowerCase())){
-                    System.out.println(listControls);
                     labelTitre.setText("Ce caractère est deja utilisé");
                     button.setText(text);
                 }else {
-                    boolean corectChar = (code <= 110 && code >= 97) || code == 10 || code == 20 || code == 9 || code == 0 || code == 27;
+                    boolean corectChar = (code <= 110 && code >= 97) || code == 10 || code == 20 || code == 9 || code == 0|| code == 27 ;
                     switch (control) {
                         case "&":
                             button.setText("↑");
@@ -308,28 +268,23 @@ public class MenuControls {
 
                     } else {
                         switch (label.getText()) {
-                            case "Right": {
+                            case "right": {
                                 controlsDBManager.setRight(control);
-                                try {
-                                    System.out.println("on passe ici"+controlsDBManager.toArray());
-                                } catch (SQLException throwables) {
-                                    throwables.printStackTrace();
-                                }
                                 break;
                             }
-                            case "Left": {
+                            case "left": {
                                 controlsDBManager.setLeft(control);
                                 break;
                             }
-                            case "Jump": {
+                            case "jump": {
                                 controlsDBManager.setJump(control);
                                 break;
                             }
-                            case "SwitchUp": {
+                            case "switchUp": {
                                 controlsDBManager.setSwitchUp(control);
                                 break;
                             }
-                            case "SwitchDown": {
+                            case "switchDown": {
                                 controlsDBManager.setSwitchDown(control);
                                 break;
                             }
@@ -347,5 +302,7 @@ public class MenuControls {
 
         });
 
-        }
+
+
+    }
 }

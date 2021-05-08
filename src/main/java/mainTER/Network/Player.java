@@ -12,10 +12,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import mainTER.CharacterGameplay.Camera;
-import mainTER.CharacterGameplay.Character;
-import mainTER.CharacterGameplay.DisplayCharacter;
+import mainTER.CharacterGameplay.*;
 
+import mainTER.CharacterGameplay.Character;
 import mainTER.MapPackage.Map;
 import mainTER.MapPackage.SwitchCharacter;
 
@@ -291,6 +290,7 @@ public class Player {
 
 
 
+
         public ReadFromServer(DataInputStream dataIn) throws IOException {
             dis = dataIn;
         }
@@ -326,10 +326,17 @@ public class Player {
                     nameOfFriend = dis.readUTF();
                     int pos = dis.readInt();
                     int im = dis.readInt();
-                    Platform.runLater(()-> friend.setCharacterFriend(new Character(nameOfFriend),pos,im));
+                    int skill = dis.readInt();
+
+                    Platform.runLater(()-> {
+
+                        Character character = new Character(nameOfFriend);
+                       ActiveSkill.changeAnimateForACharacter(character,skill);
+
+                        friend.setCharacterFriend(character,pos,im);
+
+                    });
                     me.getKeyHandler().setNameOfFriend(nameOfFriend);
-
-
                 }
 
             } catch (IOException e) {
@@ -419,6 +426,9 @@ public class Player {
                     dos.writeUTF(me.getCharacter().getName());
                     dos.writeInt(me.getCurrentPosition());
                     dos.writeInt(me.getCurrentImage());
+                    dos.writeInt(me.getNumSkillThatIsActive());
+
+
                     dos.flush();
                     try {
                         Thread.sleep(300);
