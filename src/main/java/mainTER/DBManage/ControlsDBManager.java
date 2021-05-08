@@ -62,7 +62,7 @@ public class ControlsDBManager {
     public boolean getIfCtrlAlreadyUsed(String ctrlKey) throws ControlsDataGetException{
         return getLeft().compareToIgnoreCase(ctrlKey) == 0 || getJump().compareToIgnoreCase(ctrlKey)==0 ||
                 getRight().compareToIgnoreCase(ctrlKey) == 0 || getSwitchDown().compareToIgnoreCase(ctrlKey)==0 ||
-                getSwitchUp().compareToIgnoreCase(ctrlKey)==0;
+                getSwitchUp().compareToIgnoreCase(ctrlKey)==0 || getAction().compareToIgnoreCase(ctrlKey)==0;
     }
 
     private ResultSet selectIntoTableControls(){
