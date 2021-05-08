@@ -74,21 +74,15 @@ public class DisplayCharacter extends CollideObject {
     public void eventScene(Scene scene,KeyHandler keyHandler){
         scene.addEventHandler(KeyEvent.KEY_PRESSED, keyHandler::handleEvend);
     }
-    public void eventScene(Scene scene,String nameOfFriend,KeyHandler keyHandle){
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, event2 -> {
-
-            keyHandler.handleEvend(event2,nameOfFriend);
-
-        });
+    public void eventSceneFriend(Scene scene){
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, event2 -> keyHandler.handleEvendFriend(event2));
     }
 
     public KeyHandler getKeyHandler() {
         return keyHandler;
     }
 
-    public Camera getCamera() {
-        return camera;
-    }
+
 
     public DisplayCharacter(Scene scene, Pane pane, String mapName, Character character, ArrayList<Character> listCharacter, StackPane stackPane, ImageView background, Stage stage) {
         this(scene, pane, character, mapName);
@@ -101,16 +95,14 @@ public class DisplayCharacter extends CollideObject {
             scene.getRoot().getTransforms().add(scale);
         }
         keyHandler = new KeyHandler(stage,this,listCharacter,switchCharacter);
-        eventScene(scene,keyHandler);
+        eventSceneFriend(scene);
         stackPane.getChildren().add(switchCharacter);
         camera = new Camera(scene, this, switchCharacter, h, background, stage);
         characterMovementAndDisplayManagement.setCamera(camera);
     }
 
 
-    public CharacterMovementAndDisplayManagement getCharacterMovementAndDisplayManagement() {
-        return characterMovementAndDisplayManagement;
-    }
+
 
     public DisplayCharacter(Scene scene, Pane pane, String mapName) {
         MapDBManager mapDBManager = new MapDBManager();
