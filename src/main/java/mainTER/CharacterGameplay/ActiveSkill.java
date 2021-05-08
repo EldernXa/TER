@@ -113,6 +113,8 @@ public class ActiveSkill implements Skill{
         try{
             initAnimateForWalk(character);
             initAnimateForReverseWalk(character);
+            initAnimateForMotionless(character);
+            initAnimateForReverseMotionless(character);
         }catch(URISyntaxException uriSyntaxException){
             System.out.println("Problème dans le path des images du personnages.");
         }
