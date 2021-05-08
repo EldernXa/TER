@@ -33,6 +33,14 @@ public class ActiveSkill implements Skill{
     private final int numSkill;
     private EventHandler<KeyEvent> eventHandler;
 
+    public boolean isEnabled(){
+        return isEnabled;
+    }
+
+    public int getNumSkill(){
+        return numSkill;
+    }
+
     public ActiveSkill(String nameCharacter, String nameSkill, int numSkill, Character character){
         this.nameCharacter = nameCharacter;
         this.nameSkill = nameSkill;

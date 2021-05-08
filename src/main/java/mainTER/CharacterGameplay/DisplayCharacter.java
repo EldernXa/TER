@@ -238,6 +238,17 @@ public class DisplayCharacter extends CollideObject {
         }
     }
 
+    public int getNumSkillThatIsActive(){
+        for(Skill skill : character.getListSkill()){
+            if(skill.getClass() == ActiveSkill.class){
+                if(((ActiveSkill) skill).isEnabled()){
+                    return ((ActiveSkill) skill).getNumSkill();
+                }
+            }
+        }
+        return -1;
+    }
+
     private void disableEventForSkill() {
         for (Skill skill : character.getListSkill()) {
             if (skill.getClass() == ActiveSkill.class) {
