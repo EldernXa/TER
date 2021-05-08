@@ -41,6 +41,10 @@ public class ActiveSkill implements Skill{
         return numSkill;
     }
 
+    public ActiveSkillEnum getSkillEnum(){
+        return skill;
+    }
+
     public ActiveSkill(String nameCharacter, String nameSkill, int numSkill, Character character){
         this.nameCharacter = nameCharacter;
         this.nameSkill = nameSkill;
@@ -56,6 +60,38 @@ public class ActiveSkill implements Skill{
             System.out.println("Problème dans la récupération des données.");
         }
         skill = ActiveSkillEnum.valueOf(this.nameSkill+(isMode?"_MODE":""));
+    }
+
+    public static void changeAnimateForACharacter(Character character, int numSkill){
+        if(numSkill!=-1){
+            for(Skill skill : character.getListSkill()){
+                if(skill.getClass() == ActiveSkill.class){
+                    if(((ActiveSkill) skill).getNumSkill() == numSkill){
+                        changeListAnimate(((ActiveSkill) skill).getSkillEnum(), character);
+                    }
+                }
+            }
+        }else{
+            try {
+                initAnimateForMotionless(character);
+                initAnimateForReverseMotionless(character);
+                initAnimateForWalk(character);
+                initAnimateForReverseWalk(character);
+            }catch(Exception exception){
+                exception.printStackTrace();
+            }
+        }
+    }
+
+    private static void changeListAnimate(ActiveSkillEnum skill, Character character){
+        if(skill == ActiveSkillEnum.SHIELD_MODE || skill == ActiveSkillEnum.BARRIER_MODE || skill == ActiveSkillEnum.FLY_MODE){
+            try {
+                changeAnimateForWalk(skill.name(), character);
+                changeAnimateForReverseWalk(skill.name(), character);
+            }catch(URISyntaxException exception){
+                exception.printStackTrace();
+            }
+        }
     }
 
     public boolean getFinishSkill(){
@@ -116,8 +152,8 @@ public class ActiveSkill implements Skill{
             try {
                 Thread t = new Thread(() -> {
                     try {
-                        changeAnimateForWalk();
-                        changeAnimateForReverseWalk();
+                        changeAnimateForWalk(nameSkill, character);
+                        changeAnimateForReverseWalk(nameSkill, character);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     }
@@ -138,8 +174,8 @@ public class ActiveSkill implements Skill{
                     }
 
                     try {
-                        initAnimateForWalk();
-                        initAnimateForReverseWalk();
+                        initAnimateForWalk(character);
+                        initAnimateForReverseWalk(character);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     }
@@ -161,8 +197,8 @@ public class ActiveSkill implements Skill{
                 exception.printStackTrace();
             }
             try {
-                initAnimateForWalk();
-                initAnimateForReverseWalk();
+                initAnimateForWalk(character);
+                initAnimateForReverseWalk(character);
             } catch (Exception ignored) {
 
             }
@@ -177,10 +213,10 @@ public class ActiveSkill implements Skill{
             isEnabled = true;
             character.getCharacteristics().setCanJump(false);
             try {
-                changeAnimateForWalk();
-                changeAnimateForReverseWalk();
-                changeAnimateForMotionless();
-                changeAnimateForReverseMotionless();
+                changeAnimateForWalk(nameSkill, character);
+                changeAnimateForReverseWalk(nameSkill, character);
+                changeAnimateForMotionless(nameSkill, character);
+                changeAnimateForReverseMotionless(nameSkill, character);
             }catch(Exception ignored){
 
             }
@@ -188,10 +224,10 @@ public class ActiveSkill implements Skill{
             isEnabled = false;
             character.getCharacteristics().setCanJump(true);
             try {
-                initAnimateForWalk();
-                initAnimateForReverseWalk();
-                initAnimateForMotionless();
-                initAnimateForReverseMotionless();
+                initAnimateForWalk(character);
+                initAnimateForReverseWalk(character);
+                initAnimateForMotionless(character);
+                initAnimateForReverseMotionless(character);
             }catch(Exception ignored){
 
             }
@@ -248,8 +284,8 @@ public class ActiveSkill implements Skill{
         return listPersonalizedAnimate;
     }
 
-    private void changeAnimate(String replace, Position pos) throws URISyntaxException {
-        URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/"+nameCharacter+"/"+replace);
+    private static void changeAnimate(String replace, Position pos, Character character) throws URISyntaxException {
+        URL url = ActiveSkill.class.getResource("/mainTER/CharacterGameplay/images/"+character.getName()+"/"+replace);
 
         File file = Paths.get(url.toURI()).toFile();
         if(file.exists() && file.isDirectory()){
@@ -262,50 +298,49 @@ public class ActiveSkill implements Skill{
 
     /*** CHANGE ***/
 
-    private void changeAnimateForWalk() throws URISyntaxException {
+    private static void changeAnimateForWalk(String nameSkill, Character character) throws URISyntaxException {
         final String replace = nameSkill.toLowerCase()+Position.WALK.toString().toLowerCase().replace("_", "");
-        changeAnimate(replace, Position.WALK);
+        changeAnimate(replace, Position.WALK, character);
     }
 
-    private void changeAnimateForReverseWalk() throws URISyntaxException{
+    private static void changeAnimateForReverseWalk(String nameSkill, Character character) throws URISyntaxException{
         final String replace = nameSkill.toLowerCase()+Position.REVERSE_WALK.toString().toLowerCase().replace("_", "");
-        changeAnimate(replace, Position.REVERSE_WALK);
+        changeAnimate(replace, Position.REVERSE_WALK, character);
 
     }
 
-    private void changeAnimateForMotionless() throws URISyntaxException {
+    private static void changeAnimateForMotionless(String nameSkill, Character character) throws URISyntaxException {
         final String replace = nameSkill.toLowerCase() + Position.MOTIONLESS.toString().toLowerCase().replace("_", "");
-        changeAnimate(replace, Position.MOTIONLESS);
+        changeAnimate(replace, Position.MOTIONLESS, character);
 
     }
 
 
-    private void changeAnimateForReverseMotionless() throws URISyntaxException {
-        System.out.println(nameSkill);
+    private static void changeAnimateForReverseMotionless(String nameSkill, Character character) throws URISyntaxException {
         final String replace = nameSkill.toLowerCase() + Position.REVERSE_MOTIONLESS.toString().toLowerCase().replace("_", "");
-        changeAnimate(replace, Position.REVERSE_MOTIONLESS);
+        changeAnimate(replace, Position.REVERSE_MOTIONLESS, character);
 
     }
 
     /*** INIT ***/
-    private void initAnimateForWalk() throws URISyntaxException {
+    private static void initAnimateForWalk(Character character) throws URISyntaxException {
         final String replace = Position.WALK.toString().toLowerCase().replace("_", "");
-        changeAnimate(replace, Position.WALK);
+        changeAnimate(replace, Position.WALK, character);
     }
 
-    private void initAnimateForReverseWalk() throws URISyntaxException {
+    private static void initAnimateForReverseWalk(Character character) throws URISyntaxException {
         final String replace = Position.REVERSE_WALK.toString().toLowerCase().replace("_", "");
-        changeAnimate(replace, Position.REVERSE_WALK);
+        changeAnimate(replace, Position.REVERSE_WALK, character);
     }
 
-    private void initAnimateForMotionless() throws URISyntaxException {
+    private static void initAnimateForMotionless(Character character) throws URISyntaxException {
         final String replace = Position.MOTIONLESS.toString().toLowerCase().replace("_", "");
-        changeAnimate(replace, Position.MOTIONLESS);
+        changeAnimate(replace, Position.MOTIONLESS, character);
     }
 
-    private void initAnimateForReverseMotionless() throws URISyntaxException {
+    private static void initAnimateForReverseMotionless(Character character) throws URISyntaxException {
         final String replace = Position.REVERSE_MOTIONLESS.toString().toLowerCase().replace("_", "");
-        changeAnimate(replace, Position.REVERSE_MOTIONLESS);
+        changeAnimate(replace, Position.REVERSE_MOTIONLESS, character);
     }
 
 
