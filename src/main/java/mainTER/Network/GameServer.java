@@ -13,6 +13,7 @@ public class GameServer implements Runnable{
     private double p1x,p1y,p2x,p2y;
     private String name1, name2;
     private int pos1,im1,pos2,im2;
+    int skill1,skill2;
 
 
     private ReadFromClient rfc1;
@@ -26,8 +27,10 @@ public class GameServer implements Runnable{
 
         numPlayers = 0;
         maxPlayers = 2;
-        name1 = "Demon";
-        name2 = "Paladin";
+
+        skill1 = -1;
+        skill2 = -1;
+
 
     }
 
@@ -60,10 +63,12 @@ public class GameServer implements Runnable{
 
                 }else{
 
-                    String name1 = rfc1.dis.readUTF();
-                    wtc.dos.writeUTF(name1);
-                    String name2 = rfc.dis.readUTF();
-                    wtc1.dos.writeUTF(name2);
+                    String namePerso1 = rfc1.dis.readUTF();
+                    wtc.dos.writeUTF(namePerso1);
+                    name1 = namePerso1;
+                    String namePerso2 = rfc.dis.readUTF();
+                    wtc1.dos.writeUTF(namePerso2);
+                    name2 = namePerso2;
                     String map = rfc1.dis.readUTF();
                     wtc.dos.writeUTF(map);
 
@@ -147,6 +152,7 @@ public class GameServer implements Runnable{
                         name1 = dis.readUTF();
                         pos1 = dis.readInt();
                         im1 = dis.readInt();
+                        skill1 = dis.readInt();
 
 
 
@@ -156,6 +162,7 @@ public class GameServer implements Runnable{
                         name2 = dis.readUTF();
                         pos2 = dis.readInt();
                         im2 = dis.readInt();
+                        skill2 = dis.readInt();
 
                     }
                 }
@@ -189,12 +196,14 @@ public class GameServer implements Runnable{
                         dos.writeUTF(name2);
                         dos.writeInt(pos2);
                         dos.writeInt(im2);
+                        dos.writeInt(skill2);
                     }else{
                         dos.writeDouble(p1x);
                         dos.writeDouble(p1y);
                         dos.writeUTF(name1);
                         dos.writeInt(pos1);
                         dos.writeInt(im1);
+                        dos.writeInt(skill1);
                     }
                     dos.flush();
                     try {

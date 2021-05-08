@@ -87,6 +87,8 @@ public class ActiveSkill implements Skill{
         if(skill == ActiveSkillEnum.SHIELD_MODE || skill == ActiveSkillEnum.BARRIER_MODE || skill == ActiveSkillEnum.FLY_MODE){
             try {
                 changeAnimateForWalk(nameSkill, character);
+                changeAnimateForMotionless(nameSkill,character);
+                changeAnimateForReverseMotionless(nameSkill, character);
                 changeAnimateForReverseWalk(skill.name(), character);
             }catch(URISyntaxException exception){
                 exception.printStackTrace();
@@ -285,7 +287,7 @@ public class ActiveSkill implements Skill{
     }
 
     private static void changeAnimate(String replace, Position pos, Character character) throws URISyntaxException {
-        URL url = ActiveSkill.class.getResource("/mainTER/CharacterGameplay/images/"+character.getName()+"/"+replace);
+        URL url = ActiveSkill.class.getResource("/mainTER/CharacterGameplay/images/"+character.getName()+"/"+replace.replace("_mode",""));
 
         File file = Paths.get(url.toURI()).toFile();
         if(file.exists() && file.isDirectory()){
