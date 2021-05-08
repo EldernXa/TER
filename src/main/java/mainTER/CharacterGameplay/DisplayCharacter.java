@@ -31,6 +31,7 @@ public class DisplayCharacter extends CollideObject {
 
     private final Coordinate currentCoordinateOfTheCharacter;
     private final Coordinate initialCoordinateOfTheMap;
+    private final Coordinate initCoord;
     private final AnimationCharacter animationForTheCharacter;
     private Character character;
     private final Scene lvlOfTheGame;
@@ -46,6 +47,7 @@ public class DisplayCharacter extends CollideObject {
     private String jump;
     private String action;
     private Camera camera;
+    KeyHandler keyHandler;
 
     /**
      * @param scene scene of the game.
@@ -61,9 +63,31 @@ public class DisplayCharacter extends CollideObject {
             Scale scale = new Scale(h, h, 0, 0);
             scene.getRoot().getTransforms().add(scale);
         }
+
+        keyHandler = new KeyHandler(stage,this,listCharacter,switchCharacter);
+        eventScene(scene,keyHandler);
         stackPane.getChildren().add(switchCharacter);
-        camera = new Camera(scene, this, switchCharacter, listCharacter, h, background, stage);
+        camera = new Camera(scene, this, switchCharacter, h, background, stage);
         characterMovementAndDisplayManagement.setCamera(camera);
+    }
+
+    public void eventScene(Scene scene,KeyHandler keyHandler){
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, keyHandler::handleEvend);
+    }
+    public void eventScene(Scene scene,String nameOfFriend,KeyHandler keyHandle){
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, event2 -> {
+
+            keyHandler.handleEvend(event2,nameOfFriend);
+
+        });
+    }
+
+    public KeyHandler getKeyHandler() {
+        return keyHandler;
+    }
+
+    public Camera getCamera() {
+        return camera;
     }
 
     public DisplayCharacter(Scene scene, Pane pane, String mapName, Character character, ArrayList<Character> listCharacter, StackPane stackPane, ImageView background, Stage stage) {
@@ -76,9 +100,16 @@ public class DisplayCharacter extends CollideObject {
             Scale scale = new Scale(h, h, 0, 0);
             scene.getRoot().getTransforms().add(scale);
         }
+        keyHandler = new KeyHandler(stage,this,listCharacter,switchCharacter);
+        eventScene(scene,keyHandler);
         stackPane.getChildren().add(switchCharacter);
-        camera = new Camera(scene, this, switchCharacter, listCharacter, h, background, stage);
+        camera = new Camera(scene, this, switchCharacter, h, background, stage);
         characterMovementAndDisplayManagement.setCamera(camera);
+    }
+
+
+    public CharacterMovementAndDisplayManagement getCharacterMovementAndDisplayManagement() {
+        return characterMovementAndDisplayManagement;
     }
 
     public DisplayCharacter(Scene scene, Pane pane, String mapName) {
@@ -100,7 +131,8 @@ public class DisplayCharacter extends CollideObject {
 
         }
         currentCoordinateOfTheCharacter = coordinate;
-        initialCoordinateOfTheMap = new Coordinate(coordinate.getX(), coordinate.getY());
+        initialCoordinateOfTheMap =coordinate;
+        initCoord =  new Coordinate(coordinate.getX(), coordinate.getY());
         animationForTheCharacter = new AnimationCharacter(character);
         ControlsDBManager controlsDBManager = new ControlsDBManager();
         camera = null;
@@ -132,8 +164,8 @@ public class DisplayCharacter extends CollideObject {
 
         }
         currentCoordinateOfTheCharacter = coordinate;
-        initialCoordinateOfTheMap = new Coordinate(coordinate.getX(), coordinate.getY());
-
+        initialCoordinateOfTheMap =coordinate;
+        initCoord =  new Coordinate(coordinate.getX(), coordinate.getY());
         animationForTheCharacter = new AnimationCharacter(character);
         ControlsDBManager controlsDBManager = new ControlsDBManager();
         camera = null;
@@ -513,8 +545,8 @@ public class DisplayCharacter extends CollideObject {
     }
 
     public void death() {
-        setX(initialCoordinateOfTheMap.getX());
-        setY(initialCoordinateOfTheMap.getY());
+        setX(initCoord.getX());
+        setY(initCoord.getY());
     }
 
     @Override

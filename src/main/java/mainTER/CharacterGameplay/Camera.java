@@ -28,50 +28,31 @@ public class Camera {
     private javafx.scene.Camera camera;
     private DisplayCharacter displayCharacter;
     private SwitchCharacter sc;
-    private ArrayList<Character> listCharacter;
     private double scalingValue;
     private ImageView background;
-    private String right;
-    private String left;
-    private String down;
-    private String up;
-    private String switchUp;
-    private String switchDown;
+
     private boolean isActivated = false;
     Stage stage;
 
 
 
-    public Camera(Scene scene, DisplayCharacter displayCharacter, SwitchCharacter sc, ArrayList<Character> listCharacter, double scalingValue, ImageView background,Stage stage) {
+    public Camera(Scene scene, DisplayCharacter displayCharacter, SwitchCharacter sc, double scalingValue, ImageView background, Stage stage) {
         this.scene = scene;
         this.displayCharacter = displayCharacter;
         this.sc = sc;
-        this.listCharacter = listCharacter;
         this.scalingValue = scalingValue;
         this.background = background;
-        right = "";
-        left = "";
-        switchUp = "";
-        switchDown = "";
+
         this.stage = stage;
 
 
-        ControlsDBManager controlsDBManager = new ControlsDBManager();
-        try {
-            this.right = controlsDBManager.getRight();
-            this.left = controlsDBManager.getLeft();
-            this.switchDown = controlsDBManager.getSwitchDown();
-            this.switchUp = controlsDBManager.getSwitchUp();
-        } catch (ControlsDataGetException e) {
-            e.printStackTrace();
 
-
-        }
 
         camera = new PerspectiveCamera();
         scene.setCamera(camera);
         moveCamera();
     }
+
 
     public void moveOnlyCamera() {
         //ddSystem.out.println(isActivated);
@@ -90,9 +71,7 @@ public class Camera {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, event2 -> {
 
             coordCamera();
-            KeyHandler keyHandler = new KeyHandler(stage,displayCharacter,listCharacter,sc,switchDown,switchUp);
             isActivated = true;
-            keyHandler.handleEvend(event2);
         });
 
         scene.addEventHandler(KeyEvent.KEY_RELEASED, event2 -> isActivated = false);

@@ -24,13 +24,19 @@ public class KeyHandler {
     private String switchDown;
 
 
-    public KeyHandler(Stage stage, DisplayCharacter displayCharacter, ArrayList<Character> listCharacter, SwitchCharacter sc,String switchDown, String switchUp) {
+    public KeyHandler(Stage stage, DisplayCharacter displayCharacter, ArrayList<Character> listCharacter, SwitchCharacter sc) {
         this.stage = stage;
         this.displayCharacter = displayCharacter;
         this.listCharacter = listCharacter;
         this.sc = sc;
-        this.switchDown = switchDown;
-        this.switchUp = switchUp;
+        ControlsDBManager controlsDBManager = new ControlsDBManager();
+
+        try {
+            switchDown = controlsDBManager.getSwitchDown();
+            switchUp = controlsDBManager.getSwitchUp();
+        } catch (ControlsDataGetException e) {
+            e.printStackTrace();
+        }
     }
 
     public void handleEvend( KeyEvent event2){
@@ -58,6 +64,90 @@ public class KeyHandler {
                 displayCharacter.setCharacter(listCharacter.get((k - 1) % listCharacter.size()));
             }
             sc.changeToDown();
+        }
+        else if(event2.getCode() == KeyCode.ESCAPE) {
+
+            Stage stagea = new Stage(StageStyle.TRANSPARENT);
+            MenuPause menuPause = new MenuPause(stage,stagea);
+            stagea.initOwner(stage);
+            stagea.initModality(Modality.APPLICATION_MODAL);
+            Scene scene = new Scene(menuPause.getVbox(), Color.TRANSPARENT);
+            stagea.setScene(scene);
+            stagea.show();
+            scene.addEventHandler(KeyEvent.KEY_PRESSED, event3 -> {
+                if(event3.getCode() == KeyCode.ESCAPE)
+                    stagea.close();
+            });
+
+        }
+        else if(event2.getCode() == KeyCode.TAB){
+
+
+
+            Stage stagep = new Stage(StageStyle.TRANSPARENT);
+            SkillsMenu skillsMenu = new SkillsMenu(stage,listCharacter,displayCharacter.getCharacter());
+            stagep.initOwner(stage);
+            stagep.initModality(Modality.APPLICATION_MODAL);
+            stagep.setScene(skillsMenu.getScene());
+            stagep.show();
+            skillsMenu.getScene().addEventHandler(KeyEvent.KEY_PRESSED, event3 -> {
+                if(event3.getCode() == KeyCode.TAB)
+                    stagep.close();
+            });
+
+        }
+    }
+
+
+    public void handleEvend( KeyEvent event2,String nameOfFriend){
+        String event = event2.getCode().getChar().toLowerCase();
+        if (event.equals(switchUp)) {
+            int k = 0;
+            for (int i = 0; i < listCharacter.size(); i++) {
+                if (listCharacter.get(i) == displayCharacter.getCharacter()) {
+                    k = i;
+                }
+            }
+            if(listCharacter.get((k + 1) % listCharacter.size()).getName().equals(nameOfFriend)){
+                displayCharacter.setCharacter(listCharacter.get((k + 2) % listCharacter.size()));
+                sc.changeToUp();
+            }else {
+
+                displayCharacter.setCharacter(listCharacter.get((k + 1) % listCharacter.size()));
+            }
+            sc.changeToUp();
+
+        } else if (event.equals(switchDown)) {
+            int k = 0;
+            for (int i = 0; i < listCharacter.size(); i++) {
+                if (listCharacter.get(i) == displayCharacter.getCharacter()) {
+                    k = i;
+                }
+            }
+            if (k == 0) {
+                if(listCharacter.get(listCharacter.size() - 1).getName().equals(nameOfFriend)){
+                    displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 2));
+                    sc.changeToDown();
+                }else {
+                    displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 1));
+                }
+                sc.changeToDown();
+            } else {
+
+                if(listCharacter.get((k - 1) % listCharacter.size()).getName().equals(nameOfFriend)){
+                    if(k == 1){
+                        displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 1));
+                    }else {
+
+                        displayCharacter.setCharacter(listCharacter.get((k - 2) % listCharacter.size()));
+                    }
+                    sc.changeToDown();
+                }else {
+                    displayCharacter.setCharacter(listCharacter.get((k - 1) % listCharacter.size()));
+                }
+                sc.changeToDown();
+            }
+
         }
         else if(event2.getCode() == KeyCode.ESCAPE) {
 

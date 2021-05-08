@@ -12,10 +12,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import mainTER.CharacterGameplay.Camera;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
 
 import mainTER.MapPackage.Map;
+import mainTER.MapPackage.SwitchCharacter;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -297,7 +300,6 @@ public class Player {
             try {
 
 
-
                 Platform.runLater(()->{
                     map.displayMap();
                     map.addCollisionObjectNetwork(playerID == 1);
@@ -312,7 +314,6 @@ public class Player {
                     stage.setScene(scene1);
                     stage.show();
 
-
                 });
 
 
@@ -322,11 +323,22 @@ public class Player {
 
                     friend.setY(dis.readDouble());
 
-
-                    String name = dis.readUTF();
+                    nameOfFriend = dis.readUTF();
                     int pos = dis.readInt();
                     int im = dis.readInt();
-                    Platform.runLater(()-> friend.setCharacterFriend(new Character(name),pos,im));
+                    Platform.runLater(()-> friend.setCharacterFriend(new Character(nameOfFriend),pos,im));
+                    /*Thread t = new Thread(()->{
+
+                        me.eventScene(scene1,nameOfFriend,me.getKeyHandler());
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    t.start();
+*/
+
                 }
 
             } catch (IOException e) {
