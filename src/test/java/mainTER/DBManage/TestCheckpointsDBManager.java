@@ -1,5 +1,6 @@
 package mainTER.DBManage;
 
+import mainTER.exception.CheckpointsDataAlreadyExistException;
 import mainTER.exception.CheckpointsDataNotCorrectException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -125,12 +126,22 @@ public class TestCheckpointsDBManager {
     }
 
     @Test
+    public void testInsertingDataTwiceThrowException(){
+        try{
+            insertData();
+            assertThrows(CheckpointsDataAlreadyExistException.class, ()->checkpointsDBManager.insertIntoTableCheckpoints(valueX, valueY, valueNameCharacter, valueNameMap));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
     public void testInsertIncorrectDataThrowException(){
         assertThrows(CheckpointsDataNotCorrectException.class, ()->
                     checkpointsDBManager.insertIntoTableCheckpoints(0.0, 0.0, "", ""));
     }
 
-    private void insertData() throws CheckpointsDataNotCorrectException {
+    private void insertData() throws CheckpointsDataNotCorrectException, CheckpointsDataAlreadyExistException {
         checkpointsDBManager.insertIntoTableCheckpoints(valueX, valueY, valueNameCharacter, valueNameMap);
     }
 

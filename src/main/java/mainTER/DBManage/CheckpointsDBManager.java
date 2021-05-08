@@ -1,5 +1,6 @@
 package mainTER.DBManage;
 
+import mainTER.exception.CheckpointsDataAlreadyExistException;
 import mainTER.exception.CheckpointsDataNotCorrectException;
 
 import java.sql.ResultSet;
@@ -9,7 +10,7 @@ public class CheckpointsDBManager {
 
     private final DBManager dbManager;
 
-    private final static String STRING_UPDATE_CHECKPOINTS = "UPDATE Checkpoints ";
+    private static final String STRING_UPDATE_CHECKPOINTS = "UPDATE Checkpoints ";
 
 
 
@@ -51,12 +52,19 @@ public class CheckpointsDBManager {
 
 
     public void insertIntoTableCheckpoints(double x, double y, String characterName, String mapName)
-        throws CheckpointsDataNotCorrectException {
-        // TODO verify data doesn't exist already
+        throws CheckpointsDataNotCorrectException, CheckpointsDataAlreadyExistException {
         // TODO verify if Character exist.
         // TODO verify if the map exist.
         if(characterName.compareTo("")==0 || mapName.compareTo("")==0){
             throw new CheckpointsDataNotCorrectException();
+        }
+
+        ResultSet resultSet = selectIntoTableCheckpoints();
+        try{
+            resultSet.getString("x");
+            throw new CheckpointsDataAlreadyExistException();
+        }catch(SQLException ignored){
+
         }
 
         String reqValues = "INSERT INTO Checkpoints VALUES (" +
