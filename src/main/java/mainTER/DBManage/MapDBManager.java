@@ -66,7 +66,6 @@ public class MapDBManager {
      */
     public void insertIntoTableMap(String mapName, String nameFirstCharacter, double coordinateX, double coordinateY)
             throws MapCharacterNotExistException, MapAlreadyExistException {
-        // TODO verify that mapName not exist already.
 
         ResultSet resultSet = selectMapIntoTableMap(mapName);
         try{
