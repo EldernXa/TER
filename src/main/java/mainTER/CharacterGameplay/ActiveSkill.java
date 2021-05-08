@@ -84,12 +84,19 @@ public class ActiveSkill implements Skill{
     }
 
     private static void changeListAnimate(ActiveSkillEnum skill, Character character, String nameSkill){
-        if(skill == ActiveSkillEnum.SHIELD_MODE || skill == ActiveSkillEnum.BARRIER_MODE || skill == ActiveSkillEnum.FLY_MODE){
+        if(skill == ActiveSkillEnum.SHIELD_MODE || skill == ActiveSkillEnum.BARRIER_MODE){
             try {
                 changeAnimateForWalk(nameSkill, character);
                 changeAnimateForMotionless(nameSkill,character);
                 changeAnimateForReverseMotionless(nameSkill, character);
                 changeAnimateForReverseWalk(skill.name(), character);
+            }catch(URISyntaxException exception){
+                exception.printStackTrace();
+            }
+        }else if(skill == ActiveSkillEnum.FLY_MODE){
+            try{
+                changeAnimateForWalk(nameSkill, character);
+                changeAnimateForReverseWalk(nameSkill, character);
             }catch(URISyntaxException exception){
                 exception.printStackTrace();
             }
