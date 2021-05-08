@@ -11,8 +11,9 @@ public class Checkpoint extends CollideObject {
     private Coordinate coordinate;
     private ImageViewSizePos defaultImage;
     private ImageViewSizePos activatedImage;
+    private ImageViewSizePos currentImage;
     private String mapName;
-    private boolean isActivated;
+    static private boolean isActivated;
 
     public Checkpoint( Coordinate coordinate, String mapName) {
 
@@ -22,15 +23,32 @@ public class Checkpoint extends CollideObject {
 
         this.defaultImage = new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/checkpointDefault.png", coordinate);
         this.activatedImage = new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/checkpointActivated.png", coordinate);
+        this.currentImage = new ImageViewSizePos(defaultImage.getPathImage(),defaultImage.getCoordinate());
+
 
     }
 
+    @Override
+    public void interaction(CollideObject collideObject) {
 
-    public void collide(CollideObject collideObject) {
-        if (collideObject.getAppropriateNode().intersects(this.getAppropriateNode().getBoundsInParent())) {
-            isActivated = true;
+        if (collideObject.getAppropriateNode().intersects(this.getAppropriateNode().getBoundsInParent()) && !isActivated) {
+            effect((DisplayCharacter) collideObject);
+             for (Checkpoint checkpoint : MapFileReader.checkpointArrayList){
+                 if(!this.equals(checkpoint)){
+                     checkpoint.setImage(defaultImage);
+                 }
+             }
+             setImage(activatedImage);
+             isActivated =true;
         }
+        else {
+            isActivated = false;
+        }
+
+
     }
+
+
 
     public void effect(DisplayCharacter displayCharacter) {
 
@@ -40,6 +58,7 @@ public class Checkpoint extends CollideObject {
         checkpointsDBManager.setMapName(mapName);
         checkpointsDBManager.setCharacterName(displayCharacter.getCharacter().getName());
 
+
     }
 
 
@@ -48,9 +67,12 @@ public class Checkpoint extends CollideObject {
     }
 
 
+    public void setImage(ImageViewSizePos imageViewSizePos){
+        currentImage.getImageView().setImage(imageViewSizePos.getImageView().getImage());
+    }
     @Override
     public Node getAppropriateNode() {
-        return defaultImage.getImageView();
+        return currentImage.getImageView();
     }
 
     @Override
@@ -75,12 +97,12 @@ public class Checkpoint extends CollideObject {
 
     @Override
     public double getX() {
-        return 0;
+        return coordinate.getX();
     }
 
     @Override
     public double getY() {
-        return 0;
+        return coordinate.getY();
     }
 
     @Override

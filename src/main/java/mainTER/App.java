@@ -21,6 +21,7 @@ public class App extends Application {
         DataInsert.insertSkill();
         DataInsert.insertMap();
 //        DataInsert.insertControls();
+        DataInsert.insetCheckpoints();
         var scene = new Scene(createContent(stage));
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);

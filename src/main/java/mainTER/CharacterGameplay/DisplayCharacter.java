@@ -13,6 +13,7 @@ import javafx.scene.transform.Scale;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import mainTER.DBManage.CheckpointsDBManager;
 import mainTER.DBManage.ControlsDBManager;
 import mainTER.DBManage.MapDBManager;
 import mainTER.DBManage.PersonDBManager;
@@ -551,8 +552,10 @@ public class DisplayCharacter extends CollideObject {
     }
 
     public void death() {
-        setX(initCoord.getX());
-        setY(initCoord.getY());
+
+        CheckpointsDBManager checkpointsDBManager = new CheckpointsDBManager();
+        setX(checkpointsDBManager.getX());
+        setY(checkpointsDBManager.getY());
     }
 
     @Override

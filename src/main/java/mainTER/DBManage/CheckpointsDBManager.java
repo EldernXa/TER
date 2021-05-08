@@ -46,7 +46,7 @@ public class CheckpointsDBManager {
     }
 
 
-    public void insertIntoTableControls(double x, double y, String characterName, String mapName) {
+    public void insertIntoTableCheckpoints(double x, double y, String characterName, String mapName) {
         // TODO verify insert data
         // TODO verify data doesn't exist already
         // TODO verify if Character exist.

@@ -17,11 +17,14 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
+import mainTER.DBManage.CheckpointsDBManager;
+import mainTER.DBManage.MapDBManager;
 import mainTER.DBManage.PersonDBManager;
 import mainTER.LoadOfFXML;
 import mainTER.MapPackage.Map;
 import mainTER.Network.GameServer;
 import mainTER.Network.Player;
+import mainTER.exception.MapDataGetException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -229,6 +232,19 @@ public class MenuItem extends StackPane {
 
 
     public void createLvl(String mapName) {
+
+        CheckpointsDBManager checkpointsDBManager = new CheckpointsDBManager();
+        MapDBManager mapDBManager = new MapDBManager();
+
+        try {
+            checkpointsDBManager.setX(mapDBManager.getInitialCoordinate(mapName).getX());
+            checkpointsDBManager.setY(mapDBManager.getInitialCoordinate(mapName).getY());
+            checkpointsDBManager.setMapName(mapName);
+            checkpointsDBManager.setCharacterName(mapDBManager.getFirstCharacter(mapName));
+        } catch (MapDataGetException e) {
+            e.printStackTrace();
+        }
+
         StackPane stackPane = new StackPane();
         Pane pane = new Pane();
         stackPane.getChildren().add(pane);

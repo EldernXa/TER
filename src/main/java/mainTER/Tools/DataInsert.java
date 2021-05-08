@@ -1,9 +1,6 @@
 package mainTER.Tools;
 
-import mainTER.DBManage.ControlsDBManager;
-import mainTER.DBManage.MapDBManager;
-import mainTER.DBManage.PersonDBManager;
-import mainTER.DBManage.SkillDBManager;
+import mainTER.DBManage.*;
 import mainTER.exception.*;
 
 public class DataInsert {
@@ -81,6 +78,17 @@ public class DataInsert {
         }catch(MapCharacterNotExistException | MapAlreadyExistException exception){
             exception.printStackTrace();
         }
+    }
+
+    public static void insetCheckpoints(){
+        CheckpointsDBManager checkpointsDBManager = new CheckpointsDBManager();
+
+        checkpointsDBManager.removeTableCheckPoints();
+        checkpointsDBManager.createTableCheckPoints();
+
+
+        checkpointsDBManager.insertIntoTableCheckpoints(0,0,"Paladin","Forest");
+
     }
 
 }

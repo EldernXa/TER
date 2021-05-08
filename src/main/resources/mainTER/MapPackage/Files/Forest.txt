@@ -1,3 +1,6 @@
+checkpoints
+2274 309
+3527 302
 floor
 rock N 1995 734 100
 herbe0-1 N 0 788 100
@@ -19,5 +22,3 @@ forgottensword 5216 658
 levers
 1250 689 portcullis 1000 542
 1172 689 portcullis 1450 542
-checkpoints
-709 505

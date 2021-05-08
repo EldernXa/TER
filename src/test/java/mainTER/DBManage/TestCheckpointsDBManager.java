@@ -28,7 +28,7 @@ public class TestCheckpointsDBManager {
     @Test
     public void testInsertDataIntoTableCheckpoints(){
         try{
-            checkpointsDBManager.insertIntoTableControls(valueX, valueY, valueNameCharacter, valueNameMap);
+            checkpointsDBManager.insertIntoTableCheckpoints(valueX, valueY, valueNameCharacter, valueNameMap);
             assertTrue(true);
         }catch(Exception exception){
             fail();
@@ -124,7 +124,7 @@ public class TestCheckpointsDBManager {
     }
 
     private void insertData(){
-        checkpointsDBManager.insertIntoTableControls(valueX, valueY, valueNameCharacter, valueNameMap);
+        checkpointsDBManager.insertIntoTableCheckpoints(valueX, valueY, valueNameCharacter, valueNameMap);
     }
 
 

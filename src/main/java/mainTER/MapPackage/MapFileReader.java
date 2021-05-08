@@ -19,11 +19,13 @@ public class MapFileReader {
     public static ArrayList<CollideObject> collideObjectArrayList;
     private String[] file;
     private String pathName;
+    static public ArrayList<Checkpoint> checkpointArrayList;
 
     /**
      * @param pathName Map file path
      */
     public MapFileReader(String url, String pathName) {
+        checkpointArrayList = new ArrayList<>();
         collideObjectArrayList = new ArrayList<>();
         this.pathName = pathName;
         Path path = Paths.get(url + pathName + ".txt");
@@ -155,6 +157,7 @@ public class MapFileReader {
                             }
                         }
                         Checkpoint checkpoint = new Checkpoint(new Coordinate(doubles[0], doubles[1]), pathName);
+                        checkpointArrayList.add(checkpoint);
                         collideObjectArrayList.add(checkpoint);
                     }
                     i++;
