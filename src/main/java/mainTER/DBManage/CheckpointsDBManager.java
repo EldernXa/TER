@@ -124,7 +124,8 @@ public class CheckpointsDBManager {
             return 0;
         }
     }
-    public void setCharacterName(String characterName) {
+    public void setCharacterName(String characterName) throws CheckpointsCharacterDoesntExistException {
+        verifyCharacterExist(characterName);
         String request = STRING_UPDATE_CHECKPOINTS +
                 "SET " +
                 "characterName = '" + SecureManage.getEncrypted(characterName) + "';";

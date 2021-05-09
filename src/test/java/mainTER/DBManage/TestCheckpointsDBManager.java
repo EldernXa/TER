@@ -99,6 +99,7 @@ public class TestCheckpointsDBManager {
         try{
             insertData();
             assertEquals(valueNameCharacter, checkpointsDBManager.getCharacterName());
+            personDBManager.insertIntoTablePerson("Serpent", 5.0, 5.0, 5.0, 5.0, true);
             checkpointsDBManager.setCharacterName("Serpent");
             assertEquals("Serpent", checkpointsDBManager.getCharacterName());
         }catch(Exception exception){
@@ -148,6 +149,17 @@ public class TestCheckpointsDBManager {
     public void testInsertCharacterWhoDoesntExistThrowException(){
         assertThrows(CheckpointsCharacterDoesntExistException.class,
                     ()->checkpointsDBManager.insertIntoTableCheckpoints(0, 0, "errze", "aa"));
+    }
+
+    @Test
+    public void testSetCharacterWhoDoesntExistThrowException(){
+        try{
+            insertData();
+            assertThrows(CheckpointsCharacterDoesntExistException.class,
+                    ()->checkpointsDBManager.setCharacterName("aaaz"));
+        }catch(Exception exception){
+            fail();
+        }
     }
 
     private void insertData() throws CheckpointsDataNotCorrectException, CheckpointsDataAlreadyExistException, CheckpointsCharacterDoesntExistException, PersonDataAlreadyExistException, PersonDataNotCorrectException {
