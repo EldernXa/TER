@@ -157,7 +157,7 @@ public class DisplayCharacter extends CollideObject {
 
         }
         currentCoordinateOfTheCharacter = coordinate;
-        initialCoordinateOfTheMap =coordinate;
+        initialCoordinateOfTheMap = coordinate;
         initCoord =  new Coordinate(coordinate.getX(), coordinate.getY());
         animationForTheCharacter = new AnimationCharacter(character);
         ControlsDBManager controlsDBManager = new ControlsDBManager();
