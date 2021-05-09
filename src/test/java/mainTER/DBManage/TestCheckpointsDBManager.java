@@ -11,6 +11,7 @@ public class TestCheckpointsDBManager {
 
     private final CheckpointsDBManager checkpointsDBManager = new CheckpointsDBManager("testDB");
     private final PersonDBManager personDBManager = new PersonDBManager("testDB");
+    private final MapDBManager mapDBManager = new MapDBManager("testDB");
     private final double valueX = 1.0;
     private final double valueY = 2.0;
     private final String valueNameCharacter = "Paladin";
@@ -21,18 +22,21 @@ public class TestCheckpointsDBManager {
         checkpointsDBManager.dropCascade();
         checkpointsDBManager.createTableCheckPoints();
         personDBManager.createTablePerson();
+        mapDBManager.createTableMap();
     }
 
     @AfterEach
     public void afterTest(){
         checkpointsDBManager.removeTableCheckPoints();
         personDBManager.removeTablePerson();
+        mapDBManager.removeTableMap();
     }
 
     @Test
     public void testInsertDataIntoTableCheckpoints(){
         try{
             personDBManager.insertIntoTablePerson(valueNameCharacter, 5.0, 5.0, 5.0, 5.0, true);
+            mapDBManager.insertIntoTableMap(valueNameMap, valueNameCharacter, 0, 0);
             checkpointsDBManager.insertIntoTableCheckpoints(valueX, valueY, valueNameCharacter, valueNameMap);
             assertTrue(true);
         }catch(Exception exception){
@@ -122,6 +126,7 @@ public class TestCheckpointsDBManager {
         try{
             insertData();
             assertEquals(valueNameMap, checkpointsDBManager.getMapName());
+            mapDBManager.insertIntoTableMap("Volcan", valueNameCharacter, 0, 0);
             checkpointsDBManager.setMapName("Volcan");
             assertEquals("Volcan", checkpointsDBManager.getMapName());
         }catch(Exception exception){
@@ -162,8 +167,32 @@ public class TestCheckpointsDBManager {
         }
     }
 
-    private void insertData() throws CheckpointsDataNotCorrectException, CheckpointsDataAlreadyExistException, CheckpointsCharacterDoesntExistException, PersonDataAlreadyExistException, PersonDataNotCorrectException {
+    @Test
+    public void testInsertMapWhoDoesntExistThrowException(){
+        try {
+            personDBManager.insertIntoTablePerson(valueNameCharacter, 5.0, 5.0, 5.0, 5.0, true);
+            assertThrows(CheckpointsMapDoesntExistException.class, () -> checkpointsDBManager.insertIntoTableCheckpoints(0, 0, valueNameCharacter, "eirr"));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testSetMapWhoDoesntExistThrowException(){
+        try{
+            insertData();
+            assertThrows(CheckpointsMapDoesntExistException.class,
+                    ()->checkpointsDBManager.setMapName("zzer"));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    private void insertData() throws CheckpointsDataNotCorrectException, CheckpointsDataAlreadyExistException, CheckpointsCharacterDoesntExistException,
+            PersonDataAlreadyExistException, PersonDataNotCorrectException, CheckpointsMapDoesntExistException, MapAlreadyExistException,
+            MapCharacterNotExistException {
         personDBManager.insertIntoTablePerson(valueNameCharacter, 5.0, 5.0, 5.0, 5.0, true);
+        mapDBManager.insertIntoTableMap(valueNameMap, valueNameCharacter, 0, 0);
         checkpointsDBManager.insertIntoTableCheckpoints(valueX, valueY, valueNameCharacter, valueNameMap);
     }
 

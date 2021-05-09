@@ -7,6 +7,7 @@ import mainTER.DBManage.CheckpointsDBManager;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 import mainTER.exception.CheckpointsCharacterDoesntExistException;
+import mainTER.exception.CheckpointsMapDoesntExistException;
 
 public class Checkpoint extends CollideObject {
     private Coordinate coordinate;
@@ -56,10 +57,10 @@ public class Checkpoint extends CollideObject {
         CheckpointsDBManager checkpointsDBManager = new CheckpointsDBManager();
         checkpointsDBManager.setX(getX());
         checkpointsDBManager.setY(getY());
-        checkpointsDBManager.setMapName(mapName);
         try {
+            checkpointsDBManager.setMapName(mapName);
             checkpointsDBManager.setCharacterName(displayCharacter.getCharacter().getName());
-        } catch (CheckpointsCharacterDoesntExistException e) {
+        } catch (CheckpointsCharacterDoesntExistException | CheckpointsMapDoesntExistException e) {
             e.printStackTrace();
         }
 

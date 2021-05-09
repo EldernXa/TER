@@ -25,6 +25,7 @@ import mainTER.MapPackage.Map;
 import mainTER.Network.GameServer;
 import mainTER.Network.Player;
 import mainTER.exception.CheckpointsCharacterDoesntExistException;
+import mainTER.exception.CheckpointsMapDoesntExistException;
 import mainTER.exception.MapDataGetException;
 
 import java.sql.SQLException;
@@ -242,7 +243,7 @@ public class MenuItem extends StackPane {
             checkpointsDBManager.setY(mapDBManager.getInitialCoordinate(mapName).getY());
             checkpointsDBManager.setMapName(mapName);
             checkpointsDBManager.setCharacterName(mapDBManager.getFirstCharacter(mapName));
-        } catch (MapDataGetException | CheckpointsCharacterDoesntExistException e) {
+        } catch (MapDataGetException | CheckpointsCharacterDoesntExistException | CheckpointsMapDoesntExistException e) {
             e.printStackTrace();
         }
 

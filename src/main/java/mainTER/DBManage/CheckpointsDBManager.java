@@ -3,6 +3,7 @@ package mainTER.DBManage;
 import mainTER.exception.CheckpointsCharacterDoesntExistException;
 import mainTER.exception.CheckpointsDataAlreadyExistException;
 import mainTER.exception.CheckpointsDataNotCorrectException;
+import mainTER.exception.CheckpointsMapDoesntExistException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -71,9 +72,23 @@ public class CheckpointsDBManager {
         }
     }
 
+    private void verifyMapExist(String mapName) throws CheckpointsMapDoesntExistException{
+        MapDBManager mapDBManager;
+        if(isForTest){
+            mapDBManager = new MapDBManager(nameDatabases);
+        }else{
+            mapDBManager = new MapDBManager();
+        }
+
+        if(!mapDBManager.verifyMapExist(mapName)){
+            throw new CheckpointsMapDoesntExistException(mapName);
+        }
+    }
+
     public void insertIntoTableCheckpoints(double x, double y, String characterName, String mapName)
-        throws CheckpointsDataNotCorrectException, CheckpointsDataAlreadyExistException, CheckpointsCharacterDoesntExistException {
-        // TODO verify if the map exist.
+        throws CheckpointsDataNotCorrectException, CheckpointsDataAlreadyExistException, CheckpointsCharacterDoesntExistException,
+            CheckpointsMapDoesntExistException{
+
         if(characterName.compareTo("")==0 || mapName.compareTo("")==0){
             throw new CheckpointsDataNotCorrectException();
         }
@@ -87,6 +102,7 @@ public class CheckpointsDBManager {
         }
 
         verifyCharacterExist(characterName);
+        verifyMapExist(mapName);
 
         String reqValues = "INSERT INTO Checkpoints VALUES (" +
                 "'" + SecureManage.getEncrypted(String.valueOf(x)) + "'" + ",'" + SecureManage.getEncrypted(String.valueOf(y))
@@ -140,7 +156,8 @@ public class CheckpointsDBManager {
         }
     }
 
-    public void setMapName(String mapName) {
+    public void setMapName(String mapName) throws CheckpointsMapDoesntExistException {
+        verifyMapExist(mapName);
         String request = STRING_UPDATE_CHECKPOINTS +
                 "SET " +
                 "mapName = '" + SecureManage.getEncrypted(mapName) + "';";
