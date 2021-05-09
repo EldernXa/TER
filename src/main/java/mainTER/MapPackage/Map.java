@@ -15,8 +15,8 @@ public class Map {
     private Pane pane = new Pane();
     private ImageView backgroundImage;
     private String fileName;
-    ArrayList<CollideObject> collideObjects1 = new ArrayList<>();
-    static ArrayList<ObjectLinker> objectLinkers = new ArrayList<>();
+    public ArrayList<CollideObject> collideObjects1 = new ArrayList<>();
+    public static ArrayList<ObjectLinker> objectLinkers = new ArrayList<>();
 
 
 

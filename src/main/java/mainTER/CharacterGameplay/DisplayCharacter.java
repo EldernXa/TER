@@ -543,6 +543,13 @@ public class DisplayCharacter extends CollideObject {
                 if (collideObject.getAppropriateNode().getBoundsInParent().intersects(this.getAppropriateNode().getBoundsInParent())) {
                     try {
                         ((InteractiveObject) collideObject).actionGenuine();
+                        for(ObjectLinker objectLinker : Map.objectLinkers){
+                            if (objectLinker.getCollideObject1().equals(collideObject)){
+                                ((InteractiveObject) objectLinker.getCollideObject2()).actionGenuine();
+                            }else{
+                                ((InteractiveObject) objectLinker.getCollideObject1()).actionGenuine();
+                            }
+                        }
                     } catch (Exception e) {
                     }
                 }
