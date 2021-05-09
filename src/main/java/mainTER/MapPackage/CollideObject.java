@@ -4,7 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import mainTER.Tools.Coordinate;
 
-public abstract class CollideObject {
+public abstract class CollideObject extends DetectableObject{
 
     /**
      * Get the Node that corresponds to the appearance of the object

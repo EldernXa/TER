@@ -14,6 +14,11 @@ public class Portcullis extends InteractiveObject{
     }
 
     @Override
+    public void actionGenuine() {
+        System.out.println("Genuine");
+    }
+
+    @Override
     public void actionTriggered() {
         if(!isOpen){
             this.setY(this.getY()-200);
