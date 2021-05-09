@@ -93,6 +93,15 @@ public class MapDBManager {
         dbManager.createTableOrInsert(reqValues);
     }
 
+    public boolean verifyMapExist(String mapName){
+        try{
+            getFirstCharacter(mapName);
+            return true;
+        }catch(Exception exception){
+            return false;
+        }
+    }
+
     /**
      * Getting the name of the first character thanks to the name of the map.
      * @param mapName the name of the map.
