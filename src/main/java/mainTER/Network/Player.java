@@ -15,8 +15,13 @@ import javafx.stage.Stage;
 import mainTER.CharacterGameplay.*;
 
 import mainTER.CharacterGameplay.Character;
+import mainTER.DBManage.CheckpointsDBManager;
+import mainTER.DBManage.MapDBManager;
 import mainTER.MapPackage.Map;
 import mainTER.MapPackage.SwitchCharacter;
+import mainTER.exception.CheckpointsCharacterDoesntExistException;
+import mainTER.exception.CheckpointsMapDoesntExistException;
+import mainTER.exception.MapDataGetException;
 
 import java.io.*;
 import java.net.Socket;
@@ -301,6 +306,17 @@ public class Player {
 
 
                 Platform.runLater(()->{
+                    CheckpointsDBManager checkpointsDBManager = new CheckpointsDBManager();
+                    MapDBManager mapDBManager = new MapDBManager();
+
+                    try {
+                        checkpointsDBManager.setX(mapDBManager.getInitialCoordinate(nameOfMap).getX());
+                        checkpointsDBManager.setY(mapDBManager.getInitialCoordinate(nameOfMap).getY());
+                        checkpointsDBManager.setMapName(nameOfMap);
+                        checkpointsDBManager.setCharacterName(mapDBManager.getFirstCharacter(nameOfMap));
+                    } catch (MapDataGetException | CheckpointsCharacterDoesntExistException | CheckpointsMapDoesntExistException e) {
+                        e.printStackTrace();
+                    }
                     map.displayMap();
                     map.addCollisionObjectNetwork(playerID == 1);
                     me.startDisplay();
