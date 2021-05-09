@@ -1,7 +1,6 @@
 package mainTER.DBManage;
 
-import mainTER.exception.CheckpointsDataAlreadyExistException;
-import mainTER.exception.CheckpointsDataNotCorrectException;
+import mainTER.exception.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestCheckpointsDBManager {
 
     private final CheckpointsDBManager checkpointsDBManager = new CheckpointsDBManager("testDB");
+    private final PersonDBManager personDBManager = new PersonDBManager("testDB");
     private final double valueX = 1.0;
     private final double valueY = 2.0;
     private final String valueNameCharacter = "Paladin";
@@ -20,16 +20,19 @@ public class TestCheckpointsDBManager {
     public void beforeTest(){
         checkpointsDBManager.dropCascade();
         checkpointsDBManager.createTableCheckPoints();
+        personDBManager.createTablePerson();
     }
 
     @AfterEach
     public void afterTest(){
         checkpointsDBManager.removeTableCheckPoints();
+        personDBManager.removeTablePerson();
     }
 
     @Test
     public void testInsertDataIntoTableCheckpoints(){
         try{
+            personDBManager.insertIntoTablePerson(valueNameCharacter, 5.0, 5.0, 5.0, 5.0, true);
             checkpointsDBManager.insertIntoTableCheckpoints(valueX, valueY, valueNameCharacter, valueNameMap);
             assertTrue(true);
         }catch(Exception exception){
@@ -141,7 +144,14 @@ public class TestCheckpointsDBManager {
                     checkpointsDBManager.insertIntoTableCheckpoints(0.0, 0.0, "", ""));
     }
 
-    private void insertData() throws CheckpointsDataNotCorrectException, CheckpointsDataAlreadyExistException {
+    @Test
+    public void testInsertCharacterWhoDoesntExistThrowException(){
+        assertThrows(CheckpointsCharacterDoesntExistException.class,
+                    ()->checkpointsDBManager.insertIntoTableCheckpoints(0, 0, "errze", "aa"));
+    }
+
+    private void insertData() throws CheckpointsDataNotCorrectException, CheckpointsDataAlreadyExistException, CheckpointsCharacterDoesntExistException, PersonDataAlreadyExistException, PersonDataNotCorrectException {
+        personDBManager.insertIntoTablePerson(valueNameCharacter, 5.0, 5.0, 5.0, 5.0, true);
         checkpointsDBManager.insertIntoTableCheckpoints(valueX, valueY, valueNameCharacter, valueNameMap);
     }
 

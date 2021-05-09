@@ -1,5 +1,6 @@
 package mainTER.DBManage;
 
+import mainTER.exception.CheckpointsCharacterDoesntExistException;
 import mainTER.exception.CheckpointsDataAlreadyExistException;
 import mainTER.exception.CheckpointsDataNotCorrectException;
 
@@ -10,15 +11,23 @@ public class CheckpointsDBManager {
 
     private final DBManager dbManager;
 
+    private final boolean isForTest;
+
+    private final String nameDatabases;
+
     private static final String STRING_UPDATE_CHECKPOINTS = "UPDATE Checkpoints ";
 
 
 
     public CheckpointsDBManager(String nameFileDB){
+        isForTest = true;
+        nameDatabases = nameFileDB;
         this.dbManager = new DBManager(nameFileDB,"test");
     }
 
     public CheckpointsDBManager(){
+        isForTest = false;
+        nameDatabases = "";
         this.dbManager = new DBManager();
     }
 
@@ -50,10 +59,20 @@ public class CheckpointsDBManager {
         dbManager.dropCascade();
     }
 
+    private void verifyCharacterExist(String characterName) throws CheckpointsCharacterDoesntExistException{
+        PersonDBManager personDBManager;
+        if(isForTest){
+            personDBManager = new PersonDBManager(nameDatabases);
+        }else{
+            personDBManager = new PersonDBManager();
+        }
+        if(!personDBManager.isCharacterExist(characterName)){
+            throw new CheckpointsCharacterDoesntExistException(characterName);
+        }
+    }
 
     public void insertIntoTableCheckpoints(double x, double y, String characterName, String mapName)
-        throws CheckpointsDataNotCorrectException, CheckpointsDataAlreadyExistException {
-        // TODO verify if Character exist.
+        throws CheckpointsDataNotCorrectException, CheckpointsDataAlreadyExistException, CheckpointsCharacterDoesntExistException {
         // TODO verify if the map exist.
         if(characterName.compareTo("")==0 || mapName.compareTo("")==0){
             throw new CheckpointsDataNotCorrectException();
@@ -66,6 +85,8 @@ public class CheckpointsDBManager {
         }catch(SQLException ignored){
 
         }
+
+        verifyCharacterExist(characterName);
 
         String reqValues = "INSERT INTO Checkpoints VALUES (" +
                 "'" + SecureManage.getEncrypted(String.valueOf(x)) + "'" + ",'" + SecureManage.getEncrypted(String.valueOf(y))
