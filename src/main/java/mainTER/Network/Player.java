@@ -162,6 +162,10 @@ public class Player {
         button.setDisable(true);
     }
 
+    /**
+     * Read name of the friend
+     * @param dis
+     */
     public void readForCharacter(DataInputStream dis){
         Thread t = new Thread(()->{
 
