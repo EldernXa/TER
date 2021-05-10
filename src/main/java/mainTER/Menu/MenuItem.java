@@ -1,8 +1,13 @@
 package mainTER.Menu;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Pane;
@@ -12,10 +17,12 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.DBManage.CheckpointsDBManager;
@@ -267,8 +274,31 @@ public class MenuItem extends StackPane {
         map.displayMap();
         map.addCollisionObject();
         ImageView background = map.getBackgroundImage();
+        var ref = new Object() {
+            int timeSeconds = 0;
+        };
 
+        Label timerLabel = new Label();
+        timerLabel.setFont(Font.font("Arial",30));
 
+        timerLabel.setText(String.valueOf(ref.timeSeconds));
+        Timeline timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.getKeyFrames().add(
+                new KeyFrame(Duration.seconds(1),
+                        (EventHandler) event -> {
+                            ref.timeSeconds++;
+                            timerLabel.setText(
+                                    String.valueOf(ref.timeSeconds));
+                            if (ref.timeSeconds <= 0) {
+                                timeline.stop();
+                            }
+                        }));
+
+        timerLabel.setTextFill(Color.WHITE);
+        timerLabel.setTranslateX(1325);
+        timerLabel.setTranslateY(600);
+        pane.getChildren().add(timerLabel);
 
         double backtroundHeight = background.getImage().getHeight();
         if(background.getImage().getHeight() < Screen.getPrimary().getBounds().getHeight()){
@@ -288,5 +318,8 @@ public class MenuItem extends StackPane {
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
+
+        timeline.playFromStart();
+
     }
 }
