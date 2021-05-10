@@ -204,6 +204,13 @@ public class MenuItem extends StackPane {
                     newStage.initStyle(StageStyle.UNDECORATED);
                     newStage.show();
                 }
+                case "UPGRADE SKILLS" : {
+                    for(String nameCharacter : listName){
+                        listCharacter.add(new Character(nameCharacter));
+                    }
+                   UpgradeSkillMenu upgradeSkillMenu = new UpgradeSkillMenu(listCharacter);
+                    stage.setScene(upgradeSkillMenu.getScene());
+                }
             }
         });
 
