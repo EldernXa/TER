@@ -57,7 +57,6 @@ public class Player {
 
     private final Button forest = new Button("Forest");
     private final Button castle = new Button("Castle");
-    private final Button city = new Button("City");
 
     private final Button confirmButton = new Button("Confirm character");
     private final Button confirmMap = new Button("Confirm Map");
@@ -188,7 +187,6 @@ public class Player {
 
                         forest.setDisable(false);
                         castle.setDisable(false);
-                        city.setDisable(false);
                     }
 
                 } catch (IOException e) {
@@ -205,31 +203,21 @@ public class Player {
         pane.getChildren().add(button);
         forest.setDisable(true);
         castle.setDisable(true);
-        city.setDisable(true);
         VBox vBoxMap = new VBox();
         forest.setOnMouseClicked(mouseEvent -> {
             nameOfMap = "Forest";
             forest.setDisable(true);
             castle.setDisable(false);
-            city.setDisable(false);
             confirmMap.setDisable(false);
         });
         castle.setOnMouseClicked(mouseEvent -> {
             nameOfMap= "Castle";
             castle.setDisable(true);
             forest.setDisable(false);
-            city.setDisable(false);
-            confirmMap.setDisable(false);
-        });
-        city.setOnMouseClicked(mouseEvent -> {
-            nameOfMap= "City";
-            castle.setDisable(false);
-            forest.setDisable(false);
-            city.setDisable(true);
             confirmMap.setDisable(false);
         });
 
-        vBoxMap.getChildren().addAll(forest,castle,city);
+        vBoxMap.getChildren().addAll(forest,castle);
         vBoxMap.setTranslateX(200);
         vBoxMap.setTranslateY(200);
         confirmMap.setTranslateX(300);
@@ -249,7 +237,6 @@ public class Player {
 
             castle.setDisable(true);
             forest.setDisable(true);
-            city.setDisable(true);
 
         });
         pane.getChildren().addAll(confirmMap,vBoxMap);
