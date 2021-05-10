@@ -12,6 +12,7 @@ public class MenuPause {
         vbox = new MenuBox(
                 new MenuItem("BACK TO GAME",stagea),
                 new MenuItem("SETTINGS",stagea),
+                new MenuItem("BACK TO CHOICE OF MAP",stage),
                 new MenuItem("BACK TO MENU",stage),
                 new MenuItem("QUIT",stagea)
         );

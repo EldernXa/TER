@@ -15,6 +15,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.DBManage.CheckpointsDBManager;
@@ -61,7 +62,7 @@ public class MenuItem extends StackPane {
         listCharacter = new ArrayList<>();
         this.listName = personDBManager.getListNameFromDatabase();
 
-        setUpMouse(this.stage, name);
+        setUpMouse(name);
 
 
 
@@ -84,8 +85,7 @@ public class MenuItem extends StackPane {
             switch (name) {
 
                 case "SINGLEPLAYER":
-                case "BACK TO MENU" : {
-                    stage.close();
+                case "BACK TO CHOICE OF MAP" : {
                      //Stage.getWindows().stream().filter(Window::isShowing).close();
                     stage.close();
                     Stage newStage = new Stage();
@@ -197,6 +197,13 @@ public class MenuItem extends StackPane {
                 case "BACK TO GAME" : {
                     stage.hide();
                 }
+                case "BACK TO MENU" : {
+                    stage.close();
+                    Stage newStage = new Stage();
+                    newStage.setScene(new Scene(MainMenu.createContent(newStage)));
+                    newStage.initStyle(StageStyle.UNDECORATED);
+                    newStage.show();
+                }
             }
         });
 
@@ -205,10 +212,9 @@ public class MenuItem extends StackPane {
     /**
      * Set up for the mouse controller
      *
-     * @param stage is the current stage
      * @param name  is the name of the rectangle
      */
-    public void setUpMouse(Stage stage, String name) {
+    public void setUpMouse(String name) {
         LinearGradient gradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE,
                 new Stop(0, Color.DARKVIOLET),
                 new Stop(0.1, Color.BLACK),
