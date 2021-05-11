@@ -1,5 +1,6 @@
 package mainTER.DBManage;
 
+import mainTER.exception.UpgradeSkillDataGetException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,10 +62,32 @@ public class TestUpgradeSkillDBManage {
     }
 
     @Test
+    public void testGettingNewValueFromFakeDataThrowException(){
+        try{
+            insertDataForUpgradeSkill();
+            assertThrows(UpgradeSkillDataGetException.class, ()->
+                    upgradeSkillDBManager.getNewValue("aazze", numSkill, nameUpgrade));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
     public void testGettingIsAlreadyDone(){
         try{
             insertDataForUpgradeSkill();
             assertEquals(isAlreadyDone, upgradeSkillDBManager.getIsAlreadyDone(nameCharacter, numSkill, nameUpgrade));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testGettingIsAlreadyDoneFromFakeDataThrowException(){
+        try{
+            insertDataForUpgradeSkill();
+            assertThrows(UpgradeSkillDataGetException.class, ()->
+                    upgradeSkillDBManager.getIsAlreadyDone("rraz", numSkill, nameUpgrade));
         }catch(Exception exception){
             fail();
         }
@@ -93,10 +116,32 @@ public class TestUpgradeSkillDBManage {
     }
 
     @Test
+    public void testGettingPriceFromFakeDataThrowException(){
+        try{
+            insertDataForUpgradeSkill();
+            assertThrows(UpgradeSkillDataGetException.class, ()->
+                    upgradeSkillDBManager.getPrice("rref", numSkill, nameUpgrade));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
     public void testGettingDescription(){
         try{
             insertDataForUpgradeSkill();
             assertEquals(description, upgradeSkillDBManager.getDescription(nameCharacter, numSkill, nameUpgrade));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testGettingDescriptionFromFakeDataThrowException(){
+        try{
+            insertDataForUpgradeSkill();
+            assertThrows(UpgradeSkillDataGetException.class, ()->
+                    upgradeSkillDBManager.getDescription("rokge", numSkill, nameUpgrade));
         }catch(Exception exception){
             fail();
         }
@@ -116,6 +161,20 @@ public class TestUpgradeSkillDBManage {
     }
 
     @Test
+    public void testGettingListUpgradeSkillOfACharacterFromFakeDataThrowException(){
+        try{
+            insertDataForUpgradeSkill();
+            upgradeSkillDBManager.insertIntoTableUpgradeSkill(nameCharacter, 2, nameUpgrade, newValue,
+                    isAlreadyDone, price, description);
+            assertThrows(UpgradeSkillDataGetException.class, ()->
+                    upgradeSkillDBManager.getListUpgradeSkillOfACharacter("rrzed"));
+
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
     public void testGettingListUpgradeOfASkill(){
         try{
             insertDataForUpgradeSkill();
@@ -123,6 +182,19 @@ public class TestUpgradeSkillDBManage {
                     isAlreadyDone, price, description);
             List<String> listString = upgradeSkillDBManager.getListUpgradeOfASkillOfACharacter(nameCharacter, 1);
             assertEquals(2, listString.size());
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testGettingListUpgradeOfASkillFromFakeDataThrowException(){
+        try{
+            insertDataForUpgradeSkill();
+            upgradeSkillDBManager.insertIntoTableUpgradeSkill(nameCharacter, 1, "time", newValue,
+                    isAlreadyDone, price, description);
+            assertThrows(UpgradeSkillDataGetException.class, ()->
+                    upgradeSkillDBManager.getListUpgradeOfASkillOfACharacter("azred", 1));
         }catch(Exception exception){
             fail();
         }

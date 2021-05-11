@@ -1,5 +1,7 @@
 package mainTER.DBManage;
 
+import mainTER.exception.UpgradeSkillDataGetException;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -50,7 +52,7 @@ public class UpgradeSkillDBManager {
         dbManager.createTableOrInsert(reqValues);
     }
 
-    public Map<Integer, String> getListUpgradeSkillOfACharacter(String nameCharacter){
+    public Map<Integer, String> getListUpgradeSkillOfACharacter(String nameCharacter) throws UpgradeSkillDataGetException{
         HashMap<Integer, String> listUpgradeSkill = new HashMap<>();
         ResultSet resultSet = selectUpgradeSkillForACharacter(nameCharacter);
         try{
@@ -58,13 +60,15 @@ public class UpgradeSkillDBManager {
                 listUpgradeSkill.put(Integer.parseInt(SecureManage.getDecrypted(resultSet.getString(ATTRIBUTE_STRING_NUM_SKILL))),
                         SecureManage.getDecrypted(resultSet.getString(ATTRIBUTE_STRING_NAME_UPGRADE)));
             }
-        }catch(SQLException ignored){
-
+            if(listUpgradeSkill.isEmpty())
+                throw new UpgradeSkillDataGetException();
+            return listUpgradeSkill;
+        }catch(SQLException sqlException){
+            throw new UpgradeSkillDataGetException();
         }
-        return listUpgradeSkill;
     }
 
-    public List<String> getListUpgradeOfASkillOfACharacter(String nameCharacter, int numSkill){
+    public List<String> getListUpgradeOfASkillOfACharacter(String nameCharacter, int numSkill) throws UpgradeSkillDataGetException{
         ArrayList<String> listUpgradeOfASkill = new ArrayList<>();
         ResultSet resultSet = selectUpgradeSkillForACharacter(nameCharacter);
         try{
@@ -73,13 +77,15 @@ public class UpgradeSkillDBManager {
                     listUpgradeOfASkill.add(SecureManage.getDecrypted(resultSet.getString(ATTRIBUTE_STRING_NAME_UPGRADE)));
                 }
             }
-        }catch(Exception ignored){
-
+            if(listUpgradeOfASkill.isEmpty())
+                throw new UpgradeSkillDataGetException();
+            return listUpgradeOfASkill;
+        }catch(SQLException sqlException){
+            throw new UpgradeSkillDataGetException();
         }
-        return listUpgradeOfASkill;
     }
 
-    public float getNewValue(String nameCharacter, int numSkill, String nameUpgrade){
+    public float getNewValue(String nameCharacter, int numSkill, String nameUpgrade) throws UpgradeSkillDataGetException{
         ResultSet resultSet = selectUpgradeSkillForACharacter(nameCharacter);
         try{
             while(resultSet.next()){
@@ -88,10 +94,10 @@ public class UpgradeSkillDBManager {
                     return Float.parseFloat(SecureManage.getDecrypted(resultSet.getString("newValue")));
                 }
             }
-        }catch(SQLException ignored){
-
+        }catch(SQLException sqlException){
+            throw new UpgradeSkillDataGetException();
         }
-        return -1;
+        throw new UpgradeSkillDataGetException();
     }
 
     public void setUpgradeDone(String nameCharacter, int numSkill, String nameUpgrade){
@@ -101,7 +107,7 @@ public class UpgradeSkillDBManager {
         dbManager.updateTable(request);
     }
 
-    public boolean getIsAlreadyDone(String nameCharacter, int numSkill, String nameUpgrade){
+    public boolean getIsAlreadyDone(String nameCharacter, int numSkill, String nameUpgrade) throws UpgradeSkillDataGetException{
         ResultSet resultSet = selectUpgradeSkillForACharacter(nameCharacter);
         try{
             while(resultSet.next()){
@@ -110,13 +116,13 @@ public class UpgradeSkillDBManager {
                     return SecureManage.getDecrypted(resultSet.getString("isAlreadyDone")).compareTo("true")==0;
                 }
             }
-        }catch(SQLException ignored){
-
+        }catch(SQLException sqlException){
+            throw new UpgradeSkillDataGetException();
         }
-        return false;
+        throw new UpgradeSkillDataGetException();
     }
 
-    public int getPrice(String nameCharacter, int numSkill, String nameUpgrade){
+    public int getPrice(String nameCharacter, int numSkill, String nameUpgrade) throws UpgradeSkillDataGetException{
         ResultSet resultSet = selectUpgradeSkillForACharacter(nameCharacter);
         try{
             while(resultSet.next()){
@@ -125,13 +131,13 @@ public class UpgradeSkillDBManager {
                     return Integer.parseInt(SecureManage.getDecrypted(resultSet.getString("price")));
                 }
             }
-        }catch(SQLException ignored){
-
+        }catch(SQLException sqlException){
+            throw new UpgradeSkillDataGetException();
         }
-        return -1;
+        throw new UpgradeSkillDataGetException();
     }
 
-    public String getDescription(String nameCharacter, int numSkill, String nameUpgrade){
+    public String getDescription(String nameCharacter, int numSkill, String nameUpgrade) throws UpgradeSkillDataGetException{
         ResultSet resultSet = selectUpgradeSkillForACharacter(nameCharacter);
         try{
             while(resultSet.next()){
@@ -140,10 +146,10 @@ public class UpgradeSkillDBManager {
                     return SecureManage.getDecrypted(resultSet.getString("description"));
                 }
             }
-        }catch(SQLException ignored){
-
+        }catch(SQLException sqlException){
+            throw new UpgradeSkillDataGetException();
         }
-        return "";
+        throw new UpgradeSkillDataGetException();
     }
 
     private ResultSet selectUpgradeSkillForACharacter(String nameCharacter){
