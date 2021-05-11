@@ -21,7 +21,8 @@ public class ProfileDBManager {
     public void createTableProfile(){
         dbManager.createTableOrInsert("CREATE TABLE Profile (" +
                 "name VARCHAR(30)," +
-                "time VARCHAR(30)" +
+                "time VARCHAR(30)," +
+                "mapName VARCHAR(30)" +
                 ");");
     }
 
@@ -33,18 +34,19 @@ public class ProfileDBManager {
         dbManager.dropCascade();
     }
 
-    private ResultSet selectIntoTableProfile(String name){
+    private ResultSet selectIntoTableProfile(String name,String mapName){
         ResultSet rs = null;
         try {
             rs = dbManager.selectIntoTable("SELECT *" +
-                    " FROM Profile WHERE name = '" + SecureManage.getEncrypted(name) + "'");
+                    " FROM Profile WHERE name = '" + SecureManage.getEncrypted(name) + "' AND "+
+                                        "mapName= '" + SecureManage.getEncrypted(mapName)+ "' ;");
             rs.next();
         }catch(SQLException sqlException){
             System.out.println("Problème dans la récupération de données des profiles ");
         }
         return rs;
     }
-    public void insertIntoTableProfile(String name, int time) {
+    public void insertIntoTableProfile(String name, int time,String mapName) {
         // TODO verify insert data
         // TODO verify data doesn't exist already
 
@@ -53,12 +55,13 @@ public class ProfileDBManager {
         String reqValues = "INSERT INTO Profile VALUES ("
                 +
                 "'" + SecureManage.getEncrypted(name) + "'" + ",'" + SecureManage.getEncrypted(String.valueOf(time))
+                + "','" + SecureManage.getEncrypted(mapName)
                 + "')";
         dbManager.createTableOrInsert(reqValues);
     }
 
-    public int getTime(String name){
-        ResultSet rs = selectIntoTableProfile(name);
+    public int getTime(String name,String mapName){
+        ResultSet rs = selectIntoTableProfile(name,mapName);
 
         try {
             return Integer.parseInt(SecureManage.getDecrypted(rs.getString("time")));
@@ -68,11 +71,12 @@ public class ProfileDBManager {
         return -1;
     }
 
-    public void setTime(String name,int time) {
+    public void setTime(String name,int time,String mapName) {
         String request = "UPDATE Profile " +
                 "SET " +
                 "time = '" + SecureManage.getEncrypted(String.valueOf(time)) + "' " +
-                "WHERE name = '" + SecureManage.getEncrypted(name)+"';";
+                "WHERE name = '" + SecureManage.getEncrypted(name)+"' AND " +
+                "mapName= '" + SecureManage.getEncrypted(mapName)+ "' ;";
         dbManager.updateTable(request);
     }
     public List<String> getListProfileFromDatabase(){

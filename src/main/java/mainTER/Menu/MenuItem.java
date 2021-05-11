@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Pane;
@@ -28,6 +29,7 @@ import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.DBManage.CheckpointsDBManager;
 import mainTER.DBManage.MapDBManager;
 import mainTER.DBManage.PersonDBManager;
+import mainTER.DBManage.ProfileDBManager;
 import mainTER.LoadOfFXML;
 import mainTER.MapPackage.Map;
 import mainTER.Network.GameServer;
@@ -53,6 +55,11 @@ public class MenuItem extends StackPane {
     private final ArrayList<Character> listCharacter;
     private Stage stage;
     private List<String> listName;
+    public static TextField pseudo;
+    public static Label timerLabel = new Label();
+    public static String mapName;
+
+    public static Timeline timeline = new Timeline();
 
     /**
      * Constructor to create items
@@ -98,6 +105,7 @@ public class MenuItem extends StackPane {
                     Stage newStage = new Stage();
                     MenuLevel menuLevel = new MenuLevel(newStage);
                     Scene scene = new Scene( menuLevel.getPane(), 860,600);
+                    pseudo = menuLevel.getPseudo();
 
 
                     newStage.setScene(scene);
@@ -110,20 +118,31 @@ public class MenuItem extends StackPane {
                     for(String nameCharacter : listName){
                         listCharacter.add(new Character(nameCharacter));
                     }
-                   createLvl("Forest");
+
+                    if(!pseudo.getText().equals("") && !pseudo.getText().contains(" ")){
+                        mapName = "Forest";
+                        createLvl("Forest");
+                    }
+
                 }
                 break;
                 case "Level 2 - Castle": {
                     for(String nameCharacter : listName){
                         listCharacter.add(new Character(nameCharacter));
                     }
-                   createLvl("Castle");
+                    if(!pseudo.getText().equals("") && !pseudo.getText().equals(" ")) {
+                        mapName = "Castle";
+                        createLvl("Castle");
+                    }
                 }break;
                 case "Level 3 - City": {
                     for(String nameCharacter : listName){
                         listCharacter.add(new Character(nameCharacter));
                     }
-                    createLvl("City");
+                    if(!pseudo.getText().equals("") && !pseudo.getText().equals(" ")) {
+                        mapName = "City";
+                        createLvl("City");
+                    }
                 }break;
                 case "MULTIPLAYER": {
 
@@ -278,11 +297,10 @@ public class MenuItem extends StackPane {
             int timeSeconds = 0;
         };
 
-        Label timerLabel = new Label();
+
         timerLabel.setFont(Font.font("Arial",30));
 
-        timerLabel.setText(String.valueOf(ref.timeSeconds));
-        Timeline timeline = new Timeline();
+        timerLabel.setText(String.valueOf(ref.timeSeconds));;
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.getKeyFrames().add(
                 new KeyFrame(Duration.seconds(1),
@@ -320,6 +338,7 @@ public class MenuItem extends StackPane {
         stage.show();
 
         timeline.playFromStart();
+
 
     }
 }

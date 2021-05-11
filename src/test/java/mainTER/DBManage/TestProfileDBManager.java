@@ -10,6 +10,7 @@ public class TestProfileDBManager {
     private final ProfileDBManager profileDBManager = new ProfileDBManager("testDB");
     private final String name = "Saken";
     private final int time = 6;
+    private final String mapName = "Faille";
 
 
     @BeforeEach
@@ -36,7 +37,7 @@ public class TestProfileDBManager {
     public void testInsertDataIntoTablePerson(){
         try {
             profileDBManager.createTableProfile();
-            profileDBManager.insertIntoTableProfile(name, time);
+            profileDBManager.insertIntoTableProfile(name, time,mapName);
         }catch(Exception exception){
             fail();
         }
@@ -47,7 +48,7 @@ public class TestProfileDBManager {
     public void testGettingTime(){
         try{
             insertValuesIntoProfile();
-            assertEquals(time,profileDBManager.getTime(name));
+            assertEquals(time,profileDBManager.getTime(name,mapName));
         }catch (Exception e){
             fail();
         }
@@ -57,8 +58,8 @@ public class TestProfileDBManager {
         try {
 
             insertValuesIntoProfile();
-            profileDBManager.setTime(name,4);
-            assertEquals(4,profileDBManager.getTime(name));
+            profileDBManager.setTime(name,4,mapName);
+            assertEquals(4,profileDBManager.getTime(name,mapName));
         }catch (Exception e){
             fail();
         }
@@ -68,7 +69,7 @@ public class TestProfileDBManager {
     private void insertValuesIntoProfile(){
         try{
             profileDBManager.createTableProfile();
-            profileDBManager.insertIntoTableProfile(name,time);
+            profileDBManager.insertIntoTableProfile(name,time,mapName);
         }catch(Exception sqlException){
             fail();
         }
