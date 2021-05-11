@@ -4,7 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestUpgradeSkillDBManage {
 
@@ -38,6 +38,68 @@ public class TestUpgradeSkillDBManage {
 
     @Test
     public void testInsertingData(){
+        try{
+            upgradeSkillDBManager.createTableUpgradeSkill();
+            upgradeSkillDBManager.insertIntoTableUpgradeSkill(nameCharacter, numSkill, nameUpgrade, newValue,
+                    isAlreadyDone, price, description);
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testGettingNewValue(){
+        try{
+            insertDataForUpgradeSkill();
+            assertEquals(newValue, upgradeSkillDBManager.getNewValue(nameCharacter, numSkill, nameUpgrade));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testGettingIsAlreadyDone(){
+        try{
+            insertDataForUpgradeSkill();
+            assertEquals(isAlreadyDone, upgradeSkillDBManager.getIsAlreadyDone(nameCharacter, numSkill, nameUpgrade));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testGettingIsAlreadyDoneBeforeAndAfterSetting(){
+        try{
+            insertDataForUpgradeSkill();
+            assertEquals(isAlreadyDone, upgradeSkillDBManager.getIsAlreadyDone(nameCharacter, numSkill, nameUpgrade));
+            upgradeSkillDBManager.setUpgradeDone(nameCharacter, numSkill, nameUpgrade);
+            assertTrue(upgradeSkillDBManager.getIsAlreadyDone(nameCharacter, numSkill, nameUpgrade));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testGettingPrice(){
+        try{
+            insertDataForUpgradeSkill();
+            assertEquals(price, upgradeSkillDBManager.getPrice(nameCharacter, numSkill, nameUpgrade));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testGettingDescription(){
+        try{
+            insertDataForUpgradeSkill();
+            assertEquals(description, upgradeSkillDBManager.getDescription(nameCharacter, numSkill, nameUpgrade));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    private void insertDataForUpgradeSkill(){
         try{
             upgradeSkillDBManager.createTableUpgradeSkill();
             upgradeSkillDBManager.insertIntoTableUpgradeSkill(nameCharacter, numSkill, nameUpgrade, newValue,
