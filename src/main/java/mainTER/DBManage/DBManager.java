@@ -79,9 +79,8 @@ public class DBManager {
             connection.commit();
             connection.close();
             connection = null;
-        }catch(SQLException sqlException){
-            System.out.println("Problème dans le delete de la table.");
-            sqlException.printStackTrace();
+        }catch(SQLException ignored){
+
         }
     }
 
