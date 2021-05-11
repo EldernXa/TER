@@ -48,18 +48,18 @@ public class DataInsert {
             skillDBManager.createTableSkill();
 
             try {
-                skillDBManager.insertIntoTableSkill("SHIELD", "1", "Paladin", true, false, true,"Use the shield" +
-                        "to lift other characters");
-                skillDBManager.insertIntoTableSkill("ATTACK", "2", "Paladin", false, true, false,"Use the sword to " +
-                        "break obstacles");
-                skillDBManager.insertIntoTableSkill("BARRIER", "3", "Paladin", true, false, true,"Create a barrier" +
-                        "which absorb all damages for a short \ntime");
-                skillDBManager.insertIntoTableSkill("FLY", "1", "Demon", true, false, true,"Increase the speed for a " +
-                        "short time");
-                skillDBManager.insertIntoTableSkill("MOULT", "1", "Serpent", false, false, false,"Create a moult of" +
-                        "himself. The moult is usable as a \nplatform for one time");
-                skillDBManager.insertIntoTableSkill("WALL_JUMP","1","HommeDragon",false,false,false,"Will grab walls" +
-                        "while jumping");
+                skillDBManager.insertIntoTableSkill("SHIELD", "1", "Paladin", true, false, true,
+                        0, 0, "Use the shield to lift other characters");
+                skillDBManager.insertIntoTableSkill("ATTACK", "2", "Paladin", false, true, false,
+                        1, 0, "Use the sword to break obstacles");
+                skillDBManager.insertIntoTableSkill("BARRIER", "3", "Paladin", true, false, true,
+                        4, 2, "Create a barrier which absorb all damages for a short \ntime");
+                skillDBManager.insertIntoTableSkill("FLY", "1", "Demon", true, false, true,
+                        5, 3, "Increase the speed for a short time");
+                skillDBManager.insertIntoTableSkill("MOULT", "1", "Serpent", false, false, false,
+                        10, 6, "Create a moult of himself. The moult is usable as a \nplatform for one time");
+                skillDBManager.insertIntoTableSkill("WALL_JUMP","1","HommeDragon",false,false,false,
+                        0, 0, "Will grab walls while jumping");
             } catch (SkillAlreadyExistException | SkillCtrlAlreadyUsedException | SkillDataNotCorrectException |
                     SkillCtrlAlreadyUsedByMovementControlException | SkillCharacterNotExistException exception) {
                 System.out.println(exception.getMessage());

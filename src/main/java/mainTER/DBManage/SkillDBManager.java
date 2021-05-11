@@ -83,6 +83,8 @@ public class SkillDBManager {
                 "animateMvt VARCHAR(30)," +
                 "animateAction VARCHAR(30)," +
                 "isMode VARCHAR(30)," +
+                "timeCooldown VARCHAR(30)," +
+                "timeSkill VARCHAR(30)," +
                 "Description VARCHAR(500)," +
                 "CONSTRAINT PK_Person PRIMARY KEY (nameCharacter,numSkill, ctrlKey)" +
                 ");");
@@ -117,6 +119,36 @@ public class SkillDBManager {
                 if(resultSet.getString(NAME_ATTRIBUTE_FOR_NUM_SKILL).
                         compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0){
                     return SecureManage.getDecrypted(String.valueOf(resultSet.getObject(valueToGet)));
+                }
+            }
+        }catch(SQLException sqlException){
+            throw new SkillDataGetException(nameCharacter, numSkill);
+        }
+        throw new SkillDataGetException(nameCharacter, numSkill);
+    }
+
+    public float getTimeCooldown(String nameCharacter, int numSkill) throws SkillDataGetException{
+        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+        try{
+            while(resultSet.next()){
+                if(resultSet.getString(NAME_ATTRIBUTE_FOR_NUM_SKILL).
+                        compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0){
+                    return Float.parseFloat(SecureManage.getDecrypted(resultSet.getString("timeCooldown")));
+                }
+            }
+        }catch(SQLException sqlException){
+            throw new SkillDataGetException(nameCharacter, numSkill);
+        }
+        throw new SkillDataGetException(nameCharacter, numSkill);
+    }
+
+    public float getTimeSkill(String nameCharacter, int numSkill) throws SkillDataGetException{
+        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+        try{
+            while(resultSet.next()){
+                if(resultSet.getString(NAME_ATTRIBUTE_FOR_NUM_SKILL).
+                        compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0){
+                    return Float.parseFloat(SecureManage.getDecrypted(resultSet.getString("timeSkill")));
                 }
             }
         }catch(SQLException sqlException){
@@ -256,7 +288,7 @@ public class SkillDBManager {
      * @throws SkillDataNotCorrectException if we try to insert data that doesn't correct.
      */
     public void insertIntoTableSkill(String nameSkill, String ctrlKey, String nameCharacter, boolean animateMvt, boolean animateAction,
-                                     boolean isMode, String description)
+                                     boolean isMode, float timeCooldown, float timeSkill, String description)
             throws SkillAlreadyExistException, SkillCtrlAlreadyUsedException, SkillDataNotCorrectException,
             SkillCtrlAlreadyUsedByMovementControlException, SkillCharacterNotExistException {
 
@@ -293,6 +325,8 @@ public class SkillDBManager {
                 + "','" +SecureManage.getEncrypted(nameCharacter) +"','" + SecureManage.getEncrypted(convertBoolToString(animateMvt))
                 + "','" + SecureManage.getEncrypted(convertBoolToString(animateAction))
                 + "','" + SecureManage.getEncrypted(convertBoolToString(isMode)) +
+                "','" + SecureManage.getEncrypted(String.valueOf(timeCooldown)) +
+                "','" + SecureManage.getEncrypted(String.valueOf(timeSkill))+
                 "','" +SecureManage.getEncrypted(description) + "')";
         dbManager.createTableOrInsert(reqValues);
     }
