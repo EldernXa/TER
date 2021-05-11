@@ -4,6 +4,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestUpgradeSkillDBManage {
@@ -98,6 +101,46 @@ public class TestUpgradeSkillDBManage {
             fail();
         }
     }
+
+    @Test
+    public void testGettingListUpgradeSkillOfACharacter(){
+        try{
+            insertDataForUpgradeSkill();
+            upgradeSkillDBManager.insertIntoTableUpgradeSkill(nameCharacter, 2, nameUpgrade, newValue,
+                    isAlreadyDone, price, description);
+            Map<Integer, String> listUpgradeSkill = upgradeSkillDBManager.getListUpgradeSkillOfACharacter(nameCharacter);
+            assertEquals(2, listUpgradeSkill.size());
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testGettingListUpgradeOfASkill(){
+        try{
+            insertDataForUpgradeSkill();
+            upgradeSkillDBManager.insertIntoTableUpgradeSkill(nameCharacter, 1, "time", newValue,
+                    isAlreadyDone, price, description);
+            List<String> listString = upgradeSkillDBManager.getListUpgradeOfASkillOfACharacter(nameCharacter, 1);
+            assertEquals(2, listString.size());
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testGettingInsideOfAListUpgradeOfASkill(){
+        try{
+            insertDataForUpgradeSkill();
+            upgradeSkillDBManager.insertIntoTableUpgradeSkill(nameCharacter, 1, "time", newValue,
+                    isAlreadyDone, price, description);
+            List<String> listString = upgradeSkillDBManager.getListUpgradeOfASkillOfACharacter(nameCharacter, 1);
+            assertTrue(listString.contains(nameUpgrade));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
 
     private void insertDataForUpgradeSkill(){
         try{

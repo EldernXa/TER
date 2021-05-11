@@ -2,6 +2,10 @@ package mainTER.DBManage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class UpgradeSkillDBManager {
 
@@ -44,6 +48,35 @@ public class UpgradeSkillDBManager {
                 SecureManage.getEncrypted(description) +
                 "')";
         dbManager.createTableOrInsert(reqValues);
+    }
+
+    public Map<Integer, String> getListUpgradeSkillOfACharacter(String nameCharacter){
+        HashMap<Integer, String> listUpgradeSkill = new HashMap<>();
+        ResultSet resultSet = selectUpgradeSkillForACharacter(nameCharacter);
+        try{
+            while(resultSet.next()){
+                listUpgradeSkill.put(Integer.parseInt(SecureManage.getDecrypted(resultSet.getString(ATTRIBUTE_STRING_NUM_SKILL))),
+                        SecureManage.getDecrypted(resultSet.getString(ATTRIBUTE_STRING_NAME_UPGRADE)));
+            }
+        }catch(SQLException ignored){
+
+        }
+        return listUpgradeSkill;
+    }
+
+    public List<String> getListUpgradeOfASkillOfACharacter(String nameCharacter, int numSkill){
+        ArrayList<String> listUpgradeOfASkill = new ArrayList<>();
+        ResultSet resultSet = selectUpgradeSkillForACharacter(nameCharacter);
+        try{
+            while(resultSet.next()){
+                if(resultSet.getString(ATTRIBUTE_STRING_NUM_SKILL).compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0){
+                    listUpgradeOfASkill.add(SecureManage.getDecrypted(resultSet.getString(ATTRIBUTE_STRING_NAME_UPGRADE)));
+                }
+            }
+        }catch(Exception ignored){
+
+        }
+        return listUpgradeOfASkill;
     }
 
     public float getNewValue(String nameCharacter, int numSkill, String nameUpgrade){
