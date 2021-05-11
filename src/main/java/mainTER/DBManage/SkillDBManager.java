@@ -86,7 +86,7 @@ public class SkillDBManager {
                 "timeCooldown VARCHAR(30)," +
                 "timeSkill VARCHAR(30)," +
                 "Description VARCHAR(500)," +
-                "CONSTRAINT PK_Person PRIMARY KEY (nameCharacter,numSkill, ctrlKey)" +
+                "CONSTRAINT PK_Skill PRIMARY KEY (nameCharacter,numSkill, ctrlKey)" +
                 ");");
     }
 
