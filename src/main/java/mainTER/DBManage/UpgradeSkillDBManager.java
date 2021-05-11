@@ -5,6 +5,10 @@ import java.sql.SQLException;
 
 public class UpgradeSkillDBManager {
 
+    private static final String ATTRIBUTE_STRING_NUM_SKILL = "numSkill";
+
+    private static final String ATTRIBUTE_STRING_NAME_UPGRADE = "nameUpgrade";
+
     private final DBManager dbManager;
 
     public UpgradeSkillDBManager(){
@@ -46,8 +50,8 @@ public class UpgradeSkillDBManager {
         ResultSet resultSet = selectUpgradeSkillForACharacter(nameCharacter);
         try{
             while(resultSet.next()){
-                if(resultSet.getString("numSkill").compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0 &&
-                    resultSet.getString("nameUpgrade").compareTo(SecureManage.getEncrypted(String.valueOf(nameUpgrade)))==0){
+                if(resultSet.getString(ATTRIBUTE_STRING_NUM_SKILL).compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0 &&
+                    resultSet.getString(ATTRIBUTE_STRING_NAME_UPGRADE).compareTo(SecureManage.getEncrypted(String.valueOf(nameUpgrade)))==0){
                     return Float.parseFloat(SecureManage.getDecrypted(resultSet.getString("newValue")));
                 }
             }
@@ -68,8 +72,8 @@ public class UpgradeSkillDBManager {
         ResultSet resultSet = selectUpgradeSkillForACharacter(nameCharacter);
         try{
             while(resultSet.next()){
-                if(resultSet.getString("numSkill").compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0 &&
-                    resultSet.getString("nameUpgrade").compareTo(SecureManage.getEncrypted(String.valueOf(nameUpgrade)))==0){
+                if(resultSet.getString(ATTRIBUTE_STRING_NUM_SKILL).compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0 &&
+                    resultSet.getString(ATTRIBUTE_STRING_NAME_UPGRADE).compareTo(SecureManage.getEncrypted(String.valueOf(nameUpgrade)))==0){
                     return SecureManage.getDecrypted(resultSet.getString("isAlreadyDone")).compareTo("true")==0;
                 }
             }
@@ -83,8 +87,8 @@ public class UpgradeSkillDBManager {
         ResultSet resultSet = selectUpgradeSkillForACharacter(nameCharacter);
         try{
             while(resultSet.next()){
-                if(resultSet.getString("numSkill").compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0 &&
-                    resultSet.getString("nameUpgrade").compareTo(SecureManage.getEncrypted(String.valueOf(nameUpgrade)))==0){
+                if(resultSet.getString(ATTRIBUTE_STRING_NUM_SKILL).compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0 &&
+                    resultSet.getString(ATTRIBUTE_STRING_NAME_UPGRADE).compareTo(SecureManage.getEncrypted(String.valueOf(nameUpgrade)))==0){
                     return Integer.parseInt(SecureManage.getDecrypted(resultSet.getString("price")));
                 }
             }
@@ -98,8 +102,8 @@ public class UpgradeSkillDBManager {
         ResultSet resultSet = selectUpgradeSkillForACharacter(nameCharacter);
         try{
             while(resultSet.next()){
-                if(resultSet.getString("numSkill").compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0 &&
-                    resultSet.getString("nameUpgrade").compareTo(SecureManage.getEncrypted(nameUpgrade))==0){
+                if(resultSet.getString(ATTRIBUTE_STRING_NUM_SKILL).compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0 &&
+                    resultSet.getString(ATTRIBUTE_STRING_NAME_UPGRADE).compareTo(SecureManage.getEncrypted(nameUpgrade))==0){
                     return SecureManage.getDecrypted(resultSet.getString("description"));
                 }
             }
