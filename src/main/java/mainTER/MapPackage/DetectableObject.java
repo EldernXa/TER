@@ -159,7 +159,7 @@ public abstract class DetectableObject {
             for(DetectableObject detectableObject2 : MapFileReader.detectableObjectArrayList){
                 if((!this.equals(detectableObject2))&&(rect.intersects(detectableObject2.getAppropriateNode().getBoundsInParent()))&&(this.getAppropriateNode().getBoundsInParent().getMinX()- detectableObject2.getAppropriateNode().getBoundsInParent().getMaxX() >= 0)&&(this.getAppropriateNode().getBoundsInParent().getMinX()- detectableObject2.getAppropriateNode().getBoundsInParent().getMaxX() <= this.getHMouvementSpan())){
                     detectableObject2.interaction(this);
-                    System.out.println("Collision avec : " + detectableObject2);
+//                    System.out.println("Collision avec : " + detectableObject2);
 
                     for(ObjectLinker objectLinker : Map.objectLinkers){
                         if(objectLinker.getCollideObject1().equals(detectableObject2)){

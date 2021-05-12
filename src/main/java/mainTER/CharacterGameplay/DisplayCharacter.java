@@ -538,22 +538,22 @@ public class DisplayCharacter extends DetectableObject {
         KeyCode keyCode = KeyCode.getKeyCode(action);
         if (eventForPressedKey.getCode() == keyCode && !listCurrentKeyCode.contains(keyCode)) {
             listCurrentKeyCode.add(keyCode);
-            System.out.println("Action F");
-            System.out.println("Taille de la liste : " + MapFileReader.detectableObjectArrayList.size());
+//            System.out.println("Action F");
+//            System.out.println("Taille de la liste : " + MapFileReader.detectableObjectArrayList.size());
             for (DetectableObject detectableObject : MapFileReader.detectableObjectArrayList) {
 
-                if(detectableObject instanceof Lever){
+                /*if(detectableObject instanceof Lever){
                     System.out.println(detectableObject.getX());
                     System.out.println(detectableObject.getY());
                     System.out.println(this.getX());
                     System.out.println(this.getY());
-                }
+                }*/
                 if (detectableObject.getAppropriateNode().getBoundsInParent().intersects(this.getAppropriateNode().getBoundsInParent())) {
-                    System.out.println("Collision avec : " + detectableObject);
+//                    System.out.println("Collision avec : " + detectableObject);
 
                     try {
-                        System.out.println("Essaye de l'interaction");
-                        ((InteractiveObject) detectableObject).actionGenuine();
+//                        System.out.println("Essaye de l'interaction");
+                        ((InteractiveObject) detectableObject).actionGenuine(); //TODO reactivate the multi
                         /*for(ObjectLinker objectLinker : Map.objectLinkers){
                             if (objectLinker.getCollideObject1().equals(detectableObject)){
                                 ((InteractiveObject) objectLinker.getCollideObject2()).actionGenuine();

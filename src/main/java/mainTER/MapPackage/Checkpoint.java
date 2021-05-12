@@ -8,7 +8,7 @@ import mainTER.Tools.ImageViewSizePos;
 import mainTER.exception.CheckpointsCharacterDoesntExistException;
 import mainTER.exception.CheckpointsMapDoesntExistException;
 
-public class Checkpoint extends UnCollideObject {
+public class Checkpoint extends CollideObject {
     private Coordinate coordinate;
     private ImageViewSizePos defaultImage;
     private ImageViewSizePos activatedImage;
