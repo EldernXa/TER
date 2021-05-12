@@ -314,8 +314,6 @@ public class MenuItem extends StackPane {
                         }));
 
         timerLabel.setTextFill(Color.WHITE);
-        timerLabel.setTranslateX(1325);
-        timerLabel.setTranslateY(600);
         pane.getChildren().add(timerLabel);
 
         double backtroundHeight = background.getImage().getHeight();
