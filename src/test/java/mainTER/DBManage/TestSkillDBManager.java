@@ -246,6 +246,32 @@ public class TestSkillDBManager {
     }
 
     @Test
+    public void testModifyTimeCooldown(){
+        try{
+            insertValueIntoSkill();
+            float newTimeCooldown = 15;
+            assertEquals(timeCooldown, skillDBManager.getTimeCooldown(nameCharacter, numSkill1));
+            skillDBManager.modifyTimeCooldown(nameCharacter, nameSkill1, newTimeCooldown);
+            assertEquals(newTimeCooldown, skillDBManager.getTimeCooldown(nameCharacter, numSkill1));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testModifyTimeSkill(){
+        try{
+            insertValueIntoSkill();
+            float newTimeSkill = 15;
+            assertEquals(timeSkill, skillDBManager.getTimeSkill(nameCharacter, numSkill1));
+            skillDBManager.modifyTimeSkill(nameCharacter, nameSkill1, newTimeSkill);
+            assertEquals(newTimeSkill, skillDBManager.getTimeSkill(nameCharacter, numSkill1));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
     public void testModifyCtrlOfASkillWithACtrlAlreadyUsedByTheSameCharacterThrowException(){
         try{
             insertValueIntoSkill();

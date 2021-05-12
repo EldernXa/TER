@@ -384,6 +384,24 @@ public class SkillDBManager {
 
     }
 
+    public void modifyTimeCooldown(String nameCharacter, String nameSkill, float newTimeCooldown){
+        String request = "UPDATE Skill " +
+                "SET " +
+                "timeCooldown = '" + SecureManage.getEncrypted(String.valueOf(newTimeCooldown)) + "'" +
+                " WHERE nameCharacter = '" + SecureManage.getEncrypted(nameCharacter)
+                + "' AND nameSkill = '" + SecureManage.getEncrypted(nameSkill.toUpperCase()) + "'";
+        dbManager.updateTable(request);
+    }
+
+    public void modifyTimeSkill(String nameCharacter, String nameSkill, float newTimeSkill){
+        String request = "UPDATE Skill " +
+                "SET " +
+                "timeSkill = '" + SecureManage.getEncrypted(String.valueOf(newTimeSkill)) + "'" +
+                " WHERE nameCharacter = '" + SecureManage.getEncrypted(nameCharacter)
+                + "' AND nameSkill = '" + SecureManage.getEncrypted(nameSkill.toUpperCase()) + "'";
+        dbManager.updateTable(request);
+    }
+
     /**
      *
      * @return list of all the name of skill in the database.
