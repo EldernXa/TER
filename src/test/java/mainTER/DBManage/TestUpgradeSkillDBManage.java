@@ -131,6 +131,7 @@ public class TestUpgradeSkillDBManage {
             insertDataForUpgradeSkill();
             assertEquals(description, upgradeSkillDBManager.getDescription(nameCharacter, numSkill, nameUpgrade));
         }catch(Exception exception){
+            exception.printStackTrace();
             fail();
         }
     }

@@ -1,6 +1,7 @@
 package mainTER.DBManage;
 
 import java.sql.*;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -53,6 +54,67 @@ public class DBManager {
             exception.printStackTrace();
         }
     }
+
+    public void createTable(String nameTable, List<String> listName, int numPrimaryKey, List<Integer> listSize){
+        StringBuilder requestCreateTable = new StringBuilder("CREATE TABLE " + nameTable + " ( ");
+        for(int i = 0; i<listName.size();i++){
+            requestCreateTable.append(listName.get(i)).append(" VARCHAR(").append(listSize.get(i)).append(")");
+            if(numPrimaryKey == 1 && i == 0){
+                requestCreateTable.append(" PRIMARY KEY ");
+            }
+            if(i<listName.size()-1 || numPrimaryKey>1)
+                requestCreateTable.append(", ");
+        }
+        if(numPrimaryKey > 1){
+            requestCreateTable.append("CONSTRAINT PK_").append(nameTable).append(" PRIMARY KEY (");
+            for(int i=0;i<numPrimaryKey;i++){
+                requestCreateTable.append(listName.get(i));
+                if(i<numPrimaryKey-1)
+                    requestCreateTable.append(",");
+            }
+            requestCreateTable.append(")");
+        }
+        requestCreateTable.append(");");
+        createTableOrInsert(requestCreateTable.toString());
+    }
+
+    public void insertIntoTable(String nameTable, List<Object> listInsert){
+        StringBuilder stringBuilderInsert = new StringBuilder("INSERT INTO ");
+        stringBuilderInsert.append(nameTable).append(" VALUES (");
+        for (int i = 0; i<listInsert.size(); i++){
+            try{
+                stringBuilderInsert.append("'").append(SecureManage.getEncrypted(String.valueOf(listInsert.get(i)))).append("'");
+                if(i<listInsert.size()-1)
+                    stringBuilderInsert.append(",");
+            }catch(Exception exception){
+                System.out.println("Problème.");
+            }
+        }
+        stringBuilderInsert.append(")");
+        createTableOrInsert(stringBuilderInsert.toString());
+    }
+
+    public String getData(String nameTable, List<String> listNameLine, List<Object> listRealValueOfLine, String nameRequest) throws SQLException {
+        ResultSet resultSet = selectIntoTable(nameTable, listNameLine, listRealValueOfLine);
+        resultSet.next();
+        return SecureManage.getDecrypted(resultSet.getString(nameRequest));
+    }
+
+    private ResultSet selectIntoTable(String nameTable, List<String> listName, List<Object> listRequest){
+        ResultSet resultSet;
+        StringBuilder stringBuilder = new StringBuilder("SELECT * FROM ");
+        stringBuilder.append(nameTable).append(" WHERE ");
+        for(int i = 0; i<listName.size();i++){
+            stringBuilder.append(listName.get(i)).append(" = '").append(SecureManage.getEncrypted(String.valueOf(listRequest.get(i)))).append("'");
+            if(i<listName.size()-1){
+                stringBuilder.append(" AND ");
+            }
+        }
+        //System.out.println(stringBuilder);
+        resultSet = selectIntoTable(stringBuilder.toString());
+        return resultSet;
+    }
+
     public void updateTable(String strCreateTable){
         this.getConnection();
         try(Statement statement = connection.createStatement()) {
