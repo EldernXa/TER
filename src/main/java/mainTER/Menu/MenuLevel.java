@@ -12,7 +12,7 @@ import static mainTER.Menu.MainMenu.createContent;
 
 public class MenuLevel extends StackPane {
 
-    TextField pseudo = new TextField("Entrez votre pseudo");
+    TextField pseudo ;
     private Pane pane = new Pane();
 
     public MenuLevel(Stage stage) {
@@ -22,11 +22,18 @@ public class MenuLevel extends StackPane {
                 new MenuItem("Level 2 - Castle", stage),
                 new MenuItem("Level 3 - City", stage)
         );
-        pseudo.setTranslateX(170);
-        pseudo.setTranslateY(220);
+
         vbox.setTranslateX(170);
         vbox.setTranslateY(250);
         vbox.setSpacing(5);
+        if(MenuItem.pseudo == null){
+            pseudo = new TextField("Pseudo");
+
+        }else {
+            pseudo = new TextField(MenuItem.pseudo.getText());
+        }
+        pseudo.setTranslateX(170);
+        pseudo.setTranslateY(220);
         pane.getChildren().addAll(vbox,pseudo);
         stage.initStyle(StageStyle.UNDECORATED);
         ReturnBack.setRevenir(stage,new Scene(createContent(stage)),pane);
