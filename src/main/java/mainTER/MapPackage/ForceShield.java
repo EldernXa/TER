@@ -8,22 +8,15 @@ public class ForceShield extends InteractiveObject {
 
     ImageViewSizePos imageView;
     boolean isOpen;
-    String name;
-    Coordinate coordinate;
     public ForceShield(Coordinate coordinate, String name) {
         super(coordinate,  new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/"+name +".png", coordinate));
 
-        this.coordinate = coordinate;
-        this.name = name;
         this.imageView = new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/"+name +".png", coordinate);
         isOpen =false;
     }
 
 
 
-    public InteractiveObject clone(){
-        return new ForceShield(new Coordinate(coordinate.getX(),coordinate.getY()),name);
-    }
 
 
     @Override
