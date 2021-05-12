@@ -19,7 +19,7 @@ public class ProfileDBManager {
     public ProfileDBManager(){this.dbManager = new DBManager(); }
 
     public void createTableProfile(){
-        dbManager.createTableOrInsert("CREATE TABLE Profile (" +
+        dbManager.createTableOrInsert("CREATE TABLE IF NOT EXISTS Profile (" +
                 "name VARCHAR(30)," +
                 "time VARCHAR(30)," +
                 "mapName VARCHAR(30)" +
@@ -78,6 +78,19 @@ public class ProfileDBManager {
                 "WHERE name = '" + SecureManage.getEncrypted(name)+"' AND " +
                 "mapName= '" + SecureManage.getEncrypted(mapName)+ "' ;";
         dbManager.updateTable(request);
+    }
+
+    public boolean nameExist(String name,String mapName){
+        ResultSet rs = selectIntoTableProfile(name,mapName);
+
+
+        try {
+            return rs.next();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+
     }
     public List<String> getListProfileFromDatabase(){
         ArrayList<String> listProfile = new ArrayList<>();

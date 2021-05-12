@@ -49,7 +49,7 @@ public class TestBestProfileDBManager {
     public void testGettingTime(){
         try{
             insertValuesIntoBestProfile();
-            assertEquals(time, bestProfileDBManager.getTime(name,mapName));
+            assertEquals(time, bestProfileDBManager.getTime(mapName));
         }catch (Exception e){
             fail();
         }
@@ -59,8 +59,28 @@ public class TestBestProfileDBManager {
         try {
 
             insertValuesIntoBestProfile();
-            bestProfileDBManager.setTime(name,4,mapName);
-            assertEquals(4, bestProfileDBManager.getTime(name,mapName));
+            bestProfileDBManager.setTime(4,mapName);
+            assertEquals(4, bestProfileDBManager.getTime(mapName));
+        }catch (Exception e){
+            fail();
+        }
+    }
+    @Test
+    public void testGettingName(){
+        try{
+            insertValuesIntoBestProfile();
+            assertEquals(name, bestProfileDBManager.getName(mapName));
+        }catch (Exception e){
+            fail();
+        }
+    }
+    @Test
+    public void testSettingName(){
+        try {
+
+            insertValuesIntoBestProfile();
+            bestProfileDBManager.setName("adam",mapName);
+            assertEquals("adam", bestProfileDBManager.getName(mapName));
         }catch (Exception e){
             fail();
         }

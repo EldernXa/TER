@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import mainTER.DBManage.BestProfileDBManager;
 import mainTER.DBManage.ProfileDBManager;
 import mainTER.Menu.MenuItem;
 import mainTER.Menu.MenuLevel;
@@ -22,6 +23,7 @@ public class EndObject extends InteractiveObject {
     String nameProfile;
     String mapName;
     ProfileDBManager profileDBManager = new ProfileDBManager();
+    BestProfileDBManager bestProfileDBManager = new BestProfileDBManager();
     public EndObject(String name, Coordinate coordinate) {
 
         super(coordinate, new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/"+name+".png",coordinate));
@@ -41,7 +43,26 @@ public class EndObject extends InteractiveObject {
                 nameProfile = MenuItem.pseudo.getText();
                 time = Integer.parseInt(MenuItem.timerLabel.getText());
                 mapName = MenuItem.mapName;
-                //profileDBManager.insertIntoTableProfile(nameProfile,time,mapName);
+                profileDBManager.createTableProfile();
+
+                if(profileDBManager.nameExist(nameProfile,mapName)){
+                    if(time < profileDBManager.getTime(nameProfile,mapName) ){
+                        profileDBManager.setTime(nameProfile,time,mapName);
+                    }
+                }else {
+                    profileDBManager.insertIntoTableProfile(nameProfile,time,mapName);
+                }
+
+                bestProfileDBManager.createTableBestProfile();
+                if(bestProfileDBManager.getTime(mapName) != -1){
+                    if(time < bestProfileDBManager.getTime(mapName)){
+                        bestProfileDBManager.setTime(time,mapName);
+                        bestProfileDBManager.setName(nameProfile,mapName);
+                    }
+                }else {
+                    bestProfileDBManager.insertIntoTableBestProfile(nameProfile,time,mapName);
+                }
+
                 collideObject.setCoordinate(new Coordinate(0,0));
                 Stage stage = new Stage();
 

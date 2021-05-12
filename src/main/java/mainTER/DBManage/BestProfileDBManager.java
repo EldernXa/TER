@@ -1,5 +1,7 @@
 package mainTER.DBManage;
 
+import mainTER.exception.ControlsDataGetException;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -14,7 +16,7 @@ public class BestProfileDBManager {
     public BestProfileDBManager(){this.dbManager = new DBManager(); }
 
     public void createTableBestProfile(){
-        dbManager.createTableOrInsert("CREATE TABLE BestProfile (" +
+        dbManager.createTableOrInsert("CREATE TABLE IF NOT EXISTS BestProfile (" +
                 "name VARCHAR(30)," +
                 "time VARCHAR(30)," +
                 "mapName VARCHAR(30)" +
@@ -27,11 +29,11 @@ public class BestProfileDBManager {
     public void dropCascade(){
         dbManager.dropCascade();
     }
-    private ResultSet selectIntoTableBestProfile(String name, String mapName){
+    private ResultSet selectIntoTableBestProfile( String mapName){
         ResultSet rs = null;
         try {
             rs = dbManager.selectIntoTable("SELECT *" +
-                    " FROM BestProfile WHERE name = '" + SecureManage.getEncrypted(name) + "' AND "+
+                    " FROM BestProfile WHERE "+
                     "mapName= '" + SecureManage.getEncrypted(mapName)+ "' ;");
             rs.next();
         }catch(SQLException sqlException){
@@ -53,22 +55,42 @@ public class BestProfileDBManager {
         dbManager.createTableOrInsert(reqValues);
     }
 
-    public int getTime(String name,String mapName){
-        ResultSet rs = selectIntoTableBestProfile(name,mapName);
+    public int getTime(String mapName){
+        ResultSet rs = selectIntoTableBestProfile(mapName);
 
         try {
             return Integer.parseInt(SecureManage.getDecrypted(rs.getString("time")));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            return -1;
         }
-        return -1;
+
+    }
+    public String getName(String mapName){
+        ResultSet rs = selectIntoTableBestProfile(mapName);
+        try {
+
+            return SecureManage.getDecrypted((String) rs.getObject("name"));
+        }catch(SQLException sqlException){
+                sqlException.printStackTrace();
+        }
+        return "";
     }
 
-    public void setTime(String name,int time,String mapName) {
+    public void setName(String name,String mapName){
+        String request = "UPDATE BestProfile " +
+                "SET " +
+                "name = '" + SecureManage.getEncrypted(name) + "' " +
+                "WHERE "+
+                "mapName= '" + SecureManage.getEncrypted(mapName)+ "' ;";
+        dbManager.updateTable(request);
+    }
+
+    public void setTime(int time,String mapName) {
         String request = "UPDATE BestProfile " +
                 "SET " +
                 "time = '" + SecureManage.getEncrypted(String.valueOf(time)) + "' " +
-                "WHERE name = '" + SecureManage.getEncrypted(name)+"' AND " +
+                "WHERE "+
                 "mapName= '" + SecureManage.getEncrypted(mapName)+ "' ;";
         dbManager.updateTable(request);
     }
