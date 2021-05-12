@@ -184,7 +184,7 @@ public abstract class CollideObject extends DetectableObject{
                 }
                 if((!this.equals(collideObject2))&&(this.intersect(rect,collideObject2))&&(this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY() >= 0)/*&&(this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY() <= this.getJumpMouvementSpan())*/){ //a voir pour le -i
                     System.out.println("je suis en collision avec" + collideObject2);
-                    /*collideObject2.interaction(this);
+                    collideObject2.interaction(this);
 
                     for(ObjectLinker objectLinker : Map.objectLinkers){
                         if(objectLinker.getCollideObject1().equals(collideObject2)){
@@ -200,7 +200,7 @@ public abstract class CollideObject extends DetectableObject{
 //                            System.out.println(collideObject2);
 //                            System.out.println("Cet Objet nexiste pas");
                         }
-                    }*/
+                    }
                     System.out.println("Hauteur de saut calculée = " + (this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY()));
                     return (this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY());
                 }
