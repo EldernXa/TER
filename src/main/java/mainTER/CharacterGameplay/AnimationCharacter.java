@@ -70,7 +70,12 @@ public class AnimationCharacter {
     }
 
     public ImageView nextImage(){
-        int ind = (indImgToAnimate)%listOfImageViewForTheAnimation.get(posToAnimate).size();
+        int ind;
+        try {
+            ind = (indImgToAnimate) % listOfImageViewForTheAnimation.get(posToAnimate).size();
+        }catch(ArithmeticException arithmeticException){
+            ind = 0;
+        }
         ImageView imgView = listOfImageViewForTheAnimation.get(posToAnimate).get(ind);
         if(ind == listOfImageViewForTheAnimation.get(posToAnimate).size()-1){
             if(posToAnimate == Position.JUMP.ordinal()){
@@ -84,7 +89,11 @@ public class AnimationCharacter {
     }
 
     public ImageView actualImg(){
-        return listOfImageViewForTheAnimation.get(posToAnimate).get((indImgToAnimate-1)%listOfImageViewForTheAnimation.get(posToAnimate).size());
+        try {
+            return listOfImageViewForTheAnimation.get(posToAnimate).get((indImgToAnimate - 1) % listOfImageViewForTheAnimation.get(posToAnimate).size());
+        }catch(ArithmeticException arithmeticException){
+            return listOfImageViewForTheAnimation.get(posToAnimate).get((indImgToAnimate));
+        }
     }
 
     public Timeline getTimeline(){
