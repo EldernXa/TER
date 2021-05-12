@@ -559,7 +559,6 @@ public class DisplayCharacter extends CollideObject {
     }
 
     public void death() {
-
         CheckpointsDBManager checkpointsDBManager = new CheckpointsDBManager();
         setX(checkpointsDBManager.getX());
         setY(checkpointsDBManager.getY());
@@ -567,6 +566,8 @@ public class DisplayCharacter extends CollideObject {
 
     @Override
     public Node getAppropriateNode() {
+        animationForTheCharacter.actualImg().setX(currentCoordinateOfTheCharacter.getX());
+        animationForTheCharacter.actualImg().setY(currentCoordinateOfTheCharacter.getY());
         return animationForTheCharacter.actualImg();
     }
 
