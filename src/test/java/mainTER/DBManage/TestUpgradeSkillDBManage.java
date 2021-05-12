@@ -17,7 +17,6 @@ public class TestUpgradeSkillDBManage {
     private final int numSkill = 1;
     private final String nameUpgrade = "cooldown";
     private final float newValue = 5;
-    private final boolean isAlreadyDone = false;
     private final int price = 50;
     private final String description = "aa";
 
@@ -45,7 +44,7 @@ public class TestUpgradeSkillDBManage {
         try{
             upgradeSkillDBManager.createTableUpgradeSkill();
             upgradeSkillDBManager.insertIntoTableUpgradeSkill(nameCharacter, numSkill, nameUpgrade, newValue,
-                    isAlreadyDone, price, description);
+                    price, description);
         }catch(Exception exception){
             fail();
         }
@@ -76,7 +75,7 @@ public class TestUpgradeSkillDBManage {
     public void testGettingIsAlreadyDone(){
         try{
             insertDataForUpgradeSkill();
-            assertEquals(isAlreadyDone, upgradeSkillDBManager.getIsAlreadyDone(nameCharacter, numSkill, nameUpgrade));
+            assertFalse(upgradeSkillDBManager.getIsAlreadyDone(nameCharacter, numSkill, nameUpgrade));
         }catch(Exception exception){
             fail();
         }
@@ -97,7 +96,7 @@ public class TestUpgradeSkillDBManage {
     public void testGettingIsAlreadyDoneBeforeAndAfterSetting(){
         try{
             insertDataForUpgradeSkill();
-            assertEquals(isAlreadyDone, upgradeSkillDBManager.getIsAlreadyDone(nameCharacter, numSkill, nameUpgrade));
+            assertFalse(upgradeSkillDBManager.getIsAlreadyDone(nameCharacter, numSkill, nameUpgrade));
             upgradeSkillDBManager.setUpgradeDone(nameCharacter, numSkill, nameUpgrade);
             assertTrue(upgradeSkillDBManager.getIsAlreadyDone(nameCharacter, numSkill, nameUpgrade));
         }catch(Exception exception){
@@ -152,7 +151,7 @@ public class TestUpgradeSkillDBManage {
         try{
             insertDataForUpgradeSkill();
             upgradeSkillDBManager.insertIntoTableUpgradeSkill(nameCharacter, 2, nameUpgrade, newValue,
-                    isAlreadyDone, price, description);
+                    price, description);
             Map<Integer, String> listUpgradeSkill = upgradeSkillDBManager.getListUpgradeSkillOfACharacter(nameCharacter);
             assertEquals(2, listUpgradeSkill.size());
         }catch(Exception exception){
@@ -165,7 +164,7 @@ public class TestUpgradeSkillDBManage {
         try{
             insertDataForUpgradeSkill();
             upgradeSkillDBManager.insertIntoTableUpgradeSkill(nameCharacter, 2, nameUpgrade, newValue,
-                    isAlreadyDone, price, description);
+                    price, description);
             assertThrows(UpgradeSkillDataGetException.class, ()->
                     upgradeSkillDBManager.getListUpgradeSkillOfACharacter("rrzed"));
 
@@ -179,7 +178,7 @@ public class TestUpgradeSkillDBManage {
         try{
             insertDataForUpgradeSkill();
             upgradeSkillDBManager.insertIntoTableUpgradeSkill(nameCharacter, 1, "time", newValue,
-                    isAlreadyDone, price, description);
+                    price, description);
             List<String> listString = upgradeSkillDBManager.getListUpgradeOfASkillOfACharacter(nameCharacter, 1);
             assertEquals(2, listString.size());
         }catch(Exception exception){
@@ -192,7 +191,7 @@ public class TestUpgradeSkillDBManage {
         try{
             insertDataForUpgradeSkill();
             upgradeSkillDBManager.insertIntoTableUpgradeSkill(nameCharacter, 1, "time", newValue,
-                    isAlreadyDone, price, description);
+                    price, description);
             assertThrows(UpgradeSkillDataGetException.class, ()->
                     upgradeSkillDBManager.getListUpgradeOfASkillOfACharacter("azred", 1));
         }catch(Exception exception){
@@ -205,7 +204,7 @@ public class TestUpgradeSkillDBManage {
         try{
             insertDataForUpgradeSkill();
             upgradeSkillDBManager.insertIntoTableUpgradeSkill(nameCharacter, 1, "time", newValue,
-                    isAlreadyDone, price, description);
+                    price, description);
             List<String> listString = upgradeSkillDBManager.getListUpgradeOfASkillOfACharacter(nameCharacter, 1);
             assertTrue(listString.contains(nameUpgrade));
         }catch(Exception exception){
@@ -218,7 +217,7 @@ public class TestUpgradeSkillDBManage {
         try{
             upgradeSkillDBManager.createTableUpgradeSkill();
             upgradeSkillDBManager.insertIntoTableUpgradeSkill(nameCharacter, numSkill, nameUpgrade, newValue,
-                    isAlreadyDone, price, description);
+                    price, description);
         }catch(Exception exception){
             fail();
         }

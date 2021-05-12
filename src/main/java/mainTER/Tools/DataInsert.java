@@ -100,18 +100,18 @@ public class DataInsert {
         try {
 
             upgradeSkillDBManager.insertIntoTableUpgradeSkill("Demon", 1, "Reduce the cooldown",
-                    10, false, 1, "reduce the cooldown");
+                    10, 1, "reduce the cooldown");
             upgradeSkillDBManager.insertIntoTableUpgradeSkill("Demon", 1, "Increase the duration",
-                    3, false, 1, "Increase the duration");
+                    3,1, "Increase the duration");
 
 
             upgradeSkillDBManager.insertIntoTableUpgradeSkill("Paladin", 3, "Reduce the cooldown",
-                    10, false, 1, "reduce the barrier cooldown");
+                    10, 1, "reduce the barrier cooldown");
             upgradeSkillDBManager.insertIntoTableUpgradeSkill("Paladin", 3, "Increase the duration",
-                    3, false, 1, "increase the barrier duration");
+                    3, 1, "increase the barrier duration");
 
             upgradeSkillDBManager.insertIntoTableUpgradeSkill("Paladin", 1, "Reduce the cooldown",
-                    10, false, 1, "reduce the barrier cooldown");
+                    10, 1, "reduce the barrier cooldown");
 
 
         } catch (Exception e) {

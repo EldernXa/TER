@@ -31,7 +31,7 @@ public class UpgradeSkillDBManager {
                 "numSkill VARCHAR(40)," +
                 "nameUpgrade VARCHAR(50)," +
                 "newValue VARCHAR(40)," +
-                "isAlreadyDone VARCHAR(40)," +
+                "isAlreadyLearned VARCHAR(40)," +
                 "price VARCHAR(40)," +
                 "description VARCHAR(500)," +
                 "CONSTRAINT PK_UpgradeSkill PRIMARY KEY (nameCharacter, numSkill, nameUpgrade)" +
@@ -39,13 +39,13 @@ public class UpgradeSkillDBManager {
     }
 
     public void insertIntoTableUpgradeSkill(String nameCharacter, int numSkill, String nameUpgrade, float newValue,
-                                            boolean isAlreadyDone, int price, String description){
+                                            int price, String description){
         String reqValues = "INSERT INTO UpgradeSkill VALUES (" +
                 "'" + SecureManage.getEncrypted(nameCharacter) +"','" +
                 SecureManage.getEncrypted(String.valueOf(numSkill)) + "','" +
                 SecureManage.getEncrypted(nameUpgrade) + "','" +
                 SecureManage.getEncrypted(String.valueOf(newValue)) + "','" +
-                SecureManage.getEncrypted(isAlreadyDone?"true":"false") + "','" +
+                SecureManage.getEncrypted("false") + "','" +
                 SecureManage.getEncrypted(String.valueOf(price)) + "','" +
                 SecureManage.getEncrypted(description) +
                 "')";
@@ -101,7 +101,7 @@ public class UpgradeSkillDBManager {
     }
 
     public void setUpgradeDone(String nameCharacter, int numSkill, String nameUpgrade){
-        String request = "UPDATE UpgradeSkill SET isAlreadyDone = '" + SecureManage.getEncrypted("true")+"'" +
+        String request = "UPDATE UpgradeSkill SET isAlreadyLearned = '" + SecureManage.getEncrypted("true")+"'" +
                 " WHERE nameCharacter = '" + SecureManage.getEncrypted(nameCharacter) + "' AND numSkill = '" + SecureManage.getEncrypted(String.valueOf(numSkill))
                 + "' AND nameUpgrade = '" + SecureManage.getEncrypted(nameUpgrade) + "';";
         dbManager.updateTable(request);
@@ -113,7 +113,7 @@ public class UpgradeSkillDBManager {
             while(resultSet.next()){
                 if(resultSet.getString(ATTRIBUTE_STRING_NUM_SKILL).compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0 &&
                     resultSet.getString(ATTRIBUTE_STRING_NAME_UPGRADE).compareTo(SecureManage.getEncrypted(String.valueOf(nameUpgrade)))==0){
-                    return SecureManage.getDecrypted(resultSet.getString("isAlreadyDone")).compareTo("true")==0;
+                    return SecureManage.getDecrypted(resultSet.getString("isAlreadyLearned")).compareTo("true")==0;
                 }
             }
         }catch(SQLException sqlException){
