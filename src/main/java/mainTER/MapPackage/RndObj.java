@@ -4,7 +4,7 @@ import javafx.scene.Node;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
-public class RndObj extends CollideObject {
+public class RndObj extends DetectableObject {
 
     private ImageViewSizePos imageViewSizePos;
     private String rndObjName;

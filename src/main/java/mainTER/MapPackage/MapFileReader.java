@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class MapFileReader {
 
 
-    public static ArrayList<CollideObject> collideObjectArrayList;
+    public static ArrayList<DetectableObject> detectableObjectArrayList;
     private String[] file;
     private String pathName;
     static public ArrayList<Checkpoint> checkpointArrayList;
@@ -26,7 +26,7 @@ public class MapFileReader {
      */
     public MapFileReader(String url, String pathName) {
         checkpointArrayList = new ArrayList<>();
-        collideObjectArrayList = new ArrayList<>();
+        detectableObjectArrayList = new ArrayList<>();
         this.pathName = pathName;
         Path path = Paths.get(url + pathName + ".txt");
         try {
@@ -82,12 +82,12 @@ public class MapFileReader {
 
                         if (line[1].equals("L")) {
                             fieldFromLilPict = new MapFieldFromLilPict(pathName, spriteName, new Coordinate(doubles[2], doubles[3]), doubles[4], doubles[5]);
-                            collideObjectArrayList.add(fieldFromLilPict);
+                            detectableObjectArrayList.add(fieldFromLilPict);
                         } else {
 
                             double imageHeight = heightFromName(spriteName);
                             fieldFromSprite = new MapFieldFromSprite(pathName, spriteName, new Coordinate(doubles[2], doubles[3] - imageHeight), doubles[4]);
-                            collideObjectArrayList.add(fieldFromSprite);
+                            detectableObjectArrayList.add(fieldFromSprite);
                         }
                     } else if (lastCategorie.equals("objects")) {
                         line = file[i].split("\\s+");
@@ -102,21 +102,21 @@ public class MapFileReader {
 
                         switch (line[0]) {//Add case when new object
                             case "crate":
-                                collideObjectArrayList.add(new Crate(new Coordinate(doubles[1], doubles[2])));
+                                detectableObjectArrayList.add(new Crate(new Coordinate(doubles[1], doubles[2])));
                                 break;
                             case "trunk":
                                 imageHeight2 = heightFromName(line[0]);
-                                collideObjectArrayList.add(new RndObj(pathName, line[0], new Coordinate(doubles[1], doubles[2] - imageHeight2)));
+                                detectableObjectArrayList.add(new RndObj(pathName, line[0], new Coordinate(doubles[1], doubles[2] - imageHeight2)));
                                 break;
                             case "car":
                             case "forgottensword":
                             case "sword":
-                                collideObjectArrayList.add(new EndObject(line[0], new Coordinate(doubles[1], doubles[2])));
+                                detectableObjectArrayList.add(new EndObject(line[0], new Coordinate(doubles[1], doubles[2])));
                                 break;
 
                             case "eau1":
                             case "spikes":
-                                collideObjectArrayList.add(new DeathObject(line[0], new Coordinate(doubles[1], doubles[2])));
+                                detectableObjectArrayList.add(new DeathObject(line[0], new Coordinate(doubles[1], doubles[2])));
 
                         }
                     } else if (lastCategorie.equals("levers")) {
@@ -132,18 +132,18 @@ public class MapFileReader {
                         switch (line[2]) {
                             case "portcullis":
                                 Portcullis portcullis = new Portcullis(new Coordinate(doubles[3], doubles[4]));
-                                collideObjectArrayList.add(new Lever(portcullis, new Coordinate(doubles[0], doubles[1])));
-                                collideObjectArrayList.add(portcullis);
+                                detectableObjectArrayList.add(new Lever(portcullis, new Coordinate(doubles[0], doubles[1])));
+                                detectableObjectArrayList.add(portcullis);
                                 break;
                             case "metalDoor":
                                 MetalDoor metalDoor = new MetalDoor(new Coordinate(doubles[3], doubles[4]), line[2]);
-                                collideObjectArrayList.add(new Lever(metalDoor, new Coordinate(doubles[0], doubles[1])));
-                                collideObjectArrayList.add(metalDoor);
+                                detectableObjectArrayList.add(new Lever(metalDoor, new Coordinate(doubles[0], doubles[1])));
+                                detectableObjectArrayList.add(metalDoor);
                                 break;
                             case "shield":
                                 ForceShield forceShield = new ForceShield(new Coordinate(doubles[3], doubles[4]), line[2]);
-                                collideObjectArrayList.add(new Lever(forceShield, new Coordinate(doubles[0], doubles[1])));
-                                collideObjectArrayList.add(forceShield);
+                                detectableObjectArrayList.add(new Lever(forceShield, new Coordinate(doubles[0], doubles[1])));
+                                detectableObjectArrayList.add(forceShield);
                                 break;
                         }
 
@@ -158,7 +158,7 @@ public class MapFileReader {
                         }
                         Checkpoint checkpoint = new Checkpoint(new Coordinate(doubles[0], doubles[1]), pathName);
                         checkpointArrayList.add(checkpoint);
-                        collideObjectArrayList.add(checkpoint);
+                        detectableObjectArrayList.add(checkpoint);
                     }
                     i++;
             }
@@ -177,7 +177,7 @@ public class MapFileReader {
     /**
      * @return ArrayList of CollideObject
      */
-    public ArrayList<CollideObject> getCollisionObjectArrayList() {
-        return collideObjectArrayList;
+    public ArrayList<DetectableObject> getCollisionObjectArrayList() {
+        return detectableObjectArrayList;
     }
 }

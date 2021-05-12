@@ -1,13 +1,8 @@
 package mainTER.MapPackage;
 
 import javafx.scene.Node;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
-
-import java.util.EventListener;
 
 public class Crate extends InteractiveObject { //TODO make it a CollideObject not an InteractiveObject
 
@@ -15,9 +10,9 @@ public class Crate extends InteractiveObject { //TODO make it a CollideObject no
         super(coordinate, new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/crate.png",coordinate));
     }
 
-    public void interaction(CollideObject collideObject) {
-        if(collideObject.getY() + collideObject.getHeight() >= super.getY() + super.getHeight()*2/5) {
-            if (collideObject.getCoordinate().getX() < super.getCoordinate().getX()) {
+    public void interaction(DetectableObject detectableObject) {
+        if(detectableObject.getY() + detectableObject.getHeight() >= super.getY() + super.getHeight()*2/5) {
+            if (detectableObject.getCoordinate().getX() < super.getCoordinate().getX()) {
                     super.setCoordinate(new Coordinate(super.getCoordinate().getX() + calcMvt(CommingFrom.LEFT), super.getCoordinate().getY()));
             } else {
                     super.setCoordinate(new Coordinate(super.getCoordinate().getX() - calcMvt(CommingFrom.RIGHT), super.getCoordinate().getY()));

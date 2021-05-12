@@ -17,7 +17,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-       // DataInsert.insertControls();
+//        DataInsert.insertControls();
         DataInsert.insertPerson();
         DataInsert.insertSkill();
         DataInsert.insertMap();

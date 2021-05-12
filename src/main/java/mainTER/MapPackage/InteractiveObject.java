@@ -4,7 +4,7 @@ import javafx.scene.image.ImageView;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
-public abstract class InteractiveObject extends CollideObject {
+public abstract class InteractiveObject extends DetectableObject {
 
     private Coordinate coordinate;
     private final ImageViewSizePos imageViewSizePos;

@@ -5,7 +5,7 @@ import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
-public class DeathObject extends CollideObject{
+public class DeathObject extends DetectableObject {
 
     String pathName;
     Coordinate coordinate;
@@ -21,8 +21,8 @@ public class DeathObject extends CollideObject{
 
 
     @Override
-    public void interaction(CollideObject collideObject) {
-        ((DisplayCharacter) collideObject).death();
+    public void interaction(DetectableObject detectableObject) {
+        ((DisplayCharacter) detectableObject).death();
     }
 
     @Override
@@ -31,7 +31,7 @@ public class DeathObject extends CollideObject{
     }
 
     @Override
-    public CollideObject clone() {
+    public DetectableObject clone() {
         return new DeathObject(pathName,coordinate);
     }
 

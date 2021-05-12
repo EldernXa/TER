@@ -3,7 +3,7 @@ package mainTER.MapPackage;
 import javafx.scene.Node;
 import mainTER.Tools.Coordinate;
 
-public abstract class MapFieldForm extends CollideObject {
+public abstract class MapFieldForm extends DetectableObject {
 
     private Coordinate coordinate; // repetition des coordinates dans les classe filles
     private double width;

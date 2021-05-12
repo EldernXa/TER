@@ -1,20 +1,14 @@
 package mainTER.MapPackage;
 
-import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import mainTER.DBManage.BestProfileDBManager;
 import mainTER.DBManage.ProfileDBManager;
 import mainTER.Menu.MenuItem;
-import mainTER.Menu.MenuLevel;
 import mainTER.Menu.MenuProfile;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
-
-import java.util.List;
 
 public class EndObject extends InteractiveObject {
 
@@ -32,13 +26,13 @@ public class EndObject extends InteractiveObject {
     }
 
 
-    public void interaction(CollideObject collideObject){
+    public void interaction(DetectableObject detectableObject){
         try {
 
                 MenuItem.timeline.stop();
 
 
-                ((Stage) collideObject.getAppropriateNode().getScene().getWindow()).close();
+                ((Stage) detectableObject.getAppropriateNode().getScene().getWindow()).close();
 
                 nameProfile = MenuItem.pseudo.getText();
                 time = Integer.parseInt(MenuItem.timerLabel.getText());
@@ -63,7 +57,7 @@ public class EndObject extends InteractiveObject {
                     bestProfileDBManager.insertIntoTableBestProfile(nameProfile,time,mapName);
                 }
 
-                collideObject.setCoordinate(new Coordinate(0,0));
+                detectableObject.setCoordinate(new Coordinate(0,0));
                 Stage stage = new Stage();
 
                 //MenuLevel menuLevel = new MenuLevel(stage);

@@ -1,7 +1,6 @@
 package mainTER.MapPackage;
 
 import javafx.scene.Node;
-import javafx.scene.image.ImageView;
 import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.DBManage.CheckpointsDBManager;
 import mainTER.Tools.Coordinate;
@@ -9,7 +8,7 @@ import mainTER.Tools.ImageViewSizePos;
 import mainTER.exception.CheckpointsCharacterDoesntExistException;
 import mainTER.exception.CheckpointsMapDoesntExistException;
 
-public class Checkpoint extends CollideObject {
+public class Checkpoint extends UnCollideObject {
     private Coordinate coordinate;
     private ImageViewSizePos defaultImage;
     private ImageViewSizePos activatedImage;
@@ -31,10 +30,10 @@ public class Checkpoint extends CollideObject {
     }
 
     @Override
-    public void interaction(CollideObject collideObject) {
+    public void interaction(DetectableObject detectableObject) {
 
-        if (collideObject.getAppropriateNode().intersects(this.getAppropriateNode().getBoundsInParent()) && !isActivated) {
-            effect((DisplayCharacter) collideObject);
+        if (detectableObject.getAppropriateNode().intersects(this.getAppropriateNode().getBoundsInParent()) && !isActivated) {
+            effect((DisplayCharacter) detectableObject);
              for (Checkpoint checkpoint : MapFileReader.checkpointArrayList){
                  if(!this.equals(checkpoint)){
                      checkpoint.setImage(defaultImage);
@@ -46,8 +45,6 @@ public class Checkpoint extends CollideObject {
         else {
             isActivated = false;
         }
-
-
     }
 
 
@@ -82,7 +79,7 @@ public class Checkpoint extends CollideObject {
     }
 
     @Override
-    public CollideObject clone() {
+    public DetectableObject clone() {
         return new Checkpoint(coordinate,mapName);
     }
 
