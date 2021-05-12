@@ -18,9 +18,9 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         DataInsert.insertPerson();
+//        DataInsert.insertControls();
         DataInsert.insertSkill();
         DataInsert.insertMap();
-//        DataInsert.insertControls();
         DataInsert.insetCheckpoints();
         var scene = new Scene(createContent(stage));
         stage.setScene(scene);

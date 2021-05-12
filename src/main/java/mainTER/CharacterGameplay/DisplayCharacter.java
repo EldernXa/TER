@@ -568,6 +568,8 @@ public class DisplayCharacter extends CollideObject {
     public Node getAppropriateNode() {
         animationForTheCharacter.actualImg().setX(currentCoordinateOfTheCharacter.getX());
         animationForTheCharacter.actualImg().setY(currentCoordinateOfTheCharacter.getY());
+        /*System.out.println("X et Y " + animationForTheCharacter.actualImg().getX() + animationForTheCharacter.actualImg().getY());
+        System.out.println("Borne min X et min Y " + animationForTheCharacter.actualImg().getBoundsInParent().getMinX() + animationForTheCharacter.actualImg().getBoundsInParent().getMinY() + "\n");*/
         return animationForTheCharacter.actualImg();
     }
 

@@ -19,6 +19,7 @@ spikes 930 735
 eau1 2767 722
 eau1 3810 722
 forgottensword 5216 658
+crate 500 710
+crate 420 710
 levers
 1250 689 portcullis 1000 542
-1172 689 portcullis 1450 542

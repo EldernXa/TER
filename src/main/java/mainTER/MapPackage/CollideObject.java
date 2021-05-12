@@ -40,6 +40,22 @@ public abstract class CollideObject extends DetectableObject{
     public abstract double getWidth();
     public abstract double getHeight();
 
+    public double getMinXBound(){
+        return this.getAppropriateNode().getBoundsInParent().getMinX();
+    }
+
+    public double getMaxXBound(){
+        return this.getAppropriateNode().getBoundsInParent().getMaxX();
+    }
+
+    public double getMaxYBound(){
+        return this.getAppropriateNode().getBoundsInParent().getMaxY();
+    }
+
+    public double getMinYBound(){
+        return this.getAppropriateNode().getBoundsInParent().getMinY();
+    }
+
 
     /**
      * Simulate the appropriate interaction between two objects
@@ -50,7 +66,7 @@ public abstract class CollideObject extends DetectableObject{
 
     public double calcMvt(CommingFrom commingFrom){
 
-        Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInLocal().getMaxX()-this.getAppropriateNode().getBoundsInLocal().getMinX(),this.getAppropriateNode().getBoundsInLocal().getMaxY()-this.getAppropriateNode().getBoundsInLocal().getMinY());
+        Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInParent().getMaxX()-this.getAppropriateNode().getBoundsInParent().getMinX(),this.getAppropriateNode().getBoundsInParent().getMaxY()-this.getAppropriateNode().getBoundsInParent().getMinY());
         rect.setX(this.getX());
         rect.setY(this.getY());
 
@@ -75,18 +91,20 @@ public abstract class CollideObject extends DetectableObject{
 
     private double verifTrackRight(){
         for(int i=0; i < this.getHMouvementSpan(); i++){
-            Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInLocal().getMaxX()-this.getAppropriateNode().getBoundsInLocal().getMinX(),this.getAppropriateNode().getBoundsInLocal().getMaxY()-this.getAppropriateNode().getBoundsInLocal().getMinY());
+            Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInParent().getMaxX()-this.getAppropriateNode().getBoundsInParent().getMinX(),this.getAppropriateNode().getBoundsInParent().getMaxY()-this.getAppropriateNode().getBoundsInParent().getMinY());
             rect.setX(this.getX());
             rect.setY(this.getY());
             rect.setX(rect.getX()+i);
 
             for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
-                System.out.println(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()));
+//                System.out.println(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()));
                 if((!this.equals(collideObject2)) &&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent())) &&(collideObject2.getAppropriateNode().getBoundsInParent().getMinX()-this.getAppropriateNode().getBoundsInParent().getMaxX() >= 0) &&(collideObject2.getAppropriateNode().getBoundsInParent().getMinX()-this.getAppropriateNode().getBoundsInParent().getMaxX() <= this.getHMouvementSpan()))
                 {//Prob it considers that it's true at the begening
                     System.out.println("Je suis en collision avec : " + collideObject2);
                     System.out.println("X = " + collideObject2.getX());
                     System.out.println("Y = " + collideObject2.getY());
+                    System.out.println("Coll MinX " + collideObject2.getAppropriateNode().getBoundsInParent().getMinX());
+                    System.out.println("this X" + this.getAppropriateNode().getBoundsInParent().getMaxX());
                     collideObject2.interaction(this);
                     for(ObjectLinker objectLinker : Map.objectLinkers) {//TODO faire en sort que ce soit une interaction qui se déclenche et pas seulement des coordonnées qui se modifient
                         if (objectLinker.getCollideObject1().equals(collideObject2)) {
@@ -117,7 +135,7 @@ public abstract class CollideObject extends DetectableObject{
 
     private double verifTrackLeft(){
         for(int i=0; i < this.getHMouvementSpan(); i++){
-            Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInLocal().getMaxX()-this.getAppropriateNode().getBoundsInLocal().getMinX(),this.getAppropriateNode().getBoundsInLocal().getMaxY()-this.getAppropriateNode().getBoundsInLocal().getMinY());
+            Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInParent().getMaxX()-this.getAppropriateNode().getBoundsInParent().getMinX(),this.getAppropriateNode().getBoundsInParent().getMaxY()-this.getAppropriateNode().getBoundsInParent().getMinY());
             rect.setX(this.getX());
             rect.setY(this.getY());
             rect.setX(rect.getX()-i);
@@ -150,26 +168,28 @@ public abstract class CollideObject extends DetectableObject{
     }
 
     private double verifTrackUp(){
-        for(int i=0; i < this.getJumpMouvementSpan(); i++){
-            Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInLocal().getMaxX()-this.getAppropriateNode().getBoundsInLocal().getMinX(),this.getAppropriateNode().getBoundsInLocal().getMaxY()-this.getAppropriateNode().getBoundsInLocal().getMinY());
+        System.out.println("Hauteur de saut = " + this.getJumpMouvementSpan());
+        for(int i=0; i <= this.getJumpMouvementSpan(); i++){
+            System.out.println(i);
+            Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInParent().getWidth(),this.getAppropriateNode().getBoundsInParent().getHeight());
             rect.setX(this.getX());
-            rect.setY(this.getY());
-            rect.setY(rect.getY()-i);
+            rect.setY(this.getY()-i);
             for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
-                if (rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent())){
-//                    System.out.println(collideObject2);
-//                    System.out.println("Perso Y : " + this.getAppropriateNode().getBoundsInParent().getMinY());
-//                    System.out.println("Platform Y : " + collideObject2.getAppropriateNode().getBoundsInParent().getMaxY());
+                if((this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY() >= 0) || (rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))){
+                    System.out.println("Min Y " + this.getAppropriateNode().getBoundsInParent().getMinY());
+                    System.out.println("Max Y " + collideObject2.getAppropriateNode().getBoundsInParent().getMaxY());
+                    System.out.println("Intersection ? = " + (rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent())) + " " + collideObject2);
+                    System.out.println("Au dessus ? " + (this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY() >= 0));
+                    System.out.println("Différence ? = " + (this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY()) + "\n");
                 }
-//                System.out.println("On rencontre un objet = " + (rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent())));
-                if((!this.equals(collideObject2))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))&&(this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY() >= 0)){
-                    collideObject2.interaction(this);
+                if((!this.equals(collideObject2))&&(this.intersect(rect,collideObject2))&&(this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY() >= 0)/*&&(this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY() <= this.getJumpMouvementSpan())*/){ //a voir pour le -i
+                    System.out.println("je suis en collision avec" + collideObject2);
+                    /*collideObject2.interaction(this);
 
                     for(ObjectLinker objectLinker : Map.objectLinkers){
                         if(objectLinker.getCollideObject1().equals(collideObject2)){
                             objectLinker.collideObject2.setX(collideObject2.getX());
                             objectLinker.collideObject2.setY(collideObject2.getY());
-
                         }
                         else if(objectLinker.getCollideObject2().equals(collideObject2)){
                             objectLinker.collideObject1.setX(collideObject2.getX());
@@ -180,22 +200,27 @@ public abstract class CollideObject extends DetectableObject{
 //                            System.out.println(collideObject2);
 //                            System.out.println("Cet Objet nexiste pas");
                         }
-                    }
-
-                    return this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY();
+                    }*/
+                    System.out.println("Hauteur de saut calculée = " + (this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY()));
+                    return (this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY());
                 }
             }
         }
+        System.out.println("\n passe par là \n");
         return this.getJumpMouvementSpan();
     }
 
     private double verifTrackDown(){
         for(int i=0; i < this.getFallMouvementSpan(); i++){
-            Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInLocal().getMaxX()-this.getAppropriateNode().getBoundsInLocal().getMinX(),this.getAppropriateNode().getBoundsInLocal().getMaxY()-this.getAppropriateNode().getBoundsInLocal().getMinY());
+            Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInParent().getMaxX()-this.getAppropriateNode().getBoundsInParent().getMinX(),this.getAppropriateNode().getBoundsInParent().getMaxY()-this.getAppropriateNode().getBoundsInParent().getMinY());
             rect.setX(this.getX());
             rect.setY(this.getY()+i);
+
+//            System.out.println("Taille de la liste d'objets " + MapFileReader.collideObjectArrayList.size());
             for(CollideObject collideObject2 : MapFileReader.collideObjectArrayList){
-                if((!this.equals(collideObject2))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))&&(collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY() >= 0)){
+//                System.out.println("Contact avec " + collideObject2 + " = " + rect.getBoundsInParent().intersects(collideObject2.getAppropriateNode().getBoundsInParent())); //TODO je comprends pas pourquoi ej saute pas et il consdère le saut
+
+                if((!this.equals(collideObject2))&&(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()))){
                     collideObject2.interaction(this);
 
                     for(ObjectLinker objectLinker : Map.objectLinkers){
@@ -220,6 +245,22 @@ public abstract class CollideObject extends DetectableObject{
             }
         }
         return this.getFallMouvementSpan();
+    }
+
+    private boolean intersect(CollideObject collideObject){
+        if((((this.getMinXBound() <= collideObject.getMaxXBound())&&(this.getMinXBound() >= collideObject.getMinXBound()))||(((this.getMaxXBound() <= collideObject.getMaxXBound())&&(this.getMaxXBound() >= collideObject.getMinXBound()))))
+                &&((((this.getMinYBound() <= collideObject.getMaxYBound())&&(this.getMinYBound() >= collideObject.getMinYBound()))||(((this.getMaxYBound() <= collideObject.getMaxYBound())&&(this.getMaxYBound() >= collideObject.getMinYBound())))))){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean intersect(Rectangle rect, CollideObject collideObject){
+        if((((rect.getBoundsInParent().getMinX() <= collideObject.getMaxXBound())&&(rect.getBoundsInParent().getMinX() >= collideObject.getMinXBound()))||(((rect.getBoundsInParent().getMaxX() <= collideObject.getMaxXBound())&&(rect.getBoundsInParent().getMaxX() >= collideObject.getMinXBound()))))
+                &&((((rect.getBoundsInParent().getMinY() <= collideObject.getMaxYBound())&&(rect.getBoundsInParent().getMinY() >= collideObject.getMinYBound()))||(((rect.getBoundsInParent().getMaxY() <= collideObject.getMaxYBound())&&(rect.getBoundsInParent().getMaxY() >= collideObject.getMinYBound())))))){
+            return true;
+        }
+        return false;
     }
 
 
