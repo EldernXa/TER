@@ -17,10 +17,11 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
+       // DataInsert.insertControls();
         DataInsert.insertPerson();
-//        DataInsert.insertControls();
         DataInsert.insertSkill();
         DataInsert.insertMap();
+        DataInsert.insertUpgradeSkillsValue();
         DataInsert.insetCheckpoints();
         var scene = new Scene(createContent(stage));
         stage.setScene(scene);
