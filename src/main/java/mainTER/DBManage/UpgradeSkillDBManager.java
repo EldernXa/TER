@@ -144,6 +144,21 @@ public class UpgradeSkillDBManager {
         }
     }
 
+    public float getNewValueWithNumUpgrade(String nameCharacter, int numSkill, String nameUpgrade, int numUpgrade) throws UpgradeSkillDataGetException{
+        List<String> listName = listNameForGetting();
+        listName.add("numUpgrade");
+        ArrayList<Object> listRequest = new ArrayList<>();
+        listRequest.add(nameCharacter);
+        listRequest.add(numSkill);
+        listRequest.add(nameUpgrade);
+        listRequest.add(numUpgrade);
+        try{
+            return Float.parseFloat(dbManager.getData("UpgradeSkill", listName, listRequest, "newValue"));
+        }catch(SQLException sqlException){
+            throw new UpgradeSkillDataGetException();
+        }
+    }
+
     public void setUpgradeDone(String nameCharacter, int numSkill, String nameUpgrade){
         String request = "UPDATE UpgradeSkill SET isAlreadyLearned = '" + SecureManage.getEncrypted("true")+"'" +
                 " WHERE nameCharacter = '" + SecureManage.getEncrypted(nameCharacter) + "' AND numSkill = '" + SecureManage.getEncrypted(String.valueOf(numSkill))
@@ -157,6 +172,21 @@ public class UpgradeSkillDBManager {
         listRequest.add(nameCharacter);
         listRequest.add(numSkill);
         listRequest.add(nameUpgrade);
+        try{
+            return dbManager.getData("UpgradeSkill", listName, listRequest, "isAlreadyLearned").compareTo("true")==0;
+        }catch(SQLException sqlException){
+            throw new UpgradeSkillDataGetException();
+        }
+    }
+
+    public boolean getIsAlreadyDoneWithNumUpgrade(String nameCharacter, int numSkill, String nameUpgrade, int numUpgrade) throws UpgradeSkillDataGetException{
+        List<String> listName = listNameForGetting();
+        listName.add("numUpgrade");
+        ArrayList<Object> listRequest = new ArrayList<>();
+        listRequest.add(nameCharacter);
+        listRequest.add(numSkill);
+        listRequest.add(nameUpgrade);
+        listRequest.add(numUpgrade);
         try{
             return dbManager.getData("UpgradeSkill", listName, listRequest, "isAlreadyLearned").compareTo("true")==0;
         }catch(SQLException sqlException){
@@ -198,6 +228,21 @@ public class UpgradeSkillDBManager {
         listRequest.add(nameCharacter);
         listRequest.add(numSkill);
         listRequest.add(nameUpgrade);
+        try{
+            return dbManager.getData("UpgradeSkill", listName, listRequest, "description");
+        }catch(SQLException sqlException){
+            throw new UpgradeSkillDataGetException();
+        }
+    }
+
+    public String getDescriptionWithNumUpgrade(String nameCharacter, int numSkill, String nameUpgrade, int numUpgrade) throws UpgradeSkillDataGetException{
+        List<String> listName = listNameForGetting();
+        listName.add("numUpgrade");
+        ArrayList<Object> listRequest = new ArrayList<>();
+        listRequest.add(nameCharacter);
+        listRequest.add(numSkill);
+        listRequest.add(nameUpgrade);
+        listRequest.add(numUpgrade);
         try{
             return dbManager.getData("UpgradeSkill", listName, listRequest, "description");
         }catch(SQLException sqlException){
