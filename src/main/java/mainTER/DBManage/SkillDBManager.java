@@ -89,18 +89,6 @@ public class SkillDBManager {
         listName.add("timeSkill");                      listSize.add(30);
         listName.add("Description");                    listSize.add(500);
         dbManager.createTable("Skill", listName, 3, listSize);
-        /*dbManager.createTableOrInsert("CREATE TABLE Skill (" +
-                "nameSkill VARCHAR(50),"+
-                "numSkill VARCHAR(30)," +"ctrlKey VARCHAR(30),"+
-                "nameCharacter VARCHAR(30)," +
-                "animateMvt VARCHAR(30)," +
-                "animateAction VARCHAR(30)," +
-                "isMode VARCHAR(30)," +
-                "timeCooldown VARCHAR(30)," +
-                "timeSkill VARCHAR(30)," +
-                "Description VARCHAR(500)," +
-                "CONSTRAINT PK_Skill PRIMARY KEY (nameCharacter,numSkill, ctrlKey)" +
-                ");");*/
     }
 
     /**
@@ -327,16 +315,6 @@ public class SkillDBManager {
         listInsert.add(description);
 
         dbManager.insertIntoTable("Skill", listInsert);
-        /*String reqValues = "INSERT INTO Skill VALUES (" +
-                "'"+ SecureManage.getEncrypted(nameSkill.toUpperCase()) + "','"
-                + SecureManage.getEncrypted(String.valueOf(numSkill)) + "','" + SecureManage.getEncrypted(ctrlKey)
-                + "','" +SecureManage.getEncrypted(nameCharacter) +"','" + SecureManage.getEncrypted(convertBoolToString(animateMvt))
-                + "','" + SecureManage.getEncrypted(convertBoolToString(animateAction))
-                + "','" + SecureManage.getEncrypted(convertBoolToString(isMode)) +
-                "','" + SecureManage.getEncrypted(String.valueOf(timeCooldown)) +
-                "','" + SecureManage.getEncrypted(String.valueOf(timeSkill))+
-                "','" +SecureManage.getEncrypted(description) + "')";
-        dbManager.createTableOrInsert(reqValues);*/
     }
 
     /**
