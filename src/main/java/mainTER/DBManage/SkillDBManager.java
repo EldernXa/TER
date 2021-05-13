@@ -220,8 +220,11 @@ public class SkillDBManager {
         }else{
             personDBManager = new PersonDBManager();
         }
-
-        if(!personDBManager.isCharacterExist(nameCharacter)){
+        try {
+            if (!personDBManager.isCharacterExist(nameCharacter)) {
+                throw new SkillCharacterNotExistException(nameCharacter);
+            }
+        }catch(Exception exception){
             throw new SkillCharacterNotExistException(nameCharacter);
         }
     }

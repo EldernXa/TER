@@ -82,7 +82,11 @@ public class MapDBManager {
             personDBManager = new PersonDBManager();
         }
 
-        if(!personDBManager.isCharacterExist(nameFirstCharacter)){
+        try {
+            if (!personDBManager.isCharacterExist(nameFirstCharacter)) {
+                throw new MapCharacterNotExistException(mapName, nameFirstCharacter);
+            }
+        }catch(Exception exception){
             throw new MapCharacterNotExistException(mapName, nameFirstCharacter);
         }
 

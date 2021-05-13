@@ -106,7 +106,7 @@ public class PersonDBManager {
      * @param nameCharacter the name of the character where we want to know it exists or not.
      * @return true if the character exist, false otherwise.
      */
-    public boolean isCharacterExist(String nameCharacter){
+    public boolean isCharacterExist(String nameCharacter) throws PersonDataGetException{
         List<String> listCharacter = getListNameFromDatabase();
         return listCharacter.contains(nameCharacter);
     }
@@ -122,13 +122,13 @@ public class PersonDBManager {
      *
      * @return list of the name present in the table person.
      */
-    public List<String> getListNameFromDatabase(){
+    public List<String> getListNameFromDatabase() throws PersonDataGetException{
         try{
             return dbManager.getList("Person", null, null, "name");
         }catch(SQLException sqlException){
             System.out.println("Problème dans la récupération de données.");
         }
-        return null;
+        throw new PersonDataGetException();
     }
 
     /**

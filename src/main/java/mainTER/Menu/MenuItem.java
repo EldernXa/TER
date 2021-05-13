@@ -74,8 +74,11 @@ public class MenuItem extends StackPane {
         textMenu.setText(name);
         PersonDBManager personDBManager = new PersonDBManager();
         listCharacter = new ArrayList<>();
-        this.listName = personDBManager.getListNameFromDatabase();
-
+        try {
+            this.listName = personDBManager.getListNameFromDatabase();
+        }catch(Exception exception){
+            exception.printStackTrace();
+        }
         setUpMouse(name);
 
 

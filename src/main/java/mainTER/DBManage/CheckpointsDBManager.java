@@ -102,7 +102,11 @@ public class CheckpointsDBManager {
         }else{
             personDBManager = new PersonDBManager();
         }
-        if(!personDBManager.isCharacterExist(characterName)){
+        try {
+            if (!personDBManager.isCharacterExist(characterName)) {
+                throw new CheckpointsCharacterDoesntExistException(characterName);
+            }
+        }catch(Exception exception){
             throw new CheckpointsCharacterDoesntExistException(characterName);
         }
     }
