@@ -225,6 +225,7 @@ public class MenuItem extends StackPane {
                 }
                 case "BACK TO GAME" : {
                     stage.hide();
+                    break;
                 }
                 case "BACK TO MENU" : {
                     stage.close();
@@ -232,6 +233,7 @@ public class MenuItem extends StackPane {
                     newStage.setScene(new Scene(MainMenu.createContent(newStage)));
                     newStage.initStyle(StageStyle.UNDECORATED);
                     newStage.show();
+                    break;
                 }
                 case "UPGRADE SKILLS" : {
                     for(String nameCharacter : listName){
@@ -239,6 +241,7 @@ public class MenuItem extends StackPane {
                     }
                    UpgradeSkillMenu upgradeSkillMenu = new UpgradeSkillMenu(listCharacter);
                     stage.setScene(upgradeSkillMenu.getScene());
+                    break;
                 }
             }
         });
