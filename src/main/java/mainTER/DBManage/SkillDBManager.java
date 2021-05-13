@@ -248,10 +248,10 @@ public class SkillDBManager {
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try {
             while (resultSet.next()) {
-                if(resultSet.getString(NAME_ATTRIBUTE_FOR_NAME_SKILL).compareTo(SecureManage.getEncrypted(nameSkill))==0){
+                if(dbManager.getFromResultSet(resultSet, NAME_ATTRIBUTE_FOR_NAME_SKILL, nameSkill)){
                     throw new SkillAlreadyExistException(nameCharacter, nameSkill);
                 }
-                if(resultSet.getString(NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL).compareTo(SecureManage.getEncrypted(ctrlKey))==0){
+                if(dbManager.getFromResultSet(resultSet, NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL, ctrlKey)){
                     throw new SkillCtrlAlreadyUsedException(nameCharacter, ctrlKey);
                 }
             }
@@ -318,7 +318,7 @@ public class SkillDBManager {
         ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
         try{
             while(resultSet.next()){
-                if(resultSet.getString(NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL).compareTo(SecureManage.getEncrypted(newCtrlKey))==0){
+                if(dbManager.getFromResultSet(resultSet, NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL, newCtrlKey)){
                     throw new SkillCtrlAlreadyUsedException(nameCharacter, newCtrlKey);
                 }
             }
@@ -401,7 +401,7 @@ public class SkillDBManager {
         int nb = 0;
         try{
             while(resultSet.next()){
-                if(SecureManage.getDecrypted(resultSet.getString(NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL)).compareTo("")==0){
+                if(dbManager.getFromResultSet(resultSet, NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL, "")){
                     nb++;
                 }
             }
@@ -422,7 +422,7 @@ public class SkillDBManager {
         int nb = 0;
         try{
             while(resultSet.next()){
-                if(SecureManage.getDecrypted(resultSet.getString(NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL)).compareTo("")!=0){
+                if(!dbManager.getFromResultSet(resultSet, NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL, "")){
                     nb++;
                 }
             }
@@ -440,7 +440,7 @@ public class SkillDBManager {
     private ResultSet selectCharacterIntoTableSkill(String nameCharacter){
         ResultSet resultSet;
         resultSet = dbManager.selectIntoTable("SELECT * FROM Skill WHERE nameCharacter = '" +
-                SecureManage.getEncrypted(nameCharacter) + "'");
+                dbManager.getEncryptedFromObject(nameCharacter) + "'");
         return resultSet;
     }
 

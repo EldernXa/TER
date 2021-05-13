@@ -148,6 +148,14 @@ public class DBManager {
         updateTable(stringBuilderToUpdate.toString());
     }
 
+    public boolean getFromResultSet(ResultSet resultSet, String nameAttribute, Object valueAttribute) throws SQLException{
+        return resultSet.getString(nameAttribute).compareTo(SecureManage.getEncrypted(String.valueOf(valueAttribute)))==0;
+    }
+
+    public String getEncryptedFromObject(Object valueObject){
+        return SecureManage.getEncrypted(String.valueOf(valueObject));
+    }
+
     public void updateTable(String strCreateTable){
         this.getConnection();
         try(Statement statement = connection.createStatement()) {
