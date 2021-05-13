@@ -9,7 +9,6 @@ import java.util.List;
 
 public class SkillDBManager {
 
-    // TODO verify table exist before operating.
     /**
      * connection with the databases.
      */
@@ -34,9 +33,9 @@ public class SkillDBManager {
      */
     private static final String NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL = "nameCharacter";
 
-
-
     private static final String NAME_ATTRIBUTE_FOR_DESCRIPTION_OF_SKILL = "Description";
+
+    private static final String NAME_TABLE = "Skill";
 
     /**
      * static variable uses to display an error when trying to get data who doesn't exist.
@@ -78,17 +77,17 @@ public class SkillDBManager {
     public void createTableSkill(){
         ArrayList<String> listName = new ArrayList<>();
         ArrayList<Integer> listSize = new ArrayList<>();
-        listName.add("nameCharacter");                  listSize.add(30);
-        listName.add("numSkill");                       listSize.add(30);
-        listName.add("ctrlKey");                        listSize.add(30);
-        listName.add("nameSkill");                      listSize.add(50);
-        listName.add("animateMvt");                     listSize.add(30);
-        listName.add("animateAction");                  listSize.add(30);
-        listName.add("isMode");                         listSize.add(30);
-        listName.add("timeCooldown");                   listSize.add(30);
-        listName.add("timeSkill");                      listSize.add(30);
-        listName.add("Description");                    listSize.add(500);
-        dbManager.createTable("Skill", listName, 3, listSize);
+        listName.add(NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL);                  listSize.add(30);
+        listName.add(NAME_ATTRIBUTE_FOR_NUM_SKILL);                                  listSize.add(30);
+        listName.add(NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL);                          listSize.add(30);
+        listName.add(NAME_ATTRIBUTE_FOR_NAME_SKILL);                                 listSize.add(50);
+        listName.add("animateMvt");                                                  listSize.add(30);
+        listName.add("animateAction");                                               listSize.add(30);
+        listName.add("isMode");                                                      listSize.add(30);
+        listName.add("timeCooldown");                                                listSize.add(30);
+        listName.add("timeSkill");                                                   listSize.add(30);
+        listName.add(NAME_ATTRIBUTE_FOR_DESCRIPTION_OF_SKILL);                       listSize.add(500);
+        dbManager.createTable(NAME_TABLE, listName, 3, listSize);
     }
 
     /**
@@ -116,10 +115,10 @@ public class SkillDBManager {
     private String gettingData(String nameCharacter, int numSkill, String valueToGet) throws SkillDataGetException{
         ArrayList<String> listNameLine = new ArrayList<>();
         ArrayList<Object> listRealValueOfLine = new ArrayList<>();
-        listNameLine.add("nameCharacter");                  listRealValueOfLine.add(nameCharacter);
+        listNameLine.add(NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL);                  listRealValueOfLine.add(nameCharacter);
         listNameLine.add(NAME_ATTRIBUTE_FOR_NUM_SKILL);     listRealValueOfLine.add(numSkill);
         try{
-            return dbManager.getData("Skill", listNameLine, listRealValueOfLine, valueToGet);
+            return dbManager.getData(NAME_TABLE, listNameLine, listRealValueOfLine, valueToGet);
         }catch(SQLException sqlException){
             throw new SkillDataGetException(nameCharacter, numSkill);
         }
@@ -128,10 +127,10 @@ public class SkillDBManager {
     public float getTimeCooldown(String nameCharacter, int numSkill) throws SkillDataGetException{
         ArrayList<String> listNameLine = new ArrayList<>();
         ArrayList<Object> listRealValueOfLine = new ArrayList<>();
-        listNameLine.add("nameCharacter");              listRealValueOfLine.add(nameCharacter);
-        listNameLine.add("numSkill");                   listRealValueOfLine.add(numSkill);
+        listNameLine.add(NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL);              listRealValueOfLine.add(nameCharacter);
+        listNameLine.add(NAME_ATTRIBUTE_FOR_NUM_SKILL);                   listRealValueOfLine.add(numSkill);
         try{
-            return Float.parseFloat(dbManager.getData("Skill", listNameLine, listRealValueOfLine, "timeCooldown"));
+            return Float.parseFloat(dbManager.getData(NAME_TABLE, listNameLine, listRealValueOfLine, "timeCooldown"));
         }catch(SQLException sqlException){
             throw new SkillDataGetException(nameCharacter, numSkill);
         }
@@ -140,10 +139,10 @@ public class SkillDBManager {
     public float getTimeSkill(String nameCharacter, int numSkill) throws SkillDataGetException{
         ArrayList<String> listNameLine = new ArrayList<>();
         ArrayList<Object> listRealValueOfLine = new ArrayList<>();
-        listNameLine.add("nameCharacter");                  listRealValueOfLine.add(nameCharacter);
-        listNameLine.add("numSkill");                       listRealValueOfLine.add(numSkill);
+        listNameLine.add(NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL);                  listRealValueOfLine.add(nameCharacter);
+        listNameLine.add(NAME_ATTRIBUTE_FOR_NUM_SKILL);                       listRealValueOfLine.add(numSkill);
         try{
-            return Float.parseFloat(dbManager.getData("Skill", listNameLine, listRealValueOfLine, "timeSkill"));
+            return Float.parseFloat(dbManager.getData(NAME_TABLE, listNameLine, listRealValueOfLine, "timeSkill"));
         }catch(SQLException sqlException){
             throw new SkillDataGetException(nameCharacter, numSkill);
         }
@@ -170,10 +169,10 @@ public class SkillDBManager {
     public boolean getAnimateMvt(String nameCharacter, int numSkill) throws SkillDataGetException{
         ArrayList<String> listNameLine = new ArrayList<>();
         ArrayList<Object> listRealValueOfLine = new ArrayList<>();
-        listNameLine.add("nameCharacter");                  listRealValueOfLine.add(nameCharacter);
-        listNameLine.add("numSkill");                       listRealValueOfLine.add(numSkill);
+        listNameLine.add(NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL);                  listRealValueOfLine.add(nameCharacter);
+        listNameLine.add(NAME_ATTRIBUTE_FOR_NUM_SKILL);                                  listRealValueOfLine.add(numSkill);
         try{
-            return dbManager.getData("Skill", listNameLine, listRealValueOfLine, "animateMvt").compareTo("true")==0;
+            return dbManager.getData(NAME_TABLE, listNameLine, listRealValueOfLine, "animateMvt").compareTo("true")==0;
         }catch(SQLException sqlException){
             throw new SkillDataGetException(nameCharacter, numSkill);
         }
@@ -189,10 +188,10 @@ public class SkillDBManager {
     public boolean getAnimateAction(String nameCharacter, int numSkill) throws SkillDataGetException{
         ArrayList<String> listNameLine = new ArrayList<>();
         ArrayList<Object> listRealValueOfLine = new ArrayList<>();
-        listNameLine.add("nameCharacter");          listRealValueOfLine.add(nameCharacter);
-        listNameLine.add("numSkill");               listRealValueOfLine.add(numSkill);
+        listNameLine.add(NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL);          listRealValueOfLine.add(nameCharacter);
+        listNameLine.add(NAME_ATTRIBUTE_FOR_NUM_SKILL);                          listRealValueOfLine.add(numSkill);
         try{
-            return dbManager.getData("Skill", listNameLine, listRealValueOfLine, "animateAction").compareTo("true")==0;
+            return dbManager.getData(NAME_TABLE, listNameLine, listRealValueOfLine, "animateAction").compareTo("true")==0;
         }catch(SQLException sqlException){
             throw new SkillDataGetException(nameCharacter, numSkill);
         }
@@ -208,10 +207,10 @@ public class SkillDBManager {
     public boolean getIsMode(String nameCharacter, int numSkill) throws SkillDataGetException{
         ArrayList<String> listNameLine = new ArrayList<>();
         ArrayList<Object> listRealValueOfLine = new ArrayList<>();
-        listNameLine.add("nameCharacter");          listRealValueOfLine.add(nameCharacter);
-        listNameLine.add("numSkill");               listRealValueOfLine.add(numSkill);
+        listNameLine.add(NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL);          listRealValueOfLine.add(nameCharacter);
+        listNameLine.add(NAME_ATTRIBUTE_FOR_NUM_SKILL);                          listRealValueOfLine.add(numSkill);
         try{
-            return dbManager.getData("Skill", listNameLine, listRealValueOfLine, "isMode").compareTo("true")==0;
+            return dbManager.getData(NAME_TABLE, listNameLine, listRealValueOfLine, "isMode").compareTo("true")==0;
         }catch(SQLException sqlException){
             throw new SkillDataGetException(nameCharacter, numSkill);
         }
@@ -222,7 +221,7 @@ public class SkillDBManager {
      */
     public void removeTableSkill(){
         try {
-            dbManager.dropTable("Skill");
+            dbManager.dropTable(NAME_TABLE);
         }catch(Exception ignored){
 
         }
@@ -314,7 +313,7 @@ public class SkillDBManager {
         listInsert.add(timeSkill);
         listInsert.add(description);
 
-        dbManager.insertIntoTable("Skill", listInsert);
+        dbManager.insertIntoTable(NAME_TABLE, listInsert);
     }
 
     /**
@@ -325,10 +324,10 @@ public class SkillDBManager {
     public List<String> getCtrlKeyOfACharacter(String nameCharacter){
         ArrayList<String> listNameLine = new ArrayList<>();
         ArrayList<Object> listRealValueOfLine = new ArrayList<>();
-        listNameLine.add("nameCharacter");              listRealValueOfLine.add(nameCharacter);
+        listNameLine.add(NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL);              listRealValueOfLine.add(nameCharacter);
 
         try{
-            return dbManager.getList("Skill", listNameLine, listRealValueOfLine, NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL);
+            return dbManager.getList(NAME_TABLE, listNameLine, listRealValueOfLine, NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL);
         }catch(SQLException sqlException){
             System.out.println("Problème avec la base de données.");
         }
@@ -391,7 +390,7 @@ public class SkillDBManager {
      */
     public List<String> getListSkillName(){
         try{
-            return dbManager.getList("Skill", null, null, NAME_ATTRIBUTE_FOR_NAME_SKILL);
+            return dbManager.getList(NAME_TABLE, null, null, NAME_ATTRIBUTE_FOR_NAME_SKILL);
         }catch(SQLException sqlException){
             System.out.println(NAME_ERROR_GETTING_DATA);
         }
@@ -404,7 +403,7 @@ public class SkillDBManager {
      */
     public List<String> getListNameCharacterWithSkill(){
         try{
-            return dbManager.getList("Skill", null, null, NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL);
+            return dbManager.getList(NAME_TABLE, null, null, NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL);
         }catch(SQLException sqlException){
             System.out.println(NAME_ERROR_GETTING_DATA);
         }
