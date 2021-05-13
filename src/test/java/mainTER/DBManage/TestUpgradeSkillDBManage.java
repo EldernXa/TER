@@ -51,6 +51,31 @@ public class TestUpgradeSkillDBManage {
     }
 
     @Test
+    public void testGettingNumUpgrade(){
+        try{
+            insertDataForUpgradeSkill();
+            assertEquals(1, upgradeSkillDBManager.getNumUpgrade(nameCharacter, numSkill, nameUpgrade));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testGettingNumUpgradeAfterASecondInsert(){
+        try{
+            insertDataForUpgradeSkill();
+            upgradeSkillDBManager.insertIntoTableUpgradeSkill(nameCharacter, numSkill, nameUpgrade, newValue,
+                    price*2, description);
+            upgradeSkillDBManager.insertIntoTableUpgradeSkill(nameCharacter, numSkill, nameUpgrade, newValue,
+                    price*3, description);
+            upgradeSkillDBManager.getListUpgrade(nameCharacter, numSkill).forEach(System.out::println);
+        }catch(Exception exception){
+            exception.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
     public void testGettingNewValue(){
         try{
             insertDataForUpgradeSkill();
