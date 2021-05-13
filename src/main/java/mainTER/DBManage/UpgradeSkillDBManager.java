@@ -88,14 +88,13 @@ public class UpgradeSkillDBManager {
     }
 
     public List<String> getListUpgradeOfASkillOfACharacter(String nameCharacter, int numSkill) throws UpgradeSkillDataGetException{
-        ArrayList<String> listUpgradeOfASkill = new ArrayList<>();
-        ResultSet resultSet = selectUpgradeSkillForACharacter(nameCharacter);
+        ArrayList<String> listNameLine = new ArrayList<>();
+        ArrayList<Object> listRealValue = new ArrayList<>();
+        listNameLine.add("nameCharacter");                  listRealValue.add(nameCharacter);
+        listNameLine.add(ATTRIBUTE_STRING_NUM_SKILL);       listRealValue.add(numSkill);
+        List<String> listUpgradeOfASkill = null;
         try{
-            while(resultSet.next()){
-                if(resultSet.getString(ATTRIBUTE_STRING_NUM_SKILL).compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0){
-                    listUpgradeOfASkill.add(SecureManage.getDecrypted(resultSet.getString(ATTRIBUTE_STRING_NAME_UPGRADE)));
-                }
-            }
+            listUpgradeOfASkill = dbManager.getList("UpgradeSkill", listNameLine, listRealValue, ATTRIBUTE_STRING_NAME_UPGRADE);
             if(listUpgradeOfASkill.isEmpty())
                 throw new UpgradeSkillDataGetException();
             return listUpgradeOfASkill;

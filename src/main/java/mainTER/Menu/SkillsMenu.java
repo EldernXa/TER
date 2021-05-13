@@ -22,6 +22,7 @@ import mainTER.exception.SkillDataGetException;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SkillsMenu {
     Pane pane= new Pane();
@@ -92,7 +93,7 @@ public class SkillsMenu {
         }
 
             try {
-                ArrayList<String> stats = personDBManager.toArray(currentCharacter.getName());
+                List<String> stats = personDBManager.toArray(currentCharacter.getName());
                 Text speed = new Text("Speed: "+ stats.get(1));
                 Text weight  =new Text("Weight: "+ stats.get(2));
 

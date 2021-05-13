@@ -33,14 +33,23 @@ public class PersonDBManager {
      * Create a table Person.
      */
      public void createTablePerson(){
-         dbManager.createTableOrInsert("CREATE TABLE Person (" +
+         ArrayList<String> listName = new ArrayList<>();
+         ArrayList<Integer> listSize = new ArrayList<>();
+         listName.add("name");                  listSize.add(30);
+         listName.add("speed");                 listSize.add(30);
+         listName.add("weight");                listSize.add(30);
+         listName.add("jumpStrength");          listSize.add(30);
+         listName.add("fallingSpeed");          listSize.add(30);
+         listName.add("canJump");               listSize.add(30);
+         dbManager.createTable("Person", listName, 1, listSize);
+         /*dbManager.createTableOrInsert("CREATE TABLE Person (" +
                  "name VARCHAR(30) PRIMARY KEY," +
                  "speed VARCHAR(30)," +
                  "weight VARCHAR(30)," +
                  "jumpStrength VARCHAR(30)," +
                  "fallingSpeed VARCHAR(30)," +
                  "canJump VARCHAR(30)" +
-                 ");");
+                 ");");*/
      }
 
 
@@ -79,13 +88,21 @@ public class PersonDBManager {
 
         }
         if(name.compareTo("")!=0 && speed>0 && weight>0 && jumpStrength>=0 &&fallingSpeed>=0) {
-            String reqValues = "INSERT INTO Person VALUES (" +
+            ArrayList<Object> listObject = new ArrayList<>();
+            listObject.add(name);
+            listObject.add(speed);
+            listObject.add(weight);
+            listObject.add(jumpStrength);
+            listObject.add(fallingSpeed);
+            listObject.add(canJump?"true":"false");
+            dbManager.insertIntoTable("Person", listObject);
+            /*String reqValues = "INSERT INTO Person VALUES (" +
                     "'" + SecureManage.getEncrypted(name) + "'" + ",'" + SecureManage.getEncrypted(String.valueOf(speed))
                     + "','" + SecureManage.getEncrypted(String.valueOf(weight)) + "','" + SecureManage.getEncrypted(String.valueOf(jumpStrength))
                     + "','" + SecureManage.getEncrypted(String.valueOf(fallingSpeed)) + "'," + "'" +
                     (canJump ? SecureManage.getEncrypted("true") : SecureManage.getEncrypted("false")) + "'" +
                     ")";
-            dbManager.createTableOrInsert(reqValues);
+            dbManager.createTableOrInsert(reqValues);*/
         }else{
             throw new PersonDataNotCorrectException(name);
         }
@@ -111,17 +128,12 @@ public class PersonDBManager {
      * @return list of the name present in the table person.
      */
     public List<String> getListNameFromDatabase(){
-        ArrayList<String> listName = new ArrayList<>();
-        ResultSet rs;
         try{
-            rs = dbManager.selectIntoTable("SELECT * FROM Person;");
-            while(rs.next()){
-                listName.add(SecureManage.getDecrypted(rs.getString("name")));
-            }
+            return dbManager.getList("Person", null, null, "name");
         }catch(SQLException sqlException){
             System.out.println("Problème dans la récupération de données.");
         }
-        return listName;
+        return null;
     }
 
     /**
@@ -148,9 +160,11 @@ public class PersonDBManager {
      * @throws PersonDataGetException if the data speed of the character doesn't exist or if the character doesn't exist.
      */
     public double getSpeed(String nameCharacter) throws PersonDataGetException{
-        ResultSet rs = selectIntoTablePerson(nameCharacter);
+        ArrayList<String> listName = new ArrayList<>();
+        ArrayList<Object> listRequest = new ArrayList<>();
+        listName.add("name");      listRequest.add(nameCharacter);
         try {
-            return Double.parseDouble(SecureManage.getDecrypted(rs.getString("speed")));
+            return Double.parseDouble(dbManager.getData("Person", listName, listRequest, "speed"));
         }catch(Exception exception){
             throw new PersonDataGetException(nameCharacter);
         }
@@ -163,9 +177,11 @@ public class PersonDBManager {
      * @throws PersonDataGetException if the data canJump of the character doesn't exist or if the character doesn't exist.
      */
     public boolean getCanJump(String nameCharacter) throws PersonDataGetException{
-        ResultSet rs = selectIntoTablePerson(nameCharacter);
+        ArrayList<String> listName = new ArrayList<>();
+        ArrayList<Object> listRealValue = new ArrayList<>();
+        listName.add("name");           listRealValue.add(nameCharacter);
         try{
-            return SecureManage.getDecrypted(rs.getString("canJump")).compareTo("true") == 0;
+            return dbManager.getData("Person", listName, listRealValue, "canJump").compareTo("true") == 0;
         }catch(Exception exception){
             throw new PersonDataGetException(nameCharacter);
         }
@@ -178,9 +194,11 @@ public class PersonDBManager {
      * @throws PersonDataGetException if the data jumpStrength of the character doesn't exist or if the character doesn't exist.
      */
     public double getJumpStrength(String nameCharacter) throws PersonDataGetException{
-        ResultSet rs = selectIntoTablePerson(nameCharacter);
+        ArrayList<String> listName = new ArrayList<>();
+        ArrayList<Object> listRealValue = new ArrayList<>();
+        listName.add("name");               listRealValue.add(nameCharacter);
         try{
-            return Double.parseDouble(SecureManage.getDecrypted(rs.getString("jumpStrength")));
+            return Double.parseDouble(dbManager.getData("Person", listName, listRealValue, "jumpStrength"));
         }catch(SQLException sqlException){
             throw new PersonDataGetException(nameCharacter);
         }
@@ -193,9 +211,11 @@ public class PersonDBManager {
      * @throws PersonDataGetException if the data weight of the character doesn't exist or if the character doesn't exist.
      */
     public double getWeight(String nameCharacter) throws PersonDataGetException{
-        ResultSet rs = selectIntoTablePerson(nameCharacter);
+        ArrayList<String> listName = new ArrayList<>();
+        ArrayList<Object> listRealValue = new ArrayList<>();
+        listName.add("name");           listRealValue.add(nameCharacter);
         try{
-            return Double.parseDouble(SecureManage.getDecrypted(rs.getString("weight")));
+            return Double.parseDouble(dbManager.getData("Person", listName, listRealValue, "weight"));
         }catch(SQLException sqlException)
         {
             throw new PersonDataGetException(nameCharacter);
@@ -209,15 +229,17 @@ public class PersonDBManager {
      * @throws PersonDataGetException if the data fallingSpeed of the character doesn't exist or if the character doesn't exist.
      */
     public double getFallingSpeed(String nameCharacter) throws PersonDataGetException{
-        ResultSet rs = selectIntoTablePerson(nameCharacter);
+        ArrayList<String> listName = new ArrayList<>();
+        ArrayList<Object> listRealValue = new ArrayList<>();
+        listName.add("name");           listRealValue.add(nameCharacter);
         try{
-            return Double.parseDouble(SecureManage.getDecrypted(rs.getString("fallingSpeed")));
+            return Double.parseDouble(dbManager.getData("Person", listName, listRealValue, "fallingSpeed"));
         }catch(SQLException sqlException){
             throw new PersonDataGetException(nameCharacter);
         }
     }
 
-    public ArrayList<String> toArray(String nameCharacter) throws  SQLException {
+    public List<String> toArray(String nameCharacter) throws  SQLException {
         ArrayList<String> result = new ArrayList<>();
         ResultSet rs = selectIntoTablePerson(nameCharacter);
 

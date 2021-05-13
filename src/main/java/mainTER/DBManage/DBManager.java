@@ -1,6 +1,7 @@
 package mainTER.DBManage;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -94,6 +95,15 @@ public class DBManager {
         createTableOrInsert(stringBuilderInsert.toString());
     }
 
+    public List<String> getList(String nameTable, List<String> listNameLine, List<Object> listRealValueOfLine, String nameRequest) throws SQLException{
+        ArrayList<String> listRequested = new ArrayList<>();
+        ResultSet resultSet = selectIntoTable(nameTable, listNameLine, listRealValueOfLine);
+        while(resultSet.next()){
+            listRequested.add(SecureManage.getDecrypted(resultSet.getString(nameRequest)));
+        }
+        return listRequested;
+    }
+
     public String getData(String nameTable, List<String> listNameLine, List<Object> listRealValueOfLine, String nameRequest) throws SQLException {
         ResultSet resultSet = selectIntoTable(nameTable, listNameLine, listRealValueOfLine);
         resultSet.next();
@@ -103,13 +113,17 @@ public class DBManager {
     private ResultSet selectIntoTable(String nameTable, List<String> listName, List<Object> listRequest){
         ResultSet resultSet;
         StringBuilder stringBuilder = new StringBuilder("SELECT * FROM ");
-        stringBuilder.append(nameTable).append(" WHERE ");
-        for(int i = 0; i<listName.size();i++){
-            stringBuilder.append(listName.get(i)).append(" = '").append(SecureManage.getEncrypted(String.valueOf(listRequest.get(i)))).append("'");
-            if(i<listName.size()-1){
-                stringBuilder.append(" AND ");
+        stringBuilder.append(nameTable);
+        if(listName!=null) {
+            stringBuilder.append(" WHERE ");
+            for (int i = 0; i < listName.size(); i++) {
+                stringBuilder.append(listName.get(i)).append(" = '").append(SecureManage.getEncrypted(String.valueOf(listRequest.get(i)))).append("'");
+                if (i < listName.size() - 1) {
+                    stringBuilder.append(" AND ");
+                }
             }
         }
+        stringBuilder.append(";");
         //System.out.println(stringBuilder);
         resultSet = selectIntoTable(stringBuilder.toString());
         return resultSet;
