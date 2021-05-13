@@ -96,13 +96,6 @@ public class PersonDBManager {
             listObject.add(fallingSpeed);
             listObject.add(canJump?"true":"false");
             dbManager.insertIntoTable("Person", listObject);
-            /*String reqValues = "INSERT INTO Person VALUES (" +
-                    "'" + SecureManage.getEncrypted(name) + "'" + ",'" + SecureManage.getEncrypted(String.valueOf(speed))
-                    + "','" + SecureManage.getEncrypted(String.valueOf(weight)) + "','" + SecureManage.getEncrypted(String.valueOf(jumpStrength))
-                    + "','" + SecureManage.getEncrypted(String.valueOf(fallingSpeed)) + "'," + "'" +
-                    (canJump ? SecureManage.getEncrypted("true") : SecureManage.getEncrypted("false")) + "'" +
-                    ")";
-            dbManager.createTableOrInsert(reqValues);*/
         }else{
             throw new PersonDataNotCorrectException(name);
         }
@@ -118,9 +111,11 @@ public class PersonDBManager {
         return listCharacter.contains(nameCharacter);
     }
 
-    public Character getCharacter(String nameCharacter){
-        // TODO verify exist
-        return new Character(nameCharacter);
+    public Character getCharacter(String nameCharacter) throws PersonDataGetException{
+        if(isCharacterExist(nameCharacter))
+            return new Character(nameCharacter);
+        else
+            throw new PersonDataGetException(nameCharacter);
     }
 
     /**
@@ -145,7 +140,7 @@ public class PersonDBManager {
         ResultSet rs = null;
         try {
             rs = dbManager.selectIntoTable("SELECT *" +
-                    " FROM Person WHERE name = '" + SecureManage.getEncrypted(nameCharacter) + "'");
+                    " FROM Person WHERE name = '" + dbManager.getEncryptedFromObject(nameCharacter) + "'");
             rs.next();
         }catch(SQLException sqlException){
             System.out.println("Problème dans la récupération de données du personnages " + nameCharacter);
@@ -247,7 +242,7 @@ public class PersonDBManager {
 
         for (int i = 0; i <columnCount ; i++)
         {
-            result.add(SecureManage.getDecrypted(rs.getString(i + 1)) );
+            result.add(dbManager.getDecryptedFromString(rs.getString(i + 1)) );
         }
         return result;
     }

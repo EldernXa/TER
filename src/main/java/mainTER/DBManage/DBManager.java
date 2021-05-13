@@ -156,6 +156,10 @@ public class DBManager {
         return SecureManage.getEncrypted(String.valueOf(valueObject));
     }
 
+    public String getDecryptedFromString(String valueString){
+        return SecureManage.getDecrypted(valueString);
+    }
+
     public void updateTable(String strCreateTable){
         this.getConnection();
         try(Statement statement = connection.createStatement()) {

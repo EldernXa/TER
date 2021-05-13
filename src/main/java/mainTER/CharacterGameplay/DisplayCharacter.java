@@ -116,7 +116,11 @@ public class DisplayCharacter extends DetectableObject {
         } catch (Exception ignored) {
 
         }
-        this.character = new PersonDBManager().getCharacter(nameFirstCharacter);
+        try {
+            this.character = new PersonDBManager().getCharacter(nameFirstCharacter);
+        }catch(Exception exception){
+            exception.printStackTrace();
+        }
         Coordinate coordinate = null;
         try {
             coordinate = mapDBManager.getInitialCoordinate(mapName);
