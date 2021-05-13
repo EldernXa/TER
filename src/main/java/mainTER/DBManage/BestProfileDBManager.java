@@ -1,7 +1,11 @@
 package mainTER.DBManage;
 
+import mainTER.exception.BestProfileDataExistAlreadyException;
+import mainTER.exception.BestProfileDataGetException;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BestProfileDBManager {
 
@@ -26,9 +30,30 @@ public class BestProfileDBManager {
         dbManager.createTable(NAME_TABLE, listName, 0, listSize);
     }
 
-    public void insertIntoTableBestProfile(String name, int time,String mapName) {
+    private boolean isBestProfileExist(String mapName) throws BestProfileDataGetException{
+        List<String> listCharacter = getListNameFromDatabase();
+        return listCharacter.contains(mapName);
+    }
+
+    public List<String> getListNameFromDatabase() throws BestProfileDataGetException{
+        try{
+            return dbManager.getList(NAME_TABLE, null, null, "mapName");
+        }catch(SQLException sqlException){
+            System.out.println("Problème dans la récupération de données.");
+        }
+        throw new BestProfileDataGetException();
+    }
+
+    public void insertIntoTableBestProfile(String name, int time,String mapName) throws BestProfileDataExistAlreadyException {
         // TODO verify insert data
-        // TODO verify data doesn't exist already
+
+        try {
+            if (isBestProfileExist(mapName)) {
+                throw new BestProfileDataExistAlreadyException(mapName);
+            }
+        }catch(BestProfileDataGetException ignored){
+
+        }
 
         ArrayList<Object> listInsert = new ArrayList<>();
         listInsert.add(name);
