@@ -1,12 +1,15 @@
 package mainTER.DBManage;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class BestProfileDBManager {
 
     private final DBManager dbManager;
+
+    private static final String NAME_TABLE = "BestProfile";
+
+    private static final String NAME_MAP_NAME = "mapName";
 
     public BestProfileDBManager(String nameFileDB){
         this.dbManager = new DBManager(nameFileDB,"test");
@@ -19,22 +22,10 @@ public class BestProfileDBManager {
         ArrayList<Integer> listSize = new ArrayList<>();
         listName.add("name");               listSize.add(30);
         listName.add("time");               listSize.add(30);
-        listName.add("mapName");            listSize.add(30);
-        dbManager.createTable("BestProfile", listName, 0, listSize);
+        listName.add(NAME_MAP_NAME);            listSize.add(30);
+        dbManager.createTable(NAME_TABLE, listName, 0, listSize);
     }
 
-    private ResultSet selectIntoTableBestProfile( String mapName){
-        ResultSet rs = null;
-        try {
-            rs = dbManager.selectIntoTable("SELECT *" +
-                    " FROM BestProfile WHERE "+
-                    "mapName= '" + SecureManage.getEncrypted(mapName)+ "' ;");
-            rs.next();
-        }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données des profiles ");
-        }
-        return rs;
-    }
     public void insertIntoTableBestProfile(String name, int time,String mapName) {
         // TODO verify insert data
         // TODO verify data doesn't exist already
@@ -43,22 +34,15 @@ public class BestProfileDBManager {
         listInsert.add(name);
         listInsert.add(time);
         listInsert.add(mapName);
-        dbManager.insertIntoTable("BestProfile", listInsert);
-
-        /*String reqValues = "INSERT INTO BestProfile VALUES ("
-                +
-                "'" + SecureManage.getEncrypted(name) + "'" + ",'" + SecureManage.getEncrypted(String.valueOf(time))
-                + "','" + SecureManage.getEncrypted(mapName)
-                + "')";
-        dbManager.createTableOrInsert(reqValues);*/
+        dbManager.insertIntoTable(NAME_TABLE, listInsert);
     }
 
     public int getTime(String mapName){
         ArrayList<String> listNameLine = new ArrayList<>();
         ArrayList<Object> listRealValueOfLine = new ArrayList<>();
-        listNameLine.add("mapName");                listRealValueOfLine.add(mapName);
+        listNameLine.add(NAME_MAP_NAME);                listRealValueOfLine.add(mapName);
         try {
-            return Integer.parseInt(dbManager.getData("BestProfile", listNameLine, listRealValueOfLine, "time"));
+            return Integer.parseInt(dbManager.getData(NAME_TABLE, listNameLine, listRealValueOfLine, "time"));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return -1;
@@ -68,10 +52,10 @@ public class BestProfileDBManager {
     public String getName(String mapName){
         ArrayList<String> listNameLine = new ArrayList<>();
         ArrayList<Object> listRealValueOfLine = new ArrayList<>();
-        listNameLine.add("mapName");                listRealValueOfLine.add(mapName);
+        listNameLine.add(NAME_MAP_NAME);                listRealValueOfLine.add(mapName);
         try {
 
-            return dbManager.getData("BestProfile", listNameLine, listRealValueOfLine, "name");
+            return dbManager.getData(NAME_TABLE, listNameLine, listRealValueOfLine, "name");
         }catch(SQLException sqlException){
                 sqlException.printStackTrace();
         }
@@ -81,19 +65,19 @@ public class BestProfileDBManager {
     public void setName(String name,String mapName){
         ArrayList<String> listNameLine = new ArrayList<>();
         ArrayList<Object> listRealValueOfLine = new ArrayList<>();
-        listNameLine.add("mapName");                listRealValueOfLine.add(mapName);
-        dbManager.updateTable("BestProfile", listNameLine, listRealValueOfLine, "name", name);
+        listNameLine.add(NAME_MAP_NAME);                listRealValueOfLine.add(mapName);
+        dbManager.updateTable(NAME_TABLE, listNameLine, listRealValueOfLine, "name", name);
     }
 
     public void setTime(int time,String mapName) {
         ArrayList<String> listNameLine = new ArrayList<>();
         ArrayList<Object> listRealValueOfLine = new ArrayList<>();
-        listNameLine.add("mapName");                listRealValueOfLine.add(mapName);
-        dbManager.updateTable("BestProfile", listNameLine, listRealValueOfLine, "time", time);
+        listNameLine.add(NAME_MAP_NAME);                listRealValueOfLine.add(mapName);
+        dbManager.updateTable(NAME_TABLE, listNameLine, listRealValueOfLine, "time", time);
     }
 
     public void removeTableProfile(){
-        dbManager.dropTable("BestProfile");
+        dbManager.dropTable(NAME_TABLE);
     }
 
     public void dropCascade(){
