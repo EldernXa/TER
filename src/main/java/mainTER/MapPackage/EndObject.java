@@ -44,13 +44,7 @@ public class EndObject extends InteractiveObject {
                     mapName = MenuItem.mapName;
                     profileDBManager.createTableProfile();
 
-                    if(profileDBManager.nameExist(nameProfile,mapName)){
-                        if(time < profileDBManager.getTime(nameProfile,mapName) ){
-                            profileDBManager.setTime(nameProfile,time,mapName);
-                            System.out.println("on passe ici");
-                        }
-                    }else {
-                        System.out.println("on passe par là");
+                    if(!profileDBManager.nameExist(nameProfile,mapName)){
                         profileDBManager.insertIntoTableProfile(nameProfile,time,mapName);
                     }
 
