@@ -317,6 +317,7 @@ public class TestSkillDBManager {
             insertValueIntoSkill();
             assertEquals(timeCooldown, skillDBManager.getTimeCooldown(nameCharacter, numSkill1));
         }catch(Exception exception){
+            exception.printStackTrace();
             fail();
         }
     }

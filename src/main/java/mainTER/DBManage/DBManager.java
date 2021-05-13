@@ -57,7 +57,7 @@ public class DBManager {
     }
 
     public void createTable(String nameTable, List<String> listName, int numPrimaryKey, List<Integer> listSize){
-        StringBuilder requestCreateTable = new StringBuilder("CREATE TABLE " + nameTable + " ( ");
+        StringBuilder requestCreateTable = new StringBuilder("CREATE TABLE " + nameTable + " ( \n");
         for(int i = 0; i<listName.size();i++){
             requestCreateTable.append(listName.get(i)).append(" VARCHAR(").append(listSize.get(i)).append(")");
             if(numPrimaryKey == 1 && i == 0){
@@ -65,6 +65,7 @@ public class DBManager {
             }
             if(i<listName.size()-1 || numPrimaryKey>1)
                 requestCreateTable.append(", ");
+            requestCreateTable.append("\n");
         }
         if(numPrimaryKey > 1){
             requestCreateTable.append("CONSTRAINT PK_").append(nameTable).append(" PRIMARY KEY (");
@@ -76,6 +77,7 @@ public class DBManager {
             requestCreateTable.append(")");
         }
         requestCreateTable.append(");");
+        //System.out.println(requestCreateTable);
         createTableOrInsert(requestCreateTable.toString());
     }
 
@@ -99,7 +101,8 @@ public class DBManager {
         ArrayList<String> listRequested = new ArrayList<>();
         ResultSet resultSet = selectIntoTable(nameTable, listNameLine, listRealValueOfLine);
         while(resultSet.next()){
-            listRequested.add(SecureManage.getDecrypted(resultSet.getString(nameRequest)));
+            if(!listRequested.contains(SecureManage.getDecrypted(resultSet.getString(nameRequest))))
+                listRequested.add(SecureManage.getDecrypted(resultSet.getString(nameRequest)));
         }
         return listRequested;
     }

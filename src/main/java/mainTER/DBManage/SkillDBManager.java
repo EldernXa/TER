@@ -76,7 +76,20 @@ public class SkillDBManager {
      * Create the databases for the skills of a character.
      */
     public void createTableSkill(){
-        dbManager.createTableOrInsert("CREATE TABLE Skill (" +
+        ArrayList<String> listName = new ArrayList<>();
+        ArrayList<Integer> listSize = new ArrayList<>();
+        listName.add("nameCharacter");                  listSize.add(30);
+        listName.add("numSkill");                       listSize.add(30);
+        listName.add("ctrlKey");                        listSize.add(30);
+        listName.add("nameSkill");                      listSize.add(50);
+        listName.add("animateMvt");                     listSize.add(30);
+        listName.add("animateAction");                  listSize.add(30);
+        listName.add("isMode");                         listSize.add(30);
+        listName.add("timeCooldown");                   listSize.add(30);
+        listName.add("timeSkill");                      listSize.add(30);
+        listName.add("Description");                    listSize.add(500);
+        dbManager.createTable("Skill", listName, 3, listSize);
+        /*dbManager.createTableOrInsert("CREATE TABLE Skill (" +
                 "nameSkill VARCHAR(50),"+
                 "numSkill VARCHAR(30)," +"ctrlKey VARCHAR(30),"+
                 "nameCharacter VARCHAR(30)," +
@@ -87,7 +100,7 @@ public class SkillDBManager {
                 "timeSkill VARCHAR(30)," +
                 "Description VARCHAR(500)," +
                 "CONSTRAINT PK_Skill PRIMARY KEY (nameCharacter,numSkill, ctrlKey)" +
-                ");");
+                ");");*/
     }
 
     /**
@@ -113,48 +126,39 @@ public class SkillDBManager {
      * @throws SkillDataGetException when the skill asked doesn't exist.
      */
     private String gettingData(String nameCharacter, int numSkill, String valueToGet) throws SkillDataGetException{
-        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+        ArrayList<String> listNameLine = new ArrayList<>();
+        ArrayList<Object> listRealValueOfLine = new ArrayList<>();
+        listNameLine.add("nameCharacter");                  listRealValueOfLine.add(nameCharacter);
+        listNameLine.add(NAME_ATTRIBUTE_FOR_NUM_SKILL);     listRealValueOfLine.add(numSkill);
         try{
-            while(resultSet.next()){
-                if(resultSet.getString(NAME_ATTRIBUTE_FOR_NUM_SKILL).
-                        compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0){
-                    return SecureManage.getDecrypted(String.valueOf(resultSet.getObject(valueToGet)));
-                }
-            }
+            return dbManager.getData("Skill", listNameLine, listRealValueOfLine, valueToGet);
         }catch(SQLException sqlException){
             throw new SkillDataGetException(nameCharacter, numSkill);
         }
-        throw new SkillDataGetException(nameCharacter, numSkill);
     }
 
     public float getTimeCooldown(String nameCharacter, int numSkill) throws SkillDataGetException{
-        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+        ArrayList<String> listNameLine = new ArrayList<>();
+        ArrayList<Object> listRealValueOfLine = new ArrayList<>();
+        listNameLine.add("nameCharacter");              listRealValueOfLine.add(nameCharacter);
+        listNameLine.add("numSkill");                   listRealValueOfLine.add(numSkill);
         try{
-            while(resultSet.next()){
-                if(resultSet.getString(NAME_ATTRIBUTE_FOR_NUM_SKILL).
-                        compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0){
-                    return Float.parseFloat(SecureManage.getDecrypted(resultSet.getString("timeCooldown")));
-                }
-            }
+            return Float.parseFloat(dbManager.getData("Skill", listNameLine, listRealValueOfLine, "timeCooldown"));
         }catch(SQLException sqlException){
             throw new SkillDataGetException(nameCharacter, numSkill);
         }
-        throw new SkillDataGetException(nameCharacter, numSkill);
     }
 
     public float getTimeSkill(String nameCharacter, int numSkill) throws SkillDataGetException{
-        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+        ArrayList<String> listNameLine = new ArrayList<>();
+        ArrayList<Object> listRealValueOfLine = new ArrayList<>();
+        listNameLine.add("nameCharacter");                  listRealValueOfLine.add(nameCharacter);
+        listNameLine.add("numSkill");                       listRealValueOfLine.add(numSkill);
         try{
-            while(resultSet.next()){
-                if(resultSet.getString(NAME_ATTRIBUTE_FOR_NUM_SKILL).
-                        compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0){
-                    return Float.parseFloat(SecureManage.getDecrypted(resultSet.getString("timeSkill")));
-                }
-            }
+            return Float.parseFloat(dbManager.getData("Skill", listNameLine, listRealValueOfLine, "timeSkill"));
         }catch(SQLException sqlException){
             throw new SkillDataGetException(nameCharacter, numSkill);
         }
-        throw new SkillDataGetException(nameCharacter, numSkill);
     }
 
     /**
@@ -176,18 +180,15 @@ public class SkillDBManager {
      * @throws SkillDataGetException when the skill asked doesn't exist.
      */
     public boolean getAnimateMvt(String nameCharacter, int numSkill) throws SkillDataGetException{
-        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+        ArrayList<String> listNameLine = new ArrayList<>();
+        ArrayList<Object> listRealValueOfLine = new ArrayList<>();
+        listNameLine.add("nameCharacter");                  listRealValueOfLine.add(nameCharacter);
+        listNameLine.add("numSkill");                       listRealValueOfLine.add(numSkill);
         try{
-            while(resultSet.next()){
-                if(resultSet.getString(NAME_ATTRIBUTE_FOR_NUM_SKILL).
-                        compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0){
-                    return SecureManage.getDecrypted(resultSet.getString("animateMvt")).compareTo("true")==0;
-                }
-            }
+            return dbManager.getData("Skill", listNameLine, listRealValueOfLine, "animateMvt").compareTo("true")==0;
         }catch(SQLException sqlException){
             throw new SkillDataGetException(nameCharacter, numSkill);
         }
-        throw new SkillDataGetException(nameCharacter, numSkill);
     }
 
     /**
@@ -198,18 +199,15 @@ public class SkillDBManager {
      * @throws SkillDataGetException when the skill asked doesn't exist.
      */
     public boolean getAnimateAction(String nameCharacter, int numSkill) throws SkillDataGetException{
-        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+        ArrayList<String> listNameLine = new ArrayList<>();
+        ArrayList<Object> listRealValueOfLine = new ArrayList<>();
+        listNameLine.add("nameCharacter");          listRealValueOfLine.add(nameCharacter);
+        listNameLine.add("numSkill");               listRealValueOfLine.add(numSkill);
         try{
-            while(resultSet.next()){
-                if(resultSet.getString(NAME_ATTRIBUTE_FOR_NUM_SKILL)
-                        .compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0){
-                    return SecureManage.getDecrypted(resultSet.getString("animateAction")).compareTo("true")==0;
-                }
-            }
+            return dbManager.getData("Skill", listNameLine, listRealValueOfLine, "animateAction").compareTo("true")==0;
         }catch(SQLException sqlException){
             throw new SkillDataGetException(nameCharacter, numSkill);
         }
-        throw new SkillDataGetException(nameCharacter, numSkill);
     }
 
     /**
@@ -220,18 +218,15 @@ public class SkillDBManager {
      * @throws SkillDataGetException when the skill asked doesn't exist.
      */
     public boolean getIsMode(String nameCharacter, int numSkill) throws SkillDataGetException{
-        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+        ArrayList<String> listNameLine = new ArrayList<>();
+        ArrayList<Object> listRealValueOfLine = new ArrayList<>();
+        listNameLine.add("nameCharacter");          listRealValueOfLine.add(nameCharacter);
+        listNameLine.add("numSkill");               listRealValueOfLine.add(numSkill);
         try{
-            while(resultSet.next()){
-                if(resultSet.getString(NAME_ATTRIBUTE_FOR_NUM_SKILL)
-                        .compareTo(SecureManage.getEncrypted(String.valueOf(numSkill)))==0){
-                    return SecureManage.getDecrypted(resultSet.getString("isMode")).compareTo("true")==0;
-                }
-            }
+            return dbManager.getData("Skill", listNameLine, listRealValueOfLine, "isMode").compareTo("true")==0;
         }catch(SQLException sqlException){
             throw new SkillDataGetException(nameCharacter, numSkill);
         }
-        throw new SkillDataGetException(nameCharacter, numSkill);
     }
 
     /**
@@ -319,7 +314,20 @@ public class SkillDBManager {
                 || nameCharacter.compareTo("")==0){
             throw new SkillDataNotCorrectException();
         }
-        String reqValues = "INSERT INTO Skill VALUES (" +
+        ArrayList<Object> listInsert = new ArrayList<>();
+        listInsert.add(nameCharacter);
+        listInsert.add(numSkill);
+        listInsert.add(ctrlKey);
+        listInsert.add(nameSkill.toUpperCase());
+        listInsert.add(convertBoolToString(animateMvt));
+        listInsert.add(convertBoolToString(animateAction));
+        listInsert.add(convertBoolToString(isMode));
+        listInsert.add(timeCooldown);
+        listInsert.add(timeSkill);
+        listInsert.add(description);
+
+        dbManager.insertIntoTable("Skill", listInsert);
+        /*String reqValues = "INSERT INTO Skill VALUES (" +
                 "'"+ SecureManage.getEncrypted(nameSkill.toUpperCase()) + "','"
                 + SecureManage.getEncrypted(String.valueOf(numSkill)) + "','" + SecureManage.getEncrypted(ctrlKey)
                 + "','" +SecureManage.getEncrypted(nameCharacter) +"','" + SecureManage.getEncrypted(convertBoolToString(animateMvt))
@@ -328,7 +336,7 @@ public class SkillDBManager {
                 "','" + SecureManage.getEncrypted(String.valueOf(timeCooldown)) +
                 "','" + SecureManage.getEncrypted(String.valueOf(timeSkill))+
                 "','" +SecureManage.getEncrypted(description) + "')";
-        dbManager.createTableOrInsert(reqValues);
+        dbManager.createTableOrInsert(reqValues);*/
     }
 
     /**
@@ -337,20 +345,17 @@ public class SkillDBManager {
      * @return a list who contains all control key for skill of a character.
      */
     public List<String> getCtrlKeyOfACharacter(String nameCharacter){
-        ArrayList<String> listCtrlKeyOfACharacter = new ArrayList<>();
-        ResultSet resultSet = selectCharacterIntoTableSkill(nameCharacter);
+        ArrayList<String> listNameLine = new ArrayList<>();
+        ArrayList<Object> listRealValueOfLine = new ArrayList<>();
+        listNameLine.add("nameCharacter");              listRealValueOfLine.add(nameCharacter);
 
         try{
-            while(resultSet.next()){
-                if(resultSet.getString(NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL).compareTo(SecureManage.getEncrypted(nameCharacter))==0){
-                    listCtrlKeyOfACharacter.add(SecureManage.getDecrypted(resultSet.getString(NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL)).toLowerCase());
-                }
-            }
+            return dbManager.getList("Skill", listNameLine, listRealValueOfLine, NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL);
         }catch(SQLException sqlException){
             System.out.println("Problème avec la base de données.");
         }
 
-        return listCtrlKeyOfACharacter;
+        return new ArrayList<>();
     }
 
     /**
@@ -407,17 +412,12 @@ public class SkillDBManager {
      * @return list of all the name of skill in the database.
      */
     public List<String> getListSkillName(){
-        ArrayList<String> listSkillName = new ArrayList<>();
-        ResultSet resultSet;
         try{
-            resultSet = dbManager.selectIntoTable("SELECT * FROM Skill;");
-            while(resultSet.next()){
-                listSkillName.add(SecureManage.getDecrypted(resultSet.getString(NAME_ATTRIBUTE_FOR_NAME_SKILL)));
-            }
+            return dbManager.getList("Skill", null, null, NAME_ATTRIBUTE_FOR_NAME_SKILL);
         }catch(SQLException sqlException){
             System.out.println(NAME_ERROR_GETTING_DATA);
         }
-        return listSkillName;
+        return new ArrayList<>();
     }
 
     /**
@@ -425,19 +425,12 @@ public class SkillDBManager {
      * @return list of all the name character who have skill (there are inside the database).
      */
     public List<String> getListNameCharacterWithSkill(){
-        ArrayList<String> listName = new ArrayList<>();
-        ResultSet resultSet;
         try{
-            resultSet = dbManager.selectIntoTable("SELECT * FROM Skill;");
-            while(resultSet.next()){
-                if(!listName.contains(SecureManage.getDecrypted(resultSet.getString(NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL)))){
-                    listName.add(SecureManage.getDecrypted(resultSet.getString(NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL)));
-                }
-            }
+            return dbManager.getList("Skill", null, null, NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL);
         }catch(SQLException sqlException){
             System.out.println(NAME_ERROR_GETTING_DATA);
         }
-        return listName;
+        return new ArrayList<>();
     }
 
     /**
