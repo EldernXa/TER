@@ -21,6 +21,10 @@ public class PersonDBManager {
         this.dbManager = new DBManager();
     }
 
+    private static final String NAME_TABLE = "Person";
+
+    private static final String NAME_WEIGHT = "weight";
+
     /**
      * Create or use (if already exist) file database for the test here.
      * @param nameFileDB name of the database.
@@ -37,19 +41,12 @@ public class PersonDBManager {
          ArrayList<Integer> listSize = new ArrayList<>();
          listName.add("name");                  listSize.add(30);
          listName.add("speed");                 listSize.add(30);
-         listName.add("weight");                listSize.add(30);
+         listName.add(NAME_WEIGHT);                listSize.add(30);
          listName.add("jumpStrength");          listSize.add(30);
          listName.add("fallingSpeed");          listSize.add(30);
          listName.add("canJump");               listSize.add(30);
-         dbManager.createTable("Person", listName, 1, listSize);
-         /*dbManager.createTableOrInsert("CREATE TABLE Person (" +
-                 "name VARCHAR(30) PRIMARY KEY," +
-                 "speed VARCHAR(30)," +
-                 "weight VARCHAR(30)," +
-                 "jumpStrength VARCHAR(30)," +
-                 "fallingSpeed VARCHAR(30)," +
-                 "canJump VARCHAR(30)" +
-                 ");");*/
+         dbManager.createTable(NAME_TABLE, listName, 1, listSize);
+
      }
 
 
@@ -57,7 +54,7 @@ public class PersonDBManager {
      * Remove the table Person.
      */
     public void removeTablePerson(){
-        dbManager.dropTable("Person");
+        dbManager.dropTable(NAME_TABLE);
     }
 
     /**
@@ -82,7 +79,7 @@ public class PersonDBManager {
             throws PersonDataAlreadyExistException, PersonDataNotCorrectException {
         ResultSet resultSet = selectIntoTablePerson(name);
         try {
-            resultSet.getObject("weight");
+            resultSet.getObject(NAME_WEIGHT);
             throw new PersonDataAlreadyExistException(name);
         } catch (SQLException ignored) {
 
@@ -95,7 +92,7 @@ public class PersonDBManager {
             listObject.add(jumpStrength);
             listObject.add(fallingSpeed);
             listObject.add(canJump?"true":"false");
-            dbManager.insertIntoTable("Person", listObject);
+            dbManager.insertIntoTable(NAME_TABLE, listObject);
         }else{
             throw new PersonDataNotCorrectException(name);
         }
@@ -124,7 +121,7 @@ public class PersonDBManager {
      */
     public List<String> getListNameFromDatabase() throws PersonDataGetException{
         try{
-            return dbManager.getList("Person", null, null, "name");
+            return dbManager.getList(NAME_TABLE, null, null, "name");
         }catch(SQLException sqlException){
             System.out.println("Problème dans la récupération de données.");
         }
@@ -159,7 +156,7 @@ public class PersonDBManager {
         ArrayList<Object> listRequest = new ArrayList<>();
         listName.add("name");      listRequest.add(nameCharacter);
         try {
-            return Double.parseDouble(dbManager.getData("Person", listName, listRequest, "speed"));
+            return Double.parseDouble(dbManager.getData(NAME_TABLE, listName, listRequest, "speed"));
         }catch(Exception exception){
             throw new PersonDataGetException(nameCharacter);
         }
@@ -176,7 +173,7 @@ public class PersonDBManager {
         ArrayList<Object> listRealValue = new ArrayList<>();
         listName.add("name");           listRealValue.add(nameCharacter);
         try{
-            return dbManager.getData("Person", listName, listRealValue, "canJump").compareTo("true") == 0;
+            return dbManager.getData(NAME_TABLE, listName, listRealValue, "canJump").compareTo("true") == 0;
         }catch(Exception exception){
             throw new PersonDataGetException(nameCharacter);
         }
@@ -193,7 +190,7 @@ public class PersonDBManager {
         ArrayList<Object> listRealValue = new ArrayList<>();
         listName.add("name");               listRealValue.add(nameCharacter);
         try{
-            return Double.parseDouble(dbManager.getData("Person", listName, listRealValue, "jumpStrength"));
+            return Double.parseDouble(dbManager.getData(NAME_TABLE, listName, listRealValue, "jumpStrength"));
         }catch(SQLException sqlException){
             throw new PersonDataGetException(nameCharacter);
         }
@@ -210,7 +207,7 @@ public class PersonDBManager {
         ArrayList<Object> listRealValue = new ArrayList<>();
         listName.add("name");           listRealValue.add(nameCharacter);
         try{
-            return Double.parseDouble(dbManager.getData("Person", listName, listRealValue, "weight"));
+            return Double.parseDouble(dbManager.getData(NAME_TABLE, listName, listRealValue, NAME_WEIGHT));
         }catch(SQLException sqlException)
         {
             throw new PersonDataGetException(nameCharacter);
@@ -228,7 +225,7 @@ public class PersonDBManager {
         ArrayList<Object> listRealValue = new ArrayList<>();
         listName.add("name");           listRealValue.add(nameCharacter);
         try{
-            return Double.parseDouble(dbManager.getData("Person", listName, listRealValue, "fallingSpeed"));
+            return Double.parseDouble(dbManager.getData(NAME_TABLE, listName, listRealValue, "fallingSpeed"));
         }catch(SQLException sqlException){
             throw new PersonDataGetException(nameCharacter);
         }
