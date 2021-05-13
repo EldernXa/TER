@@ -35,6 +35,10 @@ public class SkillDBManager {
 
     private static final String NAME_ATTRIBUTE_FOR_DESCRIPTION_OF_SKILL = "Description";
 
+    private static final String NAME_ATTRIBUTE_FOR_TIME_COOLDOWN = "timeCooldown";
+
+    private static final String NAME_ATTRIBUTE_FOR_TIME_SKILL = "timeSkill";
+
     private static final String NAME_TABLE = "Skill";
 
     /**
@@ -84,8 +88,8 @@ public class SkillDBManager {
         listName.add("animateMvt");                                                  listSize.add(30);
         listName.add("animateAction");                                               listSize.add(30);
         listName.add("isMode");                                                      listSize.add(30);
-        listName.add("timeCooldown");                                                listSize.add(30);
-        listName.add("timeSkill");                                                   listSize.add(30);
+        listName.add(NAME_ATTRIBUTE_FOR_TIME_COOLDOWN);                              listSize.add(30);
+        listName.add(NAME_ATTRIBUTE_FOR_TIME_SKILL);                                 listSize.add(30);
         listName.add(NAME_ATTRIBUTE_FOR_DESCRIPTION_OF_SKILL);                       listSize.add(500);
         dbManager.createTable(NAME_TABLE, listName, 3, listSize);
     }
@@ -129,12 +133,12 @@ public class SkillDBManager {
     }
 
     public float getTimeCooldown(String nameCharacter, int numSkill) throws SkillDataGetException{
-        return Float.parseFloat(returnFromDatabases(nameCharacter, numSkill, "timeCooldown"));
+        return Float.parseFloat(returnFromDatabases(nameCharacter, numSkill, NAME_ATTRIBUTE_FOR_TIME_COOLDOWN));
 
     }
 
     public float getTimeSkill(String nameCharacter, int numSkill) throws SkillDataGetException{
-        return Float.parseFloat(returnFromDatabases(nameCharacter, numSkill, "timeSkill"));
+        return Float.parseFloat(returnFromDatabases(nameCharacter, numSkill, NAME_ATTRIBUTE_FOR_TIME_SKILL));
     }
 
     /**
@@ -326,11 +330,11 @@ public class SkillDBManager {
     }
 
     public void modifyTimeCooldown(String nameCharacter, String nameSkill, float newTimeCooldown){
-        update(nameCharacter, nameSkill, "timeCooldown", newTimeCooldown);
+        update(nameCharacter, nameSkill, NAME_ATTRIBUTE_FOR_TIME_COOLDOWN, newTimeCooldown);
     }
 
     public void modifyTimeSkill(String nameCharacter, String nameSkill, float newTimeSkill){
-        update(nameCharacter, nameSkill, "timeSkill", newTimeSkill);
+        update(nameCharacter, nameSkill, NAME_ATTRIBUTE_FOR_TIME_SKILL, newTimeSkill);
     }
 
     private void update(String nameCharacter, String nameSkill, String valToModify, Object newValue){
