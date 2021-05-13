@@ -57,7 +57,7 @@ public class DBManager {
     }
 
     public void createTable(String nameTable, List<String> listName, int numPrimaryKey, List<Integer> listSize){
-        StringBuilder requestCreateTable = new StringBuilder("CREATE TABLE " + nameTable + " ( \n");
+        StringBuilder requestCreateTable = new StringBuilder("CREATE TABLE IF NOT EXISTS " + nameTable + " ( \n");
         for(int i = 0; i<listName.size();i++){
             requestCreateTable.append(listName.get(i)).append(" VARCHAR(").append(listSize.get(i)).append(")");
             if(numPrimaryKey == 1 && i == 0){
