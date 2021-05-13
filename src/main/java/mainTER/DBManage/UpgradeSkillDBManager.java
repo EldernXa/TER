@@ -177,6 +177,21 @@ public class UpgradeSkillDBManager {
         }
     }
 
+    public int getPriceWithNumUpgrade(String nameCharacter, int numSkill, String nameUpgrade, int numUpgrade) throws UpgradeSkillDataGetException{
+        List<String> listName = listNameForGetting();
+        listName.add("numUpgrade");
+        ArrayList<Object> listRequest = new ArrayList<>();
+        listRequest.add(nameCharacter);
+        listRequest.add(numSkill);
+        listRequest.add(nameUpgrade);
+        listRequest.add(numUpgrade);
+        try{
+            return Integer.parseInt(dbManager.getData("UpgradeSkill", listName, listRequest, "price"));
+        }catch(SQLException sqlException){
+            throw new UpgradeSkillDataGetException();
+        }
+    }
+
     public String getDescription(String nameCharacter, int numSkill, String nameUpgrade) throws UpgradeSkillDataGetException{
         List<String> listName = listNameForGetting();
         ArrayList<Object> listRequest = new ArrayList<>();
