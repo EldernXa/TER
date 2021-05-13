@@ -321,32 +321,24 @@ public class SkillDBManager {
         }catch(SQLException ignored){
 
         }
-
-        String request = "UPDATE Skill " +
-                "SET " +
-                "ctrlKey = '" + SecureManage.getEncrypted(newCtrlKey) + "'" +
-                " WHERE nameCharacter = '"+ SecureManage.getEncrypted(nameCharacter)
-                +"' AND nameSkill = '" + SecureManage.getEncrypted(nameSkill.toUpperCase())  +"';";
-        dbManager.updateTable(request);
+        update(nameCharacter, nameSkill, NAME_ATTRIBUTE_FOR_CTRL_KEY_OF_SKILL, newCtrlKey);
 
     }
 
     public void modifyTimeCooldown(String nameCharacter, String nameSkill, float newTimeCooldown){
-        String request = "UPDATE Skill " +
-                "SET " +
-                "timeCooldown = '" + SecureManage.getEncrypted(String.valueOf(newTimeCooldown)) + "'" +
-                " WHERE nameCharacter = '" + SecureManage.getEncrypted(nameCharacter)
-                + "' AND nameSkill = '" + SecureManage.getEncrypted(nameSkill.toUpperCase()) + "'";
-        dbManager.updateTable(request);
+        update(nameCharacter, nameSkill, "timeCooldown", newTimeCooldown);
     }
 
     public void modifyTimeSkill(String nameCharacter, String nameSkill, float newTimeSkill){
-        String request = "UPDATE Skill " +
-                "SET " +
-                "timeSkill = '" + SecureManage.getEncrypted(String.valueOf(newTimeSkill)) + "'" +
-                " WHERE nameCharacter = '" + SecureManage.getEncrypted(nameCharacter)
-                + "' AND nameSkill = '" + SecureManage.getEncrypted(nameSkill.toUpperCase()) + "'";
-        dbManager.updateTable(request);
+        update(nameCharacter, nameSkill, "timeSkill", newTimeSkill);
+    }
+
+    private void update(String nameCharacter, String nameSkill, String valToModify, Object newValue){
+        ArrayList<String> listNameLine = new ArrayList<>();
+        ArrayList<Object> listRealValueOfLine = new ArrayList<>();
+        listNameLine.add(NAME_ATTRIBUTE_FOR_NAME_CHARACTER_OF_A_SKILL);         listRealValueOfLine.add(nameCharacter);
+        listNameLine.add(NAME_ATTRIBUTE_FOR_NAME_SKILL);                        listRealValueOfLine.add(nameSkill);
+        dbManager.updateTable(NAME_TABLE, listNameLine, listRealValueOfLine, valToModify, newValue);
     }
 
     /**

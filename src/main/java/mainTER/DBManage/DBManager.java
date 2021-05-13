@@ -132,6 +132,22 @@ public class DBManager {
         return resultSet;
     }
 
+    public void updateTable(String tableName, List<String> listNameLine, List<Object> listRealValueOfLine, String nameValToModify, Object newVal){
+        StringBuilder stringBuilderToUpdate = new StringBuilder("Update ");
+        stringBuilderToUpdate.append(tableName).append(" \nSET ");
+        stringBuilderToUpdate.append(nameValToModify).append(" = '").append(SecureManage.getEncrypted(String.valueOf(newVal))).append("'");
+        if(listNameLine != null && !listNameLine.isEmpty()){
+            stringBuilderToUpdate.append(" WHERE ");
+            for(int i=0; i<listNameLine.size();i++){
+                stringBuilderToUpdate.append(listNameLine.get(i)).append(" = '").append(SecureManage.getEncrypted(String.valueOf(listRealValueOfLine.get(i)))).append("'");
+                if(i<listNameLine.size()-1){
+                    stringBuilderToUpdate.append(" AND ");
+                }
+            }
+        }
+        updateTable(stringBuilderToUpdate.toString());
+    }
+
     public void updateTable(String strCreateTable){
         this.getConnection();
         try(Statement statement = connection.createStatement()) {
