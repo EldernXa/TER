@@ -34,6 +34,7 @@ public class ActiveSkill implements Skill{
     private EventHandler<KeyEvent> eventHandler;
     private final float timeCooldown;
     private final float timeSkill;
+    private boolean threadIsRunning = false;
 
     public boolean isEnabled(){
         return isEnabled;
@@ -147,7 +148,7 @@ public class ActiveSkill implements Skill{
                     shieldSkill();
 
                 } else if (skill == ActiveSkillEnum.FLY_MODE) {
-                    flySkill(animationCharacter);
+                    flySkill();
 
                 }
                 else if(skill == ActiveSkillEnum.MOULT){
@@ -159,9 +160,10 @@ public class ActiveSkill implements Skill{
         return eventHandler;
     }
 
-    private void flySkill(AnimationCharacter animationCharacter) {
+    private void flySkill() {
         //Bug quand on change de perso et qu'on revient sur le démon, il arrive plus a changer de compétence
-        if (!isEnabled) {
+        if (!isEnabled && finishSkill) {
+            System.out.println("okok");
             isEnabled = true;
             finishSkill = false;
             try {
@@ -189,7 +191,17 @@ public class ActiveSkill implements Skill{
                     }
                     character.getCharacteristics().resetSpeed();
                     isEnabled = false;
-                    finishSkill = true;
+                    Thread thread = new Thread(()->{
+                        try{
+                            threadIsRunning = true;
+                            TimeUnit.SECONDS.sleep((long)timeCooldown);
+                            finishSkill = true;
+                            threadIsRunning = false;
+                        }catch(InterruptedException interruptedException){
+                            interruptedException.printStackTrace();
+                        }
+                    });
+                    thread.start();
                 });
                 t.start();
             } catch (Exception ignored) {
@@ -203,7 +215,19 @@ public class ActiveSkill implements Skill{
 
             }
             character.getCharacteristics().resetSpeed();
-            finishSkill = true;
+            if(!threadIsRunning){
+                Thread thread = new Thread(()->{
+                    try{
+                        threadIsRunning = true;
+                        TimeUnit.SECONDS.sleep((long)timeCooldown);
+                        finishSkill = true;
+                        threadIsRunning = false;
+                    }catch(InterruptedException interruptedException){
+                        interruptedException.printStackTrace();
+                    }
+                });
+                thread.start();
+            }
         }
     }
 
