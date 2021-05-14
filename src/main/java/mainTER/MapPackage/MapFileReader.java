@@ -25,18 +25,21 @@ public class MapFileReader {
      * @param pathName Map file path
      */
     public MapFileReader(String url, String pathName) {
-        checkpointArrayList = new ArrayList<>();
-        detectableObjectArrayList = new ArrayList<>();
-        this.pathName = pathName;
-        Path path = Paths.get(url + pathName + ".txt");
-        try {
-            this.file = Files.readString(path).split("\n");
+        if(detectableObjectArrayList == null){
+            checkpointArrayList = new ArrayList<>();
+            detectableObjectArrayList = new ArrayList<>();
+            this.pathName = pathName;
+            Path path = Paths.get(url + pathName + ".txt");
+            try {
+                this.file = Files.readString(path).split("\n");
 
-            read();
+                read();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     /**
