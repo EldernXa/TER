@@ -178,11 +178,7 @@ public class ActiveSkill implements Skill{
                     }
                     animationCharacter.setCanMove(false);
                     animationCharacter.setMotionless();
-                    try{
-                        TimeUnit.MILLISECONDS.sleep(500);
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
+
 
                     try {
                         initAnimateForWalk(character);
