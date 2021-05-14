@@ -46,12 +46,15 @@ public class EndObject extends InteractiveObject {
 
                     if(!profileDBManager.nameExist(nameProfile,mapName)){
                         profileDBManager.insertIntoTableProfile(nameProfile,time,mapName);
+                    }else{
+                        if(time< profileDBManager.getTime(nameProfile,mapName)){
+                            profileDBManager.setTime(nameProfile,time,mapName);
+                        }
                     }
 
                     bestProfileDBManager.createTableBestProfile();
                     if(bestProfileDBManager.getTime(mapName) != -1){
                         if(time < bestProfileDBManager.getTime(mapName)){
-                            profileDBManager.setTime(nameProfile,time,mapName);
                             bestProfileDBManager.setTime(time,mapName);
                             bestProfileDBManager.setName(nameProfile,mapName);
                         }

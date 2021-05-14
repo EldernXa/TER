@@ -123,19 +123,8 @@ public abstract class DetectableObject {
 //                    System.out.println("Coll MinX " + collideObject2.getAppropriateNode().getBoundsInParent().getMinX());
 //                    System.out.println("this X" + this.getAppropriateNode().getBoundsInParent().getMaxX());
                     detectableObject2.interaction(this);
-                    for(ObjectLinker objectLinker : Map.objectLinkers) {//TODO faire en sort que ce soit une interaction qui se déclenche et pas seulement des coordonnées qui se modifient
-                        if (objectLinker.getCollideObject1().equals(detectableObject2)) {
-                            objectLinker.detectableObject2.setX(detectableObject2.getX());
-                            objectLinker.detectableObject2.setY(detectableObject2.getY());
 
-                        } else if (objectLinker.getCollideObject2().equals(detectableObject2)) {
-                            objectLinker.detectableObject1.setX(detectableObject2.getX());
-                            objectLinker.detectableObject1.setY(detectableObject2.getY());
-                        } else {
-//                            System.out.println(collideObject2);
-//                            System.out.println("Cet Objet nexiste pas");
-                        }
-                    }
+                    multiIntersections(detectableObject2);
 
                     /*System.out.println("minX " + collideObject2.getAppropriateNode().getBoundsInParent().getMinX());
                     System.out.println("Droit serpent " + this.getAppropriateNode().getBoundsInParent().getMaxX());
@@ -161,22 +150,8 @@ public abstract class DetectableObject {
                     detectableObject2.interaction(this);
 //                    System.out.println("Collision avec : " + detectableObject2);
 
-                    for(ObjectLinker objectLinker : Map.objectLinkers){
-                        if(objectLinker.getCollideObject1().equals(detectableObject2)){
-                            objectLinker.detectableObject2.setX(detectableObject2.getX());
-                            objectLinker.detectableObject2.setY(detectableObject2.getY());
+                    multiIntersections(detectableObject2);
 
-                        }
-                        else if(objectLinker.getCollideObject2().equals(detectableObject2)){
-                            objectLinker.detectableObject1.setX(detectableObject2.getX());
-                            objectLinker.detectableObject1.setY(detectableObject2.getY());
-                        }
-
-                        else{
-//                            System.out.println(collideObject2);
-//                            System.out.println("Cet Objet nexiste pas");
-                        }
-                    }
 //                    System.out.println("Left space = " + (this.getAppropriateNode().getBoundsInParent().getMinX() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxX()));
                     return detectableObject2.leftMvt(this);//this.getAppropriateNode().getBoundsInParent().getMinX() - detectableObject2.getAppropriateNode().getBoundsInParent().getMaxX();
                 }
@@ -204,21 +179,8 @@ public abstract class DetectableObject {
 //                    System.out.println("je suis en collision avec" + collideObject2);
                     detectableObject2.interaction(this);
 
-                    for(ObjectLinker objectLinker : Map.objectLinkers){
-                        if(objectLinker.getCollideObject1().equals(detectableObject2)){
-                            objectLinker.detectableObject2.setX(detectableObject2.getX());
-                            objectLinker.detectableObject2.setY(detectableObject2.getY());
-                        }
-                        else if(objectLinker.getCollideObject2().equals(detectableObject2)){
-                            objectLinker.detectableObject1.setX(detectableObject2.getX());
-                            objectLinker.detectableObject1.setY(detectableObject2.getY());
-                        }
+                    multiIntersections(detectableObject2);
 
-                        else{
-//                            System.out.println(collideObject2);
-//                            System.out.println("Cet Objet nexiste pas");
-                        }
-                    }
 //                    System.out.println("Hauteur de saut calculée = " + (this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY()));
                     return detectableObject2.upMvt(this);//this.getAppropriateNode().getBoundsInParent().getMinY() - detectableObject2.getAppropriateNode().getBoundsInParent().getMaxY());
                 }
@@ -240,29 +202,35 @@ public abstract class DetectableObject {
 
                 if((!this.equals(detectableObject2))&&(rect.intersects(detectableObject2.getAppropriateNode().getBoundsInParent()))/*&&((collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY()) >= 0)*/){
                     detectableObject2.interaction(this);
-                    for(ObjectLinker objectLinker : Map.objectLinkers){
-                        if(objectLinker.getCollideObject1().equals(detectableObject2)){
-                            objectLinker.detectableObject2.setX(detectableObject2.getX());
-                            objectLinker.detectableObject2.setY(detectableObject2.getY());
 
-
-                        }
-                        else if(objectLinker.getCollideObject2().equals(detectableObject2)){
-                            objectLinker.detectableObject1.setX(detectableObject2.getX());
-                            objectLinker.detectableObject1.setY(detectableObject2.getY());
-                        }
-
-                        else{
-//                            System.out.println(collideObject2);
-//                            System.out.println("Cet Objet nexiste pas");
-                        }
-                    }
+                    multiIntersections(detectableObject2);
 
                     return detectableObject2.downMvt(this);//detectableObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY();
                 }
             }
         }
         return this.getFallMouvementSpan();
+    }
+
+    private void multiIntersections(DetectableObject detectableObject){
+        for(ObjectLinker objectLinker : Map.objectLinkers){
+            if(objectLinker.getCollideObject1().equals(detectableObject)){
+                objectLinker.detectableObject2.setX(detectableObject.getX());
+                objectLinker.detectableObject2.setY(detectableObject.getY());
+
+
+            }
+            else if(objectLinker.getCollideObject2().equals(detectableObject)){
+                objectLinker.detectableObject1.setX(detectableObject.getX());
+                objectLinker.detectableObject1.setY(detectableObject.getY());
+            }
+
+            else{
+//                            System.out.println(collideObject2);
+//                            System.out.println("Cet Objet nexiste pas");
+            }
+        }
+
     }
 
 
