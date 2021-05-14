@@ -32,6 +32,8 @@ public class ActiveSkill implements Skill{
     private final SkillDBManager skillDBManager;
     private final int numSkill;
     private EventHandler<KeyEvent> eventHandler;
+    private final float timeCooldown;
+    private final float timeSkill;
 
     public boolean isEnabled(){
         return isEnabled;
@@ -45,11 +47,13 @@ public class ActiveSkill implements Skill{
         return skill;
     }
 
-    public ActiveSkill(String nameCharacter, String nameSkill, int numSkill, Character character){
+    public ActiveSkill(String nameCharacter, String nameSkill, int numSkill, Character character, float timeCooldown, float timeSkill){
         this.nameCharacter = nameCharacter;
         this.nameSkill = nameSkill;
         this.numSkill = numSkill;
         this.character = character;
+        this.timeCooldown = timeCooldown;
+        this.timeSkill = timeSkill;
         isEnabled = false;
         finishSkill = true;
         this.skillDBManager = new SkillDBManager();

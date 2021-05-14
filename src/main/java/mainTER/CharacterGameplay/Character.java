@@ -75,7 +75,8 @@ public class Character {
                 else{
 
                         listSkill.add(new ActiveSkill(name, skillDBManager.getNameSkill(name, i),
-                                nbActiveSkill, this));
+                                nbActiveSkill, this, skillDBManager.getTimeCooldown(name, i),
+                                skillDBManager.getTimeSkill(name,i)));
                         nbActiveSkill++;
 
                 }
