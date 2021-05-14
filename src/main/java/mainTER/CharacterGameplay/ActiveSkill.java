@@ -259,7 +259,9 @@ public class ActiveSkill implements Skill{
 
     private void attackSkill(AnimationCharacter animationCharacter, CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement,
                              int tpsDuration){
-        if(finishSkill) {
+        if(!isEnabled && finishSkill) {
+            finishSkill = false;
+            isEnabled = true;
             animationCharacter.setCanMove(false);
             Coordinate c = characterMovementAndDisplayManagement.getCoordinateOfTheActualImg();
             List<ImageView> listPersonalizedAnimate = null;
@@ -291,30 +293,46 @@ public class ActiveSkill implements Skill{
                                                 c.getX(), c.getY());
                                         animationCharacter.getTimeline().stop();
                                         animationCharacter.getTimeline().getKeyFrames().clear();
+                                        isEnabled = false;
+                                        if(!threadIsRunning) {
+                                            Thread thread = new Thread(() -> {
+                                                try {
+                                                    System.out.println("okok");
+                                                    threadIsRunning = true;
+                                                    TimeUnit.SECONDS.sleep((long) timeCooldown);
+                                                    finishSkill = true;
+                                                    threadIsRunning = false;
+                                                    System.out.println("-----okok");
+                                                } catch (Exception exception) {
+                                                    exception.printStackTrace();
+                                                }
+                                            });
+                                            thread.start();
+                                        }
                                     }
                                 } else {
                                     animationCharacter.setCanMove(true);
                                     animationCharacter.setCanMotionLess(true);
+                                    isEnabled = false;
+                                    if(!threadIsRunning) {
+                                        Thread thread = new Thread(() -> {
+                                            try {
+                                                threadIsRunning = true;
+                                                TimeUnit.SECONDS.sleep((long) timeCooldown);
+                                                finishSkill = true;
+                                                threadIsRunning = false;
+                                            } catch (Exception exception) {
+                                                exception.printStackTrace();
+                                            }
+                                        });
+                                        thread.start();
+                                    }
                                 }
                             }
                     )
             );
             animationCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
             animationCharacter.getTimeline().play();
-           /* if(!threadIsRunning) {
-                Thread thread = new Thread(() -> {
-                    threadIsRunning = true;
-                    try {
-                        TimeUnit.SECONDS.sleep((long) timeCooldown);
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
-                    }
-                    finishSkill = true;
-                    threadIsRunning = false;
-                });
-
-                thread.start();
-            }*/
         }
     }
 
