@@ -5,7 +5,7 @@ import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
-public class DeathObject extends DetectableObject {
+public class DeathObject extends CollideObject {
 
     String pathName;
     Coordinate coordinate;

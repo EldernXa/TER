@@ -71,6 +71,7 @@ public class CollideObject extends DetectableObject{
 
     @Override
     public double upMvt(DetectableObject detectableObject) {
+
         return detectableObject.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY();
     }
 

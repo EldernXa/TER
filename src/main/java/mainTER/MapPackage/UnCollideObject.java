@@ -61,6 +61,7 @@ public class UnCollideObject extends DetectableObject {
 
     @Override
     public double rightMvt(DetectableObject detectableObject) {
+        System.out.println("Here");
         return detectableObject.getHMouvementSpan();
     }
 

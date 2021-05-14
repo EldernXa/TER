@@ -28,7 +28,7 @@ import java.util.ArrayList;
 /**
  * Class For the display of one character (with animation).
  */
-public class DisplayCharacter extends DetectableObject {
+public class DisplayCharacter extends CollideObject {
 
     private final Coordinate currentCoordinateOfTheCharacter;
     private final Coordinate initialCoordinateOfTheMap;

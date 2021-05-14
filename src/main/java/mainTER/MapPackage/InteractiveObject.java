@@ -4,7 +4,7 @@ import javafx.scene.image.ImageView;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
-public abstract class InteractiveObject extends DetectableObject {
+public abstract class InteractiveObject extends CollideObject {
 
     private Coordinate coordinate;
     private final ImageViewSizePos imageViewSizePos;
@@ -13,7 +13,6 @@ public abstract class InteractiveObject extends DetectableObject {
         this.imageViewSizePos = imageViewSizePos;
         this.setCoordinate(coordinate);
     }
-
 
     public ImageView getImageView() {
         return imageViewSizePos.getImageView();
