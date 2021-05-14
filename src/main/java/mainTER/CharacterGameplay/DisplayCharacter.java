@@ -558,13 +558,13 @@ public class DisplayCharacter extends DetectableObject {
                     try {
 //                        System.out.println("Essaye de l'interaction");
                         ((InteractiveObject) detectableObject).actionGenuine(); //TODO reactivate the multi
-                        /*for(ObjectLinker objectLinker : Map.objectLinkers){
+                        for(ObjectLinker objectLinker : Map.objectLinkers){
                             if (objectLinker.getCollideObject1().equals(detectableObject)){
                                 ((InteractiveObject) objectLinker.getCollideObject2()).actionGenuine();
                             }else{
                                 ((InteractiveObject) objectLinker.getCollideObject1()).actionGenuine();
                             }
-                        }*/
+                        }
                     } catch (Exception e) {
                     }
                 }

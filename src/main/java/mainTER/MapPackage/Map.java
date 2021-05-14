@@ -12,7 +12,7 @@ import java.util.Iterator;
 public class Map {
 
     private final MapFileReader mapFileReader;
-    private Pane pane = new Pane();
+    private Pane pane;
     private ImageView backgroundImage;
     private String fileName;
     public ArrayList<DetectableObject> detectableObjects1 = new ArrayList<>();

@@ -32,7 +32,7 @@ public class Checkpoint extends CollideObject {
     @Override
     public void interaction(DetectableObject detectableObject) {
 
-        if (detectableObject.getAppropriateNode().intersects(this.getAppropriateNode().getBoundsInParent()) && !isActivated) {
+        if (!isActivated) {
             effect((DisplayCharacter) detectableObject);
              for (Checkpoint checkpoint : MapFileReader.checkpointArrayList){
                  if(!this.equals(checkpoint)){
@@ -96,6 +96,10 @@ public class Checkpoint extends CollideObject {
     @Override
     public void setCoordinate(Coordinate coordinate) {
 
+    }
+
+    public void setIsActivated(boolean isActivated) {
+        Checkpoint.isActivated = isActivated;
     }
 
     @Override

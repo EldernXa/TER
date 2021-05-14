@@ -153,7 +153,7 @@ public abstract class DetectableObject {
                     multiIntersections(detectableObject2);
 
 //                    System.out.println("Left space = " + (this.getAppropriateNode().getBoundsInParent().getMinX() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxX()));
-                    return detectableObject2.leftMvt(this);//this.getAppropriateNode().getBoundsInParent().getMinX() - detectableObject2.getAppropriateNode().getBoundsInParent().getMaxX();
+                    return this.getAppropriateNode().getBoundsInParent().getMinX() - detectableObject2.getAppropriateNode().getBoundsInParent().getMaxX();//this.getAppropriateNode().getBoundsInParent().getMinX() - detectableObject2.getAppropriateNode().getBoundsInParent().getMaxX();
                 }
             }
         }
@@ -182,7 +182,7 @@ public abstract class DetectableObject {
                     multiIntersections(detectableObject2);
 
 //                    System.out.println("Hauteur de saut calculée = " + (this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY()));
-                    return detectableObject2.upMvt(this);//this.getAppropriateNode().getBoundsInParent().getMinY() - detectableObject2.getAppropriateNode().getBoundsInParent().getMaxY());
+                    return this.getAppropriateNode().getBoundsInParent().getMinY() - detectableObject2.getAppropriateNode().getBoundsInParent().getMaxY();//this.getAppropriateNode().getBoundsInParent().getMinY() - detectableObject2.getAppropriateNode().getBoundsInParent().getMaxY();
                 }
             }
         }
@@ -205,7 +205,7 @@ public abstract class DetectableObject {
 
                     multiIntersections(detectableObject2);
 
-                    return detectableObject2.downMvt(this);//detectableObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY();
+                    return detectableObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY();//detectableObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY();
                 }
             }
         }
@@ -214,23 +214,27 @@ public abstract class DetectableObject {
 
     private void multiIntersections(DetectableObject detectableObject){
         for(ObjectLinker objectLinker : Map.objectLinkers){
+            System.out.println("Object to be equals = " + detectableObject);
             if(objectLinker.getCollideObject1().equals(detectableObject)){
-                objectLinker.detectableObject2.setX(detectableObject.getX());
-                objectLinker.detectableObject2.setY(detectableObject.getY());
+                objectLinker.detectableObject2.interaction(this);
+//                objectLinker.detectableObject2.setX(detectableObject.getX());
+//                objectLinker.detectableObject2.setY(detectableObject.getY());
+                System.out.println("Object1 = " + objectLinker.getCollideObject1());
 
 
             }
             else if(objectLinker.getCollideObject2().equals(detectableObject)){
-                objectLinker.detectableObject1.setX(detectableObject.getX());
-                objectLinker.detectableObject1.setY(detectableObject.getY());
-            }
+                objectLinker.detectableObject1.interaction(this);
+//                objectLinker.detectableObject1.setX(detectableObject.getX());
+//                objectLinker.detectableObject1.setY(detectableObject.getY());
+                System.out.println("Object2 = " + objectLinker.getCollideObject2());
 
+            }
             else{
 //                            System.out.println(collideObject2);
 //                            System.out.println("Cet Objet nexiste pas");
             }
         }
-
     }
 
 
