@@ -80,7 +80,7 @@ public class Checkpoint extends UnCollideObject {
 
     @Override
     public DetectableObject clone() {
-        return new Checkpoint(coordinate,mapName);
+        return new Checkpoint(new Coordinate(this.getX(),this.getY()),mapName);
     }
 
     @Override
