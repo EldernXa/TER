@@ -266,7 +266,7 @@ public class ActiveSkill implements Skill{
             Coordinate c = characterMovementAndDisplayManagement.getCoordinateOfTheActualImg();
             List<ImageView> listPersonalizedAnimate = null;
             try {
-                listPersonalizedAnimate = listPersonalizedAnimate();
+                listPersonalizedAnimate = listPersonalizedAnimate(animationCharacter.getCurrentPosition() == Position.REVERSE_MOTIONLESS);
             } catch (URISyntaxException uriSyntaxException) {
                 System.out.println("Problème de path.");
             }
@@ -336,9 +336,13 @@ public class ActiveSkill implements Skill{
         }
     }
 
-    private List<ImageView> listPersonalizedAnimate() throws URISyntaxException{
+    private List<ImageView> listPersonalizedAnimate(boolean isReverse) throws URISyntaxException{
         ArrayList<ImageView> listPersonalizedAnimate = new ArrayList<>();
-        final String replace = nameSkill.toLowerCase();
+        final String replace;
+        if(!isReverse)
+            replace = nameSkill.toLowerCase();
+        else
+            replace = "reverse"+nameSkill.toLowerCase();
         URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/"+nameCharacter+"/"+replace);
         File file = Paths.get(url.toURI()).toFile();
         if(file.exists() && file.isDirectory()){
