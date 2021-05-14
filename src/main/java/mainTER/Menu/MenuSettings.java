@@ -39,31 +39,9 @@ public class MenuSettings {
             ReturnBack.setRevenir(stage,stage.getScene(),pane);
 
 
-
-
     }
 
 
-
-   /* public void setButton(){
-        boutonSon.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                menuSound = new MenuSound(stage);
-                stage.setScene(menuSound.getScene());
-            }
-        });
-/*
-        boutonCommande.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                menuParametresCommandes = new MenuParametresCommandes(stage,scene,game);
-                stage.setScene(menuParametresCommandes.getScene());
-            }
-        });
-
-
-    }*/
 
     public Pane getPane() {
         return pane;
