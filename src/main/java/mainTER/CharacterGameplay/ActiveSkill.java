@@ -175,7 +175,8 @@ public class ActiveSkill implements Skill{
 
                     character.getCharacteristics().setSpeed(character.getSpeed() * 3);
                     try {
-                        TimeUnit.SECONDS.sleep(3);
+                        System.out.println(timeSkill);
+                        TimeUnit.SECONDS.sleep((long)timeSkill);
 
                     } catch (Exception e) {
                         e.printStackTrace();
