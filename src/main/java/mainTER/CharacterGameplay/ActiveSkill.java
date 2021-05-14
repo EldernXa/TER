@@ -175,15 +175,11 @@ public class ActiveSkill implements Skill{
 
                     character.getCharacteristics().setSpeed(character.getSpeed() * 3);
                     try {
-                        System.out.println(timeSkill);
                         TimeUnit.SECONDS.sleep((long)timeSkill);
 
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    animationCharacter.setCanMove(false);
-                    animationCharacter.setMotionless();
-
 
                     try {
                         initAnimateForWalk(character);
@@ -194,20 +190,12 @@ public class ActiveSkill implements Skill{
                     character.getCharacteristics().resetSpeed();
                     isEnabled = false;
                     finishSkill = true;
-                    animationCharacter.setCanMove(true);
                 });
                 t.start();
             } catch (Exception ignored) {
             }
         } else {
             isEnabled = false;
-            animationCharacter.setCanMove(false);
-            animationCharacter.setMotionless();
-            try{
-                TimeUnit.MILLISECONDS.sleep(500);
-            }catch(Exception exception){
-                exception.printStackTrace();
-            }
             try {
                 initAnimateForWalk(character);
                 initAnimateForReverseWalk(character);
@@ -216,7 +204,6 @@ public class ActiveSkill implements Skill{
             }
             character.getCharacteristics().resetSpeed();
             finishSkill = true;
-            animationCharacter.setCanMove(true);
         }
     }
 
