@@ -259,37 +259,63 @@ public class ActiveSkill implements Skill{
 
     private void attackSkill(AnimationCharacter animationCharacter, CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement,
                              int tpsDuration){
-        animationCharacter.setCanMove(false);
-        Coordinate c = characterMovementAndDisplayManagement.getCoordinateOfTheActualImg();
-        List<ImageView> listPersonalizedAnimate = null;
-        try{
-            listPersonalizedAnimate = listPersonalizedAnimate();
-        }catch(URISyntaxException uriSyntaxException){
-            System.out.println("Problème de path.");
-        }
-        animationCharacter.getTimeline().stop();
-        animationCharacter.getTimeline().getKeyFrames().clear();
-        List<ImageView> finalListPersonalizedAnimate = listPersonalizedAnimate;
-        AtomicInteger i = new AtomicInteger();
-        animationCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
-                        Duration.millis(tpsDuration),
-                        tps->{
-                            if(finalListPersonalizedAnimate != null){
-                                characterMovementAndDisplayManagement.displayNode(finalListPersonalizedAnimate.get(i.getAndIncrement()),
-                                        c.getX(),c.getY());
-                                if(i.get()>=finalListPersonalizedAnimate.size()){
+        if(finishSkill) {
+            animationCharacter.setCanMove(false);
+            Coordinate c = characterMovementAndDisplayManagement.getCoordinateOfTheActualImg();
+            List<ImageView> listPersonalizedAnimate = null;
+            try {
+                listPersonalizedAnimate = listPersonalizedAnimate();
+            } catch (URISyntaxException uriSyntaxException) {
+                System.out.println("Problème de path.");
+            }
+            animationCharacter.getTimeline().stop();
+            animationCharacter.getTimeline().getKeyFrames().clear();
+            List<ImageView> finalListPersonalizedAnimate = listPersonalizedAnimate;
+            AtomicInteger i = new AtomicInteger();
+            animationCharacter.setCanMotionLess(false);
+            animationCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
+                            Duration.millis(tpsDuration),
+                            tps -> {
+                                if (finalListPersonalizedAnimate != null) {
+                                    if(i.get()<finalListPersonalizedAnimate.size()) {
+                                        characterMovementAndDisplayManagement.displayNode(finalListPersonalizedAnimate.get(i.getAndIncrement()),
+                                                c.getX(), c.getY());
+                                    }else{
+                                        i.incrementAndGet();
+                                    }
+                                    if (i.get() > finalListPersonalizedAnimate.size()) {
+                                        animationCharacter.setCanMove(true);
+                                        animationCharacter.setCanMotionLess(true);
+                                        animationCharacter.setMotionless();
+                                        characterMovementAndDisplayManagement.displayNode(animationCharacter.nextImage(),
+                                                c.getX(), c.getY());
+                                        animationCharacter.getTimeline().stop();
+                                        animationCharacter.getTimeline().getKeyFrames().clear();
+                                    }
+                                } else {
                                     animationCharacter.setCanMove(true);
-                                    animationCharacter.getTimeline().stop();
-                                    animationCharacter.getTimeline().getKeyFrames().clear();
+                                    animationCharacter.setCanMotionLess(true);
                                 }
-                            }else{
-                                animationCharacter.setCanMove(true);
                             }
-                        }
-                )
-        );
-        animationCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
-        animationCharacter.getTimeline().play();
+                    )
+            );
+            animationCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
+            animationCharacter.getTimeline().play();
+           /* if(!threadIsRunning) {
+                Thread thread = new Thread(() -> {
+                    threadIsRunning = true;
+                    try {
+                        TimeUnit.SECONDS.sleep((long) timeCooldown);
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
+                    finishSkill = true;
+                    threadIsRunning = false;
+                });
+
+                thread.start();
+            }*/
+        }
     }
 
     private List<ImageView> listPersonalizedAnimate() throws URISyntaxException{

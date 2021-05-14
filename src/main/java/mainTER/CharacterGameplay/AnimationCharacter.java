@@ -13,11 +13,21 @@ public class AnimationCharacter {
     private int indImgToAnimate = 0;
     private int posToAnimate;
     private boolean canMove;
+    private boolean canMotionless;
 
     public AnimationCharacter(Character characterToAnimate){
         canMove = true;
+        canMotionless = true;
         setMotionless();
         listOfImageViewForTheAnimation = characterToAnimate.getListOfPictureOfTheCharacter();
+    }
+
+    public boolean canMotionless(){
+        return canMotionless;
+    }
+
+    public void setCanMotionLess(boolean canMotionless){
+        this.canMotionless = canMotionless;
     }
 
     public int getIndImgToAnimate() {

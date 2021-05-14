@@ -502,8 +502,9 @@ public class DisplayCharacter extends DetectableObject {
         lvlOfTheGame.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
             listCurrentKeyCode.remove(event.getCode());
 
-            if (listCurrentKeyCode.isEmpty())
+            if (listCurrentKeyCode.isEmpty() && animationForTheCharacter.canMotionless()) {
                 timelineForMotionlessCharacter();
+            }
         });
     }
 
