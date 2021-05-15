@@ -117,7 +117,7 @@ public class UpgradeSkillDBManager {
         }
         if(num==0)
             return -1;
-        return num;
+        return num-1;
     }
 
     public Integer getNumUpgrade(String nameCharacter, int numSkill, String nameUpgrade) throws UpgradeSkillDataGetException{
