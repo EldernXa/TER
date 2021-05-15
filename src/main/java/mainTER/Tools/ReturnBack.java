@@ -21,6 +21,7 @@ public class ReturnBack {
 
 
         StackPane.setAlignment(revenir.getImageView(), Pos.TOP_LEFT);
+
         pane.getChildren().add(revenir.getImageView());
         enterRevenir(revenir);
         exitRevenir(revenir);
@@ -40,12 +41,6 @@ public class ReturnBack {
     }
     public static void clickRevenir(Stage stage,Scene sceneback,ImageViewSizePos revenir){
         revenir.getImageView().setOnMouseClicked(mouseEvent -> stage.setScene(sceneback));
-        stage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            if(event.getCode() == KeyCode.ESCAPE){
-                stage.setScene(sceneback);
-            }
-        });
-
 
     }
     public static void setTooltip(ImageViewSizePos revenir){
