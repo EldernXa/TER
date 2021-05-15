@@ -59,7 +59,6 @@ public abstract class DetectableObject {
     }
 
     public double rightMvt(DetectableObject detectableObject) {
-        System.out.println(this.getAppropriateNode().getBoundsInParent().getMinX() + " - " + detectableObject.getAppropriateNode().getBoundsInParent().getMaxX() + " = " + (this.getAppropriateNode().getBoundsInParent().getMinX() - detectableObject.getAppropriateNode().getBoundsInParent().getMaxX()));
         return this.getAppropriateNode().getBoundsInParent().getMinX() - detectableObject.getAppropriateNode().getBoundsInParent().getMaxX();
     }
 
@@ -120,14 +119,8 @@ public abstract class DetectableObject {
             rect.setX(rect.getX()+i);
 
             for(DetectableObject detectableObject2 : MapFileReader.detectableObjectArrayList){
-//                System.out.println(rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent()));
                 if((!this.equals(detectableObject2)) &&(rect.intersects(detectableObject2.getAppropriateNode().getBoundsInParent())) &&(detectableObject2.getAppropriateNode().getBoundsInParent().getMinX()-this.getAppropriateNode().getBoundsInParent().getMaxX() >= 0) &&(detectableObject2.getAppropriateNode().getBoundsInParent().getMinX()-this.getAppropriateNode().getBoundsInParent().getMaxX() <= this.getHMouvementSpan()))
                 {//Prob it considers that it's true at the begening
-//                    System.out.println("Je suis en collision avec : " + collideObject2);
-//                    System.out.println("X = " + collideObject2.getX());
-//                    System.out.println("Y = " + collideObject2.getY());
-//                    System.out.println("Coll MinX " + collideObject2.getAppropriateNode().getBoundsInParent().getMinX());
-//                    System.out.println("this X" + this.getAppropriateNode().getBoundsInParent().getMaxX());
                     calc = true;
                     detectableObject2.interaction(this);
 
@@ -136,13 +129,6 @@ public abstract class DetectableObject {
                     if(detectableObject2.rightMvt(this) < miniRightMvt){
                         miniRightMvt = detectableObject2.rightMvt(this);
                     }
-
-                    /*System.out.println("minX " + collideObject2.getAppropriateNode().getBoundsInParent().getMinX());
-                    System.out.println("Droit serpent " + this.getAppropriateNode().getBoundsInParent().getMaxX());
-                    System.out.println("maxX " + collideObject2.getAppropriateNode().getBoundsInParent().getMaxX());
-                    System.out.println("minY " + collideObject2.getAppropriateNode().getBoundsInParent().getMinY());
-                    System.out.println("maxY " + collideObject2.getAppropriateNode().getBoundsInParent().getMaxY());
-                    System.out.println("Right space = " + (collideObject2.getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX()));*/
                 }
             }
             if (calc){
@@ -164,7 +150,6 @@ public abstract class DetectableObject {
                 if((!this.equals(detectableObject2))&&(rect.intersects(detectableObject2.getAppropriateNode().getBoundsInParent()))&&(this.getAppropriateNode().getBoundsInParent().getMinX()- detectableObject2.getAppropriateNode().getBoundsInParent().getMaxX() >= 0)&&(this.getAppropriateNode().getBoundsInParent().getMinX()- detectableObject2.getAppropriateNode().getBoundsInParent().getMaxX() <= this.getHMouvementSpan())){
                     calc = true;
                     detectableObject2.interaction(this);
-//                    System.out.println("Collision avec : " + detectableObject2);
 
                     multiInteractions(detectableObject2);
 
@@ -172,11 +157,10 @@ public abstract class DetectableObject {
                         miniLeftMvt = detectableObject2.leftMvt(this);
                     }
 
-//                    System.out.println("Left space = " + (this.getAppropriateNode().getBoundsInParent().getMinX() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxX()));
                 }
             }
             if (calc){
-                return miniLeftMvt;//detectableObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY();
+                return miniLeftMvt;
             }
         }
         return this.getHMouvementSpan();
@@ -185,22 +169,14 @@ public abstract class DetectableObject {
     private double verifTrackUp(){
         double miniUpMvt = 1000;
         boolean calc = false;
-//        System.out.println("Hauteur de saut = " + this.getJumpMouvementSpan());
         for(int i=0; i < this.getJumpMouvementSpan(); i++){
-//            System.out.println(i);
             Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInParent().getWidth(),this.getAppropriateNode().getBoundsInParent().getHeight());
             rect.setX(this.getX());
             rect.setY(this.getY()-i);
             for(DetectableObject detectableObject2 : MapFileReader.detectableObjectArrayList){
                 if((this.getAppropriateNode().getBoundsInParent().getMinY() - detectableObject2.getAppropriateNode().getBoundsInParent().getMaxY() >= 0) || (rect.intersects(detectableObject2.getAppropriateNode().getBoundsInParent()))){
-//                    System.out.println("Min Y " + this.getAppropriateNode().getBoundsInParent().getMinY());
-//                    System.out.println("Max Y " + collideObject2.getAppropriateNode().getBoundsInParent().getMaxY());
-//                    System.out.println("Intersection ? = " + (rect.intersects(collideObject2.getAppropriateNode().getBoundsInParent())) + " " + collideObject2);
-//                    System.out.println("Au dessus ? " + (this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY() >= 0));
-//                    System.out.println("Différence ? = " + (this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY()) + "\n");
                 }
                 if((!this.equals(detectableObject2))&&(rect.intersects(detectableObject2.getAppropriateNode().getBoundsInParent()))&&(this.getAppropriateNode().getBoundsInParent().getMinY() - detectableObject2.getAppropriateNode().getBoundsInParent().getMaxY() >= 0)/*&&(this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY() <= this.getJumpMouvementSpan())*/){ //a voir pour le -i
-//                    System.out.println("je suis en collision avec" + collideObject2);
                     calc = true;
                     detectableObject2.interaction(this);
 
@@ -209,14 +185,12 @@ public abstract class DetectableObject {
                     if(detectableObject2.upMvt(this) < miniUpMvt){
                         miniUpMvt = detectableObject2.upMvt(this);
                     }
-//                    System.out.println("Hauteur de saut calculée = " + (this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY()));
                 }
             }
             if (calc){
-                return miniUpMvt;//detectableObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY();
+                return miniUpMvt;
             }
         }
-//        System.out.println("\n passe par là \n");
         return this.getJumpMouvementSpan();
     }
 
@@ -228,9 +202,7 @@ public abstract class DetectableObject {
             rect.setX(this.getX());
             rect.setY(this.getY()+i);
 
-//            System.out.println("Taille de la liste d'objets " + MapFileReader.collideObjectArrayList.size());
             for(DetectableObject detectableObject2 : MapFileReader.detectableObjectArrayList){
-//                System.out.println("Contact avec " + collideObject2 + " = " + rect.getBoundsInParent().intersects(collideObject2.getAppropriateNode().getBoundsInParent())); //TODO je comprends pas pourquoi ej saute pas et il consdère le saut
 
                 if((!this.equals(detectableObject2))&&(rect.intersects(detectableObject2.getAppropriateNode().getBoundsInParent()))/*&&((collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY()) >= 0)*/){
                     calc = true;
@@ -243,7 +215,7 @@ public abstract class DetectableObject {
                 }
             }
             if (calc){
-                return miniDownMvt;//detectableObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY();
+                return miniDownMvt;
             }
         }
         return this.getFallMouvementSpan();
@@ -254,21 +226,16 @@ public abstract class DetectableObject {
             System.out.println("Object to be equals = " + detectableObject);
             if(objectLinker.getCollideObject1().equals(detectableObject)){
                 objectLinker.detectableObject2.interaction(this);
-//                objectLinker.detectableObject2.setX(detectableObject.getX());
-//                objectLinker.detectableObject2.setY(detectableObject.getY());
                 System.out.println("Object1 = " + objectLinker.getCollideObject1());
 
             }
             else if(objectLinker.getCollideObject2().equals(detectableObject)){
                 objectLinker.detectableObject1.interaction(this);
-//                objectLinker.detectableObject1.setX(detectableObject.getX());
-//                objectLinker.detectableObject1.setY(detectableObject.getY());
                 System.out.println("Object2 = " + objectLinker.getCollideObject2());
 
             }
             else{
-//                            System.out.println(collideObject2);
-//                            System.out.println("Cet Objet nexiste pas");
+                //print eror if you want
             }
         }
     }

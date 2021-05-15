@@ -49,24 +49,22 @@ public class Lever extends InteractiveObject{
 
     @Override
     public double rightMvt(DetectableObject detectableObject) {
-        return this.getAppropriateNode().getBoundsInParent().getMinX() - detectableObject.getAppropriateNode().getBoundsInParent().getMaxX();
-
+        return detectableObject.getHMouvementSpan();
     }
 
     @Override
     public double leftMvt(DetectableObject detectableObject) {
-        return detectableObject.getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX();
-
+        return detectableObject.getHMouvementSpan();
     }
 
     @Override
     public double upMvt(DetectableObject detectableObject) {
-        return detectableObject.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY();
+        return detectableObject.getJumpMouvementSpan();
     }
 
     @Override
     public double downMvt(DetectableObject detectableObject) {
-        return this.getAppropriateNode().getBoundsInParent().getMinY() - detectableObject.getAppropriateNode().getBoundsInParent().getMaxY();
+        return detectableObject.getFallMouvementSpan();
     }
 
     @Override
