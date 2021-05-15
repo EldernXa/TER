@@ -110,7 +110,7 @@ public abstract class DetectableObject {
 
 
     private double verifTrackRight(){
-        double miniRightMvt = 1000;
+        double miniRightMvt = Double.MAX_VALUE;
         boolean calc = false;
         for(int i=0; i < this.getHMouvementSpan(); i++){
             Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInParent().getMaxX()-this.getAppropriateNode().getBoundsInParent().getMinX(),this.getAppropriateNode().getBoundsInParent().getMaxY()-this.getAppropriateNode().getBoundsInParent().getMinY());
@@ -139,7 +139,7 @@ public abstract class DetectableObject {
     }
 
     private double verifTrackLeft(){
-        double miniLeftMvt = 1000;
+        double miniLeftMvt = Double.MAX_VALUE;
         boolean calc = false;
         for(int i=0; i < this.getHMouvementSpan(); i++){
             Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInParent().getMaxX()-this.getAppropriateNode().getBoundsInParent().getMinX(),this.getAppropriateNode().getBoundsInParent().getMaxY()-this.getAppropriateNode().getBoundsInParent().getMinY());
@@ -167,7 +167,7 @@ public abstract class DetectableObject {
     }
 
     private double verifTrackUp(){
-        double miniUpMvt = 1000;
+        double miniUpMvt = Double.MAX_VALUE;
         boolean calc = false;
         for(int i=0; i < this.getJumpMouvementSpan(); i++){
             Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInParent().getWidth(),this.getAppropriateNode().getBoundsInParent().getHeight());
@@ -195,7 +195,7 @@ public abstract class DetectableObject {
     }
 
     private double verifTrackDown(){
-        double miniDownMvt = 1000;
+        double miniDownMvt = Double.MAX_VALUE;
         boolean calc = false;
         for(int i=0; i < this.getFallMouvementSpan(); i++){
             Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInParent().getMaxX()-this.getAppropriateNode().getBoundsInParent().getMinX(),this.getAppropriateNode().getBoundsInParent().getMaxY()-this.getAppropriateNode().getBoundsInParent().getMinY());
