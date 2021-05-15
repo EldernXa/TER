@@ -13,7 +13,7 @@ import static mainTER.Menu.MainMenu.createContent;
 public class MenuLevel extends StackPane {
 
     TextField pseudo ;
-    private Pane pane = new Pane();
+    private final Pane pane = new Pane();
 
     public MenuLevel(Stage stage) {
 

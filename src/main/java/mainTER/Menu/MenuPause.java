@@ -1,6 +1,5 @@
 package mainTER.Menu;
 
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 

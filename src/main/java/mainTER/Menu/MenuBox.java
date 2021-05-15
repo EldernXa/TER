@@ -20,7 +20,6 @@ public class MenuBox  extends VBox {
 
     /**
      * it's the separator between each item
-     * @return
      */
     private Line createSeparator() {
         Line sep = new Line();

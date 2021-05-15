@@ -1,6 +1,5 @@
 package mainTER.Menu;
 
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
@@ -9,7 +8,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import mainTER.CharacterGameplay.Character;
 import mainTER.DBManage.ControlsDBManager;
@@ -25,21 +23,18 @@ import static mainTER.Menu.MainMenu.createContent;
 
 public class UpgradeSkillMenu {
 
-    private Pane pane = new Pane();
-    private Scene scene = new Scene(pane, 600, 600);
-    private Stage stage;
-    private Text nameCharacter = new Text();
+    private final Pane pane = new Pane();
+    private final Scene scene = new Scene(pane, 600, 600);
+    private final Stage stage;
     private int nbPoints = 15;
-    private Button validateButton = new Button("Confirm");
-    private Text description = new Text();
-    private ArrayList<Character> listCharacter;
+    private final Button validateButton = new Button("Confirm");
+    private final Text description = new Text();
+    private final ArrayList<Character> listCharacter;
     private Character currentCharacter;
-    private SkillDBManager skillDBManager = new SkillDBManager();
-    private ControlsDBManager controlsDBManager = new ControlsDBManager();
-    private VBox vBoxSkill = new VBox(15);
-    private Text points;
+    private final SkillDBManager skillDBManager = new SkillDBManager();
+    private final ControlsDBManager controlsDBManager = new ControlsDBManager();
+    private final VBox vBoxSkill = new VBox(15);
     private String nameSkill;
-    private float value;
     private int updateNumberCD;
     private int updateNumberTime;
     UpgradeSkillDBManager upgradeSkillDBManager;
@@ -65,8 +60,8 @@ public class UpgradeSkillMenu {
         pane.getChildren().clear();
         vBoxSkill.getChildren().clear();
 
-        nameCharacter = new Text(currentCharacter.getName());
-        points = new Text("Points: " + nbPoints);
+        Text nameCharacter = new Text(currentCharacter.getName());
+        Text points = new Text("Points: " + nbPoints);
 
 
         Text totalText = new Text("");
@@ -99,7 +94,7 @@ public class UpgradeSkillMenu {
                         int price = upgradeSkillDBManager.getPriceWithNumUpgrade(currentCharacter.getName(), i, nameUpgrade, lastChar);
 
 
-                        value = upgradeSkillDBManager.getNewValueWithNumUpgrade(currentCharacter.getName(), i, nameUpgrade, lastChar);
+                        float value = upgradeSkillDBManager.getNewValueWithNumUpgrade(currentCharacter.getName(), i, nameUpgrade, lastChar);
 
                         priceText = new Text("Cost : " + price);
                         if (nameUpgrade.contains("Reduce")) {

@@ -1,15 +1,12 @@
 package mainTER.Menu;
 
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import mainTER.CharacterGameplay.Character;
 import mainTER.DBManage.ControlsDBManager;
 import mainTER.DBManage.PersonDBManager;
@@ -19,7 +16,6 @@ import mainTER.Tools.ImageViewSizePos;
 import mainTER.exception.ControlsDataGetException;
 import mainTER.exception.SkillDataGetException;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -125,8 +121,9 @@ public class SkillsMenu {
             String event = event1.getCode().getChar().toLowerCase();
 
             try {
+                int k = 0;
                     if(event.equals(controlsDBManager.getSwitchDown())){
-                        int k = 0;
+
                         for (int i = 0; i < listCharacter.size(); i++) {
                             if (listCharacter.get(i) == currentCharacter) {
                                 k = i;
@@ -140,7 +137,6 @@ public class SkillsMenu {
                         display();
                     }
                     else if(event.equals(controlsDBManager.getSwitchUp())){
-                        int k = 0;
                         for (int i = 0; i < listCharacter.size(); i++) {
                             if (listCharacter.get(i) == currentCharacter) {
                                 k = i;

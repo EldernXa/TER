@@ -1,25 +1,15 @@
 package mainTER.Menu;
 
-import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import mainTER.LoadOfFXML;
 import mainTER.Tools.ReturnBack;
 
-import java.awt.*;
-
 public class MultiplayerMenu extends StackPane {
-    //@FXML
-    //private Button button;
+
     Pane pane = new Pane();
 
     public MultiplayerMenu(Stage stage){
-
-        //LoadOfFXML.loadFXML("/mainTER/Menu/FXML/MultiPlayerMenu.fxml", this, this);
-
-
 
         MenuBox vbox = new MenuBox(
                 new MenuItem("CREER",stage),

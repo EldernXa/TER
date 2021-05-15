@@ -73,33 +73,7 @@ public class MenuControls {
                     skillDataGetException.printStackTrace();
                     System.out.println("Problème dans la récupération des données des compétences de " + nameCharacter + ".");
                 }
-                labelNameSkill.setFont(Font.font("Arial", 20));
-                switch (button.getText()) {
-                    case "&":
-                        button.setText("↑");
-                        break;
-                    case "%":
-                        button.setText("←");
-                        break;
-                    case "(":
-                        button.setText("↓");
-                        break;
-                    case "'":
-                        button.setText("→");
-                        break;
-                    case " ":
-                        button.setText("SPACE");
-                        break;
-                    default:
-                        button.setText(button.getText().toUpperCase());
-                        break;
-                }
-
-
-
-                vBoxButtonSkill.getChildren().add(button);
-                vBoxLabelSkill.getChildren().add(labelNameSkill);
-                hbox.getChildren().addAll(vBoxLabelSkill, vBoxButtonSkill);
+                labelSet(hbox, labelNameSkill, button, vBoxButtonSkill, vBoxLabelSkill);
 
 
                 vBoxSkill.getChildren().add(hbox);
@@ -109,6 +83,35 @@ public class MenuControls {
         }
         vBoxSkill.setTranslateX(700);
         vBoxSkill.setTranslateY(300);
+    }
+
+    private void labelSet(HBox hbox, Label labelNameSkill, Button button, VBox vBoxButtonSkill, VBox vBoxLabelSkill) {
+        labelNameSkill.setFont(Font.font("Arial", 20));
+        switch (button.getText()) {
+            case "&":
+                button.setText("↑");
+                break;
+            case "%":
+                button.setText("←");
+                break;
+            case "(":
+                button.setText("↓");
+                break;
+            case "'":
+                button.setText("→");
+                break;
+            case " ":
+                button.setText("SPACE");
+                break;
+            default:
+                button.setText(button.getText().toUpperCase());
+                break;
+        }
+
+
+        vBoxButtonSkill.getChildren().add(button);
+        vBoxLabelSkill.getChildren().add(labelNameSkill);
+        hbox.getChildren().addAll(vBoxLabelSkill, vBoxButtonSkill);
     }
 
     public Scene getScene() {
@@ -147,30 +150,7 @@ public class MenuControls {
             }
 
             Button button = new Button(listControls.get(i));
-            label.setFont(Font.font("Arial", 20));
-            switch (button.getText()) {
-                case "&":
-                    button.setText("↑");
-                    break;
-                case "%":
-                    button.setText("←");
-                    break;
-                case "(":
-                    button.setText("↓");
-                    break;
-                case "'":
-                    button.setText("→");
-                    break;
-                case " ":
-                    button.setText("SPACE");
-                    break;
-                default:
-                    button.setText(button.getText().toUpperCase());
-                    break;
-            }
-            vBoxButton.getChildren().add(button);
-            vBoxLabel.getChildren().add(label);
-            hbox.getChildren().addAll(vBoxLabel, vBoxButton);
+            labelSet(hbox, label, button, vBoxButton, vBoxLabel);
 
             vbox.getChildren().addAll(hbox);
             setControls(button,label);

@@ -1,17 +1,15 @@
 package mainTER.Menu;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import mainTER.Tools.ReturnBack;
 
 
 public class MenuSettings {
 
-    private StackPane pane = new StackPane();
+    private final StackPane pane = new StackPane();
 
 
 

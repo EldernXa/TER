@@ -1,12 +1,9 @@
 package mainTER.Tools;
 
-import javafx.event.EventHandler;
+
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -15,9 +12,8 @@ import javafx.util.Duration;
 public class ReturnBack {
 
 
-
     public static void setRevenir(Stage stage, Scene sceneBack, Pane pane){
-        ImageViewSizePos revenir = new ImageViewSizePos("src/main/resources/mainTER/Tools/returnhover.png",50,50,new Coordinate(0,0));;
+        ImageViewSizePos revenir = new ImageViewSizePos("src/main/resources/mainTER/Tools/returnhover.png",50,50,new Coordinate(0,0));
 
 
         StackPane.setAlignment(revenir.getImageView(), Pos.TOP_LEFT);
@@ -27,8 +23,6 @@ public class ReturnBack {
         exitRevenir(revenir);
         clickRevenir(stage,sceneBack,revenir);
         setTooltip(revenir);
-
-
 
     }
 

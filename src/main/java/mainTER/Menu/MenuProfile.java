@@ -9,7 +9,6 @@ import mainTER.DBManage.BestProfileDBManager;
 import mainTER.DBManage.ProfileDBManager;
 import mainTER.Tools.ReturnBack;
 
-import java.awt.*;
 
 public class MenuProfile {
 

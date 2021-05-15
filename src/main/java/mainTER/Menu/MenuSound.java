@@ -22,14 +22,14 @@ public class MenuSound {
     private final StackPane pane = new StackPane();
     private final Scene scene = new Scene(pane, Screen.getPrimary().getVisualBounds().getWidth()/2,Screen.getPrimary().getVisualBounds().getHeight()/2);
     private final Slider volumeSlider = new Slider();
-    private final HBox son = new HBox(10);
-   private final Label labelSon = new Label("Régler le niveau du son :");
+    private final Label labelSon = new Label("Régler le niveau du son :");
 
 
     public MenuSound(Stage stage) {
         pane.setStyle("-fx-background-color: lightgray");
         setVolumeSlider();
         styleLabelSon();
+        HBox son = new HBox(10);
         son.getChildren().addAll(labelSon,volumeSlider);
         son.setAlignment(Pos.CENTER_LEFT);
         pane.getChildren().add(son);
