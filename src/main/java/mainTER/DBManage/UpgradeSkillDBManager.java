@@ -115,6 +115,8 @@ public class UpgradeSkillDBManager {
         }catch(SQLException ignored){
 
         }
+        if(num==0)
+            return -1;
         return num;
     }
 
