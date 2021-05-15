@@ -2,6 +2,7 @@ package mainTER.Menu;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import mainTER.DBManage.BestProfileDBManager;
@@ -35,17 +36,27 @@ public class MenuProfile {
 
         Text nameText = new Text(name);
 
-        Text timeText = new Text("Le temps est de "+ time + "secondes");
-        Text mapText = new Text("Sur la map " + mapName);
+        Text timeText = new Text("Your time is "+ time + " seconds");
+        Text mapText = new Text("On the map " + mapName);
 
 
         nameText.setTranslateY(50);
+        nameText.setTranslateX(nameText.getTranslateX()+50);
+        nameText.setFont(Font.font("Tw Cen Mt Condensed", 40));
         timeText.setTranslateY(75);
+        timeText.setFont(Font.font("Tw Cen Mt Condensed", 20));
+        timeText.setTranslateX(timeText.getTranslateX()+150);
         mapText.setTranslateY(100);
-        Text myBest = new Text("Mon meilleur temps sur la map " + mapName + " est de  " + profileDBManager.getTime(name,mapName) + " secondes");
+        mapText.setFont(Font.font("Tw Cen Mt Condensed", 20));
+        mapText.setTranslateX(timeText.getTranslateX());
+        Text myBest = new Text("My best time on the map " + mapName + " is  " + profileDBManager.getTime(name,mapName) + " seconds");
         myBest.setTranslateY(125);
-        Text bestText = new Text("Le meilleur joueur sur la map " + mapName + " est " + bestProfileDBManager.getName(mapName) + " avec un temps de " + bestProfileDBManager.getTime(mapName) + " secondes");
-        bestText.setTranslateY(150);
+        myBest.setTranslateX(timeText.getTranslateX());
+        myBest.setFont(Font.font("Tw Cen Mt Condensed", 25));
+        Text bestText = new Text("The best player on the map " + mapName + " is " + bestProfileDBManager.getName(mapName) + " with a time of " + bestProfileDBManager.getTime(mapName) + " seconds");
+        bestText.setTranslateY(300);
+        bestText.setTranslateX(timeText.getTranslateX());
+        bestText.setFont(Font.font("Tw Cen Mt Condensed", 30));
 
         pane.getChildren().addAll(nameText,timeText,mapText,bestText,myBest);
 

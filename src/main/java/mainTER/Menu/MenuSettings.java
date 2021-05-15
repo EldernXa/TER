@@ -21,7 +21,7 @@ public class MenuSettings {
 
 
             //scene.getStylesheets().add(new File("./ressources/style.css").toURI().toString());
-            Label titre = new Label("Paramètres");
+            Label titre = new Label("SETTINGS");
             titre.setStyle("-fx-font-size: 30px");
             MenuBox vbox = new MenuBox(
                     new MenuItem("SOUND SETTINGS",stage),
