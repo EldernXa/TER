@@ -47,8 +47,8 @@ public class UpgradeSkillMenu {
         listCharacter = characterArrayList;
         currentCharacter = listCharacter.get(0);
         upgradeSkillDBManager = new UpgradeSkillDBManager();
-        updateNumberCD = 0;
-        updateNumberTime = 1;
+
+        updateNumberTime = 0;
         displayMenu();
         changePerso();
         eventButton(validateButton);
@@ -80,27 +80,34 @@ public class UpgradeSkillMenu {
                     Button skill = new Button(skillDBManager.getNameSkill(currentCharacter.getName(), i));
 
                     eventButton(skill);
-                    for (int k = 0; k < upgradeSkillDBManager.getListUpgradeOfASkillOfACharacter(currentCharacter.getName(), i).size(); k++) {
+                    for (int k = 0; k < upgradeSkillDBManager.getListUpgrade(currentCharacter.getName(), i).size(); k++) {
+                        String line= upgradeSkillDBManager.getListUpgrade(currentCharacter.getName(),i).get(k);
 
-                        int price = upgradeSkillDBManager.getPrice(currentCharacter.getName(), i, upgradeSkillDBManager.getListUpgradeOfASkillOfACharacter(currentCharacter.getName(), i).get(k));
-                        value = upgradeSkillDBManager.getNewValue(currentCharacter.getName(), i, upgradeSkillDBManager.getListUpgradeOfASkillOfACharacter(currentCharacter.getName(), i).get(k));
-                        String nameUpgrade = upgradeSkillDBManager.getListUpgradeOfASkillOfACharacter(currentCharacter.getName(), i).get(k);
+                        int lastChar = Integer.parseInt(line.substring(line.length() - 1));
+
+                        String nameUpgrade = line.substring(0,line.length()-2);
+
+
+                        int price = upgradeSkillDBManager.getPriceWithNumUpgrade(currentCharacter.getName(),i,nameUpgrade,lastChar);
+                        
+                        
+                        value =upgradeSkillDBManager.getNewValueWithNumUpgrade(currentCharacter.getName(),i,nameUpgrade,lastChar);
+                        
                         priceText = new Text("Cost : " + price);
-
-
                         if (nameUpgrade.contains("Reduce")) {
-                            if (!upgradeSkillDBManager.getIsAlreadyDone(currentCharacter.getName(), i, nameUpgrade)) {
+                            if (!upgradeSkillDBManager.getIsAlreadyDoneWithNumUpgrade(currentCharacter.getName(), i, nameUpgrade,lastChar) && value>0) {
 
                                 totalText = new Text(nameUpgrade + " from " + value + " to " + (value - 2));
                             } else
                                 totalText = null;
                         } else {
-                            if (!upgradeSkillDBManager.getIsAlreadyDone(currentCharacter.getName(), i, nameUpgrade)) {
+                            if (!upgradeSkillDBManager.getIsAlreadyDoneWithNumUpgrade(currentCharacter.getName(), i, nameUpgrade,lastChar)) {
 
                                 totalText = new Text(nameUpgrade + " from " + value + " to " + (value + 2));
                             } else
                                 totalText = null;
                         }
+
 
                         if (totalText != null) {
 
@@ -143,35 +150,53 @@ public class UpgradeSkillMenu {
                     boolean isUpgradable = false;
                     try {
                         for (int i = 1; i <= currentCharacter.getListSkill().size(); i++) {
+                            updateNumberCD = upgradeSkillDBManager.getListUpgrade(currentCharacter.getName(),i).size()-1;
                             if (skillDBManager.getNameSkill(currentCharacter.getName(), i).contains(nameSkill) && nbPoints > 0) {
+
 
                                 float currentTime = skillDBManager.getTimeSkill(currentCharacter.getName(), i);
                                 float currentCD = skillDBManager.getTimeCooldown(currentCharacter.getName(), i);
 
-                                if ((currentCD - 2) > 0 /*&& !upgradeSkillDBManager.getIsAlreadyDone(currentCharacter.getName(), i, upgradeSkillDBManager.getListUpgradeOfASkillOfACharacter(currentCharacter.getName(), i).get(0))*/) {
-                                    int price = upgradeSkillDBManager.getPrice(currentCharacter.getName(), i, upgradeSkillDBManager.getListUpgradeOfASkillOfACharacter(currentCharacter.getName(), i).get(0));
+
+                                String lineCD= upgradeSkillDBManager.getListUpgrade(currentCharacter.getName(),i).get(updateNumberCD);
+                                int lastCharCD = Integer.parseInt(lineCD.substring(lineCD.length() - 1));
+                                String nameUpgradeCD = lineCD.substring(0,lineCD.length()-2);
+
+
+                                int increaseID = upgradeSkillDBManager.getLastNumOfAUpgrade(currentCharacter.getName(),i,"Increase the duration");
+                                int lastCharTime=0;
+                                String nameUpgradeTime="";
+                                if (increaseID!=-1){
+                                    String lineTime= upgradeSkillDBManager.getListUpgrade(currentCharacter.getName(),i).get(increaseID);
+                                     lastCharTime = Integer.parseInt(lineTime.substring(lineTime.length() - 1));
+                                     nameUpgradeTime = lineTime.substring(0,lineTime.length()-2);
+                                }
+
+
+
+                                if ((currentCD - 2) >= 0 && !upgradeSkillDBManager.getIsAlreadyDoneWithNumUpgrade(currentCharacter.getName(), i, nameUpgradeCD,lastCharCD)) {
+                                    int price =  upgradeSkillDBManager.getPriceWithNumUpgrade(currentCharacter.getName(),i,nameUpgradeCD,lastCharCD);
                                     skillDBManager.modifyTimeCooldown(currentCharacter.getName(), nameSkill, currentCD - 2);
 
                                     upgradeSkillDBManager.setUpgradeDone(currentCharacter.getName(), i,
-                                            upgradeSkillDBManager.getListUpgradeOfASkillOfACharacter(currentCharacter.getName(), i).get(0));
-                                    upgradeSkillDBManager.insertIntoTableUpgradeSkill(currentCharacter.getName(), i, "Reduce the cooldown " + updateNumberCD, currentCD - 2, price + 1, "Reduce the cooldown2");
+                                            nameUpgradeCD);
+                                    upgradeSkillDBManager.insertIntoTableUpgradeSkill(currentCharacter.getName(), i, "Reduce the cooldown", currentCD - 2, price + 1, "Reduce the cooldown2");
                                     isUpgradable = true;
-                                    updateNumberCD++;
                                 }
-                                if (currentTime != 0 /*&& !upgradeSkillDBManager.getIsAlreadyDone(currentCharacter.getName(), i, upgradeSkillDBManager.getListUpgradeOfASkillOfACharacter(currentCharacter.getName(), i).get(1))*/) {
-                                    int price = upgradeSkillDBManager.getPrice(currentCharacter.getName(), i, upgradeSkillDBManager.getListUpgradeOfASkillOfACharacter(currentCharacter.getName(), i).get(1));
-
+                                if (currentTime != 0 && !upgradeSkillDBManager.getIsAlreadyDoneWithNumUpgrade(currentCharacter.getName(), i, nameUpgradeTime,lastCharTime)) {
+                                    int price =upgradeSkillDBManager.getPriceWithNumUpgrade(currentCharacter.getName(),i,nameUpgradeTime,lastCharTime);
                                     skillDBManager.modifyTimeSkill(currentCharacter.getName(), nameSkill, currentTime + 1);
                                     upgradeSkillDBManager.setUpgradeDone(currentCharacter.getName(), i,
-                                            upgradeSkillDBManager.getListUpgradeOfASkillOfACharacter(currentCharacter.getName(), i).get(1));
-                                    upgradeSkillDBManager.insertIntoTableUpgradeSkill(currentCharacter.getName(), i, "Increase the duration " + updateNumberTime, currentTime - 2, price + 1, "Increase the duration2");
+                                            nameUpgradeTime);
+                                    upgradeSkillDBManager.insertIntoTableUpgradeSkill(currentCharacter.getName(), i, "Increase the duration", currentTime - 2, price + 1, "Increase the duration2");
 
                                     isUpgradable = true;
-                                    updateNumberTime+=1;
+                                    updateNumberTime++;
                                 }
                                 if (isUpgradable){
-                                    nbPoints = nbPoints - upgradeSkillDBManager.getPrice(currentCharacter.getName(), i, upgradeSkillDBManager.getListUpgradeOfASkillOfACharacter(currentCharacter.getName(), i).get(0));
 
+
+                                    nbPoints = nbPoints - upgradeSkillDBManager.getPriceWithNumUpgrade(currentCharacter.getName(),i,nameUpgradeCD,lastCharCD);
                                     displayMenu();
                                 }
 

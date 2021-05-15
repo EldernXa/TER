@@ -3,7 +3,6 @@ package mainTER.Menu;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -29,7 +28,6 @@ import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.DBManage.CheckpointsDBManager;
 import mainTER.DBManage.MapDBManager;
 import mainTER.DBManage.PersonDBManager;
-import mainTER.DBManage.ProfileDBManager;
 import mainTER.LoadOfFXML;
 import mainTER.MapPackage.Map;
 import mainTER.Network.GameServer;
@@ -310,7 +308,7 @@ public class MenuItem extends StackPane {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.getKeyFrames().add(
                 new KeyFrame(Duration.seconds(1),
-                        (EventHandler) event -> {
+                        event -> {
                             ref.timeSeconds++;
                             timerLabel.setText(
                                     String.valueOf(ref.timeSeconds));
@@ -320,6 +318,7 @@ public class MenuItem extends StackPane {
                         }));
 
         timerLabel.setTextFill(Color.WHITE);
+        timerLabel.setTranslateX(10);
         pane.getChildren().add(timerLabel);
 
         double backtroundHeight = background.getImage().getHeight();
