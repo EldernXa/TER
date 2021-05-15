@@ -40,12 +40,17 @@ public class MenuSound {
 
 
     public void setVolumeSlider(){
-        volumeSlider.setValue(Music.mediaPlayer.getVolume() *100);
-        volumeSlider.valueProperty().addListener(observable -> Music.mediaPlayer.setVolume(volumeSlider.getValue()/100));
-        volumeSlider.setMaxSize(70,70);
-        volumeSlider.setOrientation(Orientation.HORIZONTAL);
-        volumeSlider.setStyle("-fx-control-inner-background: gray!important;");
-        StackPane.setAlignment(volumeSlider, Pos.CENTER_RIGHT);
+        try {
+            volumeSlider.setValue(Music.mediaPlayer.getVolume() *100);
+            volumeSlider.valueProperty().addListener(observable -> Music.mediaPlayer.setVolume(volumeSlider.getValue()/100));
+            volumeSlider.setMaxSize(70,70);
+            volumeSlider.setOrientation(Orientation.HORIZONTAL);
+            volumeSlider.setStyle("-fx-control-inner-background: gray!important;");
+            StackPane.setAlignment(volumeSlider, Pos.CENTER_RIGHT);
+        }catch (Exception e){
+            System.out.println("Aucune musique n'est lancée");
+        }
+
 
     }
     public void styleLabelSon(){
