@@ -4,6 +4,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -24,6 +26,9 @@ public class ReturnBack {
         exitRevenir(revenir);
         clickRevenir(stage,sceneBack,revenir);
         setTooltip(revenir);
+
+
+
     }
 
 
@@ -35,6 +40,13 @@ public class ReturnBack {
     }
     public static void clickRevenir(Stage stage,Scene sceneback,ImageViewSizePos revenir){
         revenir.getImageView().setOnMouseClicked(mouseEvent -> stage.setScene(sceneback));
+        stage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if(event.getCode() == KeyCode.ESCAPE){
+                stage.setScene(sceneback);
+            }
+        });
+
+
     }
     public static void setTooltip(ImageViewSizePos revenir){
         Tooltip tooltip_revenir=new Tooltip("Return back");
@@ -42,4 +54,5 @@ public class ReturnBack {
         tooltip_revenir.setShowDelay(new Duration(0));
         Tooltip.install(revenir.getImageView(),tooltip_revenir);
     }
+
 }
