@@ -237,7 +237,7 @@ public class MenuItem extends StackPane {
                     for(String nameCharacter : listName){
                         listCharacter.add(new Character(nameCharacter));
                     }
-                   UpgradeSkillMenu upgradeSkillMenu = new UpgradeSkillMenu(listCharacter);
+                   UpgradeSkillMenu upgradeSkillMenu = new UpgradeSkillMenu(listCharacter,stage);
                     stage.setScene(upgradeSkillMenu.getScene());
                     break;
                 }
