@@ -99,7 +99,26 @@ public class UpgradeSkillDBManager {
         }
     }
 
-    public Integer getLastNum(String nameCharacter, int numSkill, String nameUpgrade){
+    private Integer getLastNum(String nameCharacter, int numSkill, String nameUpgrade){
+        int num = 0;
+        ResultSet resultSet = selectUpgradeSkillForACharacter(nameCharacter);
+        try{
+            while(resultSet.next()){
+                if(dbManager.getFromResultSet(resultSet, "numSkill", numSkill) &&
+                        dbManager.getFromResultSet(resultSet, "nameUpgrade", nameUpgrade)){
+                    int newNum = Integer.parseInt(dbManager.getDecryptedFromString(resultSet.getString("numUpgrade")));
+                    if(num<newNum){
+                        num = newNum;
+                    }
+                }
+            }
+        }catch(SQLException ignored){
+
+        }
+        return num;
+    }
+
+    public Integer getLastNumOfAUpgrade(String nameCharacter, int numSkill, String nameUpgrade){
         int num = 0;
         ResultSet resultSet = selectUpgradeSkillForACharacter(nameCharacter);
         try{
