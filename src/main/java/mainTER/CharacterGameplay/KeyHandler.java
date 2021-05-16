@@ -40,6 +40,11 @@ public class KeyHandler {
         }
     }
 
+    /**
+     * handle event of the player
+     * @param event2
+     */
+
     public void handleEvend( KeyEvent event2){
         String event = event2.getCode().getChar().toLowerCase();
         if (event.equals(switchUp)) {
@@ -68,6 +73,11 @@ public class KeyHandler {
         }
         else condi(event2);
     }
+
+    /**
+     * handle the event for multiplayers
+     * @param event2
+     */
 
 
     public void handleEvendFriend( KeyEvent event2){
@@ -124,6 +134,10 @@ public class KeyHandler {
         }
     }
 
+    /**
+     * the condition if the event is escape or tab
+     * @param event2
+     */
     private void condi(KeyEvent event2) {
         if(event2.getCode() == KeyCode.ESCAPE) {
 
