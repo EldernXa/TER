@@ -46,13 +46,13 @@ public class SkillsMenu {
         this.currentCharacter = currentCharacter;
         listCharacter = characterArrayList;
         display();
-        changePerso();
+        changeCharac();
         pane.setStyle("-fx-background-color: rgba(14, 14, 14, 0.7); -fx-background-radius: 100;");
 
     }
 
     /**
-     * Put the character stats on a Vbow and show it.
+     * Put the character stats on a Vbox and show it.
      */
     public void display(){
         vbStat.getChildren().clear();
@@ -122,9 +122,9 @@ public class SkillsMenu {
 
     }
     /**
-     * Funtion that swap characters with a key pressed.
+     * Function that swap characters with a key pressed.
      */
-    public void changePerso(){
+    public void changeCharac(){
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, event1 -> {
             String event = event1.getCode().getChar().toLowerCase();

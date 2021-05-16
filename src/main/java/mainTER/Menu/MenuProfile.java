@@ -30,7 +30,9 @@ public class MenuProfile {
         ReturnBack.setRevenir(stage,scene,pane);
     }
 
-
+    /**
+     * display the content of the profile
+     */
     public void display(){
 
         Text nameText = new Text(name);

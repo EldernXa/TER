@@ -56,6 +56,10 @@ public class MenuControls {
 
     }
 
+    /**
+     * set the display for skills controls
+     */
+
     public void controlSkillDisplay(){
         SkillDBManager skillDBManager = new SkillDBManager();
         List<String> listNameSkillCharacterWithSkill = skillDBManager.getListNameCharacterWithSkill();
@@ -85,6 +89,14 @@ public class MenuControls {
         vBoxSkill.setTranslateY(300);
     }
 
+    /**
+     * set the label
+     * @param hbox
+     * @param labelNameSkill
+     * @param button
+     * @param vBoxButtonSkill
+     * @param vBoxLabelSkill
+     */
     private void labelSet(HBox hbox, Label labelNameSkill, Button button, VBox vBoxButtonSkill, VBox vBoxLabelSkill) {
         labelNameSkill.setFont(Font.font("Arial", 20));
         switch (button.getText()) {
@@ -118,6 +130,9 @@ public class MenuControls {
         return scene;
     }
 
+    /**
+     * set the display of controls
+     */
     public void controlDisplay() {
 
         for (int i = 0; i <listControls.size(); i++) {
@@ -159,6 +174,12 @@ public class MenuControls {
         vbox.setAlignment(Pos.CENTER_LEFT);
     }
 
+    /**
+     * set the control of skills
+     * @param buttonCtrlKey
+     * @param labelNameSkill
+     * @param nameCharacter
+     */
     public void setControlsSkill(Button buttonCtrlKey, Label labelNameSkill, String nameCharacter){
         SkillDBManager skillDBManager = new SkillDBManager();
         buttonCtrlKey.setOnMouseClicked(
@@ -225,6 +246,12 @@ public class MenuControls {
                     });
                 });
     }
+
+    /**
+     * set the controls
+     * @param button
+     * @param label
+     */
 
     public void setControls(Button button,Label label){
 

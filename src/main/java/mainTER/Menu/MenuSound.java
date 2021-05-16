@@ -38,6 +38,9 @@ public class MenuSound {
     }
 
 
+    /**
+     * set the volume slider
+     */
 
     public void setVolumeSlider(){
         try {
