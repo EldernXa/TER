@@ -35,6 +35,9 @@ public class GameServer implements Runnable{
 
     }
 
+    /**
+     * Accept connections for both players
+     */
 
     public void acceptConnections(){
         try{
@@ -99,6 +102,8 @@ public class GameServer implements Runnable{
         }
 
     }
+
+
     public void write(ObjectOutputStream oos,Object obj) {
         try{
 
@@ -108,6 +113,10 @@ public class GameServer implements Runnable{
         catch(IOException e){ e.printStackTrace(); }
     }
 
+    /**
+     *
+     * @param message the message sent to all the clients
+     */
     public void sendToAll(Object message){
 
         for(ObjectOutputStream oos : oosList)
@@ -127,6 +136,9 @@ public class GameServer implements Runnable{
         }
     }
 
+    /**
+     * All that the server will read from the client
+     */
 
     private class ReadFromClient implements Runnable{
 
@@ -174,6 +186,10 @@ public class GameServer implements Runnable{
 
     }
 
+    /**
+     * All that the server will send to client
+     */
+
     private class WriteToClient implements Runnable{
         private final DataOutputStream dos;
         private final int playerID;
@@ -218,6 +234,10 @@ public class GameServer implements Runnable{
             }
         }
 
+
+        /**
+         * send the start message
+         */
 
         public void sendStartMsg(){
             try{

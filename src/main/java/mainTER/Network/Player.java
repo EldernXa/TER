@@ -62,6 +62,12 @@ public class Player {
     private final Button confirmMap = new Button("Confirm Map");
 
 
+    /**
+     *
+     * @param stage allow to change the scene of the stage
+     * @param pane add some object to the pane
+     * @param listCharacter get the list of character to chose
+     */
     public void connectToServer(Stage stage, Pane pane, ArrayList<Character> listCharacter) {
         System.out.println("-----Client------------");
         try {
@@ -198,6 +204,9 @@ public class Player {
         t.start();
     }
 
+    /**
+     * DIsplay all the informations for player1
+     */
     public void setDisplayForPLayer1(){
         button.setDisable(true);
         pane.getChildren().add(button);
@@ -241,6 +250,12 @@ public class Player {
         });
         pane.getChildren().addAll(confirmMap,vBoxMap);
     }
+
+    /**
+     * get the list of players for both players
+     * @param dis
+     * @throws IOException
+     */
 
    public void listenArrayPlayers(DataInputStream dis) throws IOException {
 
@@ -292,6 +307,11 @@ public class Player {
         thread.start();
 
         }
+
+
+    /**
+     * All that the client will read from the server
+     */
 
     private class ReadFromServer implements Runnable{
 
@@ -364,6 +384,10 @@ public class Player {
             }
         }
 
+        /**
+         * as it's named it allow to wait the message of start
+         */
+
         public void waitForStartMsg(){
             Thread t = new Thread(()->{
                 try {
@@ -425,6 +449,10 @@ public class Player {
 
 
     }
+
+    /**
+     * all that the client will send to the server
+     */
 
     private class WriteToServer implements Runnable{
 
