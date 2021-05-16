@@ -8,65 +8,72 @@ import mainTER.Tools.ImageViewSizePos;
 import mainTER.exception.CheckpointsCharacterDoesntExistException;
 import mainTER.exception.CheckpointsMapDoesntExistException;
 
+/**
+ * Create a checkpoint item that will be placed on the map
+ */
 public class Checkpoint extends UnCollideObject {
-    private Coordinate coordinate;
-    private ImageViewSizePos defaultImage;
-    private ImageViewSizePos activatedImage;
-    private ImageViewSizePos currentImage;
-    private String mapName;
+    private final Coordinate coordinate;
+    private final ImageViewSizePos defaultImage;
+    private final ImageViewSizePos activatedImage;
+    private final ImageViewSizePos currentImage;
+    private final String mapName;
+    private CheckpointsDBManager checkpointsDBManager;
     static private boolean isActivated;
 
     public Checkpoint( Coordinate coordinate, String mapName) {
 
         this.coordinate = coordinate;
-        this.isActivated = false;
         this.mapName = mapName;
 
         this.defaultImage = new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/checkpointDefault.png", coordinate);
         this.activatedImage = new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/checkpointActivated.png", coordinate);
         this.currentImage = new ImageViewSizePos(defaultImage.getPathImage(),defaultImage.getCoordinate());
+        checkpointsDBManager = new CheckpointsDBManager();
 
 
     }
 
+    /**
+     *  Create the interaction on contact.
+     */
     @Override
     public void interaction(DetectableObject detectableObject) {
 
-        if (!isActivated) {
+        if(checkpointsDBManager.getX() != getX() || checkpointsDBManager.getY() != getY()){
             effect((DisplayCharacter) detectableObject);
-             for (Checkpoint checkpoint : MapFileReader.checkpointArrayList){
-                 if(!this.equals(checkpoint)){
-                     checkpoint.setImage(defaultImage);
-                 }
-             }
-             setImage(activatedImage);
-             isActivated =true;
+            for (Checkpoint checkpoint : MapFileReader.checkpointArrayList){
+                if(!this.equals(checkpoint)){
+                    checkpoint.setImage(defaultImage);
+                }
+            }
+            setImage(activatedImage);
+
+
         }
-        else {
-            isActivated = false;
-        }
+
+
     }
 
-
+    /**
+     * Setup the checkpointsDBManager
+     */
 
     public void effect(DisplayCharacter displayCharacter) {
 
-        CheckpointsDBManager checkpointsDBManager = new CheckpointsDBManager();
-        checkpointsDBManager.setX(getX());
-        checkpointsDBManager.setY(getY());
-        try {
-            checkpointsDBManager.setMapName(mapName);
-            checkpointsDBManager.setCharacterName(displayCharacter.getCharacter().getName());
-        } catch (CheckpointsCharacterDoesntExistException | CheckpointsMapDoesntExistException e) {
-            e.printStackTrace();
-        }
 
 
-    }
+            checkpointsDBManager.setX(getX());
+            checkpointsDBManager.setY(getY());
+            try {
+                checkpointsDBManager.setMapName(mapName);
+                checkpointsDBManager.setCharacterName(displayCharacter.getCharacter().getName());
+            } catch (CheckpointsCharacterDoesntExistException | CheckpointsMapDoesntExistException e) {
+                e.printStackTrace();
+            }
 
 
-    public boolean isActivated() {
-        return isActivated;
+
+
     }
 
 
@@ -96,10 +103,6 @@ public class Checkpoint extends UnCollideObject {
     @Override
     public void setCoordinate(Coordinate coordinate) {
 
-    }
-
-    public void setIsActivated(boolean isActivated) {
-        Checkpoint.isActivated = isActivated;
     }
 
     @Override

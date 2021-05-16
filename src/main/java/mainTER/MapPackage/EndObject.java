@@ -1,6 +1,5 @@
 package mainTER.MapPackage;
 
-import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -12,7 +11,10 @@ import mainTER.Menu.MenuProfile;
 import mainTER.Network.GameServer;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
-
+/**
+ * Create a EndObject item that will be placed on the map.
+ * It close the map and bring back to map selection menu on contact.
+ */
 public class EndObject extends InteractiveObject {
 
     String name;
@@ -28,7 +30,9 @@ public class EndObject extends InteractiveObject {
 
     }
 
-
+    /**
+     * Close the map when you touch the detectableObject, open the map selection menu.
+     */
     public void interaction(DetectableObject detectableObject){
         try {
 
@@ -65,7 +69,6 @@ public class EndObject extends InteractiveObject {
                     detectableObject.setCoordinate(new Coordinate(0,0));
                     Stage stage = new Stage();
 
-                    //MenuLevel menuLevel = new MenuLevel(stage);
                     MenuProfile menuProfile = new MenuProfile(stage,nameProfile,time,mapName);
                     Scene scene = new Scene( menuProfile.getPane(), 860,600);
                     stage.setScene(scene);
@@ -76,7 +79,7 @@ public class EndObject extends InteractiveObject {
 
 
         }
-        catch (Exception e){
+        catch (Exception ignored){
 
         }
     }

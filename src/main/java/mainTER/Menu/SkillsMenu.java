@@ -20,6 +20,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Create a menu that display the character skills.
+ */
 public class SkillsMenu {
     Pane pane= new Pane();
     Text description = new Text();
@@ -48,6 +51,9 @@ public class SkillsMenu {
 
     }
 
+    /**
+     * Put the character stats on a Vbow and show it.
+     */
     public void display(){
         vbStat.getChildren().clear();
         vbGen.getChildren().clear();
@@ -115,6 +121,9 @@ public class SkillsMenu {
 
 
     }
+    /**
+     * Funtion that swap characters with a key pressed.
+     */
     public void changePerso(){
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, event1 -> {
@@ -152,11 +161,15 @@ public class SkillsMenu {
 
         });
     }
-
+    /**
+     * @return The current scene.
+     */
     public Scene getScene() {
         return scene;
     }
-
+    /**
+     * @return The current pane.
+     */
     public Pane getPane() {
         return pane;
     }

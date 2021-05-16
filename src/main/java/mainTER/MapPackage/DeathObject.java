@@ -5,6 +5,10 @@ import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
+/**
+ * Create a DeathObject item that will be placed on the map.
+ * It kill the player on contact.
+ */
 public class DeathObject extends CollideObject {
 
     String pathName;
@@ -19,7 +23,9 @@ public class DeathObject extends CollideObject {
 
     }
 
-
+    /**
+     * Kill the player.
+     */
     @Override
     public void interaction(DetectableObject detectableObject) {
         ((DisplayCharacter) detectableObject).death();
