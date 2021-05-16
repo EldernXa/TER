@@ -27,7 +27,7 @@ public class Music {
      */
     public static void launchMenuSound(String name)
     {
-        stopMusique();
+        stopMusic();
         try {
             Media media = new Media(new File("src/main/resources/mainTER/Sound/music"+name+".wav").toURI().toString());
             mediaPlayer = new MediaPlayer(media);
@@ -51,7 +51,7 @@ public class Music {
      * allows to switch of media
      * @param nomMedia the new media played
      */
-    public void modifMusique(Media nomMedia){
+    public void modifMusic(Media nomMedia){
         mediaPlayer.stop();
         mediaPlayer = new MediaPlayer(nomMedia);
     }
@@ -59,7 +59,7 @@ public class Music {
     /**
      * allows to stop the music
      */
-    public static void stopMusique(){
+    public static void stopMusic(){
         if(playing){
             mediaPlayer.stop();
             playing=false;
