@@ -69,7 +69,6 @@ public class BestProfileDBManager {
         try {
             return Integer.parseInt(dbManager.getData(NAME_TABLE, listNameLine, listRealValueOfLine, "time"));
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
             return -1;
         }
 
