@@ -12,6 +12,12 @@ import javafx.util.Duration;
 public class ReturnBack {
 
 
+    /**
+     * set the return to back for menus
+     * @param stage
+     * @param sceneBack
+     * @param pane
+     */
     public static void setRevenir(Stage stage, Scene sceneBack, Pane pane){
         ImageViewSizePos revenir = new ImageViewSizePos("src/main/resources/mainTER/Tools/returnhover.png",50,50,new Coordinate(0,0));
 
