@@ -401,7 +401,7 @@ public class Player {
                     }else {
                         nameOfMap = dis.readUTF();
                     }
-                    map = new Map(pane1,nameOfMap);
+                    map = new Map(pane1,nameOfMap,false);
                     ImageView background = map.getBackgroundImage();
 
 

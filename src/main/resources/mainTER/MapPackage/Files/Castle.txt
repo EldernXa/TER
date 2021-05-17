@@ -1,3 +1,7 @@
+checkpoints
+960 2212
+2571 2212
+2196 1319
 floor
 carpet1 L 1922 1384 265 56
 carpet2 L 1798 1408 125 32
@@ -20,7 +24,6 @@ roof1 L 244 1506 1284 70
 roof1 L 1616 1506 1248 70
 roof1 L 244 1058 418 70
 roof1 L 854 1058 2010 70
-lava L 1132 2330 724 70
 extroof1 L 118 1074 544 64
 extroof2 L 116 1428 558 86
 wallext1 L 116 1438 128 758
@@ -58,17 +61,11 @@ woodHorizontal L 2106 2150 188 36
 woodHorizontal L 2502 2147 262 36
 woodVertical2 L 2476 2147 20 185
 table L 554 2286 192 52
-bigCrate L 1358 1822 64 64
 stairs L 1002 1418 102 56
 stairs L 902 1393 102 56
 stairs L 800 1360 102 56
 stairs L 698 1320 102 56
 stairs L 673 1280 23 56
-spikes1 L 2710 1420 32 20
-spikes1 L 2806 1420 32 20
-spikes2 L 2774 1388 32 52
-spikes3 L 2742 1356 32 84
-metalCrate L 2546 1374 64 64
 blackDirt L 672 1336 26 171
 blackDirt L 697 1376 104 132
 blackDirt L 800 1410 102 99
@@ -99,6 +96,13 @@ grass L 0 2372 180 28
 limit L 0 0 5 2400
 limit L 3200 0 5 2400
 objects
+lava 1132 2330
+spikes1 2710 1420
+spikes1 2806 1420
+spikes2 2774 1388
+spikes3 2742 1356
+bigCrate 1358 1822
+metalCrate 2546 1374
 crate 2548 1854
 crate 2602 1854
 crate 2596 1822

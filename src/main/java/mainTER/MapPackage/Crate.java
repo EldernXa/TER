@@ -13,8 +13,11 @@ public class Crate extends InteractiveObject {
      * Class constructor
      * @param coordinate
      */
-    public Crate(Coordinate coordinate ) {
-        super(coordinate, new ImageViewSizePos("/mainTER/MapPackage/Objects/crate.png",coordinate));
+
+    String name;
+    public Crate(Coordinate coordinate, String name ) {
+        super(coordinate, new ImageViewSizePos("/mainTER/MapPackage/Objects/" + name + ".png",coordinate));
+        this.name = name;
     }
 
     /**
@@ -46,7 +49,7 @@ public class Crate extends InteractiveObject {
      */
     @Override
     public Crate clone() {
-        return new Crate(new Coordinate(this.getX(),this.getY()));
+        return new Crate(new Coordinate(this.getX(),this.getY()),name);
     }
 
     /**

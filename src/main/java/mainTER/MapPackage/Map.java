@@ -20,7 +20,7 @@ public class Map {
 
 
 
-    public Map( Pane pane,String fileName) {
+    public Map( Pane pane,String fileName,boolean bool) {
 
         this.pane = pane;
         String url = "./src/main/resources/mainTER/MapPackage/Files/";
@@ -28,7 +28,10 @@ public class Map {
 
         this.backgroundImage = new ImageView(new Image(new File("src/main/resources/mainTER/MapPackage/Sprites/Back/Background"+fileName +".png").toURI().toString()));
 
-        mapFileReader = new MapFileReader(url , fileName);
+
+
+        mapFileReader = new MapFileReader(url , fileName,bool);
+
 
 
     }

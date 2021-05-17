@@ -293,7 +293,7 @@ public class MenuItem extends StackPane {
         StackPane stackPane = new StackPane();
         Pane pane = new Pane();
         stackPane.getChildren().add(pane);
-        Map map =  new Map(pane,mapName);
+        Map map =  new Map(pane,mapName,true);
         map.displayMap();
         map.addCollisionObject();
         ImageView background = map.getBackgroundImage();

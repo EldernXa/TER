@@ -24,8 +24,8 @@ public class MapFileReader {
     /**
      * @param pathName Map file path
      */
-    public MapFileReader(String url, String pathName) {
-        if(detectableObjectArrayList == null){
+    public MapFileReader(String url, String pathName,boolean bool) {
+        if(bool){
             checkpointArrayList = new ArrayList<>();
             detectableObjectArrayList = new ArrayList<>();
             this.pathName = pathName;
@@ -38,9 +38,26 @@ public class MapFileReader {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }else {
+            if(detectableObjectArrayList == null){
+                checkpointArrayList = new ArrayList<>();
+                detectableObjectArrayList = new ArrayList<>();
+                this.pathName = pathName;
+                Path path = Paths.get(url + pathName + ".txt");
+                try {
+                    this.file = Files.readString(path).split("\n");
+
+                    read();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
+
     }
+
 
     /**
      * Read the file and put data in lists
@@ -105,7 +122,10 @@ public class MapFileReader {
 
                         switch (line[0]) {//Add case when new object
                             case "crate":
-                                detectableObjectArrayList.add(new Crate(new Coordinate(doubles[1], doubles[2])));
+                            case "lilCrate":
+                            case "metalCrate":
+                            case "bigCrate":
+                                detectableObjectArrayList.add(new Crate(new Coordinate(doubles[1], doubles[2]),line[0]));
                                 break;
                             case "trunk":
                                 imageHeight2 = heightFromName(line[0]);
@@ -118,6 +138,11 @@ public class MapFileReader {
                                 break;
 
                             case "eau1":
+                            case "lava":
+                            case "spikes1":
+                            case "spikes2":
+                            case "spikes3":
+                            case "wireWall":
                             case "spikes":
                                 detectableObjectArrayList.add(new DeathObject(line[0], new Coordinate(doubles[1], doubles[2])));
 
@@ -138,16 +163,14 @@ public class MapFileReader {
                                 detectableObjectArrayList.add(new Lever(portcullis, new Coordinate(doubles[0], doubles[1])));
                                 detectableObjectArrayList.add(portcullis);
                                 break;
-                            case "metalDoor":
-                                MetalDoor metalDoor = new MetalDoor(new Coordinate(doubles[3], doubles[4]), line[2]);
-                                detectableObjectArrayList.add(new Lever(metalDoor, new Coordinate(doubles[0], doubles[1])));
-                                detectableObjectArrayList.add(metalDoor);
-                                break;
+
                             case "shield":
-                                ForceShield forceShield = new ForceShield(new Coordinate(doubles[3], doubles[4]), line[2]);
-                                detectableObjectArrayList.add(new Lever(forceShield, new Coordinate(doubles[0], doubles[1])));
-                                detectableObjectArrayList.add(forceShield);
+                            case "metalDoor":
+                                HideOnActionObject hideOnActionObject = new HideOnActionObject(new Coordinate(doubles[3], doubles[4]), line[2]);
+                                detectableObjectArrayList.add(new Lever(hideOnActionObject, new Coordinate(doubles[0], doubles[1])));
+                                detectableObjectArrayList.add(hideOnActionObject);
                                 break;
+
                         }
 
 
