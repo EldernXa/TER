@@ -140,7 +140,7 @@ public class MenuControls {
             Label label = new Label();
             switch (i){
                 case 1 : {
-                    label.setText("left");
+                    label.setText("Left");
                     break;
                 }
                 case 2: {
@@ -299,7 +299,7 @@ public class MenuControls {
                         labelDesc.setText("Caractère non correct");
 
                     } else {
-                        switch (label.getText()) {
+                        switch (label.getText().toLowerCase()) {
                             case "right": {
                                 controlsDBManager.setRight(control);
                                 break;
@@ -318,6 +318,10 @@ public class MenuControls {
                             }
                             case "switchDown": {
                                 controlsDBManager.setSwitchDown(control);
+                                break;
+                            }
+                            case "action": {
+                                controlsDBManager.setAction(control);
                                 break;
                             }
                         }
