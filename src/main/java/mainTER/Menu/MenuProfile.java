@@ -56,7 +56,6 @@ public class MenuProfile {
         myBest.setFont(Font.font("Tw Cen Mt Condensed", 25));
         Text bestText = new Text("The best player on the map " + mapName + " is " + bestProfileDBManager.getName(mapName) + " with a time of " + bestProfileDBManager.getTime(mapName) + " seconds");
         bestText.setTranslateY(300);
-        bestText.setTranslateX(timeText.getTranslateX());
         bestText.setFont(Font.font("Tw Cen Mt Condensed", 30));
 
         pane.getChildren().addAll(nameText,timeText,mapText,bestText,myBest);
