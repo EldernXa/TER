@@ -34,6 +34,7 @@ public class SkillsMenu {
     Character currentCharacter;
     Text nameSkill = new Text();
     Text cooldown = new Text();
+    Text timeSkill = new Text();
     Stage stage;
     VBox vbGen = new VBox(20);
     VBox vbStat = new VBox();
@@ -78,19 +79,23 @@ public class SkillsMenu {
                 VBox vBox = new VBox();
                 nameSkill = new Text(skillDBManager.getNameSkill(currentCharacter.getName(),i));
                 description = new Text( skillDBManager.getDescription(currentCharacter.getName(),i));
-                cooldown = new Text(skillDBManager.getTimeCooldown(currentCharacter.getName(), i) + " seconds");
+                timeSkill = new Text("The skill lasts " + skillDBManager.getTimeSkill(currentCharacter.getName(),i) + " seconds");
+                cooldown = new Text("The cooldown is " + skillDBManager.getTimeCooldown(currentCharacter.getName(), i) + " seconds");
 
                 nameSkill.setFill(Color.WHITE);
                 description.setFill(Color.WHITE);
                 cooldown.setFill(Color.WHITE);
+                timeSkill.setFill(Color.WHITE);
 
                 nameSkill.setFont(Font.font("Tw Cen Mt Condensed",40));
                 description.setFont(Font.font("Tw Cen Mt Condensed",30));
                 cooldown.setFont(Font.font("Tw Cen Mt Condensed",20));
+                timeSkill.setFont(Font.font("Tw Cen Mt Condensed",20));
 
 
                 vBox.getChildren().add(nameSkill);
                 vBox.getChildren().add(description);
+                vBox.getChildren().add(timeSkill);
                 vBox.getChildren().add(cooldown);
 
                 vbGen.getChildren().add(vBox);
