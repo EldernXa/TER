@@ -32,7 +32,7 @@ public class Character {
         listSkill = new ArrayList<>();
         this.name = name;
         characteristics = initCharacterWithDatabase();
-        this.logo = new ImageViewSizePos(Objects.requireNonNull(this.getClass().getResource("/mainTER/CharacterGameplay/Logo/" + name + ".png").getPath().replace("%20"," ")),new Coordinate(0,0));
+        this.logo = new ImageViewSizePos("/mainTER/CharacterGameplay/Logo/" + name + ".png",new Coordinate(0,0));
 
         initListAnimate();
         initListSkill();

@@ -14,7 +14,7 @@ public class Crate extends InteractiveObject {
      * @param coordinate
      */
     public Crate(Coordinate coordinate ) {
-        super(coordinate, new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/crate.png",coordinate));
+        super(coordinate, new ImageViewSizePos("/mainTER/MapPackage/Objects/crate.png",coordinate));
     }
 
     /**

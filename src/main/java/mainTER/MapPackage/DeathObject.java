@@ -18,7 +18,7 @@ public class DeathObject extends CollideObject {
     public DeathObject(String name, Coordinate coordinate) {
         this.pathName = name;
         this.coordinate = coordinate;
-        imageViewSizePos = new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/"+name+".png",coordinate);
+        imageViewSizePos = new ImageViewSizePos("/mainTER/MapPackage/Objects/"+ name + ".png",coordinate);
 
 
     }

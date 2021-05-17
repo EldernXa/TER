@@ -25,8 +25,8 @@ public class Checkpoint extends UnCollideObject {
         this.coordinate = coordinate;
         this.mapName = mapName;
 
-        this.defaultImage = new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/checkpointDefault.png", coordinate);
-        this.activatedImage = new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/checkpointActivated.png", coordinate);
+        this.defaultImage = new ImageViewSizePos("/mainTER/MapPackage/Objects/checkpointDefault.png", coordinate);
+        this.activatedImage = new ImageViewSizePos("/mainTER/MapPackage/Objects/checkpointActivated.png", coordinate);
         this.currentImage = new ImageViewSizePos(defaultImage.getPathImage(),defaultImage.getCoordinate());
         checkpointsDBManager = new CheckpointsDBManager();
 

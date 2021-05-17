@@ -25,7 +25,7 @@ public class EndObject extends InteractiveObject {
     BestProfileDBManager bestProfileDBManager = new BestProfileDBManager();
     public EndObject(String name, Coordinate coordinate) {
 
-        super(coordinate, new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/"+name+".png",coordinate));
+        super(coordinate, new ImageViewSizePos("/mainTER/MapPackage/Objects/"+ name +".png",coordinate));
         this.name = name;
 
     }

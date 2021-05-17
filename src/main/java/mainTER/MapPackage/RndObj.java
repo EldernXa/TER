@@ -19,7 +19,7 @@ public class RndObj extends DetectableObject {
         this.coordinate = coordinate;
         this.pathName = pathName;
 
-        imageViewSizePos = new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Sprites/Front/" +pathName+"/" + rndObjName + ".png",coordinate);
+        imageViewSizePos = new ImageViewSizePos("/mainTER/MapPackage/Sprites/Front/" + pathName +"/" + rndObjName + ".png",coordinate);
         imageViewSizePos.getImageView().setFitHeight(imageViewSizePos.getImageView().getImage().getHeight());
         imageViewSizePos.getImageView().setFitWidth(imageViewSizePos.getImageView().getImage().getWidth());
 

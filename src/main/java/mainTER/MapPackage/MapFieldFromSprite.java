@@ -23,7 +23,7 @@ public class MapFieldFromSprite extends MapFieldForm {
         super(coordinate, 0, 0);
         this.pathName = pathName;
         this.spriteName = spriteName;
-        this.path = "./src/main/resources/mainTER/MapPackage/Sprites/Front/"+pathName+"/" + spriteName + ".png";
+        this.path = "/mainTER/MapPackage/Sprites/Front/"+ pathName +"/" + spriteName + ".png";
         this.percent = percent;
         imageViewSizePos = new ImageViewSizePos(this.path,coordinate);
         setWidth(imageViewSizePos.getImageView().getImage().getWidth());

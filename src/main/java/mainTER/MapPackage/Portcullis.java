@@ -9,7 +9,7 @@ public class Portcullis extends InteractiveObject{
     boolean isOpen;
 
     public Portcullis(Coordinate coordinate){
-        super(coordinate,new ImageViewSizePos("./src/main/resources/mainTER/MapPackage/Objects/portcullis.png", coordinate));
+        super(coordinate,new ImageViewSizePos("/mainTER/MapPackage/Objects/portcullis.png", coordinate));
         isOpen = false;
     }
 
