@@ -22,6 +22,8 @@ public class UpgradeSkillDBManager {
 
     private static final String ATTRIBUTE_STRING_PRICE = "price";
 
+    private static final String ATTRIBUTE_STRING_DESCRIPTION = "description";
+
     private final DBManager dbManager;
 
     public UpgradeSkillDBManager(){
@@ -42,7 +44,7 @@ public class UpgradeSkillDBManager {
         listName.add(ATTRIBUTE_STRING_NEW_VALUE);                   listSize.add(40);
         listName.add(ATTRIBUTE_STRING_IS_ALREADY_LEARNED);                           listSize.add(40);
         listName.add(ATTRIBUTE_STRING_PRICE);                                      listSize.add(40);
-        listName.add("description");                                listSize.add(500);
+        listName.add(ATTRIBUTE_STRING_DESCRIPTION);                                listSize.add(500);
         dbManager.createTable("UpgradeSkill", listName, 4, listSize);
     }
 
@@ -272,7 +274,7 @@ public class UpgradeSkillDBManager {
         listRequest.add(numSkill);
         listRequest.add(nameUpgrade);
         try{
-            return dbManager.getData("UpgradeSkill", listName, listRequest, "description");
+            return dbManager.getData("UpgradeSkill", listName, listRequest, ATTRIBUTE_STRING_DESCRIPTION);
         }catch(SQLException sqlException){
             throw new UpgradeSkillDataGetException();
         }
@@ -287,7 +289,7 @@ public class UpgradeSkillDBManager {
         listRequest.add(nameUpgrade);
         listRequest.add(numUpgrade);
         try{
-            return dbManager.getData("UpgradeSkill", listName, listRequest, "description");
+            return dbManager.getData("UpgradeSkill", listName, listRequest, ATTRIBUTE_STRING_DESCRIPTION);
         }catch(SQLException sqlException){
             throw new UpgradeSkillDataGetException();
         }
