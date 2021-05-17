@@ -56,6 +56,18 @@ public class MapDBManager {
                 ");");
     }
 
+    public boolean verifyTableMapExist(){
+        ResultSet resultSet = dbManager.selectIntoTable("SELECT * FROM Map");
+        try{
+            if(resultSet.next()){
+                return true;
+            }
+        }catch(Exception ignored){
+
+        }
+        return false;
+    }
+
     /**
      * Insert values into the table Map in the databases.
      * @param mapName the name of the map we want to insert.

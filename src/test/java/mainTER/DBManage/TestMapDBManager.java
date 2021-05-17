@@ -54,6 +54,25 @@ public class TestMapDBManager {
     }
 
     @Test
+    public void testVerifyTableNotExist(){
+        try{
+            assertFalse(mapDBManager.verifyTableMapExist());
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testVerifyTableExist(){
+        try{
+            insertDataForMap();
+            assertTrue(mapDBManager.verifyTableMapExist());
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
     public void testGettingFirstNameCharacter(){
         try{
             insertDataForMap();
