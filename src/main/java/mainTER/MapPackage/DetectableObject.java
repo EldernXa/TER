@@ -307,14 +307,24 @@ public abstract class DetectableObject {
 
             for(DetectableObject detectableObject2 : MapFileReader.detectableObjectArrayList){
 
-                if((!this.equals(detectableObject2))&&(rect.intersects(detectableObject2.getAppropriateNode().getBoundsInParent()))/*&&((collideObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY()) >= 0)*/){
+                if((!this.equals(detectableObject2))&&(rect.intersects(detectableObject2.getAppropriateNode().getBoundsInParent()))&& (detectableObject2.leftMvt(this)!=0 && detectableObject2.rightMvt(this)!=0) /*&&((detectableObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY()) >= 0)*/){
                     calc = true;
                     detectableObject2.interaction(this);
                     multiInteractions(detectableObject2);
 
 //                    System.out.println("distance between " + this + " and " + detectableObject2 + " = " + detectableObject2.downMvt(this));
+
+                    if(detectableObject2.leftMvt(this)==0){
+                        System.out.println("AYAYA");
+                    }        if(detectableObject2.rightMvt(this)==0){
+                        System.out.println("AYA AYAYA");
+                    }
                     if(detectableObject2.downMvt(this) < miniDownMvt){
-                        miniDownMvt = detectableObject2.downMvt(this);
+
+
+
+                            miniDownMvt = detectableObject2.downMvt(this);
+
                     }
                 }
             }
