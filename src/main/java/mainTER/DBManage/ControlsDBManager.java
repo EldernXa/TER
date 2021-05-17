@@ -36,6 +36,18 @@ public class ControlsDBManager {
         dbManager.dropCascade();
     }
 
+    public boolean verifyTableControlsExist(){
+        ResultSet resultSet = dbManager.selectIntoTable("SELECT * FROM Controls");
+        try{
+            if(resultSet.next()){
+                return true;
+            }
+        }catch(Exception ignored){
+
+        }
+        return false;
+    }
+
 
     public void insertIntoTableControls(String... controls) throws ControlsDataAlreadyExistsException {
         // TODO verify insert data
