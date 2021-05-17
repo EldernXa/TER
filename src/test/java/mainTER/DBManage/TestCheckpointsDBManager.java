@@ -45,6 +45,25 @@ public class TestCheckpointsDBManager {
     }
 
     @Test
+    public void testVerifyTableNotExist(){
+        try{
+            assertFalse(checkpointsDBManager.verifyTableCheckpointsExist());
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testVerifyTableExist(){
+        try{
+            insertData();
+            assertTrue(checkpointsDBManager.verifyTableCheckpointsExist());
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
     public void testGettingX(){
         try{
             insertData();

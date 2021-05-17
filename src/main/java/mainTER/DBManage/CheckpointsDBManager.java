@@ -90,6 +90,18 @@ public class CheckpointsDBManager {
         dbManager.dropCascade();
     }
 
+    public boolean verifyTableCheckpointsExist(){
+        ResultSet resultSet = dbManager.selectIntoTable("SELECT * FROM Checkpoints");
+        try{
+            if(resultSet.next()){
+                return true;
+            }
+        }catch(Exception ignored){
+        }
+
+        return false;
+    }
+
     /**
      * verify if a character exist.
      * @param characterName name of the character we want to verify existence.
