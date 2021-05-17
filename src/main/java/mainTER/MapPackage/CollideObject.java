@@ -3,7 +3,12 @@ package mainTER.MapPackage;
 import javafx.scene.Node;
 import mainTER.Tools.Coordinate;
 
+/**
+ * Class that represente all the object that stop the player when they hit it
+ */
 public class CollideObject extends DetectableObject{
+
+
     @Override
     public Node getAppropriateNode() {
         return null;
@@ -77,6 +82,7 @@ public class CollideObject extends DetectableObject{
 
     @Override
     public double downMvt(DetectableObject detectableObject) {
+        System.out.println("Technique calculée");
         return this.getAppropriateNode().getBoundsInParent().getMinY() - detectableObject.getAppropriateNode().getBoundsInParent().getMaxY();
     }
 }

@@ -76,6 +76,7 @@ public class UnCollideObject extends DetectableObject {
 
     @Override
     public double downMvt(DetectableObject detectableObject) {
+        System.out.println("Technique NON calculée");
         return detectableObject.getFallMouvementSpan();
     }
 }
