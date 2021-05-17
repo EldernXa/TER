@@ -12,6 +12,8 @@ public class UpgradeSkillDBManager {
 
     private static final String ATTRIBUTE_STRING_NAME_UPGRADE = "nameUpgrade";
 
+    private static final String ATTRIBUTE_STRING_NAME_CHARACTER = "nameCharacter";
+
     private final DBManager dbManager;
 
     public UpgradeSkillDBManager(){
@@ -25,14 +27,14 @@ public class UpgradeSkillDBManager {
     public void createTableUpgradeSkill(){
         ArrayList<String> listName = new ArrayList<>();
         ArrayList<Integer> listSize = new ArrayList<>();
-        listName.add("nameCharacter");              listSize.add(40);
-        listName.add("numSkill");                   listSize.add(40);
-        listName.add("nameUpgrade");                listSize.add(50);
-        listName.add("numUpgrade");                 listSize.add(40);
-        listName.add("newValue");                   listSize.add(40);
-        listName.add("isAlreadyLearned");           listSize.add(40);
-        listName.add("price");                      listSize.add(40);
-        listName.add("description");                listSize.add(500);
+        listName.add(ATTRIBUTE_STRING_NAME_CHARACTER);              listSize.add(40);
+        listName.add("numSkill");                                   listSize.add(40);
+        listName.add("nameUpgrade");                                listSize.add(50);
+        listName.add("numUpgrade");                                 listSize.add(40);
+        listName.add("newValue");                                   listSize.add(40);
+        listName.add("isAlreadyLearned");                           listSize.add(40);
+        listName.add("price");                                      listSize.add(40);
+        listName.add("description");                                listSize.add(500);
         dbManager.createTable("UpgradeSkill", listName, 4, listSize);
     }
 
@@ -81,9 +83,9 @@ public class UpgradeSkillDBManager {
     public List<String> getListUpgradeOfASkillOfACharacter(String nameCharacter, int numSkill) throws UpgradeSkillDataGetException{
         ArrayList<String> listNameLine = new ArrayList<>();
         ArrayList<Object> listRealValue = new ArrayList<>();
-        listNameLine.add("nameCharacter");                  listRealValue.add(nameCharacter);
-        listNameLine.add(ATTRIBUTE_STRING_NUM_SKILL);       listRealValue.add(numSkill);
-        List<String> listUpgradeOfASkill = null;
+        listNameLine.add(ATTRIBUTE_STRING_NAME_CHARACTER);                  listRealValue.add(nameCharacter);
+        listNameLine.add(ATTRIBUTE_STRING_NUM_SKILL);                       listRealValue.add(numSkill);
+        List<String> listUpgradeOfASkill;
         try{
             listUpgradeOfASkill = dbManager.getList("UpgradeSkill", listNameLine, listRealValue, ATTRIBUTE_STRING_NAME_UPGRADE);
             if(listUpgradeOfASkill.isEmpty())
@@ -285,7 +287,7 @@ public class UpgradeSkillDBManager {
 
     private List<String> listNameForGetting(){
         ArrayList<String> listName = new ArrayList<>();
-        listName.add("nameCharacter");
+        listName.add(ATTRIBUTE_STRING_NAME_CHARACTER);
         listName.add(ATTRIBUTE_STRING_NUM_SKILL);
         listName.add(ATTRIBUTE_STRING_NAME_UPGRADE);
         return listName;
