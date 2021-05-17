@@ -196,6 +196,21 @@ public class SkillDBManager {
         }
     }
 
+    public boolean verifyTableSkillExist(){
+        ResultSet resultSet = dbManager.selectIntoTable("SELECT * FROM " + NAME_TABLE);
+
+        try{
+            if(resultSet.next()){
+                return true;
+            }
+        }catch(Exception ignored){
+
+        }
+
+
+        return false;
+    }
+
     private void verifyCtrlNotUsedByControlMovement(String ctrlKey) throws SkillCtrlAlreadyUsedByMovementControlException{
         ControlsDBManager controlsDBManager;
         if(isForTest){

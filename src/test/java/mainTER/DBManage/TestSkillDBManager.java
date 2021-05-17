@@ -246,6 +246,25 @@ public class TestSkillDBManager {
     }
 
     @Test
+    public void testVerifyTableNotExist(){
+        try{
+            assertFalse(skillDBManager.verifyTableSkillExist());
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testVerifyTableExist(){
+        try{
+            insertValueIntoSkill();
+            assertTrue(skillDBManager.verifyTableSkillExist());
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
     public void testModifyTimeCooldown(){
         try{
             insertValueIntoSkill();
