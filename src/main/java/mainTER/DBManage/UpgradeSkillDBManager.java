@@ -14,6 +14,10 @@ public class UpgradeSkillDBManager {
 
     private static final String ATTRIBUTE_STRING_NAME_CHARACTER = "nameCharacter";
 
+    private static final String ATTRIBUTE_STRING_NUM_UPGRADE = "numUpgrade";
+
+
+
     private final DBManager dbManager;
 
     public UpgradeSkillDBManager(){
@@ -28,9 +32,9 @@ public class UpgradeSkillDBManager {
         ArrayList<String> listName = new ArrayList<>();
         ArrayList<Integer> listSize = new ArrayList<>();
         listName.add(ATTRIBUTE_STRING_NAME_CHARACTER);              listSize.add(40);
-        listName.add("numSkill");                                   listSize.add(40);
-        listName.add("nameUpgrade");                                listSize.add(50);
-        listName.add("numUpgrade");                                 listSize.add(40);
+        listName.add(ATTRIBUTE_STRING_NUM_SKILL);                   listSize.add(40);
+        listName.add(ATTRIBUTE_STRING_NAME_UPGRADE);                listSize.add(50);
+        listName.add(ATTRIBUTE_STRING_NUM_UPGRADE);                 listSize.add(40);
         listName.add("newValue");                                   listSize.add(40);
         listName.add("isAlreadyLearned");                           listSize.add(40);
         listName.add("price");                                      listSize.add(40);
@@ -101,9 +105,9 @@ public class UpgradeSkillDBManager {
         ResultSet resultSet = selectUpgradeSkillForACharacter(nameCharacter);
         try{
             while(resultSet.next()){
-                if(dbManager.getFromResultSet(resultSet, "numSkill", numSkill)){
-                    listReturn.add(dbManager.getDecryptedFromString(resultSet.getString("nameUpgrade")) + " " +
-                            Integer.parseInt(dbManager.getDecryptedFromString(resultSet.getString("numUpgrade"))));
+                if(dbManager.getFromResultSet(resultSet, ATTRIBUTE_STRING_NUM_SKILL, numSkill)){
+                    listReturn.add(dbManager.getDecryptedFromString(resultSet.getString(ATTRIBUTE_STRING_NAME_UPGRADE)) + " " +
+                            Integer.parseInt(dbManager.getDecryptedFromString(resultSet.getString(ATTRIBUTE_STRING_NUM_UPGRADE))));
                 }
             }
             Collections.sort(listReturn);
@@ -118,9 +122,9 @@ public class UpgradeSkillDBManager {
         ResultSet resultSet = selectUpgradeSkillForACharacter(nameCharacter);
         try{
             while(resultSet.next()){
-                if(dbManager.getFromResultSet(resultSet, "numSkill", numSkill) &&
-                        dbManager.getFromResultSet(resultSet, "nameUpgrade", nameUpgrade)){
-                    int newNum = Integer.parseInt(dbManager.getDecryptedFromString(resultSet.getString("numUpgrade")));
+                if(dbManager.getFromResultSet(resultSet, ATTRIBUTE_STRING_NUM_SKILL, numSkill) &&
+                        dbManager.getFromResultSet(resultSet, ATTRIBUTE_STRING_NAME_UPGRADE, nameUpgrade)){
+                    int newNum = Integer.parseInt(dbManager.getDecryptedFromString(resultSet.getString(ATTRIBUTE_STRING_NUM_UPGRADE)));
                     if(num<newNum){
                         num = newNum;
                     }
@@ -137,9 +141,9 @@ public class UpgradeSkillDBManager {
         ResultSet resultSet = selectUpgradeSkillForACharacter(nameCharacter);
         try{
             while(resultSet.next()){
-                if(dbManager.getFromResultSet(resultSet, "numSkill", numSkill) &&
-                        dbManager.getFromResultSet(resultSet, "nameUpgrade", nameUpgrade)){
-                    int newNum = Integer.parseInt(dbManager.getDecryptedFromString(resultSet.getString("numUpgrade")));
+                if(dbManager.getFromResultSet(resultSet, ATTRIBUTE_STRING_NUM_SKILL, numSkill) &&
+                        dbManager.getFromResultSet(resultSet, ATTRIBUTE_STRING_NAME_UPGRADE, nameUpgrade)){
+                    int newNum = Integer.parseInt(dbManager.getDecryptedFromString(resultSet.getString(ATTRIBUTE_STRING_NUM_UPGRADE)));
                     if(num<newNum){
                         num = newNum;
                     }
@@ -160,7 +164,7 @@ public class UpgradeSkillDBManager {
         listRequest.add(numSkill);
         listRequest.add(nameUpgrade);
         try{
-            return Integer.parseInt(dbManager.getData("UpgradeSkill", listName, listRequest, "numUpgrade"));
+            return Integer.parseInt(dbManager.getData("UpgradeSkill", listName, listRequest, ATTRIBUTE_STRING_NUM_UPGRADE));
         }catch(SQLException sqlException){
             throw new UpgradeSkillDataGetException();
         }
@@ -181,7 +185,7 @@ public class UpgradeSkillDBManager {
 
     public float getNewValueWithNumUpgrade(String nameCharacter, int numSkill, String nameUpgrade, int numUpgrade) throws UpgradeSkillDataGetException{
         List<String> listName = listNameForGetting();
-        listName.add("numUpgrade");
+        listName.add(ATTRIBUTE_STRING_NUM_UPGRADE);
         ArrayList<Object> listRequest = new ArrayList<>();
         listRequest.add(nameCharacter);
         listRequest.add(numSkill);
@@ -216,7 +220,7 @@ public class UpgradeSkillDBManager {
 
     public boolean getIsAlreadyDoneWithNumUpgrade(String nameCharacter, int numSkill, String nameUpgrade, int numUpgrade) throws UpgradeSkillDataGetException{
         List<String> listName = listNameForGetting();
-        listName.add("numUpgrade");
+        listName.add(ATTRIBUTE_STRING_NUM_UPGRADE);
         ArrayList<Object> listRequest = new ArrayList<>();
         listRequest.add(nameCharacter);
         listRequest.add(numSkill);
@@ -244,7 +248,7 @@ public class UpgradeSkillDBManager {
 
     public int getPriceWithNumUpgrade(String nameCharacter, int numSkill, String nameUpgrade, int numUpgrade) throws UpgradeSkillDataGetException{
         List<String> listName = listNameForGetting();
-        listName.add("numUpgrade");
+        listName.add(ATTRIBUTE_STRING_NUM_UPGRADE);
         ArrayList<Object> listRequest = new ArrayList<>();
         listRequest.add(nameCharacter);
         listRequest.add(numSkill);
@@ -272,7 +276,7 @@ public class UpgradeSkillDBManager {
 
     public String getDescriptionWithNumUpgrade(String nameCharacter, int numSkill, String nameUpgrade, int numUpgrade) throws UpgradeSkillDataGetException{
         List<String> listName = listNameForGetting();
-        listName.add("numUpgrade");
+        listName.add(ATTRIBUTE_STRING_NUM_UPGRADE);
         ArrayList<Object> listRequest = new ArrayList<>();
         listRequest.add(nameCharacter);
         listRequest.add(numSkill);
