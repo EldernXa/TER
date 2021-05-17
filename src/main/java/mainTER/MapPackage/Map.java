@@ -37,7 +37,7 @@ public class Map {
         pane.setBackground( new Background(new BackgroundImage(backgroundImage.getImage(),BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT, new BackgroundSize(backgroundImage.getImage().getWidth(),
                 backgroundImage.getImage().getHeight(),false,false,false,false))));
-        Music.stopMusique();
+        Music.stopMusic();
         Music.launchMenuSound(fileName);
 
     }
