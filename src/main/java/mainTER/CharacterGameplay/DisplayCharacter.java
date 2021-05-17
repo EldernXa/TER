@@ -48,6 +48,7 @@ public class DisplayCharacter extends CollideObject {
     private String jump;
     private String action;
     private Camera camera;
+    private double tempNewHeigt;
     KeyHandler keyHandler;
 
     /**
@@ -341,7 +342,6 @@ public class DisplayCharacter extends CollideObject {
                         else
                             animationForTheCharacter.setReverseMotionLess();
                         double newHeight = adaptYToHeight(height);
-
                         if (isJumping) {
                             moveMotionlessJumping(newHeight);
                         } else if (calcMvt(CommingFrom.UP) >= 0) {
@@ -381,7 +381,7 @@ public class DisplayCharacter extends CollideObject {
         adaptYToHeight(height);
     }
 
-    private double adaptYToHeight(double height) {
+    public double adaptYToHeight(double height) {
         ImageView imgView = animationForTheCharacter.nextImage();
         double newHeight = height - imgView.getImage().getHeight();
         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + newHeight);
@@ -432,11 +432,11 @@ public class DisplayCharacter extends CollideObject {
 
     private void moveMotionlessJumping(double newHeight) {
 
+        tempNewHeigt = newHeight;
         if (walkToRight)
             animationForTheCharacter.setJump();
         else
             animationForTheCharacter.setReverseJump();
-
         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() - calcMvt(CommingFrom.DOWN) - newHeight);
         jumpStrength -= character.getWeight() * 0.2;
         if (jumpStrength <= 0) {
@@ -642,6 +642,10 @@ public class DisplayCharacter extends CollideObject {
     @Override
     public double getHeight() {
         return this.animationForTheCharacter.actualImg().getImage().getHeight();
+    }
+
+    public double getTempNewHeigt() {
+        return tempNewHeigt;
     }
 
     @Override
