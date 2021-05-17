@@ -33,11 +33,13 @@ public class SkillsMenu {
     Scene scene = new Scene(pane,800,500, Color.TRANSPARENT);
     Character currentCharacter;
     Text nameSkill = new Text();
+    Text cooldown = new Text();
     Stage stage;
     VBox vbGen = new VBox(20);
     VBox vbStat = new VBox();
     ArrayList<Character> listCharacter;
     ImageViewSizePos logo;
+
 
 
 
@@ -76,15 +78,20 @@ public class SkillsMenu {
                 VBox vBox = new VBox();
                 nameSkill = new Text(skillDBManager.getNameSkill(currentCharacter.getName(),i));
                 description = new Text( skillDBManager.getDescription(currentCharacter.getName(),i));
+                cooldown = new Text(skillDBManager.getTimeCooldown(currentCharacter.getName(), i) + " seconds");
+
                 nameSkill.setFill(Color.WHITE);
                 description.setFill(Color.WHITE);
+                cooldown.setFill(Color.WHITE);
 
                 nameSkill.setFont(Font.font("Tw Cen Mt Condensed",40));
                 description.setFont(Font.font("Tw Cen Mt Condensed",30));
+                cooldown.setFont(Font.font("Tw Cen Mt Condensed",20));
 
 
                 vBox.getChildren().add(nameSkill);
                 vBox.getChildren().add(description);
+                vBox.getChildren().add(cooldown);
 
                 vbGen.getChildren().add(vBox);
 
@@ -98,7 +105,6 @@ public class SkillsMenu {
                 List<String> stats = personDBManager.toArray(currentCharacter.getName());
                 Text speed = new Text("Speed: "+ stats.get(1));
                 Text weight  =new Text("Weight: "+ stats.get(2));
-
                 speed.setFont(Font.font("Tw Cen Mt Condensed",30));
                 weight.setFont(Font.font("Tw Cen Mt Condensed",30));
 
