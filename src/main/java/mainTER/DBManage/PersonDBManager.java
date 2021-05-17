@@ -49,6 +49,17 @@ public class PersonDBManager {
 
      }
 
+     public boolean verifyDBPersonExist(){
+         ResultSet resultSet = dbManager.selectIntoTable("Select * FROM " + NAME_TABLE);
+         try{
+             if(resultSet.next())
+                 return true;
+         }catch(Exception ignored){
+
+         }
+         return false;
+     }
+
 
     /**
      * Remove the table Person.

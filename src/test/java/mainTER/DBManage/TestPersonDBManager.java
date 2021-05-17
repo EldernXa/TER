@@ -50,6 +50,15 @@ public class TestPersonDBManager {
     }
 
     @Test
+    public void testVerifyIfDatabaseExist(){
+        try{
+            assertFalse(personDBManager.verifyDBPersonExist());
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
     public void testGettingSpeedFromTablePerson(){
         try {
             insertValuesIntoPerson();

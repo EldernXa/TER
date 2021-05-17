@@ -204,8 +204,8 @@ public class DBManager {
             connection.close();
             connection=null;
             return resultSet;
-        }catch(SQLException exception){
-            System.out.println("Problème dans la sélection de données.");
+        }catch(SQLException ignored){
+
         }
         return null;
     }

@@ -5,29 +5,25 @@ import mainTER.exception.*;
 
 public class DataInsert {
 
-    private static final int NB_CHARACTER = 4;
-    private static final int NB_SKILL = 5;
-
     private DataInsert() {
 
     }
 
     public static void insertPerson() {
         PersonDBManager personDBManager = new PersonDBManager();
-//        if(personDBManager.getListNameFromDatabase().size()!=NB_CHARACTER) {
-        personDBManager.removeTablePerson();
-        personDBManager.createTablePerson();
-        try {
-            personDBManager.insertIntoTablePerson("Paladin", 5, 20, 5, 5, true);
-            personDBManager.insertIntoTablePerson("Demon", 10, 5, 8, 2, true);
-            personDBManager.insertIntoTablePerson("Serpent", 8, 10, 0, 3, false);
-            personDBManager.insertIntoTablePerson("HommeDragon", 10, 5, 8, 2, true);
-        } catch (PersonDataAlreadyExistException personDataAlreadyExistException) {
-            System.out.println("Problème dans l'insertion des données des Personnages.");
-        } catch (PersonDataNotCorrectException personDataDoesntCorrectException) {
-            System.out.println("Les données inséres ne sont pas correcte.");
+        if(!personDBManager.verifyDBPersonExist()) {
+            personDBManager.createTablePerson();
+            try {
+                personDBManager.insertIntoTablePerson("Paladin", 5, 20, 5, 5, true);
+                personDBManager.insertIntoTablePerson("Demon", 10, 5, 8, 2, true);
+                personDBManager.insertIntoTablePerson("Serpent", 8, 10, 0, 3, false);
+                personDBManager.insertIntoTablePerson("HommeDragon", 10, 5, 8, 2, true);
+            } catch (PersonDataAlreadyExistException personDataAlreadyExistException) {
+                System.out.println("Problème dans l'insertion des données des Personnages.");
+            } catch (PersonDataNotCorrectException personDataDoesntCorrectException) {
+                System.out.println("Les données inséres ne sont pas correcte.");
+            }
         }
-//        }
     }
 
     public static void insertControls() {
