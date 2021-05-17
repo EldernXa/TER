@@ -39,6 +39,25 @@ public class TestControlsDBManager {
     }
 
     @Test
+    public void testVerifyTableNotExist(){
+        try{
+            assertFalse(controlsDBManager.verifyTableControlsExist());
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testVerifyTableExist(){
+        try{
+            insertValuesIntoControls();
+            assertTrue(controlsDBManager.verifyTableControlsExist());
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
     public void testInsertDataIntoTablePerson(){
         try {
             controlsDBManager.createTableControls();

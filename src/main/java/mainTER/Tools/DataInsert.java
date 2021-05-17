@@ -28,12 +28,13 @@ public class DataInsert {
 
     public static void insertControls() {
         ControlsDBManager controlsDBManager = new ControlsDBManager();
-        controlsDBManager.removeTableControls();
-        controlsDBManager.createTableControls();
-        try {
-            controlsDBManager.insertIntoTableControls("d", "q", " ", "a", "e", "f");
-        } catch (ControlsDataAlreadyExistsException controlsDataAlreadyExists) {
-            System.out.println("Probleme dans l'insertien de controles");
+        if(!controlsDBManager.verifyTableControlsExist()) {
+            controlsDBManager.createTableControls();
+            try {
+                controlsDBManager.insertIntoTableControls("d", "q", " ", "a", "e", "f");
+            } catch (ControlsDataAlreadyExistsException controlsDataAlreadyExists) {
+                System.out.println("Probleme dans l'insertien de controles");
+            }
         }
     }
 
