@@ -156,8 +156,6 @@ public class KeyHandler {
         }
         else if(event2.getCode() == KeyCode.TAB){
 
-
-
             Stage stagep = new Stage(StageStyle.TRANSPARENT);
             SkillsMenu skillsMenu = new SkillsMenu(stage,listCharacter,displayCharacter.getCharacter());
             stagep.initOwner(stage);
@@ -165,7 +163,7 @@ public class KeyHandler {
             stagep.setScene(skillsMenu.getScene());
             stagep.show();
             skillsMenu.getScene().addEventHandler(KeyEvent.KEY_PRESSED, event3 -> {
-                if(event3.getCode() == KeyCode.TAB)
+                if(event3.getCode() == KeyCode.TAB || event3.getCode() == KeyCode.ESCAPE)
                     stagep.close();
             });
 
