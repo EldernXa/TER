@@ -18,7 +18,7 @@ public class UpgradeSkillDBManager {
 
     private static final String ATTRIBUTE_STRING_NEW_VALUE = "newValue";
 
-
+    private static final String ATTRIBUTE_STRING_IS_ALREADY_LEARNED = "isAlreadyLearned";
 
     private final DBManager dbManager;
 
@@ -38,7 +38,7 @@ public class UpgradeSkillDBManager {
         listName.add(ATTRIBUTE_STRING_NAME_UPGRADE);                listSize.add(50);
         listName.add(ATTRIBUTE_STRING_NUM_UPGRADE);                 listSize.add(40);
         listName.add(ATTRIBUTE_STRING_NEW_VALUE);                   listSize.add(40);
-        listName.add("isAlreadyLearned");                           listSize.add(40);
+        listName.add(ATTRIBUTE_STRING_IS_ALREADY_LEARNED);                           listSize.add(40);
         listName.add("price");                                      listSize.add(40);
         listName.add("description");                                listSize.add(500);
         dbManager.createTable("UpgradeSkill", listName, 4, listSize);
@@ -214,7 +214,7 @@ public class UpgradeSkillDBManager {
         listRequest.add(numSkill);
         listRequest.add(nameUpgrade);
         try{
-            return dbManager.getData("UpgradeSkill", listName, listRequest, "isAlreadyLearned").compareTo("true")==0;
+            return dbManager.getData("UpgradeSkill", listName, listRequest, ATTRIBUTE_STRING_IS_ALREADY_LEARNED).compareTo("true")==0;
         }catch(SQLException sqlException){
             throw new UpgradeSkillDataGetException();
         }
@@ -229,7 +229,7 @@ public class UpgradeSkillDBManager {
         listRequest.add(nameUpgrade);
         listRequest.add(numUpgrade);
         try{
-            return dbManager.getData("UpgradeSkill", listName, listRequest, "isAlreadyLearned").compareTo("true")==0;
+            return dbManager.getData("UpgradeSkill", listName, listRequest, ATTRIBUTE_STRING_IS_ALREADY_LEARNED).compareTo("true")==0;
         }catch(SQLException sqlException){
             throw new UpgradeSkillDataGetException();
         }
