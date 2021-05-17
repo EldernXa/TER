@@ -36,6 +36,18 @@ public class UpgradeSkillDBManager {
         dbManager.createTable("UpgradeSkill", listName, 4, listSize);
     }
 
+    public boolean verifyTableUpgradeSkillExist(){
+        ResultSet resultSet = dbManager.selectIntoTable("SELECT * FROM UpgradeSkill");
+        try{
+            if(resultSet.next()){
+                return true;
+            }
+        }catch(Exception ignored){
+
+        }
+        return false;
+    }
+
     public void insertIntoTableUpgradeSkill(String nameCharacter, int numSkill, String nameUpgrade, float newValue,
                                             int price, String description){
         ArrayList<Object> listObject = new ArrayList<>();

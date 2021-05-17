@@ -51,6 +51,25 @@ public class TestUpgradeSkillDBManage {
     }
 
     @Test
+    public void testVerifyTableNotExist(){
+        try{
+            assertFalse(upgradeSkillDBManager.verifyTableUpgradeSkillExist());
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testVerifyTableExist(){
+        try{
+            insertDataForUpgradeSkill();
+            assertTrue(upgradeSkillDBManager.verifyTableUpgradeSkillExist());
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
     public void testGettingNumUpgrade(){
         try{
             insertDataForUpgradeSkill();

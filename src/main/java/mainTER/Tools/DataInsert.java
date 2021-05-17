@@ -91,29 +91,30 @@ public class DataInsert {
 
     public static void insertUpgradeSkillsValue() {
         UpgradeSkillDBManager upgradeSkillDBManager = new UpgradeSkillDBManager();
-        upgradeSkillDBManager.removeTableUpgradeSkill();
-        upgradeSkillDBManager.createTableUpgradeSkill();
-        SkillDBManager skillDBManager = new SkillDBManager();
+        if(!upgradeSkillDBManager.verifyTableUpgradeSkillExist()) {
+            upgradeSkillDBManager.createTableUpgradeSkill();
+            SkillDBManager skillDBManager = new SkillDBManager();
 
-        try {
+            try {
 
-            upgradeSkillDBManager.insertIntoTableUpgradeSkill("Demon", 1, "Reduce the cooldown",
-                    skillDBManager.getTimeCooldown("Demon",1), 1, "reduce the cooldown");
-            upgradeSkillDBManager.insertIntoTableUpgradeSkill("Demon", 1, "Increase the duration",
-                    skillDBManager.getTimeSkill("Demon",1),1, "Increase the duration");
-
-
-            upgradeSkillDBManager.insertIntoTableUpgradeSkill("Paladin", 3, "Reduce the cooldown",
-                    skillDBManager.getTimeCooldown("Paladin",3), 1, "reduce the barrier cooldown");
-            upgradeSkillDBManager.insertIntoTableUpgradeSkill("Paladin", 3, "Increase the duration",
-                    skillDBManager.getTimeSkill("Paladin",3), 1, "increase the barrier duration");
-
-            upgradeSkillDBManager.insertIntoTableUpgradeSkill("Paladin", 1, "Reduce the cooldown",
-                    skillDBManager.getTimeCooldown("Paladin",1), 1, "reduce the barrier cooldown");
+                upgradeSkillDBManager.insertIntoTableUpgradeSkill("Demon", 1, "Reduce the cooldown",
+                        skillDBManager.getTimeCooldown("Demon", 1), 1, "reduce the cooldown");
+                upgradeSkillDBManager.insertIntoTableUpgradeSkill("Demon", 1, "Increase the duration",
+                        skillDBManager.getTimeSkill("Demon", 1), 1, "Increase the duration");
 
 
-        } catch (Exception e) {
-            e.printStackTrace();
+                upgradeSkillDBManager.insertIntoTableUpgradeSkill("Paladin", 3, "Reduce the cooldown",
+                        skillDBManager.getTimeCooldown("Paladin", 3), 1, "reduce the barrier cooldown");
+                upgradeSkillDBManager.insertIntoTableUpgradeSkill("Paladin", 3, "Increase the duration",
+                        skillDBManager.getTimeSkill("Paladin", 3), 1, "increase the barrier duration");
+
+                upgradeSkillDBManager.insertIntoTableUpgradeSkill("Paladin", 1, "Reduce the cooldown",
+                        skillDBManager.getTimeCooldown("Paladin", 1), 1, "reduce the barrier cooldown");
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
     }
