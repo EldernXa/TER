@@ -69,15 +69,17 @@ public class MenuControls {
 
                 HBox hbox = new HBox(10);
                 Label labelNameSkill = new Label();
+                Label labelSkill = new Label();
                 Button button = new Button();
                 try {
-                    labelNameSkill.setText(skillDBManager.getNameSkill(nameCharacter, i+1).toLowerCase() + " (" + nameCharacter+ ")");
+                    labelNameSkill.setText(skillDBManager.getNameSkill(nameCharacter, i+1) );
+                    labelSkill.setText(skillDBManager.getNameSkill(nameCharacter, i+1).toLowerCase()+ " (" + nameCharacter+ ")");
                     button.setText(skillDBManager.getCtrlKey(nameCharacter, i+1));
                 }catch(SkillDataGetException skillDataGetException){
                     skillDataGetException.printStackTrace();
                     System.out.println("Problème dans la récupération des données des compétences de " + nameCharacter + ".");
                 }
-                labelSet(hbox, labelNameSkill, button, vBoxButtonSkill, vBoxLabelSkill);
+                labelSet(hbox, labelSkill, button, vBoxButtonSkill, vBoxLabelSkill);
 
 
                 vBoxSkill.getChildren().add(hbox);
