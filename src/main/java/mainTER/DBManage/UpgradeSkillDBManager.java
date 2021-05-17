@@ -151,27 +151,34 @@ public class UpgradeSkillDBManager {
         return num-1;
     }
 
-    public Integer getNumUpgrade(String nameCharacter, int numSkill, String nameUpgrade) throws UpgradeSkillDataGetException{
+    private Object getObject(String nameCharacter, int numSkill, String nameUpgrade, String stringRequested, String type) throws SQLException {
         List<String> listName = listNameForGetting();
         ArrayList<Object> listRequest = new ArrayList<>();
         listRequest.add(nameCharacter);
         listRequest.add(numSkill);
         listRequest.add(nameUpgrade);
+        String value = dbManager.getData(TABLE_NAME, listName, listRequest, stringRequested);
+        if(type.compareTo("int")==0) {
+            return Integer.parseInt(value);
+        }else if(type.compareTo("float")==0){
+            return Float.parseFloat(value);
+        }else if(type.compareTo("boolean")==0){
+            return value.compareTo("true")==0;
+        }
+        return value;
+    }
+
+    public Integer getNumUpgrade(String nameCharacter, int numSkill, String nameUpgrade) throws UpgradeSkillDataGetException{
         try{
-            return Integer.parseInt(dbManager.getData(TABLE_NAME, listName, listRequest, ATTRIBUTE_STRING_NUM_UPGRADE));
+            return (int) getObject(nameCharacter, numSkill, nameUpgrade, ATTRIBUTE_STRING_NUM_UPGRADE, "int");
         }catch(SQLException sqlException){
             throw new UpgradeSkillDataGetException();
         }
     }
 
     public float getNewValue(String nameCharacter, int numSkill, String nameUpgrade) throws UpgradeSkillDataGetException{
-        List<String> listName = listNameForGetting();
-        ArrayList<Object> listRequest = new ArrayList<>();
-        listRequest.add(nameCharacter);
-        listRequest.add(numSkill);
-        listRequest.add(nameUpgrade);
         try{
-            return Float.parseFloat(dbManager.getData(TABLE_NAME, listName, listRequest, ATTRIBUTE_STRING_NEW_VALUE));
+            return (float)getObject(nameCharacter, numSkill, nameUpgrade, ATTRIBUTE_STRING_NEW_VALUE, "float");
         }catch(SQLException sqlException){
             throw new UpgradeSkillDataGetException();
         }
@@ -200,13 +207,8 @@ public class UpgradeSkillDBManager {
     }
 
     public boolean getIsAlreadyDone(String nameCharacter, int numSkill, String nameUpgrade) throws UpgradeSkillDataGetException{
-        List<String> listName = listNameForGetting();
-        ArrayList<Object> listRequest = new ArrayList<>();
-        listRequest.add(nameCharacter);
-        listRequest.add(numSkill);
-        listRequest.add(nameUpgrade);
         try{
-            return dbManager.getData(TABLE_NAME, listName, listRequest, ATTRIBUTE_STRING_IS_ALREADY_LEARNED).compareTo("true")==0;
+            return (boolean)getObject(nameCharacter, numSkill, nameUpgrade, ATTRIBUTE_STRING_IS_ALREADY_LEARNED, "boolean");
         }catch(SQLException sqlException){
             throw new UpgradeSkillDataGetException();
         }
@@ -221,20 +223,15 @@ public class UpgradeSkillDBManager {
         listRequest.add(nameUpgrade);
         listRequest.add(numUpgrade);
         try{
-            return dbManager.getData(TABLE_NAME, listName, listRequest, ATTRIBUTE_STRING_IS_ALREADY_LEARNED).compareTo("true")==0;
+            return dbManager.getData(TABLE_NAME, listName, listRequest, ATTRIBUTE_STRING_IS_ALREADY_LEARNED).compareTo("true") != 0;
         }catch(SQLException sqlException){
             throw new UpgradeSkillDataGetException();
         }
     }
 
     public int getPrice(String nameCharacter, int numSkill, String nameUpgrade) throws UpgradeSkillDataGetException{
-        List<String> listName = listNameForGetting();
-        ArrayList<Object> listRequest = new ArrayList<>();
-        listRequest.add(nameCharacter);
-        listRequest.add(numSkill);
-        listRequest.add(nameUpgrade);
         try{
-            return Integer.parseInt(dbManager.getData(TABLE_NAME, listName, listRequest, ATTRIBUTE_STRING_PRICE));
+            return (int)getObject(nameCharacter, numSkill, nameUpgrade, ATTRIBUTE_STRING_PRICE, "int");
         }catch(SQLException sqlException){
             throw new UpgradeSkillDataGetException();
         }
@@ -256,13 +253,8 @@ public class UpgradeSkillDBManager {
     }
 
     public String getDescription(String nameCharacter, int numSkill, String nameUpgrade) throws UpgradeSkillDataGetException{
-        List<String> listName = listNameForGetting();
-        ArrayList<Object> listRequest = new ArrayList<>();
-        listRequest.add(nameCharacter);
-        listRequest.add(numSkill);
-        listRequest.add(nameUpgrade);
         try{
-            return dbManager.getData(TABLE_NAME, listName, listRequest, ATTRIBUTE_STRING_DESCRIPTION);
+            return String.valueOf(getObject(nameCharacter, numSkill, nameUpgrade, ATTRIBUTE_STRING_DESCRIPTION, "String"));
         }catch(SQLException sqlException){
             throw new UpgradeSkillDataGetException();
         }

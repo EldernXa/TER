@@ -107,13 +107,13 @@ public class UpgradeSkillMenu {
 
                         priceText = new Text("Cost : " + price);
                         if (nameUpgrade.contains("Reduce")) {
-                            if (!upgradeSkillDBManager.getIsAlreadyDoneWithNumUpgrade(currentCharacter.getName(), i, nameUpgrade, lastChar) && value > 0) {
+                            if (upgradeSkillDBManager.getIsAlreadyDoneWithNumUpgrade(currentCharacter.getName(), i, nameUpgrade, lastChar) && value > 0) {
 
                                 totalText = new Text(nameUpgrade + " from " + value + " to " + (value - 2));
                             } else
                                 totalText = null;
                         } else {
-                            if (!upgradeSkillDBManager.getIsAlreadyDoneWithNumUpgrade(currentCharacter.getName(), i, nameUpgrade, lastChar)) {
+                            if (upgradeSkillDBManager.getIsAlreadyDoneWithNumUpgrade(currentCharacter.getName(), i, nameUpgrade, lastChar)) {
 
                                 totalText = new Text(nameUpgrade + " from " + value + " to " + (value + 1));
                             } else
@@ -200,7 +200,7 @@ public class UpgradeSkillMenu {
                                     }
 
 
-                                    if ((currentCD - 2) >= 0 && !upgradeSkillDBManager.getIsAlreadyDoneWithNumUpgrade(currentCharacter.getName(), i, nameUpgradeCD, lastCharCD)) {
+                                    if ((currentCD - 2) >= 0 && upgradeSkillDBManager.getIsAlreadyDoneWithNumUpgrade(currentCharacter.getName(), i, nameUpgradeCD, lastCharCD)) {
                                         int price = upgradeSkillDBManager.getPriceWithNumUpgrade(currentCharacter.getName(), i, nameUpgradeCD, lastCharCD);
                                         skillDBManager.modifyTimeCooldown(currentCharacter.getName(), nameSkill, currentCD - 2);
 
@@ -209,7 +209,7 @@ public class UpgradeSkillMenu {
                                         upgradeSkillDBManager.insertIntoTableUpgradeSkill(currentCharacter.getName(), i, "Reduce the cooldown", currentCD - 2, price + 1, "Reduce the cooldown2");
                                         isUpgradable = true;
                                     }
-                                    if (currentTime != 0 && !upgradeSkillDBManager.getIsAlreadyDoneWithNumUpgrade(currentCharacter.getName(), i, nameUpgradeTime, lastCharTime)) {
+                                    if (currentTime != 0 && upgradeSkillDBManager.getIsAlreadyDoneWithNumUpgrade(currentCharacter.getName(), i, nameUpgradeTime, lastCharTime)) {
                                         int price = upgradeSkillDBManager.getPriceWithNumUpgrade(currentCharacter.getName(), i, nameUpgradeTime, lastCharTime);
                                         skillDBManager.modifyTimeSkill(currentCharacter.getName(), nameSkill, currentTime + 1);
                                         upgradeSkillDBManager.setUpgradeDone(currentCharacter.getName(), i,
