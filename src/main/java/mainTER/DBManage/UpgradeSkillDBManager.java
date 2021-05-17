@@ -16,6 +16,8 @@ public class UpgradeSkillDBManager {
 
     private static final String ATTRIBUTE_STRING_NUM_UPGRADE = "numUpgrade";
 
+    private static final String ATTRIBUTE_STRING_NEW_VALUE = "newValue";
+
 
 
     private final DBManager dbManager;
@@ -35,7 +37,7 @@ public class UpgradeSkillDBManager {
         listName.add(ATTRIBUTE_STRING_NUM_SKILL);                   listSize.add(40);
         listName.add(ATTRIBUTE_STRING_NAME_UPGRADE);                listSize.add(50);
         listName.add(ATTRIBUTE_STRING_NUM_UPGRADE);                 listSize.add(40);
-        listName.add("newValue");                                   listSize.add(40);
+        listName.add(ATTRIBUTE_STRING_NEW_VALUE);                   listSize.add(40);
         listName.add("isAlreadyLearned");                           listSize.add(40);
         listName.add("price");                                      listSize.add(40);
         listName.add("description");                                listSize.add(500);
@@ -177,7 +179,7 @@ public class UpgradeSkillDBManager {
         listRequest.add(numSkill);
         listRequest.add(nameUpgrade);
         try{
-            return Float.parseFloat(dbManager.getData("UpgradeSkill", listName, listRequest, "newValue"));
+            return Float.parseFloat(dbManager.getData("UpgradeSkill", listName, listRequest, ATTRIBUTE_STRING_NEW_VALUE));
         }catch(SQLException sqlException){
             throw new UpgradeSkillDataGetException();
         }
@@ -192,7 +194,7 @@ public class UpgradeSkillDBManager {
         listRequest.add(nameUpgrade);
         listRequest.add(numUpgrade);
         try{
-            return Float.parseFloat(dbManager.getData("UpgradeSkill", listName, listRequest, "newValue"));
+            return Float.parseFloat(dbManager.getData("UpgradeSkill", listName, listRequest, ATTRIBUTE_STRING_NEW_VALUE));
         }catch(SQLException sqlException){
             throw new UpgradeSkillDataGetException();
         }
