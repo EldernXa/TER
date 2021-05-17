@@ -59,21 +59,41 @@ public class UnCollideObject extends DetectableObject {
         return 0;
     }
 
+    /**
+     * Return the double corresponding to the down distance calculated between this as a UncollideObject and the @param detectableObject, so the return will be the HMouvementSpan
+     * @param detectableObject
+     * @return
+     */
     @Override
     public double rightMvt(DetectableObject detectableObject) {
         return detectableObject.getHMouvementSpan();
     }
 
+    /**
+     * Return the double corresponding to the down distance calculated between this as a UncollideObject and the @param detectableObject, so the return will be the HMouvementSpan
+     * @param detectableObject
+     * @return
+     */
     @Override
     public double leftMvt(DetectableObject detectableObject) {
         return detectableObject.getHMouvementSpan();
     }
 
+    /**
+     * Return the double corresponding to the down distance calculated between this as a UncollideObject and the @param detectableObject, so the return will be the JumpMouvementSpan
+     * @param detectableObject
+     * @return
+     */
     @Override
     public double upMvt(DetectableObject detectableObject) {
         return detectableObject.getJumpMouvementSpan();
     }
 
+    /**
+     * Return the double corresponding to the down distance calculated between this as a UncollideObject and the @param detectableObject, so the return will be the FallMouvementSpan
+     * @param detectableObject
+     * @return
+     */
     @Override
     public double downMvt(DetectableObject detectableObject) {
         System.out.println("Technique NON calculée");

@@ -64,25 +64,44 @@ public class CollideObject extends DetectableObject{
         return 0;
     }
 
+    /**
+     * Return the double corresponding to the right distance calculated between this as a CollideObject and the @param detectableObject
+     * @param detectableObject
+     * @return
+     */
     @Override
     public double rightMvt(DetectableObject detectableObject) {
         return this.getAppropriateNode().getBoundsInParent().getMinX() - detectableObject.getAppropriateNode().getBoundsInParent().getMaxX();
     }
 
+    /**
+     * Return the double corresponding to the left distance calculated between this as a CollideObject and the @param detectableObject
+     * @param detectableObject
+     * @return
+     */
     @Override
     public double leftMvt(DetectableObject detectableObject) {
         return detectableObject.getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX();
     }
 
+    /**
+     * Return the double corresponding to the up distance calculated between this as a CollideObject and the @param detectableObject
+     * @param detectableObject
+     * @return
+     */
     @Override
     public double upMvt(DetectableObject detectableObject) {
 
         return detectableObject.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY();
     }
 
+    /**
+     * Return the double corresponding to the down distance calculated between this as a CollideObject and the @param detectableObject
+     * @param detectableObject
+     * @return
+     */
     @Override
     public double downMvt(DetectableObject detectableObject) {
-        System.out.println("Technique calculée");
         return this.getAppropriateNode().getBoundsInParent().getMinY() - detectableObject.getAppropriateNode().getBoundsInParent().getMaxY();
     }
 }
