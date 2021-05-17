@@ -1,10 +1,13 @@
 package mainTER.Menu;
 
 
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -13,6 +16,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import mainTER.DBManage.ControlsDBManager;
 import mainTER.DBManage.SkillDBManager;
+import mainTER.Tools.DataInsert;
 import mainTER.Tools.ReturnBack;
 import mainTER.exception.SkillCtrlAlreadyUsedByMovementControlException;
 import mainTER.exception.SkillCtrlAlreadyUsedException;
@@ -35,6 +39,7 @@ public class MenuControls {
     VBox vBoxSkill = new VBox();
     VBox vBoxButtonSkill = new VBox(10);
     VBox vBoxLabelSkill = new VBox(10);
+    Button buttonReset = new Button("RESET THE CONTROLS");
 
 
 
@@ -51,8 +56,49 @@ public class MenuControls {
         controlDisplay();
         controlSkillDisplay();
 
+        setbutton();
         ReturnBack.setRevenir(stage,stage.getScene(),pane);
 
+
+    }
+    public void setbutton(){
+        buttonReset.setOnMouseClicked(mouseEvent -> {
+            controlsDBManager.removeTableControls();
+            DataInsert.insertControls();
+            try {
+                listControls = controlsDBManager.toArray();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            for (int i = 0;i<listControls.size();i++){
+                ((Button)vBoxButton.getChildren().get(i)).setText(listControls.get(i));
+                switch (listControls.get(i)) {
+                    case "&":
+                        ((Button)vBoxButton.getChildren().get(i)).setText("↑");
+                        break;
+                    case "%":
+                        ((Button)vBoxButton.getChildren().get(i)).setText("←");
+                        break;
+                    case "(":
+                        ((Button)vBoxButton.getChildren().get(i)).setText("↓");
+                        break;
+                    case "'":
+                        ((Button)vBoxButton.getChildren().get(i)).setText("→");
+                        break;
+                    case " ":
+                        ((Button)vBoxButton.getChildren().get(i)).setText("SPACE");
+                        break;
+                    default:
+                        ((Button)vBoxButton.getChildren().get(i)).setText(((Button)vBoxButton.getChildren().get(i)).getText().toUpperCase());
+                        break;
+                }
+            }
+            labelDesc.setText("Click a button and press a key.");
+
+        });
+        buttonReset.setTranslateY(30);
+        buttonReset.setTranslateX(40);
+        pane.getChildren().add(buttonReset);
 
     }
 
@@ -187,14 +233,14 @@ public class MenuControls {
         buttonCtrlKey.setOnMouseClicked(
                 mouseEvent->{
                     String text = buttonCtrlKey.getText();
-                    labelDesc.setText("Cliquez sur un bouton et appuyez sur une touche.");
+                    labelDesc.setText("Click a button and press a key.");
                     buttonCtrlKey.setText("");
                     buttonCtrlKey.setOnKeyPressed(keyEvent->{
                         int code = keyEvent.getCode().getCode();
                         String control = keyEvent.getCode().getChar().toLowerCase();
 
                         if(skillDBManager.getCtrlKeyOfACharacter(nameCharacter).contains(control.toLowerCase())){
-                            labelDesc.setText("Ce caractère est déjà utilisé.");
+                            labelDesc.setText("This character is already in use.");
                             buttonCtrlKey.setText(text);
                         }else{
                             boolean correctChar = (code <= 110 && code >= 97) || code == 10 || code == 20 || code == 9 || code == 0|| code == 27;
@@ -216,7 +262,7 @@ public class MenuControls {
                                     break;
                                 default:
                                     if (correctChar) {
-                                        labelDesc.setText("Caractère non correct");
+                                        labelDesc.setText("Wrong character.");
                                     } else {
                                         buttonCtrlKey.setText(keyEvent.getCode().getChar().toUpperCase());
                                     }
@@ -225,7 +271,7 @@ public class MenuControls {
                             }
 
                             if(correctChar){
-                                labelDesc.setText("Caractère non correct.");
+                                labelDesc.setText("Wrong character.");
                             }else{
                                 try {
                                     skillDBManager.modifyCtrlOfACharacter(nameCharacter, labelNameSkill.getText(), control);
@@ -240,12 +286,11 @@ public class MenuControls {
                             }
 
                         }
-                    });
-                    scene.setOnMouseClicked(mouseEvent1 -> {
-                        buttonCtrlKey.setText(text);
-                        buttonCtrlKey.setOnKeyPressed(null);
-                        scene.setOnMouseClicked(null);
-                    });
+
+                            buttonCtrlKey.setOnKeyPressed(null);
+                            scene.setOnMouseClicked(null);
+                        });
+
                 });
     }
 
@@ -260,7 +305,7 @@ public class MenuControls {
         button.setOnMouseClicked(mouseEvent -> {
 
             String text = button.getText();
-            labelDesc.setText("Cliquez sur un bouton et appuyez sur une touche.");
+            labelDesc.setText("Click a button and press a key.");
             button.setText("");
             button.setOnKeyPressed(keyEvent -> {
                 int code = keyEvent.getCode().getCode();
@@ -268,7 +313,7 @@ public class MenuControls {
 
 
                 if(listControls.contains(control.toLowerCase())){
-                    labelDesc.setText("Ce caractère est deja utilisé");
+                    labelDesc.setText("This character is already in use.");
                     button.setText(text);
                 }else {
                     boolean corectChar = (code <= 110 && code >= 97) || code == 10 || code == 20 || code == 9 || code == 0|| code == 27 ;
@@ -290,15 +335,14 @@ public class MenuControls {
                             break;
                         default:
                             if (corectChar) {
-                                labelDesc.setText("Caractère non correct");
+                                labelDesc.setText("Wrong character.");
                             } else {
                                 button.setText(keyEvent.getCode().getChar().toUpperCase());
                             }
-
                             break;
                     }
                     if (corectChar) {
-                        labelDesc.setText("Caractère non correct");
+                        labelDesc.setText("Wrong character.");
 
                     } else {
                         switch (label.getText().toLowerCase()) {
@@ -335,14 +379,11 @@ public class MenuControls {
                     throwables.printStackTrace();
                 }
                 button.setOnKeyPressed(null);
-
-            });
-
-            scene.setOnMouseClicked(mouseEvent1 -> {
-                button.setText(text);
-                button.setOnKeyPressed(null);
                 scene.setOnMouseClicked(null);
+
             });
+
+
         });
 
 
