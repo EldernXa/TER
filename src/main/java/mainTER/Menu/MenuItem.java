@@ -25,13 +25,12 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import mainTER.CharacterGameplay.Character;
 import mainTER.CharacterGameplay.DisplayCharacter;
-import mainTER.DBManage.CheckpointsDBManager;
-import mainTER.DBManage.MapDBManager;
-import mainTER.DBManage.PersonDBManager;
+import mainTER.DBManage.*;
 import mainTER.LoadOfFXML;
 import mainTER.MapPackage.Map;
 import mainTER.Network.GameServer;
 import mainTER.Network.Player;
+import mainTER.Tools.DataInsert;
 import mainTER.exception.CheckpointsCharacterDoesntExistException;
 import mainTER.exception.CheckpointsMapDoesntExistException;
 import mainTER.exception.MapDataGetException;
@@ -240,6 +239,25 @@ public class MenuItem extends StackPane {
                    UpgradeSkillMenu upgradeSkillMenu = new UpgradeSkillMenu(listCharacter,stage);
                     stage.setScene(upgradeSkillMenu.getScene());
                     break;
+                }
+                case "RESET THE GAME": {
+                    BestProfileDBManager bestProfileDBManager = new BestProfileDBManager();
+                    PointsUpgradeDBManager pointsUpgradeDBManager = new PointsUpgradeDBManager();
+                    ProfileDBManager profileDBManager = new ProfileDBManager();
+                    UpgradeSkillDBManager upgradeSkillDBManager = new UpgradeSkillDBManager();
+                    SkillDBManager skillDBManager = new SkillDBManager();
+                    CheckpointsDBManager checkpointsDBManager = new CheckpointsDBManager();
+                    checkpointsDBManager.removeTableCheckPoints();
+                    skillDBManager.removeTableSkill();
+                    upgradeSkillDBManager.removeTableUpgradeSkill();
+                    bestProfileDBManager.removeTableProfile();
+                    pointsUpgradeDBManager.removeTablePointsUpgrade();
+                    profileDBManager.removeTableProfile();
+                    skillDBManager.createTableSkill();
+                    DataInsert.insertSkill();
+                    DataInsert.insertUpgradeSkillsValue();
+                    DataInsert.insetCheckpoints();
+
                 }
             }
         });
