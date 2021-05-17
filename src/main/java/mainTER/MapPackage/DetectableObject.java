@@ -312,7 +312,7 @@ public abstract class DetectableObject {
                     detectableObject2.interaction(this);
                     multiInteractions(detectableObject2);
 
-                    System.out.println("distance between " + this + " and " + detectableObject2 + " = " + detectableObject2.downMvt(this));
+//                    System.out.println("distance between " + this + " and " + detectableObject2 + " = " + detectableObject2.downMvt(this));
                     if(detectableObject2.downMvt(this) < miniDownMvt){
                         miniDownMvt = detectableObject2.downMvt(this);
                     }
