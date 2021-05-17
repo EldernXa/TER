@@ -62,6 +62,7 @@ public class MainMenu {
                 new MenuItem("MULTIPLAYER",stage),
                 new MenuItem("SETTINGS",stage),
                 new MenuItem("UPGRADE SKILLS",stage),
+                new MenuItem("RESET THE GAME",stage),
                 new MenuItem("QUIT",stage)
         );
         vbox.setTranslateX(320);
