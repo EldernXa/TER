@@ -1,6 +1,6 @@
 checkpoints
 2274 309
-3527 302
+3527 380
 681 381
 floor
 rock N 1995 734 100
@@ -13,7 +13,7 @@ plateforme2 N 809 721 100
 plateforme3 N 1584 564 100
 plateforme4 N 1806 478 100
 plateforme4 L 1552 275 95 37
-plateforme4 N 1253 204 100
+plateforme4 L 1260 204 95 37
 pont1 L 2406 565 51 33
 pont1 L 2824 565 51 33
 limits N 5533 788 100
@@ -30,6 +30,8 @@ eau1 2659 722
 eau1 2551 722
 eau1 2443 722
 eau1 2389 722
-forgottensword 3544 445
 levers
-745 689 portcullis 1000 542
+5041 680 spikesRet 3933 455 0
+5041 680 eau1 4033 722 0
+5041 680 forgottensword 3544 445
+745 689 plateform1 930 677 0

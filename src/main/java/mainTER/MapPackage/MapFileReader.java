@@ -167,9 +167,13 @@ public class MapFileReader {
                                 detectableObjectArrayList.add(portcullis);
                                 break;
 
+                            case "spikesRet" :
+                            case "plateform1" :
+                            case "eau1" :
                             case "shield":
                             case "metalDoor":
-                                HideOnActionObject hideOnActionObject = new HideOnActionObject(new Coordinate(doubles[3], doubles[4]), line[2]);
+                                System.out.println(line[2]);
+                                HideOnActionObject hideOnActionObject = new HideOnActionObject(new Coordinate(doubles[3], doubles[4]), line[2], (int)doubles[5]);
                                 detectableObjectArrayList.add(new Lever(hideOnActionObject, new Coordinate(doubles[0], doubles[1])));
                                 detectableObjectArrayList.add(hideOnActionObject);
                                 break;

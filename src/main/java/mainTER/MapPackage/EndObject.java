@@ -24,6 +24,8 @@ public class EndObject extends InteractiveObject {
     String mapName;
     ProfileDBManager profileDBManager = new ProfileDBManager();
     BestProfileDBManager bestProfileDBManager = new BestProfileDBManager();
+    private boolean exist = false;
+
     public EndObject(String name, Coordinate coordinate) {
 
         super(coordinate, new ImageViewSizePos("/mainTER/MapPackage/Objects/"+ name +".png",coordinate));
@@ -83,6 +85,20 @@ public class EndObject extends InteractiveObject {
         }
         catch (Exception ignored){
 
+        }
+    }
+
+    @Override
+    public void actionTriggered() {
+        if(!exist){
+            System.out.println("pas là");
+            this.getImageView().setImage(null);
+            this.exist = true;
+        }
+        else{
+            System.out.println("là");
+            this.getImageView().setImage(new ImageViewSizePos("/mainTER/MapPackage/Objects/"+ name +".png", getCoordinate()).getImageView().getImage());
+            this.exist = false;
         }
     }
 
