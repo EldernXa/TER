@@ -380,7 +380,7 @@ public abstract class DetectableObject {
 //                System.out.println("Object2 = " + objectLinker.getCollideObject2());
 
             } else {
-                //print eror if you want
+                //print error if you want
             }
         }
     }
