@@ -74,7 +74,7 @@ public class MenuProfile {
     }
     public void setButton(){
         Button button = new Button("Ranking");
-        button.setTranslateY(320);
+        button.setTranslateY(350);
         button.setOnMouseClicked(mouseEvent->{
             displayRanking();
         });
@@ -96,7 +96,6 @@ public class MenuProfile {
             for (String s : sortedProfiles.keySet()){
                 double value = sortedProfiles.get(s);
                 rank.getChildren().add(new Text(i +" " + s +" " + value));
-                System.out.println(i +" " + s +" " + value);
                 i++;
 
             }

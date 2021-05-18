@@ -106,7 +106,6 @@ public class MenuItem extends StackPane {
                     MenuLevel menuLevel = new MenuLevel(newStage);
                     Scene scene = new Scene( menuLevel.getPane(), 860,600);
 
-                    System.out.println(pseudo.getText() + " est le pseudo");
 
 
                     newStage.setScene(scene);
@@ -132,7 +131,6 @@ public class MenuItem extends StackPane {
                     for(String nameCharacter : listName){
                         listCharacter.add(new Character(nameCharacter));
                     }
-                    System.out.println(pseudo.getText() + " pseudo quand on clique");
                     if(!pseudo.getText().equals("") && !pseudo.getText().equals(" ")) {
                         mapName = "Castle";
                         createLvl("Castle");
