@@ -32,7 +32,18 @@ public class Map {
 
         mapFileReader = new MapFileReader(url , fileName,bool);
 
+    }
+    public Map( Pane pane,String fileName) {
 
+        this.pane = pane;
+        String url = "./src/main/resources/mainTER/MapPackage/Files/";
+        this.fileName = fileName;
+
+        this.backgroundImage = new ImageView(new Image(new File("src/main/resources/mainTER/MapPackage/Sprites/Back/Background"+fileName +".png").toURI().toString()));
+
+
+
+        mapFileReader = new MapFileReader(url , fileName);
 
     }
     public void displayMap(){
@@ -53,12 +64,15 @@ public class Map {
     public void addCollisionObject(){
         for (DetectableObject detectableObject : this.getReadFileMap().getCollisionObjectArrayList()){
 
+
             pane.getChildren().add(detectableObject.getAppropriateNode());
         }
+        System.out.println(this.getReadFileMap().getCollisionObjectArrayList().size());
     }
 
     public void addCollisionObjectNetwork(boolean bool){
 
+        System.out.println(this.getReadFileMap().getCollisionObjectArrayList().size());
         Iterator<DetectableObject> list = this.getReadFileMap().getCollisionObjectArrayList().iterator();
         while (list.hasNext()) {
             DetectableObject detectableObject = list.next();

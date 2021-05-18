@@ -24,8 +24,8 @@ public class MapFileReader {
     /**
      * @param pathName Map file path
      */
-    public MapFileReader(String url, String pathName,boolean bool) {
-        if(bool){
+    public MapFileReader(String url, String pathName) {
+
             checkpointArrayList = new ArrayList<>();
             detectableObjectArrayList = new ArrayList<>();
             this.pathName = pathName;
@@ -38,20 +38,23 @@ public class MapFileReader {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else {
-            if(detectableObjectArrayList == null){
-                checkpointArrayList = new ArrayList<>();
-                detectableObjectArrayList = new ArrayList<>();
-                this.pathName = pathName;
-                Path path = Paths.get(url + pathName + ".txt");
-                try {
-                    this.file = Files.readString(path).split("\n");
 
-                    read();
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    }
+
+    public MapFileReader(String url,String pathName,boolean bool){
+        if(bool){
+            checkpointArrayList = new ArrayList<>();
+            detectableObjectArrayList = new ArrayList<>();
+            this.pathName = pathName;
+            Path path = Paths.get(url + pathName + ".txt");
+            try {
+                this.file = Files.readString(path).split("\n");
+
+                read();
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
