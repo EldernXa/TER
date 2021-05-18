@@ -27,23 +27,27 @@ public class Music {
      */
     public static void launchMenuSound(String name)
     {
-        stopMusic();
-        try {
-            Media media = new Media(new File("src/main/resources/mainTER/Sound/music"+name+".wav").toURI().toString());
-            mediaPlayer = new MediaPlayer(media);
-            if(!playing) {
-                playing = true;
-                mediaPlayer.play();
-                mediaPlayer.setVolume(0.2);
-                mediaPlayer.setOnEndOfMedia(() -> {
-                    mediaPlayer.stop();
+
+        new Thread(()->{
+            stopMusic();
+            try {
+                Media media = new Media(new File("src/main/resources/mainTER/Sound/music"+name+".wav").toURI().toString());
+                mediaPlayer = new MediaPlayer(media);
+                if(!playing) {
+                    playing = true;
                     mediaPlayer.play();
+                    mediaPlayer.setVolume(0.2);
+                    mediaPlayer.setOnEndOfMedia(() -> {
+                        mediaPlayer.stop();
+                        mediaPlayer.play();
 
-                });
+                    });
+                }
+            }catch (Exception e){
+
             }
-        }catch (Exception e){
+        }).start();
 
-        }
 
     }
 
