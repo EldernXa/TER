@@ -1,6 +1,7 @@
 checkpoints
 2274 309
 3527 302
+681 381
 floor
 rock N 1995 734 100
 herbe0-1 N 0 788 100
@@ -19,7 +20,5 @@ spikes 930 735
 eau1 2767 722
 eau1 3810 722
 forgottensword 5216 658
-crate 500 710
-crate 420 710
 levers
-1250 689 portcullis 1000 542
+745 689 portcullis 1000 542

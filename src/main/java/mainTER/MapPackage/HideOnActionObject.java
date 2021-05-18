@@ -12,7 +12,7 @@ public class HideOnActionObject extends InteractiveObject{
 
     public HideOnActionObject(Coordinate coordinate, String name) {
         super(coordinate, new ImageViewSizePos("/mainTER/MapPackage/Objects/"+name +".png", coordinate));
-        this.imageView = new ImageViewSizePos("/mainTER/MapPackage/Objects/"+name +".png", coordinate);
+        this.imageView = new ImageViewSizePos("/mainTER/MapPackage/Objects/"+name +".png", coordinate);//TODO can be removed
         isOpen = false;
         this.name = name;
     }
