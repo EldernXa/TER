@@ -1,5 +1,6 @@
 package mainTER.MapPackage;
 
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -74,7 +75,8 @@ public class EndObject extends InteractiveObject {
                     stage.setScene(scene);
                     stage.show();
                 }else {
-                    MainMenu.createContent(new Stage());
+                    Platform.exit();
+                    System.exit(0);
                 }
 
 
