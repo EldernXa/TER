@@ -20,6 +20,14 @@ public class Lever extends InteractiveObject{
         return interactiveObject;
     }
 
+    public void setInteractiveObject(InteractiveObject interactiveObject) {
+        this.interactiveObject = interactiveObject;
+    }
+
+    public InteractiveObject getInteractiveObject() {
+        return interactiveObject;
+    }
+
     @Override
     public Node getAppropriateNode() {
         return super.getImageView();
@@ -27,7 +35,7 @@ public class Lever extends InteractiveObject{
 
     @Override
     public Lever clone() {
-        return new Lever(interactiveObject.clone(), new Coordinate(this.getX(),this.getY()));
+        return new Lever(null, new Coordinate(this.getX(),this.getY()));
     }
 
     @Override

@@ -63,9 +63,10 @@ public class Map {
 
     public void addCollisionObject(){
         for (DetectableObject detectableObject : this.getReadFileMap().getCollisionObjectArrayList()){
-
-
             pane.getChildren().add(detectableObject.getAppropriateNode());
+            /*if(detectableObject instanceof Lever){
+                pane.getChildren().add(((Lever)detectableObject).getInteractiveObject().getAppropriateNode());
+            }*/
         }
         System.out.println(this.getReadFileMap().getCollisionObjectArrayList().size());
     }
@@ -78,6 +79,9 @@ public class Map {
             DetectableObject detectableObject = list.next();
             DetectableObject detectableObject2 = detectableObject.clone();
             objectLinkers.add(new ObjectLinker(detectableObject, detectableObject2));
+            /*if(detectableObject instanceof Lever){
+                ((Lever)detectableObject2).setInteractiveObject(((Lever)detectableObject).getInteractiveObject().clone());
+            }*/
             //TODO Add second pane for the clones
             detectableObjects1.add(detectableObject2);
             if(bool){
