@@ -11,6 +11,8 @@ public class DBManager {
     private Connection connection = null;
     private final String nameDB;
 
+
+
     /**
      * Constructor who take the database name for the project.
      */
@@ -55,6 +57,11 @@ public class DBManager {
             exception.printStackTrace();
         }
     }
+    public Connection getco(){
+        this.getConnection();
+        return connection;
+    }
+
 
     public void createTable(String nameTable, List<String> listName, int numPrimaryKey, List<Integer> listSize){
         StringBuilder requestCreateTable = new StringBuilder("CREATE TABLE IF NOT EXISTS " + nameTable + " ( \n");

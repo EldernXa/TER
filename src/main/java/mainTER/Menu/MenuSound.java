@@ -22,7 +22,7 @@ public class MenuSound {
     private final StackPane pane = new StackPane();
     private final Scene scene = new Scene(pane, Screen.getPrimary().getVisualBounds().getWidth()/2,Screen.getPrimary().getVisualBounds().getHeight()/2);
     private final Slider volumeSlider = new Slider();
-    private final Label labelSon = new Label("Régler le niveau du son :");
+    private final Label labelSon = new Label("Adjust the sound level :");
 
 
     public MenuSound(Stage stage) {

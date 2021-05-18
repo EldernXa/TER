@@ -105,7 +105,7 @@ public class MenuItem extends StackPane {
                     Stage newStage = new Stage();
                     MenuLevel menuLevel = new MenuLevel(newStage);
                     Scene scene = new Scene( menuLevel.getPane(), 860,600);
-                    pseudo = menuLevel.getPseudo();
+
 
 
                     newStage.setScene(scene);
@@ -118,6 +118,7 @@ public class MenuItem extends StackPane {
                     for(String nameCharacter : listName){
                         listCharacter.add(new Character(nameCharacter));
                     }
+
 
                     if(!pseudo.getText().equals("") && !pseudo.getText().contains(" ")){
                         mapName = "Forest";

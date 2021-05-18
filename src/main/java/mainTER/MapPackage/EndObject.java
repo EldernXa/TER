@@ -57,9 +57,11 @@ public class EndObject extends InteractiveObject {
                     mapName = MenuItem.mapName;
                     profileDBManager.createTableProfile();
 
+
                     if(!profileDBManager.nameExist(nameProfile,mapName)){
                         profileDBManager.insertIntoTableProfile(nameProfile,time,mapName);
                     }else{
+                        System.out.println(time +" " + profileDBManager.getTime(nameProfile,mapName));
                         if(time< profileDBManager.getTime(nameProfile,mapName)){
                             profileDBManager.setTime(nameProfile,time,mapName);
                         }
@@ -159,6 +161,7 @@ public class EndObject extends InteractiveObject {
     public double downMvt(DetectableObject detectableObject) {
         return detectableObject.getFallMouvementSpan();
     }
+
 
 
 }
