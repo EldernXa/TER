@@ -47,7 +47,8 @@ public class MenuProfile {
 
         Text nameText = new Text(name);
 
-        Text timeText = new Text("Your time is "+ time + " seconds");
+        String a = String.format("%02d:%02d", time / 60, time % 60);
+        Text timeText = new Text("Your time is "+ a + " minutes");
         Text mapText = new Text("On the map " + mapName);
 
 
@@ -61,11 +62,14 @@ public class MenuProfile {
         mapText.setTranslateY(100);
         mapText.setFont(Font.font("Tw Cen Mt Condensed", 20));
         mapText.setTranslateX(timeText.getTranslateX());
-        Text myBest = new Text("My best time on the map " + mapName + " is  " + profileDBManager.getTime(name,mapName) + " seconds");
+
+        a = String.format("%02d:%02d", profileDBManager.getTime(name,mapName) / 60, profileDBManager.getTime(name,mapName) % 60);
+        Text myBest = new Text("My best time on the map " + mapName + " is  " + a + " minutes");
         myBest.setTranslateY(125);
         myBest.setTranslateX(timeText.getTranslateX());
         myBest.setFont(Font.font("Tw Cen Mt Condensed", 25));
-        Text bestText = new Text("The best player on the map " + mapName + " is \n" + bestProfileDBManager.getName(mapName) + " with a time of " + bestProfileDBManager.getTime(mapName) + " seconds");
+        a = String.format("%02d:%02d", bestProfileDBManager.getTime(mapName) / 60, bestProfileDBManager.getTime(mapName) % 60);
+        Text bestText = new Text("The best player on the map " + mapName + " is \n" + bestProfileDBManager.getName(mapName) + " with a time of " + a + " minutes");
         bestText.setTranslateY(300);
         bestText.setFont(Font.font("Tw Cen Mt Condensed", 30));
 
@@ -93,12 +97,13 @@ public class MenuProfile {
                 .forEachOrdered(x -> sortedProfiles.put(x.getKey(), x.getValue()));
 
         int i = 1;
-            for (String s : sortedProfiles.keySet()){
-                double value = sortedProfiles.get(s);
-                rank.getChildren().add(new Text(i +" " + s +" " + value));
-                i++;
+        for (String s : sortedProfiles.keySet()){
+            double value = sortedProfiles.get(s);
+            String a = String.format("%02d:%02d", (int)value / 60, (int)value % 60);
+            rank.getChildren().add(new Text(i +" " + s +" " + a));
+            i++;
 
-            }
+        }
 
         Stage stage = new Stage();
         Scene scene = new Scene(rank);
