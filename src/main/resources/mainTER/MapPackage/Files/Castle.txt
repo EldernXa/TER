@@ -97,6 +97,7 @@ limit L 0 0 5 2400
 limit L 3200 0 5 2400
 objects
 lava 1132 2330
+lava 2863 2364
 spikes1 2710 1420
 spikes1 2806 1420
 spikes2 2774 1388
@@ -115,3 +116,7 @@ crate 2670 1822
 crate 2682 1854
 crate 2713 1854
 sword 2162 567
+levers
+57 2314 portcullis 316 1229 1
+472 1376 portcullis 135 2173 1
+1361 1835 portcullis 100 100 0
