@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ProfileDBManager {
@@ -102,13 +103,27 @@ public class ProfileDBManager {
 
     }
 
-    public List<String> getListProfileFromDatabase(){
+    public List<String> getListProfileFromDatabase(String mapName){
         ArrayList<String> listProfile = new ArrayList<>();
         ResultSet rs;
         try{
-            rs = dbManager.selectIntoTable("SELECT * FROM Profile;");
+            rs = dbManager.selectIntoTable("SELECT * FROM Profile WHERE mapName = '"+SecureManage.getEncrypted(mapName)+"';");
             while(rs.next()){
                 listProfile.add(SecureManage.getDecrypted(rs.getString("name")));
+            }
+        }catch(SQLException sqlException){
+            System.out.println("Problème dans la récupération de données.");
+        }
+        return listProfile;
+    }
+
+    public HashMap<String, Double> getRanking(String mapName){
+        HashMap<String,Double> listProfile = new HashMap<>();
+        ResultSet rs;
+        try{
+            rs = dbManager.selectIntoTable("SELECT name,time FROM Profile WHERE mapName = '"+SecureManage.getEncrypted(mapName)+"';");
+            while(rs.next()){
+                listProfile.put(SecureManage.getDecrypted(rs.getString("name")),Double.parseDouble(SecureManage.getDecrypted(rs.getString("time"))));
             }
         }catch(SQLException sqlException){
             System.out.println("Problème dans la récupération de données.");

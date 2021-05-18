@@ -1,6 +1,7 @@
 package mainTER.Menu;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Menu;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -12,7 +13,6 @@ import static mainTER.Menu.MainMenu.createContent;
 
 public class MenuLevel extends StackPane {
 
-    TextField pseudo ;
     private final Pane pane = new Pane();
 
     public MenuLevel(Stage stage) {
@@ -27,14 +27,14 @@ public class MenuLevel extends StackPane {
         vbox.setTranslateY(250);
         vbox.setSpacing(5);
         if(MenuItem.pseudo == null){
-            pseudo = new TextField("Pseudo");
+            MenuItem.pseudo = new TextField("Pseudo");
 
         }else {
-            pseudo = new TextField(MenuItem.pseudo.getText());
+            MenuItem.pseudo = new TextField(MenuItem.pseudo.getText());
         }
-        pseudo.setTranslateX(170);
-        pseudo.setTranslateY(220);
-        pane.getChildren().addAll(vbox,pseudo);
+        MenuItem.pseudo.setTranslateX(170);
+        MenuItem.pseudo.setTranslateY(220);
+        pane.getChildren().addAll(vbox,MenuItem.pseudo);
         stage.initStyle(StageStyle.UNDECORATED);
         ReturnBack.setRevenir(stage,new Scene(createContent(stage)),pane);
 
@@ -42,10 +42,6 @@ public class MenuLevel extends StackPane {
 
 
 
-
-    public TextField getPseudo() {
-        return pseudo;
-    }
 
     public Pane getPane() {
         return pane;

@@ -1,13 +1,22 @@
 package mainTER.Menu;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import mainTER.DBManage.BestProfileDBManager;
 import mainTER.DBManage.ProfileDBManager;
 import mainTER.Tools.ReturnBack;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+import static java.util.Map.Entry.comparingByValue;
 
 
 public class MenuProfile {
@@ -25,6 +34,7 @@ public class MenuProfile {
 
 
         display();
+        setButton();
         MenuLevel menuLevel = new MenuLevel(stage);
         Scene scene = new Scene( menuLevel.getPane(), 860,600);
         ReturnBack.setRevenir(stage,scene,pane);
@@ -39,6 +49,7 @@ public class MenuProfile {
 
         Text timeText = new Text("Your time is "+ time + " seconds");
         Text mapText = new Text("On the map " + mapName);
+
 
 
         nameText.setTranslateY(50);
@@ -60,6 +71,40 @@ public class MenuProfile {
 
         pane.getChildren().addAll(nameText,timeText,mapText,bestText,myBest);
 
+    }
+    public void setButton(){
+        Button button = new Button("Ranking");
+        button.setTranslateY(320);
+        button.setOnMouseClicked(mouseEvent->{
+            displayRanking();
+        });
+        pane.getChildren().add(button);
+    }
+
+    public void displayRanking(){
+        HashMap<String,Double>  listProfiles = profileDBManager.getRanking(mapName);
+
+        VBox rank = new VBox(5);
+
+        HashMap<String, Double> sortedProfiles = new LinkedHashMap<>();
+        listProfiles.entrySet()
+                .stream()
+                .sorted(comparingByValue())
+                .forEachOrdered(x -> sortedProfiles.put(x.getKey(), x.getValue()));
+
+        int i = 1;
+            for (String s : sortedProfiles.keySet()){
+                double value = sortedProfiles.get(s);
+                rank.getChildren().add(new Text(i +" " + s +" " + value));
+                System.out.println(i +" " + s +" " + value);
+                i++;
+
+            }
+
+        Stage stage = new Stage();
+        Scene scene = new Scene(rank);
+        stage.setScene(scene);
+        stage.show();
     }
 
     public Pane getPane() {
