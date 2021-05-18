@@ -312,7 +312,7 @@ public abstract class DetectableObject {
                 }
                 if ((this.getAppropriateNode().getBoundsInParent().getMinY() - detectableObject2.getAppropriateNode().getBoundsInParent().getMaxY() >= 0) || (rect.intersects(detectableObject2.getAppropriateNode().getBoundsInParent()))) {
                 }
-                if ((!this.equals(detectableObject2)) && (rect.intersects(detectableObject2.getAppropriateNode().getBoundsInParent())) && ((this.getAppropriateNode().getBoundsInParent().getMinY() - detectableObject2.getAppropriateNode().getBoundsInParent().getMaxY() >= 0)||( (detectableObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY() + ((DisplayCharacter)this).getTempNewHeigt())>=0) )/*&&(this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY() <= this.getJumpMouvementSpan())*/) { //a voir pour le -i
+                if ((!this.equals(detectableObject2)) && (rect.intersects(detectableObject2.getAppropriateNode().getBoundsInParent())) && ((this.getAppropriateNode().getBoundsInParent().getMinY() - detectableObject2.getAppropriateNode().getBoundsInParent().getMaxY() >= 0)/*||( (detectableObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY() + ((DisplayCharacter)this).getTempNewHeigt())>=0)*/ )/*&&(this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY() <= this.getJumpMouvementSpan())*/) { //a voir pour le -i
                     calc = true;
                     detectableObject2.interaction(this);
 
@@ -352,17 +352,8 @@ public abstract class DetectableObject {
                     multiInteractions(detectableObject2);
 //                    System.out.println("distance between " + this + " and " + detectableObject2 + " = " + detectableObject2.downMvt(this));
 
-                    if (detectableObject2.leftMvt(this) == 0) {
-                        System.out.println("AYAYA");
-                    }
-                    if (detectableObject2.rightMvt(this) == 0) {
-                        System.out.println("AYA AYAYA");
-                    }
                     if (detectableObject2.downMvt(this) < miniDownMvt) {
-
-
                         miniDownMvt = detectableObject2.downMvt(this);
-
                     }
                 }
             }
