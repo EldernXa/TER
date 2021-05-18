@@ -3,7 +3,9 @@ package mainTER.DBManage;
 import mainTER.exception.ControlsDataAlreadyExistsException;
 import mainTER.exception.PersonDataGetException;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,18 +82,26 @@ public class ProfileDBManager {
         dbManager.updateTable(request);
     }
 
-    public boolean nameExist(String name,String mapName){
-        ResultSet rs = selectIntoTableProfile(name,mapName);
-
-
+    public boolean nameExist(String name,String mapName) {
         try {
+            String sql = "Select 1 from Profile where name = ? and mapName = ? ";
+
+            PreparedStatement ps = dbManager.getco().prepareStatement(sql);
+            ps.setString(1, SecureManage.getEncrypted(name));
+            ps.setString(2,SecureManage.getEncrypted(mapName));
+            ResultSet rs = ps.executeQuery();
+
             return rs.next();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
         }
         return false;
 
+
+
+
     }
+
     public List<String> getListProfileFromDatabase(){
         ArrayList<String> listProfile = new ArrayList<>();
         ResultSet rs;
