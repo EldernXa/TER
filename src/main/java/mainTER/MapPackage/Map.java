@@ -51,8 +51,8 @@ public class Map {
         pane.setBackground( new Background(new BackgroundImage(backgroundImage.getImage(),BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT, new BackgroundSize(backgroundImage.getImage().getWidth(),
                 backgroundImage.getImage().getHeight(),false,false,false,false))));
-        //Music.stopMusic();
-        //Music.launchMenuSound(fileName);
+        Music.stopMusic();
+        Music.launchMenuSound(fileName);
 
     }
 
@@ -72,6 +72,7 @@ public class Map {
 
     public void addCollisionObjectNetwork(boolean bool){
 
+
         Iterator<DetectableObject> list = this.getReadFileMap().getCollisionObjectArrayList().iterator();
         while (list.hasNext()) {
             DetectableObject detectableObject = list.next();
@@ -86,6 +87,7 @@ public class Map {
             }
 
         }
+        System.out.println(pane.getChildren().size());
 
     }
 
