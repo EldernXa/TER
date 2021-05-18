@@ -546,23 +546,31 @@ public class DisplayCharacter extends CollideObject {
 //            System.out.println("Action F");
 //            System.out.println("Taille de la liste : " + MapFileReader.detectableObjectArrayList.size());
             for (DetectableObject detectableObject : MapFileReader.detectableObjectArrayList) {
-
-                /*if(detectableObject instanceof Lever){
-                    System.out.println(detectableObject.getX());
-                    System.out.println(detectableObject.getY());
-                    System.out.println(this.getX());
-                    System.out.println(this.getY());
-                }*/
                 if (detectableObject.getAppropriateNode().getBoundsInParent().intersects(this.getAppropriateNode().getBoundsInParent())) {
 //                    System.out.println("Collision avec : " + detectableObject);
+                    /*if(detectableObject instanceof Lever){
+                        for(ObjectLinker objectLinker : Map.objectLinkers){
+                            if(objectLinker.getCollideObject1().equals(detectableObject)){
+                                System.out.println("Levier " + detectableObject);
+
+                                System.out.println("Copain 1" + objectLinker.getCollideObject2());
+                            }
+                            else if(objectLinker.getCollideObject2().equals(detectableObject)){
+                                System.out.println("Levier " + detectableObject);
+                                System.out.println("Copain 2" + objectLinker.getCollideObject1());
+                            }
+                        }
+                    }*/
 
                     try {
+                        ((InteractiveObject) detectableObject).actionGenuine();
 //                        System.out.println("Essaye de l'interaction");
-                        ((InteractiveObject) detectableObject).actionGenuine(); //TODO reactivate the multi
+                         //TODO reactivate the multi
                         for(ObjectLinker objectLinker : Map.objectLinkers){
                             if (objectLinker.getCollideObject1().equals(detectableObject)){
                                 ((InteractiveObject) objectLinker.getCollideObject2()).actionGenuine();
-                            }else{
+                            }
+                            else if (objectLinker.getCollideObject2().equals(detectableObject)){
                                 ((InteractiveObject) objectLinker.getCollideObject1()).actionGenuine();
                             }
                         }

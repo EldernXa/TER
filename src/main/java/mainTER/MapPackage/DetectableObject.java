@@ -370,14 +370,14 @@ public abstract class DetectableObject {
      */
     private void multiInteractions(DetectableObject detectableObject) {
         for (ObjectLinker objectLinker : Map.objectLinkers) {
-            System.out.println("Object to be equals = " + detectableObject);
+//            System.out.println("Object to be equals = " + detectableObject);
             if (objectLinker.getCollideObject1().equals(detectableObject)) {
                 objectLinker.detectableObject2.interaction(this);
-                System.out.println("Object1 = " + objectLinker.getCollideObject1());
+//                System.out.println("Object1 = " + objectLinker.getCollideObject1());
 
             } else if (objectLinker.getCollideObject2().equals(detectableObject)) {
                 objectLinker.detectableObject1.interaction(this);
-                System.out.println("Object2 = " + objectLinker.getCollideObject2());
+//                System.out.println("Object2 = " + objectLinker.getCollideObject2());
 
             } else {
                 //print eror if you want
