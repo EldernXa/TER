@@ -569,7 +569,7 @@ public class DisplayCharacter extends CollideObject {
                         for(ObjectLinker objectLinker : Map.objectLinkers){
                             if (objectLinker.getCollideObject1().equals(detectableObject)){
                                 ((InteractiveObject) objectLinker.getCollideObject2()).actionGenuine();
-                            }
+                            }//TODO demande a Saber d'ajouter l'objet sujet si c'est un levier
                             else if (objectLinker.getCollideObject2().equals(detectableObject)){
                                 ((InteractiveObject) objectLinker.getCollideObject1()).actionGenuine();
                             }
