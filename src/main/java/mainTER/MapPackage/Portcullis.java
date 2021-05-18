@@ -7,10 +7,12 @@ import mainTER.Tools.ImageViewSizePos;
 public class Portcullis extends InteractiveObject{
 
     boolean isOpen;
+    String name;
 
-    public Portcullis(Coordinate coordinate){
-        super(coordinate,new ImageViewSizePos("/mainTER/MapPackage/Objects/portcullis.png", coordinate));
+    public Portcullis(Coordinate coordinate,String name){
+        super(coordinate,new ImageViewSizePos("/mainTER/MapPackage/Objects/"+ name + ".png", coordinate));
         isOpen = false;
+        this.name = name;
     }
 
     @Override
@@ -37,7 +39,7 @@ public class Portcullis extends InteractiveObject{
 
     @Override
     public Portcullis clone() {
-        return new Portcullis(new Coordinate(this.getX(),this.getY()));
+        return new Portcullis(new Coordinate(this.getX(),this.getY()),name);
     }
 
     @Override

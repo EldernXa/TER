@@ -142,6 +142,7 @@ public class MapFileReader {
 
                             case "eau1":
                             case "lava":
+                            case "lava2":
                             case "spikes1":
                             case "spikes2":
                             case "spikes3":
@@ -162,7 +163,8 @@ public class MapFileReader {
 
                         switch (line[2]) {
                             case "portcullis":
-                                Portcullis portcullis = new Portcullis(new Coordinate(doubles[3], doubles[4]));
+                            case "portcullis2":
+                                Portcullis portcullis = new Portcullis(new Coordinate(doubles[3], doubles[4]),line[2]);
                                 detectableObjectArrayList.add(new Lever(portcullis, new Coordinate(doubles[0], doubles[1])));
                                 detectableObjectArrayList.add(portcullis);
                                 break;
