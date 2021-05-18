@@ -24,13 +24,18 @@ public class EndObject extends InteractiveObject {
     String mapName;
     ProfileDBManager profileDBManager = new ProfileDBManager();
     BestProfileDBManager bestProfileDBManager = new BestProfileDBManager();
-    private boolean exist = false;
+    private boolean exist ;
 
-    public EndObject(String name, Coordinate coordinate) {
+
+    public EndObject(String name, Coordinate coordinate,boolean exist) {
 
         super(coordinate, new ImageViewSizePos("/mainTER/MapPackage/Objects/"+ name +".png",coordinate));
         this.name = name;
+        this.exist = exist;
+        if(!exist){
+            this.getImageView().setImage(null);
 
+        }
     }
 
     /**
@@ -39,6 +44,7 @@ public class EndObject extends InteractiveObject {
     public void interaction(DetectableObject detectableObject){
         try {
 
+            if(isExist()){
                 MenuItem.timeline.stop();
 
 
@@ -81,6 +87,7 @@ public class EndObject extends InteractiveObject {
                     System.exit(0);
                 }
 
+            }
 
         }
         catch (Exception ignored){
@@ -90,15 +97,11 @@ public class EndObject extends InteractiveObject {
 
     @Override
     public void actionTriggered() {
+
+
         if(!exist){
-            System.out.println("pas là");
-            this.getImageView().setImage(null);
-            this.exist = true;
-        }
-        else{
-            System.out.println("là");
             this.getImageView().setImage(new ImageViewSizePos("/mainTER/MapPackage/Objects/"+ name +".png", getCoordinate()).getImageView().getImage());
-            this.exist = false;
+            this.exist = true;
         }
     }
 
@@ -107,14 +110,54 @@ public class EndObject extends InteractiveObject {
         return super.getImageView();
     }
 
+    public boolean isExist() {
+        return exist;
+    }
+
     @Override
     public EndObject clone() {
-        return new EndObject(name,new Coordinate(this.getX(),this.getY()));
+        return new EndObject(name,new Coordinate(this.getX(),this.getY()),this.isExist());
     }
 
     @Override
     public double getHMouvementSpan() {
         return 0;
+    }
+
+
+    @Override
+    public double rightMvt(DetectableObject detectableObject) {
+        return detectableObject.getHMouvementSpan();
+    }
+
+    /**
+     * Return the double corresponding to the down distance calculated between this as a UncollideObject and the @param detectableObject, so the return will be the HMouvementSpan
+     * @param detectableObject
+     * @return
+     */
+    @Override
+    public double leftMvt(DetectableObject detectableObject) {
+        return detectableObject.getHMouvementSpan();
+    }
+
+    /**
+     * Return the double corresponding to the down distance calculated between this as a UncollideObject and the @param detectableObject, so the return will be the JumpMouvementSpan
+     * @param detectableObject
+     * @return
+     */
+    @Override
+    public double upMvt(DetectableObject detectableObject) {
+        return detectableObject.getJumpMouvementSpan();
+    }
+
+    /**
+     * Return the double corresponding to the down distance calculated between this as a UncollideObject and the @param detectableObject, so the return will be the FallMouvementSpan
+     * @param detectableObject
+     * @return
+     */
+    @Override
+    public double downMvt(DetectableObject detectableObject) {
+        return detectableObject.getFallMouvementSpan();
     }
 
 

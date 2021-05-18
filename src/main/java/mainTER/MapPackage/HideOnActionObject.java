@@ -9,16 +9,19 @@ public class HideOnActionObject extends InteractiveObject{
     private int isOpen;
     private final ImageViewSizePos imageView;
     private final String name;
+    private  final  Coordinate coordinate;
 
     public HideOnActionObject(Coordinate coordinate, String name, int isOpen) {
         super(coordinate, new ImageViewSizePos("/mainTER/MapPackage/Objects/"+name +".png", coordinate));
 
-        this.imageView = new ImageViewSizePos("/mainTER/MapPackage/Objects/"+name +".png", coordinate);//TODO can be removed
+        this.imageView = new ImageViewSizePos("/mainTER/MapPackage/Objects/"+name +".png", coordinate);
         this.isOpen = isOpen;
         this.name = name;
+        this.coordinate = coordinate;
 
         if (isOpen==0){
             this.getImageView().setImage(null);
+            this.setCoordinate(new Coordinate(-100,-100));
             this.isOpen = 1;
         }
     }
@@ -29,14 +32,18 @@ public class HideOnActionObject extends InteractiveObject{
 
     @Override
     public void actionTriggered() {
-        System.out.println(name);
-        System.out.println("Ouvert = " + isOpen);
+
         if(isOpen==0){
+
+
             this.getImageView().setImage(null);
+            this.setCoordinate(new Coordinate(-100,-100));
             this.isOpen = 1;
         }
         else{
+
             this.getImageView().setImage(imageView.getImageView().getImage());
+            this.setCoordinate(coordinate);
             this.isOpen = 0;
         }
     }

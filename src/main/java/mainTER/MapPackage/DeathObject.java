@@ -1,6 +1,7 @@
 package mainTER.MapPackage;
 
 import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
@@ -9,36 +10,66 @@ import mainTER.Tools.ImageViewSizePos;
  * Create a DeathObject item that will be placed on the map.
  * It kill the player on contact.
  */
-public class DeathObject extends CollideObject {
+public class DeathObject extends InteractiveObject {
 
     String pathName;
     Coordinate coordinate;
     ImageViewSizePos imageViewSizePos;
+    boolean exist;
+    String name;
 
-    public DeathObject(String name, Coordinate coordinate) {
+    public DeathObject(String name, Coordinate coordinate,boolean exist) {
+        super(coordinate,new ImageViewSizePos("/mainTER/MapPackage/Objects/"+ name + ".png",coordinate));
+
         this.pathName = name;
         this.coordinate = coordinate;
-        imageViewSizePos = new ImageViewSizePos("/mainTER/MapPackage/Objects/"+ name + ".png",coordinate);
+        this.exist = exist;
+        this.name = name;
+
+        if(!exist){
+            this.getImageView().setImage(null);
+            super.setCoordinate(new Coordinate(-100,-100));
+
+        }
 
 
+    }
+    @Override
+    public void actionTriggered() {
+
+
+        if(!exist){
+            this.getImageView().setImage(new ImageViewSizePos("/mainTER/MapPackage/Objects/"+ name +".png", getCoordinate()).getImageView().getImage());
+
+            super.setCoordinate(coordinate);
+            this.exist = true;
+        }
+    }
+
+    public boolean isExist() {
+        return exist;
     }
 
     /**
      * Kill the player.
      */
+
     @Override
     public void interaction(DetectableObject detectableObject) {
-        ((DisplayCharacter) detectableObject).death();
+        if(isExist()){
+
+            ((DisplayCharacter) detectableObject).death();
+        }
     }
 
     @Override
     public Node getAppropriateNode() {
-        return imageViewSizePos.getImageView();
+        return super.getImageView();
     }
 
     @Override
-    public DetectableObject clone() {
-        return new DeathObject(pathName,coordinate);
+    public DeathObject clone() {
+        return new DeathObject(pathName,new Coordinate(this.getX(),this.getY()),this.isExist());
     }
 
     @Override

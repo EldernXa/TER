@@ -308,7 +308,6 @@ public abstract class DetectableObject {
                     }
 
 
-                    System.out.println();
                 }
                 if ((this.getAppropriateNode().getBoundsInParent().getMinY() - detectableObject2.getAppropriateNode().getBoundsInParent().getMaxY() >= 0) || (rect.intersects(detectableObject2.getAppropriateNode().getBoundsInParent()))) {
                 }

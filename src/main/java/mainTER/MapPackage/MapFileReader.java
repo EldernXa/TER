@@ -137,7 +137,7 @@ public class MapFileReader {
                             case "car":
                             case "forgottensword":
                             case "sword":
-                                detectableObjectArrayList.add(new EndObject(line[0], new Coordinate(doubles[1], doubles[2])));
+                                detectableObjectArrayList.add(new EndObject(line[0], new Coordinate(doubles[1], doubles[2]),true));
                                 break;
 
                             case "eau1":
@@ -147,7 +147,7 @@ public class MapFileReader {
                             case "spikes3":
                             case "wireWall":
                             case "spikes":
-                                detectableObjectArrayList.add(new DeathObject(line[0], new Coordinate(doubles[1], doubles[2])));
+                                detectableObjectArrayList.add(new DeathObject(line[0], new Coordinate(doubles[1], doubles[2]),true));
 
                         }
                     } else if (lastCategorie.equals("levers")) {
@@ -167,15 +167,27 @@ public class MapFileReader {
                                 detectableObjectArrayList.add(portcullis);
                                 break;
 
-                            case "spikesRet" :
+
                             case "plateform1" :
-                            case "eau1" :
                             case "shield":
                             case "metalDoor":
-                                System.out.println(line[2]);
+                            case "pont3":
                                 HideOnActionObject hideOnActionObject = new HideOnActionObject(new Coordinate(doubles[3], doubles[4]), line[2], (int)doubles[5]);
                                 detectableObjectArrayList.add(new Lever(hideOnActionObject, new Coordinate(doubles[0], doubles[1])));
                                 detectableObjectArrayList.add(hideOnActionObject);
+                                break;
+
+                            case "forgottensword":
+                                EndObject endObject = new EndObject(line[2], new Coordinate(doubles[3], doubles[4]),false);
+                                detectableObjectArrayList.add(new Lever(endObject, new Coordinate(doubles[0], doubles[1])));
+                                detectableObjectArrayList.add(endObject);
+                                break;
+
+                            case "eau1" :
+                            case "spikesRet" :
+                                DeathObject deathObject = new DeathObject(line[2], new Coordinate(doubles[3], doubles[4]),false);
+                                detectableObjectArrayList.add(new Lever(deathObject, new Coordinate(doubles[0], doubles[1])));
+                                detectableObjectArrayList.add(deathObject);
                                 break;
 
                         }
