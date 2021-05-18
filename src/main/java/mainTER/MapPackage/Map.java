@@ -87,7 +87,6 @@ public class Map {
             }
 
         }
-        System.out.println(pane.getChildren().size());
 
     }
 
