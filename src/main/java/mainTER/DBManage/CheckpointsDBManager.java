@@ -27,11 +27,19 @@ public class CheckpointsDBManager {
     private final String nameDatabases;
 
     /**
-     * variable for update the databases.
+     * Name of the table in the databases.
      */
-    private static final String STRING_UPDATE_CHECKPOINTS = "UPDATE Checkpoints ";
-
     private static final String TABLE_NAME = "Checkpoints";
+
+    /**
+     * Name of the attribute for the name of the character.
+     */
+    private static final String ATTRIBUTE_STRING_CHARACTER_NAME = "characterName";
+
+    /**
+     * Name of the attribute for the map name.
+     */
+    private static final String ATTRIBUTE_STRING_MAP_NAME = "mapName";
 
     /**
      * Constructor of the checkpoint databases for the test.
@@ -58,10 +66,10 @@ public class CheckpointsDBManager {
     public void createTableCheckPoints(){
         ArrayList<String> listName = new ArrayList<>();
         ArrayList<Integer> listSize = new ArrayList<>();
-        listName.add("x");                  listSize.add(30);
-        listName.add("y");                  listSize.add(30);
-        listName.add("characterName");      listSize.add(30);
-        listName.add("mapName");            listSize.add(30);
+        listName.add("x");                                  listSize.add(30);
+        listName.add("y");                                  listSize.add(30);
+        listName.add(ATTRIBUTE_STRING_CHARACTER_NAME);      listSize.add(30);
+        listName.add(ATTRIBUTE_STRING_MAP_NAME);            listSize.add(30);
         dbManager.createTable(TABLE_NAME, listName, 0, listSize);
     }
 
@@ -230,7 +238,7 @@ public class CheckpointsDBManager {
      */
     public void setCharacterName(String characterName) throws CheckpointsCharacterDoesntExistException {
         verifyCharacterExist(characterName);
-        dbManager.updateTable(TABLE_NAME, null, null, "characterName", characterName);
+        dbManager.updateTable(TABLE_NAME, null, null, ATTRIBUTE_STRING_CHARACTER_NAME, characterName);
     }
 
     /**
@@ -239,7 +247,7 @@ public class CheckpointsDBManager {
      */
     public String getCharacterName() {
         try{
-            return dbManager.getData(TABLE_NAME, null, null, "characterName");
+            return dbManager.getData(TABLE_NAME, null, null, ATTRIBUTE_STRING_CHARACTER_NAME);
         }catch(SQLException sqlException){
             return "";
         }
@@ -252,7 +260,7 @@ public class CheckpointsDBManager {
      */
     public void setMapName(String mapName) throws CheckpointsMapDoesntExistException {
         verifyMapExist(mapName);
-        dbManager.updateTable(TABLE_NAME, null, null, "mapName", mapName);
+        dbManager.updateTable(TABLE_NAME, null, null, ATTRIBUTE_STRING_MAP_NAME, mapName);
     }
 
     /**
@@ -261,7 +269,7 @@ public class CheckpointsDBManager {
      */
     public String getMapName()  {
         try{
-            return dbManager.getData(TABLE_NAME, null, null, "mapName");
+            return dbManager.getData(TABLE_NAME, null, null, ATTRIBUTE_STRING_MAP_NAME);
         }catch(SQLException sqlException){
             return "";
         }
