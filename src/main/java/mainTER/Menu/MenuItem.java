@@ -164,6 +164,7 @@ public class MenuItem extends StackPane {
                 break;
                 case "QUIT": {
                     Platform.exit();
+                    System.exit(0);
                     break;
                 }
                 case "CREER": {
@@ -189,6 +190,7 @@ public class MenuItem extends StackPane {
 
                 }
                 case "REJOINDRE": {
+                    stage.close();
                     for(String nameCharacter : listName){
                         listCharacter.add(new Character(nameCharacter));
                     }

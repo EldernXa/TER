@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class GameServer implements Runnable{
 
-    private ServerSocket ss;
+    public static ServerSocket ss;
     private int numPlayers;
     private final int maxPlayers;
     private double p1x,p1y,p2x,p2y;
