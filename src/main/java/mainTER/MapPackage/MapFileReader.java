@@ -123,6 +123,8 @@ public class MapFileReader {
 
                             case "eau1":
                             case "lava":
+                            case "droneR":
+                            case "droneL":
                             case "lava2":
                             case "spikes1":
                             case "spikes2":
@@ -152,6 +154,8 @@ public class MapFileReader {
 
 
                             case "plateform1" :
+                            case "plateform2":
+                            case "plateform3":
                             case "shield":
                             case "metalDoor":
                             case "pont3":
