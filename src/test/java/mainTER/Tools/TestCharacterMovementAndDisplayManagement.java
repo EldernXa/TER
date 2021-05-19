@@ -61,7 +61,7 @@ public class TestCharacterMovementAndDisplayManagement {
 
     @Test
     public void testGettingTheRightX(){
-        assertEquals(xCoordinate - imgView.getImage().getWidth()* characterMovementAndDisplayManagement.getMultiplyX(),
+        assertEquals(xCoordinate,
                 characterMovementAndDisplayManagement.getCoordinateOfTheActualImg().getX());
     }
 
