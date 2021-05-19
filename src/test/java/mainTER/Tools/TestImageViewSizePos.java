@@ -14,7 +14,7 @@ public class TestImageViewSizePos {
 
     private ImageViewSizePos imageViewSizePos;
     private ImageViewSizePos imgViewSizePos;
-    private final String pathImage = "./../";
+    private final String pathImage = "/mainTER/CharacterGameplay/Logo/Paladin.png";
     private final Coordinate coordinate = new Coordinate(1250,0);
     private final int width = 50;
     private final int height = 50;
