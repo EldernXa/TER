@@ -114,9 +114,6 @@ public class MapFileReader {
                             case "trunk":
                             case "manholeCover":
                                 imageHeight2 = heightFromName(line[0]);
-                                if (line[0].equals("manholeCover")){
-                                    System.out.println("CREATION manholeCover");
-                                }
                                 detectableObjectArrayList.add(new RndObj(pathName, line[0], new Coordinate(doubles[1], doubles[2] - imageHeight2)));
                                 break;
                             case "car":
@@ -136,13 +133,8 @@ public class MapFileReader {
                             case "wireWall":
                             case "spikes":
                             case "manhole":
-                                if(line[0].equals("manhole")){
-                                    System.out.println("CREATION manhole");
-                                }
                                 detectableObjectArrayList.add(new DeathObject(line[0], new Coordinate(doubles[1], doubles[2]),true));
-
-
-
+                                break;
                         }
                     } else if (lastCategorie.equals("levers")) {
                         line = file[i].split("\\s+");
