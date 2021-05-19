@@ -84,7 +84,6 @@ public class Map {
                     pane.getChildren().add(((Lever)detectableObject2).getInteractiveObject().getAppropriateNode());                }
             }
         }
-        System.out.println("Taille = " + pane.getChildren().size());
     }
 
     public void clearColissionObjectNetwork(){
