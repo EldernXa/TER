@@ -7,6 +7,7 @@ import mainTER.exception.CheckpointsMapDoesntExistException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class CheckpointsDBManager {
 
@@ -29,6 +30,8 @@ public class CheckpointsDBManager {
      * variable for update the databases.
      */
     private static final String STRING_UPDATE_CHECKPOINTS = "UPDATE Checkpoints ";
+
+    private static final String TABLE_NAME = "Checkpoints";
 
     /**
      * Constructor of the checkpoint databases for the test.
@@ -53,15 +56,16 @@ public class CheckpointsDBManager {
      * Create the table for the checkpoint in the databases.
      */
     public void createTableCheckPoints(){
-        dbManager.createTableOrInsert("CREATE TABLE Checkpoints (" +
-                "x VARCHAR(30)," +
-                "y VARCHAR(30)," +
-                "characterName VARCHAR(30)," +
-                "mapName VARCHAR(30)" +
-                ");");
+        ArrayList<String> listName = new ArrayList<>();
+        ArrayList<Integer> listSize = new ArrayList<>();
+        listName.add("x");                  listSize.add(30);
+        listName.add("y");                  listSize.add(30);
+        listName.add("characterName");      listSize.add(30);
+        listName.add("mapName");            listSize.add(30);
+        dbManager.createTable(TABLE_NAME, listName, 0, listSize);
     }
 
-    /**
+     /**
      * Get the data of the table checkpoint.
      * @return the data of the table checkpoint.
      */
@@ -80,7 +84,7 @@ public class CheckpointsDBManager {
      * Delete the table checkpoint from the databases.
      */
     public void removeTableCheckPoints(){
-        dbManager.dropTable("Checkpoints");
+        dbManager.dropTable(TABLE_NAME);
     }
 
     /**
@@ -171,13 +175,12 @@ public class CheckpointsDBManager {
         verifyCharacterExist(characterName);
         verifyMapExist(mapName);
 
-        String reqValues = "INSERT INTO Checkpoints VALUES (" +
-                "'" + SecureManage.getEncrypted(String.valueOf(x)) + "'" + ",'" + SecureManage.getEncrypted(String.valueOf(y))
-                + "','" + SecureManage.getEncrypted(characterName) + "','" + SecureManage.getEncrypted(mapName)
-                + "');";
-
-
-        dbManager.createTableOrInsert(reqValues);
+        ArrayList<Object> listInsert = new ArrayList<>();
+        listInsert.add(x);
+        listInsert.add(y);
+        listInsert.add(characterName);
+        listInsert.add(mapName);
+        dbManager.insertIntoTable(TABLE_NAME, listInsert);
     }
 
     /**
@@ -196,9 +199,8 @@ public class CheckpointsDBManager {
      * @return the value of the coordinate x in the table checkpoint in the databases.
      */
     public double getX() {
-        ResultSet rs = selectIntoTableCheckpoints();
         try{
-            return Double.parseDouble(SecureManage.getDecrypted((String) rs.getObject("x")));
+            return Double.parseDouble(dbManager.getData(TABLE_NAME, null, null, "x"));
         }catch(SQLException sqlException){
             return 0;
         }
@@ -220,9 +222,8 @@ public class CheckpointsDBManager {
      * @return the value of the coordinate y in the table checkpoint in the databases.
      */
     public double getY()  {
-        ResultSet rs = selectIntoTableCheckpoints();
         try{
-            return Double.parseDouble(SecureManage.getDecrypted((String) rs.getObject("y")));
+            return Double.parseDouble(dbManager.getData(TABLE_NAME, null, null, "y"));
         }catch(SQLException sqlException){
             return 0;
         }
@@ -246,9 +247,8 @@ public class CheckpointsDBManager {
      * @return the value of the character name in the table checkpoint in the databases.
      */
     public String getCharacterName() {
-        ResultSet rs = selectIntoTableCheckpoints();
         try{
-            return SecureManage.getDecrypted((String) rs.getObject("characterName"));
+            return dbManager.getData(TABLE_NAME, null, null, "characterName");
         }catch(SQLException sqlException){
             return "";
         }
@@ -272,9 +272,8 @@ public class CheckpointsDBManager {
      * @return the value of the map name in the table checkpoint in the databases.
      */
     public String getMapName()  {
-        ResultSet rs = selectIntoTableCheckpoints();
         try{
-            return SecureManage.getDecrypted((String) rs.getObject("mapName"));
+            return dbManager.getData(TABLE_NAME, null, null, "mapName");
         }catch(SQLException sqlException){
             return "";
         }
