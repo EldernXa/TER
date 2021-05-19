@@ -22,7 +22,6 @@ public class HideOnActionObject extends InteractiveObject{
         if (isOpen==0){
             this.getImageView().setImage(null);
             this.setCoordinate(new Coordinate(-100,-100));
-            this.isOpen = 1;
         }
     }
 
@@ -34,16 +33,13 @@ public class HideOnActionObject extends InteractiveObject{
     public void actionTriggered() {
 
         if(isOpen==0){
-
-
-            this.getImageView().setImage(null);
-            this.setCoordinate(new Coordinate(-100,-100));
+            this.getImageView().setImage(imageView.getImageView().getImage());
+            this.setCoordinate(coordinate);
             this.isOpen = 1;
         }
         else{
-
-            this.getImageView().setImage(imageView.getImageView().getImage());
-            this.setCoordinate(coordinate);
+            this.getImageView().setImage(null);
+            this.setCoordinate(new Coordinate(-100,-100));
             this.isOpen = 0;
         }
     }

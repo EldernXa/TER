@@ -3,6 +3,8 @@ package mainTER.MapPackage;
 import javafx.scene.Node;
 import mainTER.Tools.Coordinate;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
+
 public class ObjectLinker {
 
     DetectableObject detectableObject1;
