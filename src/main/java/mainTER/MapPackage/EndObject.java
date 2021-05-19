@@ -85,8 +85,10 @@ public class EndObject extends InteractiveObject {
                     stage.setScene(scene);
                     stage.show();
                 }else {
+                    GameServer.ss.close();
                     Platform.exit();
                     System.exit(0);
+
                 }
 
             }

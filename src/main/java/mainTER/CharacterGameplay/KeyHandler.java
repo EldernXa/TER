@@ -47,31 +47,36 @@ public class KeyHandler {
 
     public void handleEvend( KeyEvent event2){
         String event = event2.getCode().getChar().toLowerCase();
-        if (event.equals(switchUp)) {
-            int k = 0;
-            for (int i = 0; i < listCharacter.size(); i++) {
-                if (listCharacter.get(i) == displayCharacter.getCharacter()) {
-                    k = i;
-                }
-            }
-            displayCharacter.setCharacter(listCharacter.get((k + 1) % listCharacter.size()));
-            sc.changeToUp();
+        if (displayCharacter.getNumSkillThatIsActive() == -1) {
+            if (event.equals(switchUp)) {
 
-        } else if (event.equals(switchDown)) {
-            int k = 0;
-            for (int i = 0; i < listCharacter.size(); i++) {
-                if (listCharacter.get(i) == displayCharacter.getCharacter()) {
-                    k = i;
+
+                int k = 0;
+                for (int i = 0; i < listCharacter.size(); i++) {
+                    if (listCharacter.get(i) == displayCharacter.getCharacter()) {
+                        k = i;
+                    }
                 }
+                displayCharacter.setCharacter(listCharacter.get((k + 1) % listCharacter.size()));
+                sc.changeToUp();
+
+
+            } else if (event.equals(switchDown)) {
+                int k = 0;
+                for (int i = 0; i < listCharacter.size(); i++) {
+                    if (listCharacter.get(i) == displayCharacter.getCharacter()) {
+                        k = i;
+                    }
+                }
+                if (k == 0) {
+                    displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 1));
+                } else {
+                    displayCharacter.setCharacter(listCharacter.get((k - 1) % listCharacter.size()));
+                }
+                sc.changeToDown();
             }
-            if (k == 0) {
-                displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 1));
-            } else {
-                displayCharacter.setCharacter(listCharacter.get((k - 1) % listCharacter.size()));
-            }
-            sc.changeToDown();
         }
-        else condi(event2);
+        condi(event2);
     }
 
     /**
@@ -82,56 +87,58 @@ public class KeyHandler {
 
     public void handleEvendFriend( KeyEvent event2){
         String event = event2.getCode().getChar().toLowerCase();
-        if (event.equals(switchUp)) {
-            int k = 0;
-            for (int i = 0; i < listCharacter.size(); i++) {
-                if (listCharacter.get(i) == displayCharacter.getCharacter()) {
-                    k = i;
-                }
-            }
-            if(listCharacter.get((k + 1) % listCharacter.size()).getName().equals(nameOfFriend)){
-                displayCharacter.setCharacter(listCharacter.get((k + 2) % listCharacter.size()));
-                sc.changeToUp();
-            }else {
-
-                displayCharacter.setCharacter(listCharacter.get((k + 1) % listCharacter.size()));
-            }
-            sc.changeToUp();
-
-        } else if (event.equals(switchDown)) {
-            int k = 0;
-            for (int i = 0; i < listCharacter.size(); i++) {
-                if (listCharacter.get(i) == displayCharacter.getCharacter()) {
-                    k = i;
-                }
-            }
-            if (k == 0) {
-                if(listCharacter.get(listCharacter.size() - 1).getName().equals(nameOfFriend)){
-                    displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 2));
-                    sc.changeToDown();
-                }else {
-                    displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 1));
-                }
-            } else {
-
-                if(listCharacter.get((k - 1) % listCharacter.size()).getName().equals(nameOfFriend)){
-                    if(k == 1){
-                        displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 1));
-                    }else {
-
-                        displayCharacter.setCharacter(listCharacter.get((k - 2) % listCharacter.size()));
+        if (displayCharacter.getNumSkillThatIsActive() == -1) {
+            if (event.equals(switchUp)) {
+                int k = 0;
+                for (int i = 0; i < listCharacter.size(); i++) {
+                    if (listCharacter.get(i) == displayCharacter.getCharacter()) {
+                        k = i;
                     }
-                    sc.changeToDown();
-                }else {
-                    displayCharacter.setCharacter(listCharacter.get((k - 1) % listCharacter.size()));
                 }
-            }
-            sc.changeToDown();
+                if (listCharacter.get((k + 1) % listCharacter.size()).getName().equals(nameOfFriend)) {
+                    displayCharacter.setCharacter(listCharacter.get((k + 2) % listCharacter.size()));
+                    sc.changeToUp();
+                } else {
 
+                    displayCharacter.setCharacter(listCharacter.get((k + 1) % listCharacter.size()));
+                }
+                sc.changeToUp();
+
+            } else if (event.equals(switchDown)) {
+                int k = 0;
+                for (int i = 0; i < listCharacter.size(); i++) {
+                    if (listCharacter.get(i) == displayCharacter.getCharacter()) {
+                        k = i;
+                    }
+                }
+                if (k == 0) {
+                    if (listCharacter.get(listCharacter.size() - 1).getName().equals(nameOfFriend)) {
+                        displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 2));
+                        sc.changeToDown();
+                    } else {
+                        displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 1));
+                    }
+                } else {
+
+                    if (listCharacter.get((k - 1) % listCharacter.size()).getName().equals(nameOfFriend)) {
+                        if (k == 1) {
+                            displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 1));
+                        } else {
+
+                            displayCharacter.setCharacter(listCharacter.get((k - 2) % listCharacter.size()));
+                        }
+                        sc.changeToDown();
+                    } else {
+                        displayCharacter.setCharacter(listCharacter.get((k - 1) % listCharacter.size()));
+                    }
+                }
+                sc.changeToDown();
+
+            }
         }
-        else {
+
             condi(event2);
-        }
+
     }
 
     /**
