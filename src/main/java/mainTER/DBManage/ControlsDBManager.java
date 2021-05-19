@@ -15,6 +15,18 @@ public class ControlsDBManager {
 
     private static final String TABLE_NAME = "Controls";
 
+    private static final String ATTRIBUTE_STRING_RIGHT_CONTROL = "rightControl";
+
+    private static final String ATTRIBUTE_STRING_LEFT_CONTROL = "leftControl";
+
+    private static final String ATTRIBUTE_STRING_JUMP = "jump";
+
+    private static final String ATTRIBUTE_STRING_SWITCH_UP = "switchUp";
+
+    private static final String ATTRIBUTE_STRING_SWITCH_DOWN = "switchDown";
+
+    private static final String ATTRIBUTE_STRING_ACTION = "action";
+
     public ControlsDBManager(String nameFileDB){
         this.dbManager = new DBManager(nameFileDB,"test");
     }
@@ -24,12 +36,12 @@ public class ControlsDBManager {
     public void createTableControls(){
         ArrayList<String> listName = new ArrayList<>();
         ArrayList<Integer> listSize = new ArrayList<>();
-        listName.add("rightControl");                   listSize.add(30);
-        listName.add("leftControl");                    listSize.add(30);
-        listName.add("jump");                           listSize.add(30);
-        listName.add("switchUp");                       listSize.add(30);
-        listName.add("switchDown");                     listSize.add(30);
-        listName.add("action");                         listSize.add(30);
+        listName.add(ATTRIBUTE_STRING_RIGHT_CONTROL);                   listSize.add(30);
+        listName.add(ATTRIBUTE_STRING_LEFT_CONTROL);                    listSize.add(30);
+        listName.add(ATTRIBUTE_STRING_JUMP);                            listSize.add(30);
+        listName.add(ATTRIBUTE_STRING_SWITCH_UP);                       listSize.add(30);
+        listName.add(ATTRIBUTE_STRING_SWITCH_DOWN);                     listSize.add(30);
+        listName.add(ATTRIBUTE_STRING_ACTION);                          listSize.add(30);
         dbManager.createTable(TABLE_NAME, listName, 0, listSize);
     }
     public void removeTableControls(){
@@ -58,8 +70,8 @@ public class ControlsDBManager {
         // TODO verify data doesn't exist already
 
         try {
-            dbManager.getData(TABLE_NAME, null, null, "jump");
-            throw new ControlsDataAlreadyExistsException("jump");
+            dbManager.getData(TABLE_NAME, null, null, ATTRIBUTE_STRING_JUMP);
+            throw new ControlsDataAlreadyExistsException(ATTRIBUTE_STRING_JUMP);
         } catch (SQLException ignored) {
 
         }
@@ -76,41 +88,41 @@ public class ControlsDBManager {
 
     public String getLeft() throws ControlsDataGetException {
         try {
-            return dbManager.getData(TABLE_NAME, null, null, "leftControl");
+            return dbManager.getData(TABLE_NAME, null, null, ATTRIBUTE_STRING_LEFT_CONTROL);
         }catch(SQLException sqlException){
             throw new ControlsDataGetException();
         }
     }
 
     public void setLeft(String left) {
-        dbManager.updateTable(TABLE_NAME, null, null, "leftControl", left);
+        dbManager.updateTable(TABLE_NAME, null, null, ATTRIBUTE_STRING_LEFT_CONTROL, left);
     }
 
     public String getRight() throws ControlsDataGetException{
         try{
-            return dbManager.getData(TABLE_NAME, null, null, "rightControl");
+            return dbManager.getData(TABLE_NAME, null, null, ATTRIBUTE_STRING_RIGHT_CONTROL);
         }catch(SQLException sqlException){
             throw new ControlsDataGetException();
         }
     }
     public void setRight(String right) {
-        dbManager.updateTable(TABLE_NAME, null, null, "rightControl", right);
+        dbManager.updateTable(TABLE_NAME, null, null, ATTRIBUTE_STRING_RIGHT_CONTROL, right);
     }
 
     public String getJump() throws ControlsDataGetException{
         try{
-            return dbManager.getData(TABLE_NAME, null, null, "jump");
+            return dbManager.getData(TABLE_NAME, null, null, ATTRIBUTE_STRING_JUMP);
         }catch(SQLException sqlException){
             throw new ControlsDataGetException();
         }
     }
     public void setJump(String jump) {
-        dbManager.updateTable(TABLE_NAME, null, null, "jump", jump);
+        dbManager.updateTable(TABLE_NAME, null, null, ATTRIBUTE_STRING_JUMP, jump);
     }
 
     public String getSwitchUp() throws ControlsDataGetException{
         try{
-            return dbManager.getData(TABLE_NAME, null, null, "switchUp");
+            return dbManager.getData(TABLE_NAME, null, null, ATTRIBUTE_STRING_SWITCH_UP);
         }catch(SQLException sqlException)
         {
             throw new ControlsDataGetException();
@@ -118,30 +130,30 @@ public class ControlsDBManager {
     }
 
     public void setSwitchUp(String switchUp) {
-        dbManager.updateTable(TABLE_NAME, null, null, "switchUp", switchUp);
+        dbManager.updateTable(TABLE_NAME, null, null, ATTRIBUTE_STRING_SWITCH_UP, switchUp);
     }
 
     public String getSwitchDown() throws ControlsDataGetException{
         try{
-            return dbManager.getData(TABLE_NAME, null, null, "switchDown");
+            return dbManager.getData(TABLE_NAME, null, null, ATTRIBUTE_STRING_SWITCH_DOWN);
         }catch(SQLException sqlException){
             throw new ControlsDataGetException();
         }
     }
     public void setSwitchDown(String switchDown) {
-        dbManager.updateTable(TABLE_NAME, null, null, "switchDown", switchDown);
+        dbManager.updateTable(TABLE_NAME, null, null, ATTRIBUTE_STRING_SWITCH_DOWN, switchDown);
     }
 
     public String getAction() throws ControlsDataGetException{
         try{
-            return dbManager.getData(TABLE_NAME, null, null, "action");
+            return dbManager.getData(TABLE_NAME, null, null, ATTRIBUTE_STRING_ACTION);
         }catch(SQLException sqlException){
             throw new ControlsDataGetException();
         }
     }
 
     public void setAction(String action) {
-        dbManager.updateTable(TABLE_NAME, null, null, "action", action);
+        dbManager.updateTable(TABLE_NAME, null, null, ATTRIBUTE_STRING_ACTION, action);
     }
 
     public List<String> toArray() throws  SQLException {
