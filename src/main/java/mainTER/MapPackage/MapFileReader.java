@@ -172,6 +172,7 @@ public class MapFileReader {
                             case "shield":
                             case "metalDoor":
                             case "pont3":
+                            case "blockDisapear":
 //                                HideOnActionObject hideOnActionObject = new HideOnActionObject(new Coordinate(doubles[3], doubles[4]), line[2], (int)doubles[5]);
                                 detectableObjectArrayList.add(new Lever(new HideOnActionObject(new Coordinate(doubles[3], doubles[4]), line[2], (int)doubles[5]), new Coordinate(doubles[0], doubles[1])));
 //                                detectableObjectArrayList.add(hideOnActionObject);
