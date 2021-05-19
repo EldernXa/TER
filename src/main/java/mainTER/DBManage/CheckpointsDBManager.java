@@ -73,21 +73,6 @@ public class CheckpointsDBManager {
         dbManager.createTable(TABLE_NAME, listName, 0, listSize);
     }
 
-     /**
-     * Get the data of the table checkpoint.
-     * @return the data of the table checkpoint.
-     */
-    private ResultSet selectIntoTableCheckpoints(){
-        ResultSet rs = null;
-        try {
-            rs = dbManager.selectIntoTable("SELECT * FROM Checkpoints");
-            rs.next();
-        }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données des controls ");
-        }
-        return rs;
-    }
-
     /**
      * Delete the table checkpoint from the databases.
      */
@@ -172,9 +157,8 @@ public class CheckpointsDBManager {
             throw new CheckpointsDataNotCorrectException();
         }
 
-        var resultSet = selectIntoTableCheckpoints();
         try{
-            resultSet.getString("x");
+            dbManager.getData(TABLE_NAME, null, null, "x");
             throw new CheckpointsDataAlreadyExistException();
         }catch(SQLException ignored){
 
