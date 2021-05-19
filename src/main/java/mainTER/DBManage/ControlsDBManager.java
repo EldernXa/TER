@@ -6,11 +6,13 @@ import mainTER.exception.ControlsDataGetException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ControlsDBManager {
+
     private final DBManager dbManager;
 
-
+    private static final String TABLE_NAME = "Controls";
 
     public ControlsDBManager(String nameFileDB){
         this.dbManager = new DBManager(nameFileDB,"test");
@@ -19,17 +21,18 @@ public class ControlsDBManager {
     public ControlsDBManager(){this.dbManager = new DBManager(); }
 
     public void createTableControls(){
-        dbManager.createTableOrInsert("CREATE TABLE Controls (" +
-                "rightControl VARCHAR(30)," +
-                "leftControl VARCHAR(30)," +
-                "jump VARCHAR(30)," +
-                "switchUp VARCHAR(30)," +
-                "switchDown VARCHAR(30)," +
-                "action VARCHAR(30)"+
-                ");");
+        ArrayList<String> listName = new ArrayList<>();
+        ArrayList<Integer> listSize = new ArrayList<>();
+        listName.add("rightControl");                   listSize.add(30);
+        listName.add("leftControl");                    listSize.add(30);
+        listName.add("jump");                           listSize.add(30);
+        listName.add("switchUp");                       listSize.add(30);
+        listName.add("switchDown");                     listSize.add(30);
+        listName.add("action");                         listSize.add(30);
+        dbManager.createTable(TABLE_NAME, listName, 0, listSize);
     }
     public void removeTableControls(){
-        dbManager.dropTable("Controls");
+        dbManager.dropTable(TABLE_NAME);
     }
 
     public void dropCascade(){
@@ -61,14 +64,8 @@ public class ControlsDBManager {
 
         }
 
-        StringBuilder reqValues = new StringBuilder("INSERT INTO Controls VALUES (");
-
-                for(String control : controls){
-                    reqValues.append("'").append(SecureManage.getEncrypted(control)).append("',");
-                }
-                reqValues = new StringBuilder(reqValues.substring(0, reqValues.length() - 1));
-                 reqValues.append(")");
-        dbManager.createTableOrInsert(reqValues.toString());
+        ArrayList<Object> listInsert = new ArrayList<>(Arrays.asList(controls));
+        dbManager.insertIntoTable(TABLE_NAME, listInsert);
     }
 
     public boolean getIfCtrlAlreadyUsed(String ctrlKey) throws ControlsDataGetException{
