@@ -188,10 +188,7 @@ public class CheckpointsDBManager {
      * @param x the new value of the coordinate x.
      */
     public void setX(double x) {
-        String request = STRING_UPDATE_CHECKPOINTS +
-                "SET " +
-                "x = '" + SecureManage.getEncrypted(String.valueOf(x)) + "';";
-        dbManager.updateTable(request);
+        dbManager.updateTable(TABLE_NAME, null, null, "x", x);
     }
 
     /**
@@ -211,10 +208,7 @@ public class CheckpointsDBManager {
      * @param y the new value of the coordinate y.
      */
     public void setY(double y) {
-        String request = STRING_UPDATE_CHECKPOINTS +
-                "SET " +
-                "y = '" + SecureManage.getEncrypted(String.valueOf(y)) + "';";
-        dbManager.updateTable(request);
+        dbManager.updateTable(TABLE_NAME, null, null, "y", y);
     }
 
     /**
@@ -236,10 +230,7 @@ public class CheckpointsDBManager {
      */
     public void setCharacterName(String characterName) throws CheckpointsCharacterDoesntExistException {
         verifyCharacterExist(characterName);
-        String request = STRING_UPDATE_CHECKPOINTS +
-                "SET " +
-                "characterName = '" + SecureManage.getEncrypted(characterName) + "';";
-        dbManager.updateTable(request);
+        dbManager.updateTable(TABLE_NAME, null, null, "characterName", characterName);
     }
 
     /**
@@ -261,10 +252,7 @@ public class CheckpointsDBManager {
      */
     public void setMapName(String mapName) throws CheckpointsMapDoesntExistException {
         verifyMapExist(mapName);
-        String request = STRING_UPDATE_CHECKPOINTS +
-                "SET " +
-                "mapName = '" + SecureManage.getEncrypted(mapName) + "';";
-        dbManager.updateTable(request);
+        dbManager.updateTable(TABLE_NAME, null, null, "mapName", mapName);
     }
 
     /**
