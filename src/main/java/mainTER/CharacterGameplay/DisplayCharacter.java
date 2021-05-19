@@ -23,6 +23,7 @@ import mainTER.Tools.Coordinate;
 import mainTER.exception.ControlsDataGetException;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -545,37 +546,25 @@ public class DisplayCharacter extends CollideObject {
             listCurrentKeyCode.add(keyCode);
 //            System.out.println("Action F");
 //            System.out.println("Taille de la liste : " + MapFileReader.detectableObjectArrayList.size());
-            for (DetectableObject detectableObject : MapFileReader.detectableObjectArrayList) {
-                if (detectableObject.getAppropriateNode().getBoundsInParent().intersects(this.getAppropriateNode().getBoundsInParent())) {
-//                    System.out.println("Collision avec : " + detectableObject);
-                    /*if(detectableObject instanceof Lever){
-                        for(ObjectLinker objectLinker : Map.objectLinkers){
-                            if(objectLinker.getCollideObject1().equals(detectableObject)){
-                                System.out.println("Levier " + detectableObject);
-
-                                System.out.println("Copain 1" + objectLinker.getCollideObject2());
-                            }
-                            else if(objectLinker.getCollideObject2().equals(detectableObject)){
-                                System.out.println("Levier " + detectableObject);
-                                System.out.println("Copain 2" + objectLinker.getCollideObject1());
-                            }
-                        }
-                    }*/
-
+            for (ObjectLinker objectLinker : Map.objectLinkers) {
+                if (objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent().intersects(this.getAppropriateNode().getBoundsInParent())) {
                     try {
-                        ((InteractiveObject) detectableObject).actionGenuine();
-//                        System.out.println("Essaye de l'interaction");
-                         //TODO reactivate the multi
-                        for(ObjectLinker objectLinker : Map.objectLinkers){
-                            if (objectLinker.getCollideObject1().equals(detectableObject)){
-                                ((InteractiveObject) objectLinker.getCollideObject2()).actionGenuine();
-                            }//TODO demande a Saber d'ajouter l'objet sujet si c'est un levier
-                            else if (objectLinker.getCollideObject2().equals(detectableObject)){
-                                ((InteractiveObject) objectLinker.getCollideObject1()).actionGenuine();
-                            }
-                        }
+                        ((InteractiveObject) objectLinker.getCollideObject1()).actionGenuine();
+                        ((InteractiveObject) objectLinker.getCollideObject2()).actionGenuine();
                     } catch (Exception e) {
+                        //Not interactiveObject
                     }
+                }
+                else if(objectLinker.getCollideObject2().getAppropriateNode().getBoundsInParent().intersects(this.getAppropriateNode().getBoundsInParent())){
+                    try{
+                        ((InteractiveObject) objectLinker.getCollideObject1()).actionGenuine();
+                        ((InteractiveObject) objectLinker.getCollideObject2()).actionGenuine();
+                    }catch (Exception e){
+                        //Not interactiveObject
+                    }
+                }
+                else{
+                    //No interactions
                 }
 
             }

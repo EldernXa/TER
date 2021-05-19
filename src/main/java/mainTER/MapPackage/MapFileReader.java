@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class MapFileReader {
 
 
-    public static ArrayList<DetectableObject> detectableObjectArrayList;
+    public ArrayList<DetectableObject> detectableObjectArrayList;
     private String[] file;
     private String pathName;
     static public ArrayList<Checkpoint> checkpointArrayList;
@@ -57,8 +57,6 @@ public class MapFileReader {
                 e.printStackTrace();
             }
         }
-
-
     }
 
 
@@ -164,9 +162,9 @@ public class MapFileReader {
                         switch (line[2]) {
                             case "portcullis":
                             case "portcullis2":
-                                Portcullis portcullis = new Portcullis(new Coordinate(doubles[3], doubles[4]),line[2]);
-                                detectableObjectArrayList.add(new Lever(portcullis, new Coordinate(doubles[0], doubles[1])));
-                                detectableObjectArrayList.add(portcullis);
+//                                Portcullis portcullis = new Portcullis(new Coordinate(doubles[3], doubles[4]),line[2]);
+                                detectableObjectArrayList.add(new Lever(new Portcullis(new Coordinate(doubles[3], doubles[4]),line[2]), new Coordinate(doubles[0], doubles[1])));
+//                                detectableObjectArrayList.add(portcullis);
                                 break;
 
 
@@ -174,22 +172,22 @@ public class MapFileReader {
                             case "shield":
                             case "metalDoor":
                             case "pont3":
-                                HideOnActionObject hideOnActionObject = new HideOnActionObject(new Coordinate(doubles[3], doubles[4]), line[2], (int)doubles[5]);
-                                detectableObjectArrayList.add(new Lever(hideOnActionObject, new Coordinate(doubles[0], doubles[1])));
-                                detectableObjectArrayList.add(hideOnActionObject);
+//                                HideOnActionObject hideOnActionObject = new HideOnActionObject(new Coordinate(doubles[3], doubles[4]), line[2], (int)doubles[5]);
+                                detectableObjectArrayList.add(new Lever(new HideOnActionObject(new Coordinate(doubles[3], doubles[4]), line[2], (int)doubles[5]), new Coordinate(doubles[0], doubles[1])));
+//                                detectableObjectArrayList.add(hideOnActionObject);
                                 break;
 
                             case "forgottensword":
-                                EndObject endObject = new EndObject(line[2], new Coordinate(doubles[3], doubles[4]),false);
-                                detectableObjectArrayList.add(new Lever(endObject, new Coordinate(doubles[0], doubles[1])));
-                                detectableObjectArrayList.add(endObject);
+//                                EndObject endObject = new EndObject(line[2], new Coordinate(doubles[3], doubles[4]),false);
+                                detectableObjectArrayList.add(new Lever(new EndObject(line[2], new Coordinate(doubles[3], doubles[4]),false), new Coordinate(doubles[0], doubles[1])));
+//                                detectableObjectArrayList.add(endObject);
                                 break;
 
                             case "eau1" :
                             case "spikesRet" :
-                                DeathObject deathObject = new DeathObject(line[2], new Coordinate(doubles[3], doubles[4]),false);
-                                detectableObjectArrayList.add(new Lever(deathObject, new Coordinate(doubles[0], doubles[1])));
-                                detectableObjectArrayList.add(deathObject);
+//                                DeathObject deathObject = new DeathObject(line[2], new Coordinate(doubles[3], doubles[4]),false);
+                                detectableObjectArrayList.add(new Lever(new DeathObject(line[2], new Coordinate(doubles[3], doubles[4]),false), new Coordinate(doubles[0], doubles[1])));
+//                                detectableObjectArrayList.add(deathObject);
                                 break;
 
                         }
@@ -222,9 +220,9 @@ public class MapFileReader {
     }
 
     /**
-     * @return ArrayList of CollideObject
-     */
-    public ArrayList<DetectableObject> getCollisionObjectArrayList() {
+     * @return ArrayList of DetectableObject
+    */
+    public ArrayList<DetectableObject> getDetectableObjectArrayList() {
         return detectableObjectArrayList;
     }
 }

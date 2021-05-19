@@ -234,15 +234,15 @@ public abstract class DetectableObject {
             rect.setY(this.getY());
             rect.setX(rect.getX() + i);
 
-            for (DetectableObject detectableObject2 : MapFileReader.detectableObjectArrayList) {
-                if ((!this.equals(detectableObject2)) && (rect.intersects(detectableObject2.getAppropriateNode().getBoundsInParent())) && (detectableObject2.getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX() >= 0) && (detectableObject2.getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX() <= this.getHMouvementSpan())) {//Prob it considers that it's true at the begening
+            for (ObjectLinker objectLinker : Map.objectLinkers) {
+                if ((!this.equals(objectLinker.getCollideObject1())) && (rect.intersects(objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent())) && (objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX() >= 0) && (objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX() <= this.getHMouvementSpan())) {//Prob it considers that it's true at the begening
                     calc = true;
-                    detectableObject2.interaction(this);
+                    objectLinker.getCollideObject1().interaction(this);
 
-                    multiInteractions(detectableObject2);
+                    multiInteractions(objectLinker.getCollideObject1());
 
-                    if (detectableObject2.rightMvt(this) < miniRightMvt) {
-                        miniRightMvt = detectableObject2.rightMvt(this);
+                    if (objectLinker.getCollideObject1().rightMvt(this) < miniRightMvt) {
+                        miniRightMvt = objectLinker.getCollideObject1().rightMvt(this);
                     }
                 }
             }
@@ -266,15 +266,15 @@ public abstract class DetectableObject {
             rect.setX(this.getX());
             rect.setY(this.getY());
             rect.setX(rect.getX() - i);
-            for (DetectableObject detectableObject2 : MapFileReader.detectableObjectArrayList) {
-                if ((!this.equals(detectableObject2)) && (rect.intersects(detectableObject2.getAppropriateNode().getBoundsInParent())) && (this.getAppropriateNode().getBoundsInParent().getMinX() - detectableObject2.getAppropriateNode().getBoundsInParent().getMaxX() >= 0) && (this.getAppropriateNode().getBoundsInParent().getMinX() - detectableObject2.getAppropriateNode().getBoundsInParent().getMaxX() <= this.getHMouvementSpan())) {
+            for (ObjectLinker objectLinker : Map.objectLinkers) {
+                if ((!this.equals(objectLinker.getCollideObject1())) && (rect.intersects(objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent())) && (this.getAppropriateNode().getBoundsInParent().getMinX() - objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent().getMaxX() >= 0) && (this.getAppropriateNode().getBoundsInParent().getMinX() - objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent().getMaxX() <= this.getHMouvementSpan())) {
                     calc = true;
-                    detectableObject2.interaction(this);
+                    objectLinker.getCollideObject1().interaction(this);
 
-                    multiInteractions(detectableObject2);
+                    multiInteractions(objectLinker.getCollideObject1());
 
-                    if (detectableObject2.leftMvt(this) < miniLeftMvt) {
-                        miniLeftMvt = detectableObject2.leftMvt(this);
+                    if (objectLinker.getCollideObject1().leftMvt(this) < miniLeftMvt) {
+                        miniLeftMvt = objectLinker.getCollideObject1().leftMvt(this);
                     }
 
                 }
@@ -298,27 +298,25 @@ public abstract class DetectableObject {
             Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInParent().getWidth(), this.getAppropriateNode().getBoundsInParent().getHeight());
             rect.setX(this.getX());
             rect.setY(this.getY() - i);
-            for (DetectableObject detectableObject2 : MapFileReader.detectableObjectArrayList) {
-                if (rect.intersects(detectableObject2.getAppropriateNode().getBoundsInParent())) {
+            for (ObjectLinker objectLinker : Map.objectLinkers) {
+                if (rect.intersects(objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent())) {
 
                     try {
                         //System.out.println("--------"+ ((DisplayCharacter)this).getTempNewHeigt());
                     } catch (Exception e) {
                         //System.out.println("pas display");
                     }
-
-
                 }
-                if ((this.getAppropriateNode().getBoundsInParent().getMinY() - detectableObject2.getAppropriateNode().getBoundsInParent().getMaxY() >= 0) || (rect.intersects(detectableObject2.getAppropriateNode().getBoundsInParent()))) {
+                if ((this.getAppropriateNode().getBoundsInParent().getMinY() - objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent().getMaxY() >= 0) || (rect.intersects(objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent()))) {
                 }
-                if ((!this.equals(detectableObject2)) && (rect.intersects(detectableObject2.getAppropriateNode().getBoundsInParent())) && ((this.getAppropriateNode().getBoundsInParent().getMinY() - detectableObject2.getAppropriateNode().getBoundsInParent().getMaxY() >= 0)/*||( (detectableObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY() + ((DisplayCharacter)this).getTempNewHeigt())>=0)*/ )/*&&(this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY() <= this.getJumpMouvementSpan())*/) { //a voir pour le -i
+                if ((!this.equals(objectLinker.getCollideObject1())) && (rect.intersects(objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent())) && ((this.getAppropriateNode().getBoundsInParent().getMinY() - objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent().getMaxY() >= 0)/*||( (detectableObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY() + ((DisplayCharacter)this).getTempNewHeigt())>=0)*/ )/*&&(this.getAppropriateNode().getBoundsInParent().getMinY() - collideObject2.getAppropriateNode().getBoundsInParent().getMaxY() <= this.getJumpMouvementSpan())*/) { //a voir pour le -i
                     calc = true;
-                    detectableObject2.interaction(this);
+                    objectLinker.getCollideObject1().interaction(this);
 
-                    multiInteractions(detectableObject2);
+                    multiInteractions(objectLinker.getCollideObject1());
 
-                    if (detectableObject2.upMvt(this) < miniUpMvt) {
-                        miniUpMvt = detectableObject2.upMvt(this);
+                    if (objectLinker.getCollideObject1().upMvt(this) < miniUpMvt) {
+                        miniUpMvt = objectLinker.getCollideObject1().upMvt(this);
                     }
                 }
             }
@@ -343,16 +341,16 @@ public abstract class DetectableObject {
             rect.setX(this.getX());
             rect.setY(this.getY() + i);
 
-            for (DetectableObject detectableObject2 : MapFileReader.detectableObjectArrayList) {
+            for (ObjectLinker objectLinker : Map.objectLinkers) {
 
-                if ((!this.equals(detectableObject2)) && (rect.intersects(detectableObject2.getAppropriateNode().getBoundsInParent())) && (detectableObject2.leftMvt(this) != 0 && detectableObject2.rightMvt(this) != 0) /*&&((detectableObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY()) >= 0)*/) {
+                if ((!this.equals(objectLinker.getCollideObject1())) && (rect.intersects(objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent())) && (objectLinker.getCollideObject1().leftMvt(this) != 0 && objectLinker.getCollideObject1().rightMvt(this) != 0) /*&&((detectableObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY()) >= 0)*/) {
                     calc = true;
-                    detectableObject2.interaction(this);
-                    multiInteractions(detectableObject2);
+                    objectLinker.getCollideObject1().interaction(this);
+                    multiInteractions(objectLinker.getCollideObject1());
 //                    System.out.println("distance between " + this + " and " + detectableObject2 + " = " + detectableObject2.downMvt(this));
 
-                    if (detectableObject2.downMvt(this) < miniDownMvt) {
-                        miniDownMvt = detectableObject2.downMvt(this);
+                    if (objectLinker.getCollideObject1().downMvt(this) < miniDownMvt) {
+                        miniDownMvt = objectLinker.getCollideObject1().downMvt(this);
                     }
                 }
             }

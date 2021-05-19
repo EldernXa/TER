@@ -15,7 +15,7 @@ public class Map {
     private Pane pane;
     private ImageView backgroundImage;
     private String fileName;
-    public ArrayList<DetectableObject> detectableObjects1 = new ArrayList<>();
+//    public ArrayList<DetectableObject> detectableObjects1 = new ArrayList<>();
     public static ArrayList<ObjectLinker> objectLinkers = new ArrayList<>();
 
 
@@ -30,7 +30,7 @@ public class Map {
 
 
 
-        mapFileReader = new MapFileReader(url , fileName,bool);
+        mapFileReader = new MapFileReader(url , fileName);
 
     }
     public Map( Pane pane,String fileName) {
@@ -61,48 +61,53 @@ public class Map {
         return mapFileReader;
     }
 
-    public void addCollisionObject(){
-        for (DetectableObject detectableObject : this.getReadFileMap().getCollisionObjectArrayList()){
+    /*public void addCollisionObject(){
+        for (DetectableObject detectableObject : this.getReadFileMap().getDetectableObjectArrayList()){
             pane.getChildren().add(detectableObject.getAppropriateNode());
-            /*if(detectableObject instanceof Lever){
+            objectLinkers.add(new ObjectLinker(detectableObject, null));
+            if(detectableObject instanceof Lever){
                 pane.getChildren().add(((Lever)detectableObject).getInteractiveObject().getAppropriateNode());
-            }*/
+            }
         }
-        System.out.println(this.getReadFileMap().getCollisionObjectArrayList().size());
-    }
+//        System.out.println(this.getReadFileMap().getDetectableObjectArrayList().size());
+    }*/
 
     public void addCollisionObjectNetwork(boolean bool){
-
-
-        Iterator<DetectableObject> list = this.getReadFileMap().getCollisionObjectArrayList().iterator();
+        Iterator<DetectableObject> list = this.getReadFileMap().getDetectableObjectArrayList().iterator();
         while (list.hasNext()) {
             DetectableObject detectableObject = list.next();
             DetectableObject detectableObject2 = detectableObject.clone();
             objectLinkers.add(new ObjectLinker(detectableObject, detectableObject2));
-            /*if(detectableObject instanceof Lever){
+            if(detectableObject instanceof Lever){
                 ((Lever)detectableObject2).setInteractiveObject(((Lever)detectableObject).getInteractiveObject().clone());
-            }*/
-            //TODO Add second pane for the clones
-            detectableObjects1.add(detectableObject2);
+                objectLinkers.add(new ObjectLinker(((Lever)detectableObject).getInteractiveObject(),((Lever)detectableObject2).getInteractiveObject()));
+            }
+//            detectableObjects1.add(detectableObject2);
+            //TODO finir ça
             if(bool){
                 pane.getChildren().add(detectableObject.getAppropriateNode());
-            }else {
-                pane.getChildren().add(detectableObject2.getAppropriateNode());
+                if(detectableObject instanceof Lever){
+                    pane.getChildren().add(((Lever)detectableObject).getInteractiveObject().getAppropriateNode());
+                }
             }
-
+            else {
+                pane.getChildren().add(detectableObject2.getAppropriateNode());
+                if(detectableObject instanceof Lever){
+                    pane.getChildren().add(((Lever)detectableObject2).getInteractiveObject().getAppropriateNode());                }
+            }
         }
-
+        System.out.println("Taille = " + pane.getChildren().size());
     }
 
     public void clearColissionObjectNetwork(){
-        for (DetectableObject detectableObject : this.getReadFileMap().getCollisionObjectArrayList()){
+        for (DetectableObject detectableObject : this.getReadFileMap().getDetectableObjectArrayList()){
             pane.getChildren().remove(detectableObject.getAppropriateNode());
         }
     }
 
-    public ArrayList<DetectableObject> getCollideObjects1() {
-        return detectableObjects1;
-    }
+//    public ArrayList<DetectableObject> getCollideObjects1() {
+//        return detectableObjects1;
+//    }
 
     public Pane getPane() {
         return pane;
