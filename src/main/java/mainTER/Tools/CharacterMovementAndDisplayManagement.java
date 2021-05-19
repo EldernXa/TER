@@ -23,6 +23,16 @@ public class CharacterMovementAndDisplayManagement {
         this.camera = camera;
     }
 
+    public void displayOtherNode(ImageView imgView, double x, double y){
+        imgView.setX(calculateRightPosition(new Coordinate(x, y)).getX());
+        imgView.setY(calculateRightPosition(new Coordinate(x, y)).getY());
+        pane.getChildren().add(imgView);
+    }
+
+    public void removeOtherNode(ImageView imgView){
+        pane.getChildren().remove(imgView);
+    }
+
     public void displayNode(ImageView imgView, double x, double y){
         pane.getChildren().remove(this.imgView);
         this.imgView = imgView;

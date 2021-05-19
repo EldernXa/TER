@@ -2,12 +2,17 @@ package mainTER.CharacterGameplay;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 import mainTER.DBManage.SkillDBManager;
+import mainTER.MapPackage.FirstMoultSerpent;
+import mainTER.MapPackage.Map;
+import mainTER.MapPackage.ObjectLinker;
+import mainTER.MapPackage.SecondMoultSerpent;
 import mainTER.Tools.CharacterMovementAndDisplayManagement;
 import mainTER.Tools.Coordinate;
 import mainTER.exception.SkillDataGetException;
@@ -152,12 +157,70 @@ public class ActiveSkill implements Skill{
 
                 }
                 else if(skill == ActiveSkillEnum.MOULT){
-
-
+                    moultSkill(characterMovementAndDisplayManagement, animationCharacter);
                 }
             }
         };
         return eventHandler;
+    }
+
+    private void moultSkill(CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement, AnimationCharacter animationCharacter){
+        if(!isEnabled && cooldownFinished){
+            boolean isReversed = animationCharacter.getCurrentPosition() == Position.REVERSE_MOTIONLESS ||
+                    animationCharacter.getCurrentPosition() == Position.REVERSE_WALK ||
+                    animationCharacter.getCurrentPosition() == Position.REVERSE_JUMP;
+            isEnabled = true;
+            cooldownFinished = false;
+            Coordinate coordinateMoult = new Coordinate(
+                    characterMovementAndDisplayManagement.getCoordinateOfTheActualImg().getX(),
+                    characterMovementAndDisplayManagement.getCoordinateOfTheActualImg().getY()
+            );
+            FirstMoultSerpent firstMoultSerpent = new FirstMoultSerpent(coordinateMoult, isReversed);
+            ObjectLinker objectLinkerFirst = new ObjectLinker(firstMoultSerpent, firstMoultSerpent.clone());
+            Map.objectLinkers.add(objectLinkerFirst);
+            characterMovementAndDisplayManagement.displayOtherNode((ImageView)firstMoultSerpent.getAppropriateNode(), coordinateMoult.getX(), coordinateMoult.getY());
+            Thread t = new Thread(()->{
+                try {
+                    TimeUnit.SECONDS.sleep(3);
+                }catch(Exception ignored){
+
+                }
+                Platform.runLater(()->{
+                    characterMovementAndDisplayManagement.removeOtherNode((ImageView)firstMoultSerpent.getAppropriateNode());
+                    Map.objectLinkers.remove(objectLinkerFirst);
+                    SecondMoultSerpent secondMoultSerpent = new SecondMoultSerpent(coordinateMoult, isReversed);
+                    ObjectLinker objectLinkerSecond = new ObjectLinker(secondMoultSerpent, secondMoultSerpent.clone());
+                    isEnabled = false;
+                    Map.objectLinkers.add(objectLinkerSecond);
+                    characterMovementAndDisplayManagement.displayOtherNode((ImageView)secondMoultSerpent.getAppropriateNode(), coordinateMoult.getX(),
+                            coordinateMoult.getY());
+                    Thread thread = new Thread(()->{
+                        try{
+                            TimeUnit.SECONDS.sleep((int)timeSkill);
+                        }catch(Exception ignored){
+
+                        }
+                        Platform.runLater(()->{
+                            characterMovementAndDisplayManagement.removeOtherNode((ImageView)secondMoultSerpent.getAppropriateNode());
+                            Map.objectLinkers.remove(objectLinkerSecond);
+                            Thread threadForFinish = new Thread(()->{
+                                threadIsRunning = true;
+                                try{
+                                    TimeUnit.SECONDS.sleep((int)timeCooldown);
+                                }catch(Exception ignored){
+
+                                }
+                                threadIsRunning = false;
+                                cooldownFinished = true;
+                            });
+                            threadForFinish.start();
+                        });
+                    });
+                    thread.start();
+                });
+            });
+            t.start();
+        }
     }
 
     private void flySkill() {
