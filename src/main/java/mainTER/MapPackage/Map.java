@@ -20,19 +20,7 @@ public class Map {
 
 
 
-    public Map( Pane pane,String fileName,boolean bool) {
 
-        this.pane = pane;
-        String url = "./src/main/resources/mainTER/MapPackage/Files/";
-        this.fileName = fileName;
-
-        this.backgroundImage = new ImageView(new Image(new File("src/main/resources/mainTER/MapPackage/Sprites/Back/Background"+fileName +".png").toURI().toString()));
-
-
-
-        mapFileReader = new MapFileReader(url , fileName);
-
-    }
     public Map( Pane pane,String fileName) {
 
         this.pane = pane;
@@ -51,8 +39,8 @@ public class Map {
         pane.setBackground( new Background(new BackgroundImage(backgroundImage.getImage(),BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT, new BackgroundSize(backgroundImage.getImage().getWidth(),
                 backgroundImage.getImage().getHeight(),false,false,false,false))));
-        Music.stopMusic();
-        Music.launchMenuSound(fileName);
+        //Music.stopMusic();
+        //Music.launchMenuSound(fileName);
 
     }
 

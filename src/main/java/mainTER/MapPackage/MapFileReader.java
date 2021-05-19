@@ -42,23 +42,6 @@ public class MapFileReader {
 
     }
 
-    public MapFileReader(String url,String pathName,boolean bool){
-        if(bool){
-            checkpointArrayList = new ArrayList<>();
-            detectableObjectArrayList = new ArrayList<>();
-            this.pathName = pathName;
-            Path path = Paths.get(url + pathName + ".txt");
-            try {
-                this.file = Files.readString(path).split("\n");
-
-                read();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 
     /**
      * Read the file and put data in lists
