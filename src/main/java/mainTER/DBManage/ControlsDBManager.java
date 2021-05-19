@@ -57,9 +57,8 @@ public class ControlsDBManager {
         // TODO verify insert data
         // TODO verify data doesn't exist already
 
-        ResultSet resultSet = selectIntoTableControls();
         try {
-            resultSet.getObject("jump");
+            dbManager.getData(TABLE_NAME, null, null, "jump");
             throw new ControlsDataAlreadyExistsException("jump");
         } catch (SQLException ignored) {
 
@@ -74,18 +73,6 @@ public class ControlsDBManager {
                 getRight().compareToIgnoreCase(ctrlKey) == 0 || getSwitchDown().compareToIgnoreCase(ctrlKey)==0 ||
                 getSwitchUp().compareToIgnoreCase(ctrlKey)==0 || getAction().compareToIgnoreCase(ctrlKey)==0;
     }
-
-    private ResultSet selectIntoTableControls(){
-        ResultSet rs = null;
-        try {
-            rs = dbManager.selectIntoTable("SELECT * FROM Controls");
-            rs.next();
-        }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données des controls ");
-        }
-        return rs;
-    }
-
 
     public String getLeft() throws ControlsDataGetException {
         try {
