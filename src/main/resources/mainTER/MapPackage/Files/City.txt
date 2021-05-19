@@ -31,7 +31,8 @@ platform1 L 2253 1746 363 48
 rightPlatform L 2615 1746 30 48
 platform1 L 1773 2001 402 48
 leftWall L 1401 2232 30 48
-platform1 L 4031 2232 390 48
+leftWall L 1401 2232 30 48
+platform1 L 1431 2232 390 48
 platform1 L 2126 2232 394 48
 rightPlatform L 2520 2232 30 48
 platform1 L 1554 2469 486 48
@@ -70,7 +71,8 @@ platform1 L 5547 2970 396 48
 platform1 L 5547 2736 333 48
 platform1 L 5547 2502 276 48
 platform1 L 5547 2268 186 48
-platform1 L 5730 2013 2127 48
+platform1 L 5730 2013 443 48
+platform1 L 6930 2013 928 48
 rightPlatform L 7857 2013 30 48
 leftWall L 5424 2013 30 48
 platform1 L 5454 2013 99 48
