@@ -232,4 +232,15 @@ public class DBManager {
         }
     }
 
+    public List<String> toArray(String nameTable) throws SQLException{
+        ArrayList<String> returnArray = new ArrayList<>();
+        ResultSet resultSet = selectIntoTable("SELECT * FROM " + nameTable);
+        resultSet.next();
+        int columnCount = resultSet.getMetaData().getColumnCount();
+        for(int i=0; i<columnCount; i++){
+            returnArray.add(SecureManage.getDecrypted(resultSet.getString(i+1)));
+        }
+        return returnArray;
+    }
+
 }

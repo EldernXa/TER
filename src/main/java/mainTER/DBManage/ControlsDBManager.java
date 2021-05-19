@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ControlsDBManager {
 
@@ -156,19 +157,8 @@ public class ControlsDBManager {
         dbManager.updateTable(TABLE_NAME, null, null, "action", action);
     }
 
-
-
-    public ArrayList<String> toArray() throws  SQLException {
-        ArrayList<String> result = new ArrayList<>();
-        ResultSet rs = selectIntoTableControls();
-
-        int columnCount = rs.getMetaData().getColumnCount();
-
-        for (int i = 0; i <columnCount ; i++)
-        {
-            result.add( SecureManage.getDecrypted(rs.getString(i + 1)) );
-        }
-        return result;
+    public List<String> toArray() throws  SQLException {
+        return dbManager.toArray(TABLE_NAME);
     }
 
 
