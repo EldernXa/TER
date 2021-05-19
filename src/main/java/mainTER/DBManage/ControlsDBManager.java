@@ -87,95 +87,73 @@ public class ControlsDBManager {
 
 
     public String getLeft() throws ControlsDataGetException {
-        ResultSet rs = selectIntoTableControls();
         try {
-
-            return SecureManage.getDecrypted((String) rs.getObject("leftControl"));
+            return dbManager.getData(TABLE_NAME, null, null, "leftControl");
         }catch(SQLException sqlException){
             throw new ControlsDataGetException();
         }
     }
 
     public void setLeft(String left) {
-        String request = "UPDATE Controls " +
-                "SET " +
-                "leftControl = '" + SecureManage.getEncrypted(left) + "';";
-        dbManager.updateTable(request);
+        dbManager.updateTable(TABLE_NAME, null, null, "leftControl", left);
     }
 
     public String getRight() throws ControlsDataGetException{
-        ResultSet rs = selectIntoTableControls();
         try{
-            return SecureManage.getDecrypted((String) rs.getObject("rightControl"));
+            return dbManager.getData(TABLE_NAME, null, null, "rightControl");
         }catch(SQLException sqlException){
             throw new ControlsDataGetException();
         }
     }
     public void setRight(String right) {
-        String request = "UPDATE Controls " +
-                "SET " +
-                "rightControl = '" + SecureManage.getEncrypted(right) + "';";
-        dbManager.updateTable(request);
+        dbManager.updateTable(TABLE_NAME, null, null, "rightControl", right);
     }
 
     public String getJump() throws ControlsDataGetException{
-        ResultSet rs = selectIntoTableControls();
         try{
-            return SecureManage.getDecrypted((String) rs.getObject("jump"));
+            return dbManager.getData(TABLE_NAME, null, null, "jump");
         }catch(SQLException sqlException){
             throw new ControlsDataGetException();
         }
     }
     public void setJump(String jump) {
-        String request = "UPDATE Controls " +
-                "SET " +
-                "jump = '" + SecureManage.getEncrypted(jump) + "';";
-        dbManager.updateTable(request);
+        dbManager.updateTable(TABLE_NAME, null, null, "jump", jump);
     }
 
     public String getSwitchUp() throws ControlsDataGetException{
-        ResultSet rs = selectIntoTableControls();
         try{
-            return SecureManage.getDecrypted((String)rs.getObject("switchUp"));
+            return dbManager.getData(TABLE_NAME, null, null, "switchUp");
         }catch(SQLException sqlException)
         {
             throw new ControlsDataGetException();
         }
     }
+
     public void setSwitchUp(String switchUp) {
-        String request = "UPDATE Controls " +
-                "SET " +
-                "switchUp = '" + SecureManage.getEncrypted(switchUp) + "';";
-        dbManager.updateTable(request);
+        dbManager.updateTable(TABLE_NAME, null, null, "switchUp", switchUp);
     }
+
     public String getSwitchDown() throws ControlsDataGetException{
-        ResultSet rs = selectIntoTableControls();
         try{
-            return SecureManage.getDecrypted((String) rs.getObject("switchDown"));
+            return dbManager.getData(TABLE_NAME, null, null, "switchDown");
         }catch(SQLException sqlException){
             throw new ControlsDataGetException();
         }
     }
     public void setSwitchDown(String switchDown) {
-        String request = "UPDATE Controls " +
-                "SET " +
-                "switchDown = '" + SecureManage.getEncrypted(switchDown) + "';";
-        dbManager.updateTable(request);
+        dbManager.updateTable(TABLE_NAME, null, null, "switchDown", switchDown);
     }
 
     public String getAction() throws ControlsDataGetException{
-        ResultSet rs = selectIntoTableControls();
         try{
-            return SecureManage.getDecrypted((String) rs.getObject("action"));
+            return dbManager.getData(TABLE_NAME, null, null, "action");
         }catch(SQLException sqlException){
             throw new ControlsDataGetException();
         }
     }
+
     public void setAction(String action) {
-        String request = "UPDATE Controls " +
-                "SET " +
-                "action = '" + SecureManage.getEncrypted(action) + "';";
-        dbManager.updateTable(request);
+        dbManager.updateTable(TABLE_NAME, null, null, "action", action);
     }
 
 
