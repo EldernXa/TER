@@ -28,7 +28,7 @@ public class ActiveSkill implements Skill{
     private final Character character;
     private final ActiveSkillEnum skill;
     private boolean isEnabled;
-    private boolean finishSkill;
+    private boolean cooldownFinished;
     private final SkillDBManager skillDBManager;
     private final int numSkill;
     private EventHandler<KeyEvent> eventHandler;
@@ -56,7 +56,7 @@ public class ActiveSkill implements Skill{
         this.timeCooldown = timeCooldown;
         this.timeSkill = timeSkill;
         isEnabled = false;
-        finishSkill = true;
+        cooldownFinished = true;
         this.skillDBManager = new SkillDBManager();
         boolean isMode = false;
         try{
@@ -108,13 +108,13 @@ public class ActiveSkill implements Skill{
         }
     }
 
-    public boolean getFinishSkill(){
-        return finishSkill;
+    public boolean getCooldownFinished(){
+        return cooldownFinished;
     }
 
     public void init(){
         isEnabled = false;
-        finishSkill = true;
+        cooldownFinished = true;
         try{
             initAnimateForWalk(character);
             initAnimateForReverseWalk(character);
@@ -162,10 +162,9 @@ public class ActiveSkill implements Skill{
 
     private void flySkill() {
         //Bug quand on change de perso et qu'on revient sur le démon, il arrive plus a changer de compétence
-        if (!isEnabled && finishSkill) {
-            System.out.println("okok");
+        if (!isEnabled && cooldownFinished) {
             isEnabled = true;
-            finishSkill = false;
+            cooldownFinished = false;
             try {
                 Thread t = new Thread(() -> {
                     try {
@@ -195,7 +194,7 @@ public class ActiveSkill implements Skill{
                         try{
                             threadIsRunning = true;
                             TimeUnit.SECONDS.sleep((long)timeCooldown);
-                            finishSkill = true;
+                            cooldownFinished = true;
                             threadIsRunning = false;
                         }catch(InterruptedException interruptedException){
                             interruptedException.printStackTrace();
@@ -220,7 +219,7 @@ public class ActiveSkill implements Skill{
                     try{
                         threadIsRunning = true;
                         TimeUnit.SECONDS.sleep((long)timeCooldown);
-                        finishSkill = true;
+                        cooldownFinished = true;
                         threadIsRunning = false;
                     }catch(InterruptedException interruptedException){
                         interruptedException.printStackTrace();
@@ -259,8 +258,8 @@ public class ActiveSkill implements Skill{
 
     private void attackSkill(AnimationCharacter animationCharacter, CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement,
                              int tpsDuration){
-        if(!isEnabled && finishSkill) {
-            finishSkill = false;
+        if(!isEnabled && cooldownFinished) {
+            cooldownFinished = false;
             isEnabled = true;
             animationCharacter.setCanMove(false);
             Coordinate c = characterMovementAndDisplayManagement.getCoordinateOfTheActualImg();
@@ -300,7 +299,7 @@ public class ActiveSkill implements Skill{
                                                     System.out.println("okok");
                                                     threadIsRunning = true;
                                                     TimeUnit.SECONDS.sleep((long) timeCooldown);
-                                                    finishSkill = true;
+                                                    cooldownFinished = true;
                                                     threadIsRunning = false;
                                                     System.out.println("-----okok");
                                                 } catch (Exception exception) {
@@ -319,7 +318,7 @@ public class ActiveSkill implements Skill{
                                             try {
                                                 threadIsRunning = true;
                                                 TimeUnit.SECONDS.sleep((long) timeCooldown);
-                                                finishSkill = true;
+                                                cooldownFinished = true;
                                                 threadIsRunning = false;
                                             } catch (Exception exception) {
                                                 exception.printStackTrace();

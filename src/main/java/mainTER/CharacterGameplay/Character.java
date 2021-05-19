@@ -53,7 +53,7 @@ public class Character {
 
     public boolean canChangeCharacter(){
         for(Skill skill : listSkill){
-            if(skill.getClass() == ActiveSkill.class && !((ActiveSkill) skill).getFinishSkill()){
+            if(skill.getClass() == ActiveSkill.class && ((ActiveSkill) skill).isEnabled()){
                 return false;
             }
         }
