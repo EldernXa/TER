@@ -43,7 +43,7 @@ public class Player {
     private DisplayCharacter friend;
     private Map map;
     private final Button button = new Button("cliquer");
-    volatile static boolean finito = false;
+    volatile boolean finito = false;
     private ArrayList<Character> listCharacter;
     private final VBox vboxPerso = new VBox(10);
     private final Pane pane1 = new Pane();
@@ -51,7 +51,7 @@ public class Player {
 
     private final StackPane stackPane = new StackPane();
     private volatile String nameOfMe;
-    volatile static String nameOfMap;
+    volatile String nameOfMap;
     private volatile String nameOfFriend;
     private DataOutputStream dos;
 
@@ -156,7 +156,7 @@ public class Player {
 
             rfs = new ReadFromServer(dis);
             wts = new WriteToServer(dos);
-            rfs.waitForStartMsg();
+
 
 
 
@@ -198,6 +198,10 @@ public class Player {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                if(playerID == 2){
+                    readForMap(dis);
+                }
+            rfs.waitForStartMsg();
 
 
         });
@@ -307,6 +311,13 @@ public class Player {
         thread.start();
 
         }
+        public void readForMap(DataInputStream dis){
+            try {
+                nameOfMap = dis.readUTF();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
 
     /**
@@ -391,15 +402,16 @@ public class Player {
         public void waitForStartMsg(){
             Thread t = new Thread(()->{
                 try {
-                    while (!finito) {
-                        Thread.onSpinWait();
+                    if(playerID == 1){
+                        while (!finito) {
+                            Thread.onSpinWait();
 
+                        }
                     }
+
 
                     if(playerID == 1){
                         Platform.runLater(()-> button.setDisable(false));
-                    }else {
-                        nameOfMap = dis.readUTF();
                     }
                     map = new Map(pane1,nameOfMap);
                     ImageView background = map.getBackgroundImage();
