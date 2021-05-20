@@ -35,18 +35,6 @@ public class ProfileDBManager {
         dbManager.dropCascade();
     }
 
-    private ResultSet selectIntoTableProfile(String name,String mapName){
-        ResultSet rs = null;
-        try {
-            rs = dbManager.selectIntoTable("SELECT *" +
-                    " FROM Profile WHERE name = '" + SecureManage.getEncrypted(name) + "' AND "+
-                                        "mapName= '" + SecureManage.getEncrypted(mapName)+ "' ;");
-            rs.next();
-        }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données des profiles ");
-        }
-        return rs;
-    }
     public void insertIntoTableProfile(String name, int time,String mapName) {
         // TODO verify insert data
         // TODO verify data doesn't exist already
@@ -97,20 +85,6 @@ public class ProfileDBManager {
 
 
 
-    }
-
-    public List<String> getListProfileFromDatabase(String mapName){
-        ArrayList<String> listProfile = new ArrayList<>();
-        ResultSet rs;
-        try{
-            rs = dbManager.selectIntoTable("SELECT * FROM Profile WHERE mapName = '"+SecureManage.getEncrypted(mapName)+"';");
-            while(rs.next()){
-                listProfile.add(SecureManage.getDecrypted(rs.getString("name")));
-            }
-        }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération de données.");
-        }
-        return listProfile;
     }
 
     public Map<String, Double> getRanking(String mapName){
