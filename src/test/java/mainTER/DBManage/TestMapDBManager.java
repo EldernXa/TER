@@ -54,6 +54,16 @@ public class TestMapDBManager {
     }
 
     @Test
+    public void testInsertSameMapTwiceThrowException(){
+        try{
+            insertDataForMap();
+            assertThrows(MapAlreadyExistException.class, ()->mapDBManager.insertIntoTableMap(mapName, nameFirstCharacter, coordinateX, coordinateY));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
     public void testVerifyTableNotExist(){
         try{
             assertFalse(mapDBManager.verifyTableMapExist());

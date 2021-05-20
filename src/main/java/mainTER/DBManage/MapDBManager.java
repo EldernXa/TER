@@ -82,9 +82,8 @@ public class MapDBManager {
     public void insertIntoTableMap(String mapName, String nameFirstCharacter, double coordinateX, double coordinateY)
             throws MapCharacterNotExistException, MapAlreadyExistException {
 
-        ResultSet resultSet = selectMapIntoTableMap(mapName);
         try{
-            resultSet.getString("mapName");
+            dbManager.getData("Map", "mapName", mapName, "mapName", true);
             throw new MapAlreadyExistException(mapName);
         }catch(SQLException ignored){
 
@@ -152,22 +151,7 @@ public class MapDBManager {
         }
     }
 
-    /**
-     * Getting all data for a map.
-     * @param mapName the name of a map.
-     * @return all data for the map we ask.
-     */
-    private ResultSet selectMapIntoTableMap(String mapName){
-        ResultSet resultSet;
-        resultSet = dbManager.selectIntoTable("SELECT * FROM Map WHERE mapName = '" +
-                SecureManage.getEncrypted(mapName) + "'");
-        try{
-            resultSet.next();
-        }catch(SQLException sqlException){
-            System.out.println("Problème dans la récupération des données.");
-        }
-        return resultSet;
-    }
+
 
     /**
      * Remove the table Map.
