@@ -81,8 +81,8 @@ ground2 L 8766 4152 1434 48
 limit L 0 0 5 4200
 limit L 10200 0 5 4200
 objects
-manholeCover 9400 3954
-manhole 9470 3954
+manholeCover 9150 4205
+manhole 9270 4150
 droneL 2445 2070
 droneR 1708 2046
 wireWall 8049 3183

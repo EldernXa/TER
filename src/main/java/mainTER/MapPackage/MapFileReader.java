@@ -112,7 +112,7 @@ public class MapFileReader {
                                 detectableObjectArrayList.add(new Crate(new Coordinate(doubles[1], doubles[2]),line[0]));
                                 break;
                             case "trunk":
-                            case "manholecover":
+                            case "manholeCover":
                                 imageHeight2 = heightFromName(line[0]);
                                 detectableObjectArrayList.add(new RndObj(pathName, line[0], new Coordinate(doubles[1], doubles[2] - imageHeight2)));
                                 break;
@@ -134,9 +134,7 @@ public class MapFileReader {
                             case "spikes":
                             case "manhole":
                                 detectableObjectArrayList.add(new DeathObject(line[0], new Coordinate(doubles[1], doubles[2]),true));
-
-
-
+                                break;
                         }
                     } else if (lastCategorie.equals("levers")) {
                         line = file[i].split("\\s+");
