@@ -7,9 +7,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import mainTER.DBManage.PersonDBManager;
 import mainTER.DBManage.SkillDBManager;
@@ -121,7 +119,9 @@ public class Character {
     private void extractImgFromPos(Position pos, String replace, URL url) throws URISyntaxException, PositionDirectoryDoesntExist {
         File file = Paths.get(url.toURI()).toFile();
         if (file.exists() && file.isDirectory()) {
-            for (File fileForOneSprite : Objects.requireNonNull(file.listFiles())) {
+            File[] listFile = Objects.requireNonNull(file.listFiles());
+            Arrays.sort(listFile);
+            for (File fileForOneSprite : listFile) {
                 characteristics.getListOfPictureOfTheCharacter().get(pos.ordinal()).add(new ImageView(new Image(fileForOneSprite.toURI().toString())));
             }
         } else {

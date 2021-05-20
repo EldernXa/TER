@@ -2,6 +2,8 @@ package mainTER.MapPackage;
 
 import javafx.scene.image.Image;
 import mainTER.DBManage.PointsUpgradeDBManager;
+import mainTER.Network.GameServer;
+import mainTER.Network.Player;
 import mainTER.Tools.Coordinate;
 
 import java.io.File;
@@ -203,18 +205,21 @@ public class MapFileReader {
                         detectableObjectArrayList.add(checkpoint);
                     }
                     else if(lastCategorie.equals("points")){
-                        line = file[i].split("\\s+");
-                        double[] doubles = new double[line.length];
-                        for (int j = 0; j < line.length; j++) {
-                            if (j != 2) {
-                                doubles[j] = Integer.parseInt(line[j]);
+                        if(Player.multi == null){
+                            line = file[i].split("\\s+");
+                            double[] doubles = new double[line.length];
+                            for (int j = 0; j < line.length; j++) {
+                                if (j != 2) {
+                                    doubles[j] = Integer.parseInt(line[j]);
+                                }
                             }
-                        }
-                        pointsUpgradeDBManager.createTablePointsUpgrade();
-                        if(!pointsUpgradeDBManager.isTaken(doubles[0], doubles[1],pathName)){
-                            Point point = new Point(new Coordinate(doubles[0], doubles[1]), pathName);
-                            pointsUpgradeDBManager.insertIntoTablePointsUpgrade(doubles[0], doubles[1],pathName);
-                            detectableObjectArrayList.add(point);
+                            pointsUpgradeDBManager.createTablePointsUpgrade();
+                            if(!pointsUpgradeDBManager.isTaken(doubles[0], doubles[1],pathName)){
+                                Point point = new Point(new Coordinate(doubles[0], doubles[1]), pathName);
+                                pointsUpgradeDBManager.insertIntoTablePointsUpgrade(doubles[0], doubles[1],pathName);
+                                detectableObjectArrayList.add(point);
+                            }
+
                         }
 
 

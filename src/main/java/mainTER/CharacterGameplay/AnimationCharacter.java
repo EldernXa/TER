@@ -34,6 +34,10 @@ public class AnimationCharacter {
         return (indImgToAnimate)%listOfImageViewForTheAnimation.get(posToAnimate).size();
     }
 
+    public void setIndImgToAnimate(int indImgToAnimate){
+        this.indImgToAnimate = indImgToAnimate;
+    }
+
     public void changeCharacter(Character character){
         listOfImageViewForTheAnimation = character.getListOfPictureOfTheCharacter();
         indImgToAnimate = 0;
@@ -94,13 +98,16 @@ public class AnimationCharacter {
                 setReverseMotionLess();
             }
         }
-        indImgToAnimate++;
+        indImgToAnimate = (indImgToAnimate+1) % listOfImageViewForTheAnimation.get(posToAnimate).size();
         return imgView;
     }
 
     public ImageView actualImg(){
         try {
-            return listOfImageViewForTheAnimation.get(posToAnimate).get((indImgToAnimate - 1) % listOfImageViewForTheAnimation.get(posToAnimate).size());
+            int indice = (indImgToAnimate - 1) % listOfImageViewForTheAnimation.get(posToAnimate).size();
+            if(indice==-1)
+                indice = 0;
+            return listOfImageViewForTheAnimation.get(posToAnimate).get(indice);
         }catch(ArithmeticException arithmeticException){
             return listOfImageViewForTheAnimation.get(posToAnimate).get((indImgToAnimate));
         }

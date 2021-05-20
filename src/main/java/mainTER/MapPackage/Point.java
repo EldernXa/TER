@@ -41,10 +41,6 @@ public class Point extends UnCollideObject{
             isTaken =true;
             effect();
         }
-
-        defaultImage.getImageView().setX(-100);
-        defaultImage.getImageView().setY(-100);
-        defaultImage.setCoordinate(new Coordinate(-100,-100));
         defaultImage.getImageView().setImage(null);
 
     }
@@ -55,12 +51,14 @@ public class Point extends UnCollideObject{
 
     public void effect() {
 
+
         pointsUpgradeDBManager.setIsTaken(getX(),getY(),mapName,true);
         nbPointsDBManager.createTableNbPoints();
         if(nbPointsDBManager.getNbPoints() == -1){
             nbPointsDBManager.insertIntoTableNbPoints(pointsUpgradeDBManager.getPoints());
+        }else {
+            nbPointsDBManager.setNbPoints(nbPointsDBManager.getNbPoints()+1);
         }
-        nbPointsDBManager.setNbPoints(nbPointsDBManager.getNbPoints()+1);
 
 
     }

@@ -14,7 +14,6 @@ public class GameServer implements Runnable{
     private String name1, name2;
     private int pos1,im1,pos2,im2;
     int skill1,skill2;
-    public static String multi;
 
 
     private ReadFromClient rfc1;
@@ -25,7 +24,6 @@ public class GameServer implements Runnable{
 
     public GameServer(){
         System.out.println("------Game Server ------");
-        multi = "a";
         numPlayers = 0;
         maxPlayers = 2;
 
