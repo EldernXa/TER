@@ -239,7 +239,10 @@ public abstract class DetectableObject {
                     calc = true;
                     objectLinker.getCollideObject1().interaction(this);
 
-                    multiInteractions(objectLinker.getCollideObject1());
+
+                    if(!(objectLinker.getCollideObject1() instanceof Point)) {
+                        multiInteractions(objectLinker.getCollideObject1());
+                    }
 
                     if (objectLinker.getCollideObject1().rightMvt(this) < miniRightMvt) {
                         miniRightMvt = objectLinker.getCollideObject1().rightMvt(this);
@@ -271,7 +274,10 @@ public abstract class DetectableObject {
                     calc = true;
                     objectLinker.getCollideObject1().interaction(this);
 
-                    multiInteractions(objectLinker.getCollideObject1());
+
+                    if(!(objectLinker.getCollideObject1() instanceof Point)) {
+                        multiInteractions(objectLinker.getCollideObject1());
+                    }
 
                     if (objectLinker.getCollideObject1().leftMvt(this) < miniLeftMvt) {
                         miniLeftMvt = objectLinker.getCollideObject1().leftMvt(this);
@@ -313,7 +319,9 @@ public abstract class DetectableObject {
                     calc = true;
                     objectLinker.getCollideObject1().interaction(this);
 
-                    multiInteractions(objectLinker.getCollideObject1());
+                    if(!(objectLinker.getCollideObject1() instanceof Point)){
+                        multiInteractions(objectLinker.getCollideObject1());
+                    }
 
                     if (objectLinker.getCollideObject1().upMvt(this) < miniUpMvt) {
                         miniUpMvt = objectLinker.getCollideObject1().upMvt(this);
@@ -346,7 +354,10 @@ public abstract class DetectableObject {
                 if ((!this.equals(objectLinker.getCollideObject1())) && (rect.intersects(objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent())) && (objectLinker.getCollideObject1().leftMvt(this) != 0 && objectLinker.getCollideObject1().rightMvt(this) != 0) /*&&((detectableObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY()) >= 0)*/) {
                     calc = true;
                     objectLinker.getCollideObject1().interaction(this);
-                    multiInteractions(objectLinker.getCollideObject1());
+
+                    if(!(objectLinker.getCollideObject1() instanceof Point)) {
+                        multiInteractions(objectLinker.getCollideObject1());
+                    }
 //                    System.out.println("distance between " + this + " and " + detectableObject2 + " = " + detectableObject2.downMvt(this));
 
                     if (objectLinker.getCollideObject1().downMvt(this) < miniDownMvt) {
