@@ -120,6 +120,15 @@ public class DBManager {
         return SecureManage.getDecrypted(resultSet.getString(nameRequest));
     }
 
+    public String getData(String nameTable, String nameAtt, Object realValueOfAtt, String nameRequest, boolean useless) throws SQLException{
+        if(useless) {
+            ResultSet resultSet = selectIntoTable(nameTable, nameAtt, realValueOfAtt);
+            resultSet.next();
+            return SecureManage.getDecrypted(resultSet.getString(nameRequest));
+        }
+        return null;
+    }
+
     private ResultSet selectIntoTable(String nameTable, List<String> listName, List<Object> listRequest){
         ResultSet resultSet;
         StringBuilder stringBuilder = new StringBuilder("SELECT * FROM ");
@@ -134,8 +143,17 @@ public class DBManager {
             }
         }
         stringBuilder.append(";");
-        //System.out.println(stringBuilder);
         resultSet = selectIntoTable(stringBuilder.toString());
+        return resultSet;
+    }
+
+    private ResultSet selectIntoTable(String nameTable, String name, Object request){
+        ResultSet resultSet;
+        String stringBuilder = "SELECT * FROM " + nameTable +
+                " WHERE " +
+                name + " = '" + SecureManage.getEncrypted(String.valueOf(request)) + "'" +
+                ";";
+        resultSet = selectIntoTable(stringBuilder);
         return resultSet;
     }
 
