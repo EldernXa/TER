@@ -1,11 +1,7 @@
 package mainTER.DBManage;
 
-import mainTER.exception.ControlsDataAlreadyExistsException;
-import mainTER.exception.PersonDataGetException;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,11 +18,12 @@ public class ProfileDBManager {
     public ProfileDBManager(){this.dbManager = new DBManager(); }
 
     public void createTableProfile(){
-        dbManager.createTableOrInsert("CREATE TABLE IF NOT EXISTS Profile (" +
-                "name VARCHAR(30)," +
-                "time VARCHAR(30)," +
-                "mapName VARCHAR(30)" +
-                ");");
+        ArrayList<String> listName = new ArrayList<>();
+        ArrayList<Integer> listSize = new ArrayList<>();
+        listName.add("name");                   listSize.add(30);
+        listName.add("time");                   listSize.add(30);
+        listName.add("mapName");                listSize.add(30);
+        dbManager.createTable("Profile", listName, 0, listSize);
     }
 
     public void removeTableProfile(){
@@ -53,14 +50,11 @@ public class ProfileDBManager {
         // TODO verify insert data
         // TODO verify data doesn't exist already
 
-
-
-        String reqValues = "INSERT INTO Profile VALUES ("
-                +
-                "'" + SecureManage.getEncrypted(name) + "'" + ",'" + SecureManage.getEncrypted(String.valueOf(time))
-                + "','" + SecureManage.getEncrypted(mapName)
-                + "')";
-        dbManager.createTableOrInsert(reqValues);
+        ArrayList<Object> listInsert = new ArrayList<>();
+        listInsert.add(name);
+        listInsert.add(time);
+        listInsert.add(mapName);
+        dbManager.insertIntoTable("Profile", listInsert);
     }
 
     public int getTime(String name,String mapName){
