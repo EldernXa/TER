@@ -72,10 +72,14 @@ public class AnimationCharacter {
     }
 
     public void setJump(){
+        if(posToAnimate != Position.JUMP.ordinal())
+            indImgToAnimate = 0;
         posToAnimate = Position.JUMP.ordinal();
     }
 
     public void setReverseJump(){
+        if(posToAnimate != Position.REVERSE_JUMP.ordinal())
+            indImgToAnimate = 0;
         posToAnimate = Position.REVERSE_JUMP.ordinal();
     }
 
