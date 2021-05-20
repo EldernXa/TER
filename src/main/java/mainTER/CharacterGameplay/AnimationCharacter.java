@@ -34,6 +34,10 @@ public class AnimationCharacter {
         return (indImgToAnimate)%listOfImageViewForTheAnimation.get(posToAnimate).size();
     }
 
+    public void setIndImgToAnimate(int indImgToAnimate){
+        this.indImgToAnimate = indImgToAnimate;
+    }
+
     public void changeCharacter(Character character){
         listOfImageViewForTheAnimation = character.getListOfPictureOfTheCharacter();
         indImgToAnimate = 0;
