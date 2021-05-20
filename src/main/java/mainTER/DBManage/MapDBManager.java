@@ -8,6 +8,7 @@ import mainTER.exception.MapCharacterNotExistException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MapDBManager {
 
@@ -128,9 +129,8 @@ public class MapDBManager {
      * @throws MapDataGetException if the name given doesn't exist in the databases.
      */
     public String getFirstCharacter(String mapName) throws MapDataGetException {
-        ResultSet resultSet = selectMapIntoTableMap(mapName);
         try {
-            return SecureManage.getDecrypted(resultSet.getString("nameFirstCharacter"));
+            return dbManager.getData("Map", "mapName", mapName, "nameFirstCharacter", true);
         }catch(SQLException sqlException){
             throw new MapDataGetException(mapName);
         }
@@ -143,10 +143,10 @@ public class MapDBManager {
      * @throws MapDataGetException if the name given doesn't exist in the databases.
      */
     public Coordinate getInitialCoordinate(String mapName) throws MapDataGetException{
-        ResultSet resultSet = selectMapIntoTableMap(mapName);
         try {
-            return new Coordinate(Double.parseDouble(SecureManage.getDecrypted(resultSet.getString("coordinateX"))),
-                    Double.parseDouble(SecureManage.getDecrypted(resultSet.getString("coordinateY"))));
+            double x = Double.parseDouble(dbManager.getData("Map", "mapName", mapName, "coordinateX", true));
+            double y = Double.parseDouble(dbManager.getData("Map", "mapName", mapName, "coordinateY", true));
+            return new Coordinate(x, y);
         }catch(SQLException sqlException){
             throw new MapDataGetException(mapName);
         }
