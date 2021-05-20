@@ -2,6 +2,7 @@ package mainTER.DBManage;
 
 import mainTER.exception.ControlsDataAlreadyExistsException;
 import mainTER.exception.ControlsDataGetException;
+import mainTER.exception.ControlsDataNotCorrectException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -65,9 +66,7 @@ public class ControlsDBManager {
     }
 
 
-    public void insertIntoTableControls(String... controls) throws ControlsDataAlreadyExistsException {
-        // TODO verify insert data
-        // TODO verify data doesn't exist already
+    public void insertIntoTableControls(String... controls) throws ControlsDataAlreadyExistsException, ControlsDataNotCorrectException {
 
         try {
             dbManager.getData(TABLE_NAME, null, null, ATTRIBUTE_STRING_JUMP);
@@ -76,7 +75,15 @@ public class ControlsDBManager {
 
         }
 
-        ArrayList<Object> listInsert = new ArrayList<>(Arrays.asList(controls));
+        ArrayList<Object> listInsert = new ArrayList<>();
+
+        for(String str : controls){
+            if(str.compareTo("")==0){
+                throw new ControlsDataNotCorrectException();
+            }else{
+                listInsert.add(str);
+            }
+        }
         dbManager.insertIntoTable(TABLE_NAME, listInsert);
     }
 

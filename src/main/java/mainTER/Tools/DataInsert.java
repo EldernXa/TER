@@ -32,7 +32,7 @@ public class DataInsert {
             controlsDBManager.createTableControls();
             try {
                 controlsDBManager.insertIntoTableControls("d", "q", " ", "a", "e", "f");
-            } catch (ControlsDataAlreadyExistsException controlsDataAlreadyExists) {
+            } catch (ControlsDataAlreadyExistsException | ControlsDataNotCorrectException controlsDataAlreadyExists) {
                 System.out.println("Probleme dans l'insertien de controles");
             }
         }

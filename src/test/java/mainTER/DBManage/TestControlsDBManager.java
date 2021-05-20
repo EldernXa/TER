@@ -1,5 +1,6 @@
 package mainTER.DBManage;
 
+import mainTER.exception.ControlsDataNotCorrectException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -66,6 +67,16 @@ public class TestControlsDBManager {
             fail();
         }
 
+    }
+
+    @Test
+    public void testInsertIncorrectDataThrowException(){
+        try{
+            controlsDBManager.createTableControls();
+            assertThrows(ControlsDataNotCorrectException.class, () -> controlsDBManager.insertIntoTableControls("", left, jump, switchUp, switchDown, action));
+        }catch(Exception exception){
+            fail();
+        }
     }
 
     @Test
