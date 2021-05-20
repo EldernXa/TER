@@ -351,12 +351,12 @@ public abstract class DetectableObject {
 
             for (ObjectLinker objectLinker : Map.objectLinkers) {
 
-                if ((!this.equals(objectLinker.getCollideObject1())) && (rect.intersects(objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent())) && (objectLinker.getCollideObject1().leftMvt(this) != 0 && objectLinker.getCollideObject1().rightMvt(this) != 0) /*&&((detectableObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY()) >= 0)*/) {
+                if ((!this.equals(objectLinker.getCollideObject1()))&&(rect.intersects(objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent()))&&(objectLinker.getCollideObject1().leftMvt(this) != 0 && objectLinker.getCollideObject1().rightMvt(this) != 0) /*&&((detectableObject2.getAppropriateNode().getBoundsInParent().getMinY() - this.getAppropriateNode().getBoundsInParent().getMaxY()) >= 0)*/) {
                     calc = true;
                     objectLinker.getCollideObject1().interaction(this);
 
                     if(!(objectLinker.getCollideObject1() instanceof Point)) {
-                        multiInteractions(objectLinker.getCollideObject1());
+//                        multiInteractions(objectLinker.getCollideObject1());
                     }
 //                    System.out.println("distance between " + this + " and " + detectableObject2 + " = " + detectableObject2.downMvt(this));
 
@@ -379,18 +379,20 @@ public abstract class DetectableObject {
      */
     private void multiInteractions(DetectableObject detectableObject) {
         for (ObjectLinker objectLinker : Map.objectLinkers) {
-//            System.out.println("Object to be equals = " + detectableObject);
             if (objectLinker.getCollideObject1().equals(detectableObject)) {
                 objectLinker.detectableObject2.interaction(this);
-//                System.out.println("Object1 = " + objectLinker.getCollideObject1());
-
+//                System.out.println("I touched " + objectLinker.getCollideObject1());
             } else if (objectLinker.getCollideObject2().equals(detectableObject)) {
                 objectLinker.detectableObject1.interaction(this);
-//                System.out.println("Object2 = " + objectLinker.getCollideObject2());
+
 
             } else {
                 //print error if you want
             }
         }
     }
+
+    /*private int objectOneOrTwo(){
+
+    }*/
 }
