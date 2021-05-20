@@ -8,7 +8,6 @@ import mainTER.exception.MapCharacterNotExistException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MapDBManager {
 
@@ -26,6 +25,8 @@ public class MapDBManager {
      * The name of the databases.
      */
     private final String nameDatabases;
+
+    private static final String ATTRIBUTE_STRING_MAP_NAME = "mapName";
 
     /**
      * Constructor for the App.
@@ -52,10 +53,10 @@ public class MapDBManager {
     public void createTableMap(){
         ArrayList<String> listName = new ArrayList<>();
         ArrayList<Integer> listSize = new ArrayList<>();
-        listName.add("mapName");                listSize.add(50);
-        listName.add("nameFirstCharacter");     listSize.add(50);
-        listName.add("coordinateX");            listSize.add(50);
-        listName.add("coordinateY");            listSize.add(50);
+        listName.add(ATTRIBUTE_STRING_MAP_NAME);                listSize.add(50);
+        listName.add("nameFirstCharacter");                     listSize.add(50);
+        listName.add("coordinateX");                            listSize.add(50);
+        listName.add("coordinateY");                            listSize.add(50);
         dbManager.createTable("Map", listName, 1, listSize);
     }
 
@@ -83,7 +84,7 @@ public class MapDBManager {
             throws MapCharacterNotExistException, MapAlreadyExistException {
 
         try{
-            dbManager.getData("Map", "mapName", mapName, "mapName", true);
+            dbManager.getData("Map", ATTRIBUTE_STRING_MAP_NAME, mapName, ATTRIBUTE_STRING_MAP_NAME, true);
             throw new MapAlreadyExistException(mapName);
         }catch(SQLException ignored){
 
@@ -129,7 +130,7 @@ public class MapDBManager {
      */
     public String getFirstCharacter(String mapName) throws MapDataGetException {
         try {
-            return dbManager.getData("Map", "mapName", mapName, "nameFirstCharacter", true);
+            return dbManager.getData("Map", ATTRIBUTE_STRING_MAP_NAME, mapName, "nameFirstCharacter", true);
         }catch(SQLException sqlException){
             throw new MapDataGetException(mapName);
         }
@@ -143,8 +144,8 @@ public class MapDBManager {
      */
     public Coordinate getInitialCoordinate(String mapName) throws MapDataGetException{
         try {
-            double x = Double.parseDouble(dbManager.getData("Map", "mapName", mapName, "coordinateX", true));
-            double y = Double.parseDouble(dbManager.getData("Map", "mapName", mapName, "coordinateY", true));
+            double x = Double.parseDouble(dbManager.getData("Map", ATTRIBUTE_STRING_MAP_NAME, mapName, "coordinateX", true));
+            double y = Double.parseDouble(dbManager.getData("Map", ATTRIBUTE_STRING_MAP_NAME, mapName, "coordinateY", true));
             return new Coordinate(x, y);
         }catch(SQLException sqlException){
             throw new MapDataGetException(mapName);
