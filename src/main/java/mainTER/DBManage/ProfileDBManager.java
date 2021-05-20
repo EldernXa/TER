@@ -58,10 +58,12 @@ public class ProfileDBManager {
     }
 
     public int getTime(String name,String mapName){
-        ResultSet rs = selectIntoTableProfile(name,mapName);
-
         try {
-            return Integer.parseInt(SecureManage.getDecrypted(rs.getString("time")));
+            ArrayList<String> listNameLine = new ArrayList<>();
+            ArrayList<Object> listRealValueOfLine = new ArrayList<>();
+            listNameLine.add("name");                   listRealValueOfLine.add(name);
+            listNameLine.add("mapName");                listRealValueOfLine.add(mapName);
+            return Integer.parseInt(dbManager.getData("Profile", listNameLine, listRealValueOfLine, "time"));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -69,12 +71,11 @@ public class ProfileDBManager {
     }
 
     public void setTime(String name,int time,String mapName) {
-        String request = "UPDATE Profile " +
-                "SET " +
-                "time = '" + SecureManage.getEncrypted(String.valueOf(time)) + "' " +
-                "WHERE name = '" + SecureManage.getEncrypted(name)+"' AND " +
-                "mapName= '" + SecureManage.getEncrypted(mapName)+ "' ;";
-        dbManager.updateTable(request);
+        ArrayList<String> listNameLine = new ArrayList<>();
+        ArrayList<Object> listRealValueOfLine = new ArrayList<>();
+        listNameLine.add("name");                   listRealValueOfLine.add(name);
+        listNameLine.add("mapName");                listRealValueOfLine.add(mapName);
+        dbManager.updateTable("Profile", listNameLine, listRealValueOfLine, "time", time);
     }
 
     public boolean nameExist(String name,String mapName) {
