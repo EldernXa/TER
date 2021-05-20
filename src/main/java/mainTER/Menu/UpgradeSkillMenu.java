@@ -10,9 +10,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import mainTER.CharacterGameplay.Character;
-import mainTER.DBManage.ControlsDBManager;
-import mainTER.DBManage.SkillDBManager;
-import mainTER.DBManage.UpgradeSkillDBManager;
+import mainTER.DBManage.*;
 import mainTER.Tools.ReturnBack;
 import mainTER.exception.SkillDataGetException;
 import mainTER.exception.UpgradeSkillDataGetException;
@@ -29,7 +27,7 @@ public class UpgradeSkillMenu {
     private final Pane pane = new Pane();
     private final Scene scene = new Scene(pane, 600, 600);
     private final Stage stage;
-    private int nbPoints = 15;
+    private int nbPoints;
     private final Button validateButton = new Button("Confirm");
     private final Text description = new Text();
     private final ArrayList<Character> listCharacter;
@@ -40,6 +38,8 @@ public class UpgradeSkillMenu {
     private String nameSkill;
     private int updateNumberCD;
     private int updateNumberTime;
+    private PointsUpgradeDBManager pointsUpgradeDBManager;
+    private NbPointsDBManager nbPointsDBManager;
     UpgradeSkillDBManager upgradeSkillDBManager;
 
     /**
@@ -51,6 +51,14 @@ public class UpgradeSkillMenu {
         listCharacter = characterArrayList;
         currentCharacter = listCharacter.get(0);
         upgradeSkillDBManager = new UpgradeSkillDBManager();
+        pointsUpgradeDBManager = new PointsUpgradeDBManager();
+        nbPointsDBManager = new NbPointsDBManager();
+
+        nbPoints = nbPointsDBManager.getNbPoints();
+        if(nbPoints == -1){
+            nbPoints = 0;
+        }
+
         updateNumberTime = 0;
         this.stage= stage;
         displayMenu();
@@ -72,7 +80,6 @@ public class UpgradeSkillMenu {
         Text nameCharacter = new Text(currentCharacter.getName());
         Text points = new Text("Points: " + nbPoints);
 
-
         Text totalText;
         Text priceText = new Text("");
         HBox hBox;
@@ -86,7 +93,6 @@ public class UpgradeSkillMenu {
                         !skillDBManager.getNameSkill(currentCharacter.getName(), i).contains("WALL_JUMP") &&
                         !skillDBManager.getNameSkill(currentCharacter.getName(), i).contains("SHIELD")
                 ) {
-
 
                     Button skill = new Button(skillDBManager.getNameSkill(currentCharacter.getName(), i));
 
@@ -188,7 +194,7 @@ public class UpgradeSkillMenu {
                                 int lastCharCD = Integer.parseInt(lineCD.substring(lineCD.length() - 1));
                                 String nameUpgradeCD = lineCD.substring(0, lineCD.length() - 2);
 
-                                if((nbPoints - upgradeSkillDBManager.getPriceWithNumUpgrade(currentCharacter.getName(), i, nameUpgradeCD, lastCharCD)) > 0){
+                                if((nbPoints - upgradeSkillDBManager.getPriceWithNumUpgrade(currentCharacter.getName(), i, nameUpgradeCD, lastCharCD)) >= 0){
 
                                     int increaseID = upgradeSkillDBManager.getLastNumOfAUpgrade(currentCharacter.getName(), i, "Increase the duration");
                                     int lastCharTime = 0;
@@ -223,6 +229,7 @@ public class UpgradeSkillMenu {
 
 
                                         nbPoints = nbPoints - upgradeSkillDBManager.getPriceWithNumUpgrade(currentCharacter.getName(), i, nameUpgradeCD, lastCharCD);
+                                        nbPointsDBManager.setNbPoints(nbPoints);
                                         displayMenu();
                                     }
                                 }

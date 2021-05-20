@@ -78,9 +78,6 @@ public class ProfileDBManager {
         }
         return false;
 
-
-
-
     }
 
     public Map<String, Double> getRanking(String mapName){

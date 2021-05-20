@@ -250,6 +250,9 @@ public class MenuItem extends StackPane {
                     UpgradeSkillDBManager upgradeSkillDBManager = new UpgradeSkillDBManager();
                     SkillDBManager skillDBManager = new SkillDBManager();
                     CheckpointsDBManager checkpointsDBManager = new CheckpointsDBManager();
+                    NbPointsDBManager nbPointsDBManager = new NbPointsDBManager();
+                    nbPointsDBManager.removeTableNbPointsDBManager();
+                    nbPointsDBManager.createTableNbPoints();
                     checkpointsDBManager.removeTableCheckPoints();
                     skillDBManager.removeTableSkill();
                     upgradeSkillDBManager.removeTableUpgradeSkill();

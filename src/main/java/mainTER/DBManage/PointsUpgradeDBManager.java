@@ -74,5 +74,21 @@ public class PointsUpgradeDBManager {
         dbManager.updateTable("PointsUpgrade", listNameLine, listRealValueOfLine, "isTaken", newValue);
     }
 
+    public int getPoints(){
+        int i = 0;
+        ResultSet rs;
+        try{
+            rs = dbManager.selectIntoTable("SELECT * FROM PointsUpgrade WHERE isTaken = '"+SecureManage.getEncrypted("true")+"' ;");
+            while(rs.next()){
+                i++;
+            }
+        }catch(SQLException sqlException){
+            System.out.println("Problème dans la récupération de données.");
+        }
+        System.out.println(i);
+
+        return i;
+    }
+
 
 }

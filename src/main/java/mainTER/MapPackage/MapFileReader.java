@@ -1,6 +1,7 @@
 package mainTER.MapPackage;
 
 import javafx.scene.image.Image;
+import mainTER.DBManage.PointsUpgradeDBManager;
 import mainTER.Tools.Coordinate;
 
 import java.io.File;
@@ -20,6 +21,8 @@ public class MapFileReader {
     private String[] file;
     private String pathName;
     static public ArrayList<Checkpoint> checkpointArrayList;
+    private PointsUpgradeDBManager pointsUpgradeDBManager = new PointsUpgradeDBManager();
+
 
     /**
      * @param pathName Map file path
@@ -72,6 +75,10 @@ public class MapFileReader {
                     break;
                 case "checkpoints":
                     lastCategorie = "checkpoints";
+                    i++;
+                    break;
+                case "points":
+                    lastCategorie = "points";
                     i++;
                     break;
                 default: //Add else if if you add section
@@ -194,6 +201,23 @@ public class MapFileReader {
                         Checkpoint checkpoint = new Checkpoint(new Coordinate(doubles[0], doubles[1]), pathName);
                         checkpointArrayList.add(checkpoint);
                         detectableObjectArrayList.add(checkpoint);
+                    }
+                    else if(lastCategorie.equals("points")){
+                        line = file[i].split("\\s+");
+                        double[] doubles = new double[line.length];
+                        for (int j = 0; j < line.length; j++) {
+                            if (j != 2) {
+                                doubles[j] = Integer.parseInt(line[j]);
+                            }
+                        }
+                        pointsUpgradeDBManager.createTablePointsUpgrade();
+                        if(!pointsUpgradeDBManager.isTaken(doubles[0], doubles[1],pathName)){
+                            Point point = new Point(new Coordinate(doubles[0], doubles[1]), pathName);
+                            pointsUpgradeDBManager.insertIntoTablePointsUpgrade(doubles[0], doubles[1],pathName);
+                            detectableObjectArrayList.add(point);
+                        }
+
+
                     }
                     i++;
             }
