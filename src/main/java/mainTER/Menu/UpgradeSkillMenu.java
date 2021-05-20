@@ -38,7 +38,6 @@ public class UpgradeSkillMenu {
     private String nameSkill;
     private int updateNumberCD;
     private int updateNumberTime;
-    private PointsUpgradeDBManager pointsUpgradeDBManager;
     private NbPointsDBManager nbPointsDBManager;
     UpgradeSkillDBManager upgradeSkillDBManager;
 
@@ -51,7 +50,6 @@ public class UpgradeSkillMenu {
         listCharacter = characterArrayList;
         currentCharacter = listCharacter.get(0);
         upgradeSkillDBManager = new UpgradeSkillDBManager();
-        pointsUpgradeDBManager = new PointsUpgradeDBManager();
         nbPointsDBManager = new NbPointsDBManager();
 
         nbPoints = nbPointsDBManager.getNbPoints();
