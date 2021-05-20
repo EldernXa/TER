@@ -7,6 +7,7 @@ import mainTER.exception.MapCharacterNotExistException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class MapDBManager {
 
@@ -48,12 +49,13 @@ public class MapDBManager {
      * Create the table Map in the databases.
      */
     public void createTableMap(){
-        dbManager.createTableOrInsert("CREATE TABLE Map (" +
-                "mapName VARCHAR(50) PRIMARY KEY," +
-                "nameFirstCharacter VARCHAR(50)," +
-                "coordinateX VARCHAR(50)," +
-                "coordinateY VARCHAR(50)" +
-                ");");
+        ArrayList<String> listName = new ArrayList<>();
+        ArrayList<Integer> listSize = new ArrayList<>();
+        listName.add("mapName");                listSize.add(50);
+        listName.add("nameFirstCharacter");     listSize.add(50);
+        listName.add("coordinateX");            listSize.add(50);
+        listName.add("coordinateY");            listSize.add(50);
+        dbManager.createTable("Map", listName, 1, listSize);
     }
 
     public boolean verifyTableMapExist(){
@@ -102,11 +104,12 @@ public class MapDBManager {
             throw new MapCharacterNotExistException(mapName, nameFirstCharacter);
         }
 
-        String reqValues = "INSERT INTO Map VALUES (" +
-                "'"+SecureManage.getEncrypted(mapName)+"','" +
-                SecureManage.getEncrypted(nameFirstCharacter)+"','" +
-                SecureManage.getEncrypted(String.valueOf(coordinateX))+"','"+SecureManage.getEncrypted(String.valueOf(coordinateY))+"')";
-        dbManager.createTableOrInsert(reqValues);
+        ArrayList<Object> listInsert = new ArrayList<>();
+        listInsert.add(mapName);
+        listInsert.add(nameFirstCharacter);
+        listInsert.add(coordinateX);
+        listInsert.add(coordinateY);
+        dbManager.insertIntoTable("Map", listInsert);
     }
 
     public boolean verifyMapExist(String mapName){
