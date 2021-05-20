@@ -15,6 +15,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static java.util.Map.Entry.comparingByValue;
 
@@ -86,7 +87,7 @@ public class MenuProfile {
     }
 
     public void displayRanking(){
-        HashMap<String,Double>  listProfiles = profileDBManager.getRanking(mapName);
+        Map<String,Double> listProfiles = profileDBManager.getRanking(mapName);
 
         VBox rank = new VBox(5);
 

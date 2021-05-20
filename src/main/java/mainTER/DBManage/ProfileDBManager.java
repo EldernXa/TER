@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProfileDBManager {
 
@@ -112,7 +113,7 @@ public class ProfileDBManager {
         return listProfile;
     }
 
-    public HashMap<String, Double> getRanking(String mapName){
+    public Map<String, Double> getRanking(String mapName){
         HashMap<String,Double> listProfile = new HashMap<>();
         ResultSet rs;
         try{
