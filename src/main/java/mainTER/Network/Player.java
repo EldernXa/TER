@@ -54,6 +54,7 @@ public class Player {
     volatile String nameOfMap;
     private volatile String nameOfFriend;
     private DataOutputStream dos;
+    public static String multi;
 
     private final Button forest = new Button("Forest");
     private final Button castle = new Button("Castle");
@@ -71,7 +72,7 @@ public class Player {
     public void connectToServer(Stage stage, Pane pane, ArrayList<Character> listCharacter) {
         System.out.println("-----Client------------");
         try {
-
+            multi = "a";
             Socket socket = new Socket("localhost", 5134);
             DataInputStream dis = new DataInputStream(socket.getInputStream());
             playerID = dis.readInt();

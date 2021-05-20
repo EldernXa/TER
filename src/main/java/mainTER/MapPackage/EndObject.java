@@ -10,6 +10,7 @@ import mainTER.Menu.MainMenu;
 import mainTER.Menu.MenuItem;
 import mainTER.Menu.MenuProfile;
 import mainTER.Network.GameServer;
+import mainTER.Network.Player;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 /**
@@ -51,7 +52,7 @@ public class EndObject extends InteractiveObject {
                 ((Stage) detectableObject.getAppropriateNode().getScene().getWindow()).close();
 
 
-                if(GameServer.multi == null){
+                if(Player.multi == null){
                     nameProfile = MenuItem.pseudo.getText();
                     time = Integer.parseInt(MenuItem.timerLabel.getText());
                     mapName = MenuItem.mapName;
@@ -85,7 +86,10 @@ public class EndObject extends InteractiveObject {
                     stage.setScene(scene);
                     stage.show();
                 }else {
-                    GameServer.ss.close();
+                    if(GameServer.ss != null)
+                        GameServer.ss.close();
+
+
                     Platform.exit();
                     System.exit(0);
 
