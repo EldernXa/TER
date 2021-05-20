@@ -34,6 +34,26 @@ public class TestProfileDBManager {
     }
 
     @Test
+    public void testNameExist(){
+        try{
+            insertValuesIntoProfile();
+            assertTrue(profileDBManager.nameExist(name, mapName));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
+    public void testNameNotExist(){
+        try{
+            insertValuesIntoProfile();
+            assertFalse(profileDBManager.nameExist(name+"oazrdedsqz", mapName));
+        }catch(Exception exception){
+            fail();
+        }
+    }
+
+    @Test
     public void testInsertDataIntoTablePerson(){
         try {
             profileDBManager.createTableProfile();

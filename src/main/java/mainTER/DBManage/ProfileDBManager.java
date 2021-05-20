@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ProfileDBManager {
@@ -69,16 +68,13 @@ public class ProfileDBManager {
 
     public boolean nameExist(String name,String mapName) {
         try {
-            String sql = "Select 1 from Profile where name = ? and mapName = ? ";
-
-            PreparedStatement ps = dbManager.getco().prepareStatement(sql);
-            ps.setString(1, SecureManage.getEncrypted(name));
-            ps.setString(2,SecureManage.getEncrypted(mapName));
-            ResultSet rs = ps.executeQuery();
-
-            return rs.next();
-        }catch (Exception e){
-            e.printStackTrace();
+            ArrayList<String> listNameLine = new ArrayList<>();
+            ArrayList<Object> listRealValueOfLine = new ArrayList<>();
+            listNameLine.add("name");                   listRealValueOfLine.add(name);
+            listNameLine.add("mapName");                listRealValueOfLine.add(mapName);
+            dbManager.getData("Profile", listNameLine, listRealValueOfLine, "mapName");
+            return true;
+        }catch (Exception ignored){
         }
         return false;
 
