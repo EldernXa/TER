@@ -9,13 +9,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * Create the map by filling the appropriate pane
+ */
 public class Map {
 
     private final MapFileReader mapFileReader;
     private Pane pane;
     private ImageView backgroundImage;
     private String fileName;
-//    public ArrayList<DetectableObject> detectableObjects1 = new ArrayList<>();
     public static ArrayList<ObjectLinker> objectLinkers = new ArrayList<>();
 
 
@@ -34,8 +36,11 @@ public class Map {
         mapFileReader = new MapFileReader(url , fileName);
 
     }
-    public void displayMap(){
 
+    /**
+     * Set the map background
+     */
+    public void displayMap(){
         pane.setBackground( new Background(new BackgroundImage(backgroundImage.getImage(),BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT, new BackgroundSize(backgroundImage.getImage().getWidth(),
                 backgroundImage.getImage().getHeight(),false,false,false,false))));
@@ -44,22 +49,18 @@ public class Map {
 
     }
 
-
+    /**
+     * Return the mapFileReader
+     * @return
+     */
     public MapFileReader getReadFileMap() {
         return mapFileReader;
     }
 
-    /*public void addCollisionObject(){
-        for (DetectableObject detectableObject : this.getReadFileMap().getDetectableObjectArrayList()){
-            pane.getChildren().add(detectableObject.getAppropriateNode());
-            objectLinkers.add(new ObjectLinker(detectableObject, null));
-            if(detectableObject instanceof Lever){
-                pane.getChildren().add(((Lever)detectableObject).getInteractiveObject().getAppropriateNode());
-            }
-        }
-//        System.out.println(this.getReadFileMap().getDetectableObjectArrayList().size());
-    }*/
-
+    /**
+     * Add all the Detectable object's nodes to the appropriate pane
+     * @param bool
+     */
     public void addCollisionObjectNetwork(boolean bool){
         Iterator<DetectableObject> list = this.getReadFileMap().getDetectableObjectArrayList().iterator();
         while (list.hasNext()) {
@@ -70,7 +71,6 @@ public class Map {
                 ((Lever)detectableObject2).setInteractiveObject(((Lever)detectableObject).getInteractiveObject().clone());
                 objectLinkers.add(new ObjectLinker(((Lever)detectableObject).getInteractiveObject(),((Lever)detectableObject2).getInteractiveObject()));
             }
-//            detectableObjects1.add(detectableObject2);
             //TODO finir ça
             if(bool){
                 pane.getChildren().add(detectableObject.getAppropriateNode());
@@ -86,24 +86,35 @@ public class Map {
         }
     }
 
+    /**
+     * Remove all Detectable object's node from pane
+     */
     public void clearColissionObjectNetwork(){
         for (DetectableObject detectableObject : this.getReadFileMap().getDetectableObjectArrayList()){
             pane.getChildren().remove(detectableObject.getAppropriateNode());
         }
     }
 
-//    public ArrayList<DetectableObject> getCollideObjects1() {
-//        return detectableObjects1;
-//    }
-
+    /**
+     * Return the pane
+     * @return
+     */
     public Pane getPane() {
         return pane;
     }
 
+    /**
+     * Return the File name
+     * @return
+     */
     public String getFileName() {
         return fileName;
     }
 
+    /**
+     * Return the background image
+     * @return
+     */
     public ImageView getBackgroundImage() {
         return backgroundImage;
     }

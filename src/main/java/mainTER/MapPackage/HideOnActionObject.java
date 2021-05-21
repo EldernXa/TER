@@ -4,6 +4,9 @@ import javafx.scene.Node;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
+/**
+ * Create an object that can become invisible
+ */
 public class HideOnActionObject extends InteractiveObject{
 
     private int isOpen;
@@ -29,9 +32,12 @@ public class HideOnActionObject extends InteractiveObject{
         return isOpen;
     }
 
+
+    /**
+     * Switch the item from visible to invisible depending on it state
+     */
     @Override
     public void actionTriggered() {
-
         if(isOpen==0){
             this.getImageView().setImage(imageView.getImageView().getImage());
             this.setCoordinate(coordinate);

@@ -29,7 +29,6 @@ public class EndObject extends InteractiveObject {
 
 
     public EndObject(String name, Coordinate coordinate,boolean exist) {
-
         super(coordinate, new ImageViewSizePos("/mainTER/MapPackage/Objects/"+ name +".png",coordinate));
         this.name = name;
         this.exist = exist;
@@ -103,10 +102,11 @@ public class EndObject extends InteractiveObject {
         }
     }
 
+    /**
+     * Make the end object visible
+     */
     @Override
     public void actionTriggered() {
-
-
         if(!exist){
             this.getImageView().setImage(new ImageViewSizePos("/mainTER/MapPackage/Objects/"+ name +".png", getCoordinate()).getImageView().getImage());
             this.exist = true;

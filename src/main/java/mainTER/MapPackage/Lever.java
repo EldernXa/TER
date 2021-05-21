@@ -7,6 +7,9 @@ import mainTER.Tools.ImageViewSizePos;
 
 import java.io.File;
 
+/**
+ * Create a Lever
+ */
 public class Lever extends InteractiveObject{
 
     InteractiveObject interactiveObject;
@@ -16,14 +19,18 @@ public class Lever extends InteractiveObject{
         this.interactiveObject = interactiveObject;
     }
 
-    public InteractiveObject getCollideObject() {
-        return interactiveObject;
-    }
-
+    /**
+     * Set the interactive object
+     * @param interactiveObject
+     */
     public void setInteractiveObject(InteractiveObject interactiveObject) {
         this.interactiveObject = interactiveObject;
     }
 
+    /**
+     * Return the object that is activated when the lever is triggered
+     * @return
+     */
     public InteractiveObject getInteractiveObject() {
         return interactiveObject;
     }
@@ -43,6 +50,10 @@ public class Lever extends InteractiveObject{
         return 0;
     }
 
+    /**
+     * Do nothing when it's touched
+     * @param detectableObject
+     */
     @Override
     public void interaction(DetectableObject detectableObject) {
         /*if (this.getImageView().getImage().getUrl().contains("lever_left")){

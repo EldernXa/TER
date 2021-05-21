@@ -4,6 +4,9 @@ import javafx.scene.image.ImageView;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
+/**
+ * Create an object that can be activated
+ */
 public abstract class InteractiveObject extends DetectableObject {
 
     private Coordinate coordinate;
@@ -14,16 +17,30 @@ public abstract class InteractiveObject extends DetectableObject {
         this.setCoordinate(coordinate);
     }
 
+    /**
+     * Get the imageview corresponding to the appearance
+     * @return
+     */
     public ImageView getImageView() {
         return imageViewSizePos.getImageView();
     }
 
+    /**
+     * Get the coordinate
+     * @return
+     */
     public Coordinate getCoordinate() {
         return coordinate;
     }
 
+    /**
+     * Activate the undergone action
+     */
     public void actionTriggered(){}
 
+    /**
+     * Activate the basic action
+     */
     public void actionGenuine(){}
 
     @Override
