@@ -48,10 +48,6 @@ public class MapFieldFromLilPict extends MapFieldForm {
         return pane;
     }
 
-    public String getPath() {
-        return this.path;
-    }
-
     public String getPathName() {
         return pathName;
     }
