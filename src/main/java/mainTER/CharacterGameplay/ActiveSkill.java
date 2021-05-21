@@ -74,10 +74,8 @@ public class ActiveSkill implements Skill{
     public static void changeAnimateForACharacter(Character character, int numSkill){
         if(numSkill!=-1){
             for(Skill skill : character.getListSkill()){
-                if(skill.getClass() == ActiveSkill.class){
-                    if(((ActiveSkill) skill).getNumSkill() == numSkill){
+                if(skill.getClass() == ActiveSkill.class && ((ActiveSkill) skill).getNumSkill() == numSkill){
                         changeListAnimate(((ActiveSkill) skill).getSkillEnum(), character, ((ActiveSkill) skill).nameSkill);
-                    }
                 }
             }
         }else{
@@ -110,10 +108,6 @@ public class ActiveSkill implements Skill{
                 exception.printStackTrace();
             }
         }
-    }
-
-    public boolean getCooldownFinished(){
-        return cooldownFinished;
     }
 
     public void init(){
@@ -202,17 +196,7 @@ public class ActiveSkill implements Skill{
                         Platform.runLater(()->{
                             characterMovementAndDisplayManagement.removeOtherNode((ImageView)secondMoultSerpent.getAppropriateNode());
                             Map.objectLinkers.remove(objectLinkerSecond);
-                            Thread threadForFinish = new Thread(()->{
-                                threadIsRunning = true;
-                                try{
-                                    TimeUnit.SECONDS.sleep((int)timeCooldown);
-                                }catch(Exception ignored){
-
-                                }
-                                threadIsRunning = false;
-                                cooldownFinished = true;
-                            });
-                            threadForFinish.start();
+                            runThreadForCooldown();
                         });
                     });
                     thread.start();
@@ -222,8 +206,21 @@ public class ActiveSkill implements Skill{
         }
     }
 
+    private void runThreadForCooldown(){
+        Thread threadForCooldown = new Thread(()->{
+            try{
+                threadIsRunning = true;
+                TimeUnit.SECONDS.sleep((int)timeCooldown);
+                cooldownFinished = true;
+                threadIsRunning = false;
+            }catch(Exception ignored){
+
+            }
+        });
+        threadForCooldown.start();
+    }
+
     private void flySkill() {
-        //Bug quand on change de perso et qu'on revient sur le démon, il arrive plus a changer de compétence
         if (!isEnabled && cooldownFinished) {
             isEnabled = true;
             cooldownFinished = false;
@@ -252,17 +249,7 @@ public class ActiveSkill implements Skill{
                     }
                     character.getCharacteristics().resetSpeed();
                     isEnabled = false;
-                    Thread thread = new Thread(()->{
-                        try{
-                            threadIsRunning = true;
-                            TimeUnit.SECONDS.sleep((long)timeCooldown);
-                            cooldownFinished = true;
-                            threadIsRunning = false;
-                        }catch(InterruptedException interruptedException){
-                            interruptedException.printStackTrace();
-                        }
-                    });
-                    thread.start();
+                    runThreadForCooldown();
                 });
                 t.start();
             } catch (Exception ignored) {
@@ -277,17 +264,7 @@ public class ActiveSkill implements Skill{
             }
             character.getCharacteristics().resetSpeed();
             if(!threadIsRunning){
-                Thread thread = new Thread(()->{
-                    try{
-                        threadIsRunning = true;
-                        TimeUnit.SECONDS.sleep((long)timeCooldown);
-                        cooldownFinished = true;
-                        threadIsRunning = false;
-                    }catch(InterruptedException interruptedException){
-                        interruptedException.printStackTrace();
-                    }
-                });
-                thread.start();
+                runThreadForCooldown();
             }
         }
     }
@@ -377,17 +354,7 @@ public class ActiveSkill implements Skill{
                 } catch (Exception ignored) {
 
                 }
-                Thread thread = new Thread(() -> {
-                    try {
-                        threadIsRunning = true;
-                        TimeUnit.SECONDS.sleep((long) timeCooldown);
-                        cooldownFinished = true;
-                        threadIsRunning = false;
-                    } catch (InterruptedException ignored) {
-
-                    }
-                });
-                thread.start();
+                runThreadForCooldown();
             }
         }
     }
@@ -430,17 +397,7 @@ public class ActiveSkill implements Skill{
                                         animationCharacter.getTimeline().getKeyFrames().clear();
                                         isEnabled = false;
                                         if(!threadIsRunning) {
-                                            Thread thread = new Thread(() -> {
-                                                try {
-                                                    threadIsRunning = true;
-                                                    TimeUnit.SECONDS.sleep((long) timeCooldown);
-                                                    cooldownFinished = true;
-                                                    threadIsRunning = false;
-                                                } catch (Exception exception) {
-                                                    exception.printStackTrace();
-                                                }
-                                            });
-                                            thread.start();
+                                            runThreadForCooldown();
                                         }
                                     }
                                 } else {
@@ -448,17 +405,7 @@ public class ActiveSkill implements Skill{
                                     animationCharacter.setCanMotionLess(true);
                                     isEnabled = false;
                                     if(!threadIsRunning) {
-                                        Thread thread = new Thread(() -> {
-                                            try {
-                                                threadIsRunning = true;
-                                                TimeUnit.SECONDS.sleep((long) timeCooldown);
-                                                cooldownFinished = true;
-                                                threadIsRunning = false;
-                                            } catch (Exception exception) {
-                                                exception.printStackTrace();
-                                            }
-                                        });
-                                        thread.start();
+                                        runThreadForCooldown();
                                     }
                                 }
                             }
