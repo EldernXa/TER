@@ -232,6 +232,7 @@ public abstract class DetectableObject {
         double miniRightMvt = Double.MAX_VALUE;
         boolean calc = false;
         for (int i = 0; i < this.getHMouvementSpan(); i++) {
+
             Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInParent().getMaxX() - this.getAppropriateNode().getBoundsInParent().getMinX(), this.getAppropriateNode().getBoundsInParent().getMaxY() - this.getAppropriateNode().getBoundsInParent().getMinY());
 
             rect.setX(this.getX());
@@ -239,11 +240,19 @@ public abstract class DetectableObject {
 
             rect.setX(rect.getX() + i);
 
+
             for (ObjectLinker objectLinker : Map.objectLinkers) {
                 if ((!this.equals(objectLinker.getCollideObject1())) && (rect.intersects(objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent())) && (objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX() >= 0) && (objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX() <= this.getHMouvementSpan())) {//Prob it considers that it's true at the begening
                     calc = true;
                     objectLinker.getCollideObject1().interaction(this);
+                    if( !(objectLinker.getCollideObject1() instanceof  UnCollideObject) && !(objectLinker.getCollideObject1() instanceof  Lever)) {
 
+                        if (objectLinker.getCollideObject1().getY() >this.getY()+(this.getHeight()/4)*3) {
+
+
+                            this.setY(objectLinker.getCollideObject1().getY()-this.getHeight()-5);
+                        }
+                    }
                     if(!(objectLinker.getCollideObject1() instanceof Point)) {
                         multiInteractions(objectLinker.getCollideObject1());
                     }
@@ -278,6 +287,13 @@ public abstract class DetectableObject {
                     calc = true;
                     objectLinker.getCollideObject1().interaction(this);
 
+                    if( !(objectLinker.getCollideObject1() instanceof  UnCollideObject) && !(objectLinker.getCollideObject1() instanceof  Lever)) {
+
+                        if (objectLinker.getCollideObject1().getY() >this.getY()+(this.getHeight()/4)*3) {
+
+                            this.setY(objectLinker.getCollideObject1().getY()-this.getHeight()-5);
+                        }
+                    }
 
                     if(!(objectLinker.getCollideObject1() instanceof Point)) {
                         multiInteractions(objectLinker.getCollideObject1());
