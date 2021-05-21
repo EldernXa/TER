@@ -23,6 +23,7 @@ public class Character {
     private final Characteristics characteristics;
     private final ImageViewSizePos logo ;
     private final ArrayList<Skill> listSkill;
+    private boolean canDie = true;
 
     // TODO Put error on graphics interface.
 
@@ -47,6 +48,14 @@ public class Character {
             System.out.println("Ce personnage n'existe pas.");
         }
         return characteristicsToReturn;
+    }
+
+    public boolean canDie(){
+        return canDie;
+    }
+
+    public void setCanDie(boolean canDie){
+        this.canDie = canDie;
     }
 
     public boolean canChangeCharacter(){

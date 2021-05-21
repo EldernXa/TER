@@ -149,7 +149,7 @@ public class ActiveSkill implements Skill{
                 }else if(skill == ActiveSkillEnum.ATTACK){
                     attackSkill(animationCharacter, characterMovementAndDisplayManagement, tpsDuration);
                 } else if (skill == ActiveSkillEnum.BARRIER_MODE) {
-                    shieldSkill(animationCharacter, characterMovementAndDisplayManagement);
+                    barrierSkill(animationCharacter, characterMovementAndDisplayManagement);
 
                 } else if (skill == ActiveSkillEnum.FLY_MODE) {
                     flySkill();
@@ -325,6 +325,33 @@ public class ActiveSkill implements Skill{
             isEnabled = false;
             character.getCharacteristics().setCanJump(true);
             try {
+                initAnimateForWalk(character);
+                initAnimateForReverseWalk(character);
+                initAnimateForMotionless(character);
+                initAnimateForReverseMotionless(character);
+            }catch(Exception ignored){
+
+            }
+        }
+    }
+
+    private void barrierSkill(AnimationCharacter animationCharacter, CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement){
+        if(!isEnabled){
+            isEnabled = true;
+            character.getCharacteristics().setCanJump(false);
+            character.setCanDie(false);
+            try{
+                changeAnimateForWalk(nameSkill, character);
+                changeAnimateForReverseWalk(nameSkill, character);
+                changeAnimateForMotionless(nameSkill, character);
+                changeAnimateForReverseMotionless(nameSkill, character);
+            }catch(Exception ignored){
+
+            }
+        }else{
+            character.setCanDie(true);
+            animationCharacter.setCanMove(true);
+            try{
                 initAnimateForWalk(character);
                 initAnimateForReverseWalk(character);
                 initAnimateForMotionless(character);

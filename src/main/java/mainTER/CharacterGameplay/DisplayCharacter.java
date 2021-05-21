@@ -610,9 +610,11 @@ public class DisplayCharacter extends CollideObject {
     }
 
     public void death() {
-        CheckpointsDBManager checkpointsDBManager = new CheckpointsDBManager();
-        setX(checkpointsDBManager.getX());
-        setY(checkpointsDBManager.getY());
+        if(character.canDie()) {
+            CheckpointsDBManager checkpointsDBManager = new CheckpointsDBManager();
+            setX(checkpointsDBManager.getX());
+            setY(checkpointsDBManager.getY());
+        }
     }
 
     @Override
