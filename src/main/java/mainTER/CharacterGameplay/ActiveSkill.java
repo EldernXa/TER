@@ -309,14 +309,6 @@ public class ActiveSkill implements Skill{
             characterMovementAndDisplayManagement.setCannotDisplay();
             isEnabled = true;
             character.getCharacteristics().setCanJump(false);
-            try {
-                changeAnimateForWalk(nameSkill, character);
-                changeAnimateForReverseWalk(nameSkill, character);
-                changeAnimateForMotionless(nameSkill, character);
-                changeAnimateForReverseMotionless(nameSkill, character);
-            }catch(Exception ignored){
-
-            }
         }else{
             characterMovementAndDisplayManagement.removeOtherNode((ImageView)paladinShieldMode.getAppropriateNode());
             Map.objectLinkers.remove(objectLinkerFirst);
@@ -324,14 +316,6 @@ public class ActiveSkill implements Skill{
             animationCharacter.setCanMove(true);
             isEnabled = false;
             character.getCharacteristics().setCanJump(true);
-            try {
-                initAnimateForWalk(character);
-                initAnimateForReverseWalk(character);
-                initAnimateForMotionless(character);
-                initAnimateForReverseMotionless(character);
-            }catch(Exception ignored){
-
-            }
         }
     }
 
@@ -349,8 +333,9 @@ public class ActiveSkill implements Skill{
 
             }
         }else{
+            isEnabled = false;
             character.setCanDie(true);
-            animationCharacter.setCanMove(true);
+            character.getCharacteristics().setCanJump(true);
             try{
                 initAnimateForWalk(character);
                 initAnimateForReverseWalk(character);
@@ -402,12 +387,10 @@ public class ActiveSkill implements Skill{
                                         if(!threadIsRunning) {
                                             Thread thread = new Thread(() -> {
                                                 try {
-                                                    System.out.println("okok");
                                                     threadIsRunning = true;
                                                     TimeUnit.SECONDS.sleep((long) timeCooldown);
                                                     cooldownFinished = true;
                                                     threadIsRunning = false;
-                                                    System.out.println("-----okok");
                                                 } catch (Exception exception) {
                                                     exception.printStackTrace();
                                                 }
