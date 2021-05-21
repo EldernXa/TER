@@ -33,6 +33,7 @@ public class MapFileReader {
 
             checkpointArrayList = new ArrayList<>();
             detectableObjectArrayList = new ArrayList<>();
+        System.out.println("aaad");
             this.pathName = pathName;
             Path path = Paths.get(url + pathName + ".txt");
             try {
@@ -88,7 +89,6 @@ public class MapFileReader {
                         line = file[i].split("\\s+");
                         spriteName = line[0];
                         double[] doubles = new double[line.length];
-
                         for (int j = 2; j < line.length; j++) {
                             doubles[j] = Integer.parseInt(line[j]);
                         }
@@ -170,7 +170,7 @@ public class MapFileReader {
                             case "shield":
                             case "metalDoor":
                             case "pont3":
-                            case "blockDisapear":
+                            case "blockDisapear2":
 //                                HideOnActionObject hideOnActionObject = new HideOnActionObject(new Coordinate(doubles[3], doubles[4]), line[2], (int)doubles[5]);
                                 detectableObjectArrayList.add(new Lever(new HideOnActionObject(new Coordinate(doubles[3], doubles[4]), line[2], (int)doubles[5]), new Coordinate(doubles[0], doubles[1])));
 //                                detectableObjectArrayList.add(hideOnActionObject);

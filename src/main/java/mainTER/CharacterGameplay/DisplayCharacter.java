@@ -293,7 +293,11 @@ public class DisplayCharacter extends CollideObject {
                             } else {
                                 timelineForMotionlessCharacter();
                             }
+
+
+
                         }
+
                     }
             ));
 
@@ -345,6 +349,7 @@ public class DisplayCharacter extends CollideObject {
                         double newHeight = adaptYToHeight(height);
                         if (isJumping) {
                             moveMotionlessJumping(newHeight);
+
                         } else if (calcMvt(CommingFrom.UP) >= 0) {
                             // TODO change gravity limit.
 
@@ -352,6 +357,8 @@ public class DisplayCharacter extends CollideObject {
                         } else {
                             moveMotionlessNormally();
                         }
+
+
                     }
             ));
             animationForTheCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
@@ -359,8 +366,11 @@ public class DisplayCharacter extends CollideObject {
     }
 
     private void moveWalkJumping() {
+
         animationForTheCharacter.setWalk();
         currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() + calcMvt(CommingFrom.LEFT));
+
+
         doJump();
     }
 
@@ -433,22 +443,43 @@ public class DisplayCharacter extends CollideObject {
 
     private void moveMotionlessJumping(double newHeight) {
 
-        tempNewHeigt = newHeight;
+
         if (walkToRight)
             animationForTheCharacter.setJump();
         else
             animationForTheCharacter.setReverseJump();
-        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() - calcMvt(CommingFrom.DOWN) - newHeight);
+
+
+        ImageView imgView2 = animationForTheCharacter.testnextImg();
+        tempNewHeigt = -(character.getCharacteristics().getHeightMotionless() - imgView2.getImage().getHeight());
+        newHeight = tempNewHeigt;
+
+
+        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() - newHeight);
+       // calcMvt(CommingFrom.DOWN);
+
+
+
+
+        ImageView imgView = animationForTheCharacter.nextImage();
+        newHeight = character.getCharacteristics().getHeightMotionless() - imgView.getImage().getHeight();
+        //System.out.println(animationForTheCharacter.actualImg().getImage().getUrl());
+
+
+        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + newHeight);
+        calcMvt(CommingFrom.DOWN);
+
+
+        characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
+                currentCoordinateOfTheCharacter.getY());
+
         jumpStrength -= character.getWeight() * 0.2;
         if (jumpStrength <= 0) {
+            animationForTheCharacter.setMotionless();
             isJumping = false;
             jumpStrength = 0;
         }
-        ImageView imgView = animationForTheCharacter.nextImage();
-        newHeight = character.getCharacteristics().getHeightMotionless() - imgView.getImage().getHeight();
-        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + newHeight);
-        characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
-                currentCoordinateOfTheCharacter.getY());
+
     }
 
     private void moveMotionlessFalling() {
@@ -472,9 +503,12 @@ public class DisplayCharacter extends CollideObject {
         //instead of here
 
         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + pasToDo);
+
         if (pasToDo <= 0) {
             pasToDo = 1;
             currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + newHeight);
+            characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
+                    currentCoordinateOfTheCharacter.getY());
         }
         characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
                 currentCoordinateOfTheCharacter.getY());
@@ -533,10 +567,14 @@ public class DisplayCharacter extends CollideObject {
         if (jump.equals(" ")) {
             keyCode = KeyCode.SPACE;
         }
-        if (eventForPressedKey.getCode() == keyCode && (calcMvt(CommingFrom.UP) <= 0) && !listCurrentKeyCode.contains(keyCode) && character.canJump()) {
-            listCurrentKeyCode.add(keyCode);
-            isJumping = true;
-            this.jumpStrength = character.getJumpStrength();
+        if (eventForPressedKey.getCode() == keyCode  && !listCurrentKeyCode.contains(keyCode) && character.canJump()) {
+            if((calcMvt(CommingFrom.UP) <= 0)){
+
+                listCurrentKeyCode.add(keyCode);
+                animationForTheCharacter.setIndImgToAnimate(1);
+                isJumping = true;
+                this.jumpStrength = character.getJumpStrength();
+            }
         }
     }
 
@@ -579,9 +617,10 @@ public class DisplayCharacter extends CollideObject {
 
     @Override
     public Node getAppropriateNode() {
+
         animationForTheCharacter.actualImg().setX(currentCoordinateOfTheCharacter.getX());
         animationForTheCharacter.actualImg().setY(currentCoordinateOfTheCharacter.getY());
-        /*System.out.println("X et Y " + animationForTheCharacter.actualImg().getX() + animationForTheCharacter.actualImg().getY());
+       /* System.out.println("X et Y " + animationForTheCharacter.actualImg().getX() + animationForTheCharacter.actualImg().getY());
         System.out.println("Borne min X et min Y " + animationForTheCharacter.actualImg().getBoundsInParent().getMinX() + animationForTheCharacter.actualImg().getBoundsInParent().getMinY() + "\n");*/
         return animationForTheCharacter.actualImg();
     }
@@ -639,6 +678,10 @@ public class DisplayCharacter extends CollideObject {
     @Override
     public double getHeight() {
         return this.animationForTheCharacter.actualImg().getImage().getHeight();
+    }
+
+    public AnimationCharacter getAnimationForTheCharacter() {
+        return animationForTheCharacter;
     }
 
     public double getTempNewHeigt() {
