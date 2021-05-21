@@ -3,6 +3,9 @@ package mainTER.MapPackage;
 import javafx.scene.Node;
 import mainTER.Tools.Coordinate;
 
+/**
+ * Class that represent all object that are considered as floors or walls
+ */
 public abstract class MapFieldForm extends DetectableObject {
 
     private Coordinate coordinate; // repetition des coordinates dans les classe filles

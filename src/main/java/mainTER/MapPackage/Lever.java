@@ -86,6 +86,9 @@ public class Lever extends InteractiveObject{
         return detectableObject.getFallMouvementSpan();
     }
 
+    /**
+     * Activate the interactiveObject's action triggered
+     */
     @Override
     public void actionGenuine() {
         if (this.getImageView().getImage().getUrl().contains("lever_left")){
