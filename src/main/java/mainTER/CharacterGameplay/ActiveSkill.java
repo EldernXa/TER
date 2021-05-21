@@ -40,18 +40,39 @@ public class ActiveSkill implements Skill{
     private PaladinShieldMode paladinShieldMode = null;
     private ObjectLinker objectLinkerFirst = null;
 
+    /**
+     *
+     * @return true if the skill is enabled, false otherwise.
+     */
     public boolean isEnabled(){
         return isEnabled;
     }
 
+    /**
+     *
+     * @return the number of the skill.
+     */
     public int getNumSkill(){
         return numSkill;
     }
 
+    /**
+     *
+     * @return the enum this skill came from.
+     */
     public ActiveSkillEnum getSkillEnum(){
         return skill;
     }
 
+    /**
+     * Constructor who create a new active skill.
+     * @param nameCharacter the name of the character.
+     * @param nameSkill the name of the skill.
+     * @param numSkill the num of the skill.
+     * @param character the instance of the character.
+     * @param timeCooldown the time the skill will be unavailable after the use.
+     * @param timeSkill the time the skill will last.
+     */
     public ActiveSkill(String nameCharacter, String nameSkill, int numSkill, Character character, float timeCooldown, float timeSkill){
         this.nameCharacter = nameCharacter;
         this.nameSkill = nameSkill;
@@ -71,6 +92,11 @@ public class ActiveSkill implements Skill{
         skill = ActiveSkillEnum.valueOf(this.nameSkill+(isMode?"_MODE":""));
     }
 
+    /**
+     * Do a change of the animation of a character.
+     * @param character a character we want to change animation.
+     * @param numSkill the num of the skill the animation will change for.
+     */
     public static void changeAnimateForACharacter(Character character, int numSkill){
         if(numSkill!=-1){
             for(Skill skill : character.getListSkill()){
@@ -90,6 +116,12 @@ public class ActiveSkill implements Skill{
         }
     }
 
+    /**
+     * Do a change of the animation of a character.
+     * @param skill the enum this is from.
+     * @param character the character we want to change animation.
+     * @param nameSkill the name of the skill the animation will change for (this name will help to find the folder of the new animation).
+     */
     private static void changeListAnimate(ActiveSkillEnum skill, Character character, String nameSkill){
         if(skill == ActiveSkillEnum.SHIELD_MODE || skill == ActiveSkillEnum.BARRIER_MODE){
             try {
@@ -110,6 +142,9 @@ public class ActiveSkill implements Skill{
         }
     }
 
+    /**
+     * initialise the character and the skill, disabled the skill and the cooldown, initialize the animation for the character.
+     */
     public void init(){
         isEnabled = false;
         cooldownFinished = true;
@@ -123,10 +158,21 @@ public class ActiveSkill implements Skill{
         }
     }
 
+    /**
+     *
+     * @return the event for this skill.
+     */
     public EventHandler<KeyEvent> getEventHandler(){
         return eventHandler;
     }
 
+    /**
+     * Determines what function will be used for the skill.
+     * @param animationCharacter the animation of the application.
+     * @param characterMovementAndDisplayManagement allow us to place an image.
+     * @param tpsDuration the time for the timeline
+     * @return an event available for this skill.
+     */
     public EventHandler<KeyEvent> eventForSkill(AnimationCharacter animationCharacter,
                                                 CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement, int tpsDuration){
         String ctrlKey = "";
@@ -156,6 +202,11 @@ public class ActiveSkill implements Skill{
         return eventHandler;
     }
 
+    /**
+     * moult skill for the snake.
+     * @param characterMovementAndDisplayManagement allows us to place an image.
+     * @param animationCharacter the animation for the application.
+     */
     private void moultSkill(CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement, AnimationCharacter animationCharacter){
         if(!isEnabled && cooldownFinished &&
                 (animationCharacter.getCurrentPosition() == Position.MOTIONLESS || animationCharacter.getCurrentPosition()==Position.REVERSE_MOTIONLESS)){
@@ -205,6 +256,9 @@ public class ActiveSkill implements Skill{
         }
     }
 
+    /**
+     * Run a thread who do a cooldown for the skill.
+     */
     private void runThreadForCooldown(){
         Thread threadForCooldown = new Thread(()->{
             try{
@@ -219,6 +273,9 @@ public class ActiveSkill implements Skill{
         threadForCooldown.start();
     }
 
+    /**
+     * the skill fly for the demon.
+     */
     private void flySkill() {
         if (!isEnabled && cooldownFinished) {
             isEnabled = true;
@@ -242,6 +299,9 @@ public class ActiveSkill implements Skill{
         }
     }
 
+    /**
+     * create a thread only for the skill fly.
+     */
     private void threadForFlySkill(){
         Thread t = new Thread(()->{
             try {
@@ -272,6 +332,11 @@ public class ActiveSkill implements Skill{
         t.start();
     }
 
+    /**
+     * the skill shield for the paladin.
+     * @param animationCharacter the animation available in the application.
+     * @param characterMovementAndDisplayManagement allow us to place an image on the stage.
+     */
     private void shieldSkill(AnimationCharacter animationCharacter, CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement){
         if(!isEnabled) {
             boolean isReversed = animationCharacter.getCurrentPosition() == Position.REVERSE_MOTIONLESS ||
@@ -299,6 +364,9 @@ public class ActiveSkill implements Skill{
         }
     }
 
+    /**
+     * The skill barrier for the paladin.
+     */
     private void barrierSkill(){
         if(!isEnabled && cooldownFinished){
             cooldownFinished = false;
@@ -350,6 +418,12 @@ public class ActiveSkill implements Skill{
         }
     }
 
+    /**
+     * The skill attack for the paladin.
+     * @param animationCharacter the animation for the application.
+     * @param characterMovementAndDisplayManagement allow us to place an image in the application.
+     * @param tpsDuration the time for the timeline.
+     */
     private void attackSkill(AnimationCharacter animationCharacter, CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement,
                              int tpsDuration){
         if(!isEnabled && cooldownFinished) {
@@ -368,6 +442,14 @@ public class ActiveSkill implements Skill{
         }
     }
 
+    /**
+     * create a new timeline for the attack skill.
+     * @param animationCharacter the animation for the application.
+     * @param listPersonalizedAnimate the list containing new images for animation.
+     * @param tpsDuration the time for timeline.
+     * @param characterMovementAndDisplayManagement allow us to place an image on the application.
+     * @param c coordinate of the position.
+     */
     private void createNewTimeline(AnimationCharacter animationCharacter, List<ImageView> listPersonalizedAnimate, int tpsDuration,
                                    CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement, Coordinate c){
         animationCharacter.getTimeline().stop();
@@ -383,6 +465,14 @@ public class ActiveSkill implements Skill{
         animationCharacter.getTimeline().play();
     }
 
+    /**
+     * contains of the timeline for attack skill.
+     * @param listPersonalizedAnimate new list containing image for the new animation.
+     * @param i index of the list.
+     * @param characterMovementAndDisplayManagement allow us to place an image on the application.
+     * @param c coordinate for the new image.
+     * @param animationCharacter the animation for the application.
+     */
     private void insideTimelineForAttack(List<ImageView> listPersonalizedAnimate, AtomicInteger i,
                                          CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement, Coordinate c,
                                          AnimationCharacter animationCharacter){
