@@ -95,7 +95,8 @@ public class SkillsMenu {
 
                 vBox.getChildren().add(nameSkill);
                 vBox.getChildren().add(description);
-                vBox.getChildren().add(timeSkill);
+                if(!timeSkill.getText().contains("0.0"))
+                    vBox.getChildren().add(timeSkill);
                 vBox.getChildren().add(cooldown);
 
                 vbGen.getChildren().add(vBox);
