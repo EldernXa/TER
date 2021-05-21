@@ -69,11 +69,11 @@ public class Player {
      * @param pane add some object to the pane
      * @param listCharacter get the list of character to chose
      */
-    public void connectToServer(Stage stage, Pane pane, ArrayList<Character> listCharacter) {
+    public void connectToServer(Stage stage, Pane pane, ArrayList<Character> listCharacter,String ipAddr) {
         System.out.println("-----Client------------");
         try {
             multi = "a";
-            Socket socket = new Socket("localhost", 5134);
+            Socket socket = new Socket(ipAddr, 5134);
             DataInputStream dis = new DataInputStream(socket.getInputStream());
             playerID = dis.readInt();
             dos = new DataOutputStream(socket.getOutputStream());

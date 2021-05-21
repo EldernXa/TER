@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -183,7 +184,7 @@ public class MenuItem extends StackPane {
                     Thread t = new Thread(gs);
                     t.start();
                     Player p = new Player();
-                    p.connectToServer(newStage, pane,listCharacter);
+                    p.connectToServer(newStage, pane,listCharacter,"localhost");
                     newStage.show();
                     newStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
                     break;
@@ -198,11 +199,16 @@ public class MenuItem extends StackPane {
                     Pane pane = new Pane();
                     Scene sceneCli = new Scene(pane, Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
 
+                    TextField ipAddr = new TextField("localhost");
+                    Label label = new Label("Server Ip Address");
+                    Button button = new Button("Confirm");
                     newStage.setScene(sceneCli);
-
-                    Player p = new Player();
-                    p.connectToServer(newStage, pane,listCharacter);
                     newStage.show();
+                    ipAddr.setTranslateY(25);
+                    button.setTranslateY(50);
+                    pane.getChildren().addAll(label,ipAddr,button);
+
+                    setButton(button,newStage,pane,ipAddr);
                     break;
                 }
                 case "SOUND SETTINGS": {
@@ -298,6 +304,15 @@ public class MenuItem extends StackPane {
     }
 
 
+    public void setButton(Button button,Stage newStage,Pane pane,TextField addr){
+        button.setOnMouseClicked(mouseEvent->{
+            pane.getChildren().clear();
+            Player p = new Player();
+            p.connectToServer(newStage, pane,listCharacter,addr.getText());
+            newStage.show();
+
+        });
+    }
 
 
     public void createLvl(String mapName) {
