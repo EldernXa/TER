@@ -65,6 +65,7 @@ public class Map {
             objectLinkers.add(new ObjectLinker(detectableObject, null));
             if(detectableObject instanceof Lever){
                 pane.getChildren().add(((Lever)detectableObject).getInteractiveObject().getAppropriateNode());
+                objectLinkers.add(new ObjectLinker((((Lever)detectableObject).getInteractiveObject()),null));
             }
         }
 //        System.out.println(this.getReadFileMap().getDetectableObjectArrayList().size());
