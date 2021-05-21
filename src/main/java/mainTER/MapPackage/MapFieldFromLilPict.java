@@ -70,7 +70,7 @@ public class MapFieldFromLilPict extends MapFieldForm {
     }
 
     /**
-     * Set the rectange width
+     * Set the rectangle width
      * @param width Width
      */
     @Override
@@ -88,7 +88,7 @@ public class MapFieldFromLilPict extends MapFieldForm {
     }
 
     /**
-     * Set the rectange height
+     * Set the rectangle height
      * @param height Height
      */
     @Override

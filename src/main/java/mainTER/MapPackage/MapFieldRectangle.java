@@ -5,11 +5,19 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import mainTER.Tools.Coordinate;
 
+/**
+ * Create a rectangle
+ */
 public class MapFieldRectangle extends MapFieldForm {
 
     private Rectangle rectangle;
 
-
+    /**
+     * Create a rectangle depending on the coordinate you choose, the width and the height
+     * @param coordinate
+     * @param width
+     * @param height
+     */
     public MapFieldRectangle(Coordinate coordinate, double width, double height) {
 
         super(coordinate, width, height);
