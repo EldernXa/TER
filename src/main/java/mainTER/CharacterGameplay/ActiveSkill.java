@@ -322,23 +322,14 @@ public class ActiveSkill implements Skill{
                     initAnimateForMotionless(character);
                     initAnimateForReverseMotionless(character);
                     character.setCanDie(true);
+                    character.getCharacteristics().setCanJump(true);
                     isEnabled = false;
                     threadIsRunning = false;
                 }catch(Exception ignored){
 
                 }
 
-                Thread thread2 = new Thread(() -> {
-                    try {
-                        threadIsRunning = true;
-                        TimeUnit.SECONDS.sleep((long) timeCooldown);
-                        cooldownFinished = true;
-                        threadIsRunning = false;
-                    } catch (InterruptedException ignored) {
-
-                    }
-                });
-                thread2.start();
+                runThreadForCooldown();
             });
             thread.start();
         }else{
@@ -372,48 +363,54 @@ public class ActiveSkill implements Skill{
             } catch (URISyntaxException uriSyntaxException) {
                 System.out.println("Problème de path.");
             }
-            animationCharacter.getTimeline().stop();
-            animationCharacter.getTimeline().getKeyFrames().clear();
-            List<ImageView> finalListPersonalizedAnimate = listPersonalizedAnimate;
-            AtomicInteger i = new AtomicInteger();
-            animationCharacter.setCanMotionLess(false);
-            animationCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
-                            Duration.millis(tpsDuration),
-                            tps -> {
-                                if (finalListPersonalizedAnimate != null) {
-                                    if(i.get()<finalListPersonalizedAnimate.size()) {
-                                        characterMovementAndDisplayManagement.displayNode(finalListPersonalizedAnimate.get(i.getAndIncrement()),
-                                                c.getX(), c.getY());
-                                    }else{
-                                        i.incrementAndGet();
-                                    }
-                                    if (i.get() > finalListPersonalizedAnimate.size()) {
-                                        animationCharacter.setCanMove(true);
-                                        animationCharacter.setCanMotionLess(true);
-                                        animationCharacter.setMotionless();
-                                        characterMovementAndDisplayManagement.displayNode(animationCharacter.nextImage(),
-                                                c.getX(), c.getY());
-                                        animationCharacter.getTimeline().stop();
-                                        animationCharacter.getTimeline().getKeyFrames().clear();
-                                        isEnabled = false;
-                                        if(!threadIsRunning) {
-                                            runThreadForCooldown();
-                                        }
-                                    }
-                                } else {
+            createNewTimeline(animationCharacter, listPersonalizedAnimate, tpsDuration, characterMovementAndDisplayManagement, c);
+
+        }
+    }
+
+    private void createNewTimeline(AnimationCharacter animationCharacter, List<ImageView> listPersonalizedAnimate, int tpsDuration,
+                                   CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement, Coordinate c){
+        animationCharacter.getTimeline().stop();
+        animationCharacter.getTimeline().getKeyFrames().clear();
+        List<ImageView> finalListPersonalizedAnimate = listPersonalizedAnimate;
+        AtomicInteger i = new AtomicInteger();
+        animationCharacter.setCanMotionLess(false);
+        animationCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
+                        Duration.millis(tpsDuration),
+                        tps -> {
+                            if (finalListPersonalizedAnimate != null) {
+                                if(i.get()<finalListPersonalizedAnimate.size()) {
+                                    characterMovementAndDisplayManagement.displayNode(finalListPersonalizedAnimate.get(i.getAndIncrement()),
+                                            c.getX(), c.getY());
+                                }else{
+                                    i.incrementAndGet();
+                                }
+                                if (i.get() > finalListPersonalizedAnimate.size()) {
                                     animationCharacter.setCanMove(true);
                                     animationCharacter.setCanMotionLess(true);
+                                    animationCharacter.setMotionless();
+                                    characterMovementAndDisplayManagement.displayNode(animationCharacter.nextImage(),
+                                            c.getX(), c.getY());
+                                    animationCharacter.getTimeline().stop();
+                                    animationCharacter.getTimeline().getKeyFrames().clear();
                                     isEnabled = false;
                                     if(!threadIsRunning) {
                                         runThreadForCooldown();
                                     }
                                 }
+                            } else {
+                                animationCharacter.setCanMove(true);
+                                animationCharacter.setCanMotionLess(true);
+                                isEnabled = false;
+                                if(!threadIsRunning) {
+                                    runThreadForCooldown();
+                                }
                             }
-                    )
-            );
-            animationCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
-            animationCharacter.getTimeline().play();
-        }
+                        }
+                )
+        );
+        animationCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
+        animationCharacter.getTimeline().play();
     }
 
     private List<ImageView> listPersonalizedAnimate(boolean isReverse) throws URISyntaxException{
