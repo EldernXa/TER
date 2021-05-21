@@ -149,7 +149,7 @@ public class ActiveSkill implements Skill{
                 }else if(skill == ActiveSkillEnum.ATTACK){
                     attackSkill(animationCharacter, characterMovementAndDisplayManagement, tpsDuration);
                 } else if (skill == ActiveSkillEnum.BARRIER_MODE) {
-                    barrierSkill(animationCharacter, characterMovementAndDisplayManagement);
+                    barrierSkill();
 
                 } else if (skill == ActiveSkillEnum.FLY_MODE) {
                     flySkill();
@@ -319,8 +319,9 @@ public class ActiveSkill implements Skill{
         }
     }
 
-    private void barrierSkill(AnimationCharacter animationCharacter, CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement){
-        if(!isEnabled){
+    private void barrierSkill(){
+        if(!isEnabled && cooldownFinished){
+            cooldownFinished = false;
             isEnabled = true;
             character.getCharacteristics().setCanJump(false);
             character.setCanDie(false);
@@ -333,16 +334,29 @@ public class ActiveSkill implements Skill{
 
             }
         }else{
-            isEnabled = false;
-            character.setCanDie(true);
-            character.getCharacteristics().setCanJump(true);
-            try{
-                initAnimateForWalk(character);
-                initAnimateForReverseWalk(character);
-                initAnimateForMotionless(character);
-                initAnimateForReverseMotionless(character);
-            }catch(Exception ignored){
+            if(!threadIsRunning) {
+                isEnabled = false;
+                character.setCanDie(true);
+                character.getCharacteristics().setCanJump(true);
+                try {
+                    initAnimateForWalk(character);
+                    initAnimateForReverseWalk(character);
+                    initAnimateForMotionless(character);
+                    initAnimateForReverseMotionless(character);
+                } catch (Exception ignored) {
 
+                }
+                Thread thread = new Thread(() -> {
+                    try {
+                        threadIsRunning = true;
+                        TimeUnit.SECONDS.sleep((long) timeCooldown);
+                        cooldownFinished = true;
+                        threadIsRunning = false;
+                    } catch (InterruptedException ignored) {
+
+                    }
+                });
+                thread.start();
             }
         }
     }
