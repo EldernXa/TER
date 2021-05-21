@@ -165,7 +165,8 @@ public class ActiveSkill implements Skill{
     }
 
     private void moultSkill(CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement, AnimationCharacter animationCharacter){
-        if(!isEnabled && cooldownFinished){
+        if(!isEnabled && cooldownFinished &&
+                (animationCharacter.getCurrentPosition() == Position.MOTIONLESS || animationCharacter.getCurrentPosition()==Position.REVERSE_MOTIONLESS)){
             boolean isReversed = animationCharacter.getCurrentPosition() == Position.REVERSE_MOTIONLESS ||
                     animationCharacter.getCurrentPosition() == Position.REVERSE_WALK ||
                     animationCharacter.getCurrentPosition() == Position.REVERSE_JUMP;
