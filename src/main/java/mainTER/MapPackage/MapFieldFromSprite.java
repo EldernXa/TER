@@ -41,11 +41,6 @@ public class MapFieldFromSprite extends MapFieldForm {
         return imageViewSizePos;
     }
 
-
-    public String getPath() {
-        return this.path;
-    }
-
     public double getPercent() {
         return percent;
     }
