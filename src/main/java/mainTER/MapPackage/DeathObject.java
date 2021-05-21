@@ -1,7 +1,6 @@
 package mainTER.MapPackage;
 
 import javafx.scene.Node;
-import javafx.scene.image.ImageView;
 import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
@@ -14,7 +13,6 @@ public class DeathObject extends InteractiveObject {
 
     String pathName;
     Coordinate coordinate;
-    ImageViewSizePos imageViewSizePos;
     boolean exist;
     String name;
 
@@ -46,6 +44,10 @@ public class DeathObject extends InteractiveObject {
         }
     }
 
+    /**
+     * Return true if DeathObject is visible, false if invisible
+     * @return
+     */
     public boolean isExist() {
         return exist;
     }
@@ -53,7 +55,6 @@ public class DeathObject extends InteractiveObject {
     /**
      * Kill the player.
      */
-
     @Override
     public void interaction(DetectableObject detectableObject) {
         if(isExist()){
