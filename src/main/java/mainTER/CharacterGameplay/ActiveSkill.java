@@ -9,10 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 import mainTER.DBManage.SkillDBManager;
-import mainTER.MapPackage.FirstMoultSerpent;
-import mainTER.MapPackage.Map;
-import mainTER.MapPackage.ObjectLinker;
-import mainTER.MapPackage.SecondMoultSerpent;
+import mainTER.MapPackage.*;
 import mainTER.Tools.CharacterMovementAndDisplayManagement;
 import mainTER.Tools.Coordinate;
 import mainTER.exception.SkillDataGetException;
@@ -40,6 +37,8 @@ public class ActiveSkill implements Skill{
     private final float timeCooldown;
     private final float timeSkill;
     private boolean threadIsRunning = false;
+    private PaladinShieldMode paladinShieldMode = null;
+    private ObjectLinker objectLinkerFirst = null;
 
     public boolean isEnabled(){
         return isEnabled;
@@ -146,15 +145,14 @@ public class ActiveSkill implements Skill{
         eventHandler = event -> {
             if (event.getCode().getChar().equalsIgnoreCase(finalCtrlKey)){
                 if(skill == ActiveSkillEnum.SHIELD_MODE){
-                    shieldSkill();
+                    shieldSkill(animationCharacter, characterMovementAndDisplayManagement);
                 }else if(skill == ActiveSkillEnum.ATTACK){
                     attackSkill(animationCharacter, characterMovementAndDisplayManagement, tpsDuration);
                 } else if (skill == ActiveSkillEnum.BARRIER_MODE) {
-                    shieldSkill();
+                    shieldSkill(animationCharacter, characterMovementAndDisplayManagement);
 
                 } else if (skill == ActiveSkillEnum.FLY_MODE) {
                     flySkill();
-
                 }
                 else if(skill == ActiveSkillEnum.MOULT){
                     moultSkill(characterMovementAndDisplayManagement, animationCharacter);
@@ -294,8 +292,21 @@ public class ActiveSkill implements Skill{
         }
     }
 
-    private void shieldSkill(){
+    private void shieldSkill(AnimationCharacter animationCharacter, CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement){
         if(!isEnabled) {
+            boolean isReversed = animationCharacter.getCurrentPosition() == Position.REVERSE_MOTIONLESS ||
+                    animationCharacter.getCurrentPosition() == Position.REVERSE_WALK ||
+                    animationCharacter.getCurrentPosition() == Position.REVERSE_JUMP;
+            Coordinate coordinateMoult = new Coordinate(
+                    characterMovementAndDisplayManagement.getCoordinateOfTheActualImg().getX(),
+                    characterMovementAndDisplayManagement.getCoordinateOfTheActualImg().getY()
+            );
+            paladinShieldMode = new PaladinShieldMode(coordinateMoult, isReversed);
+            objectLinkerFirst = new ObjectLinker(paladinShieldMode, paladinShieldMode.clone());
+            Map.objectLinkers.add(objectLinkerFirst);
+            characterMovementAndDisplayManagement.displayOtherNode((ImageView)paladinShieldMode.getAppropriateNode(), coordinateMoult.getX(), coordinateMoult.getY());
+            animationCharacter.setCanMove(false);
+            characterMovementAndDisplayManagement.setCannotDisplay();
             isEnabled = true;
             character.getCharacteristics().setCanJump(false);
             try {
@@ -307,6 +318,10 @@ public class ActiveSkill implements Skill{
 
             }
         }else{
+            characterMovementAndDisplayManagement.removeOtherNode((ImageView)paladinShieldMode.getAppropriateNode());
+            Map.objectLinkers.remove(objectLinkerFirst);
+            characterMovementAndDisplayManagement.setCanDisplay();
+            animationCharacter.setCanMove(true);
             isEnabled = false;
             character.getCharacteristics().setCanJump(true);
             try {
