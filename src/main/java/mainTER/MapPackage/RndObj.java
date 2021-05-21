@@ -4,6 +4,9 @@ import javafx.scene.Node;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
+/**
+ * Class that create a RndObject
+ */
 public class RndObj extends DetectableObject {
 
     private ImageViewSizePos imageViewSizePos;
@@ -12,7 +15,12 @@ public class RndObj extends DetectableObject {
     private String pathName;
 
 
-
+    /**
+     * It creates a RndObject, depending on the path given, the name of the object wanted and the coordinate to locate it
+     * @param pathName
+     * @param rndObjName
+     * @param coordinate
+     */
     public RndObj(String pathName,String rndObjName, Coordinate coordinate) {
 
         this.rndObjName = rndObjName;
