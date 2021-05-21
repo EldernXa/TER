@@ -359,7 +359,7 @@ public abstract class DetectableObject {
 
             for (ObjectLinker objectLinker : Map.objectLinkers) {
 
-                        if(this.getAppropriateNode().getBoundsInParent().getMaxY() >= Map.mapHeight){
+                        if(this.getAppropriateNode().getBoundsInParent().getMaxY() >= Map.mapHeight+30){
 
 
                             ((DisplayCharacter)this).death();
@@ -386,6 +386,43 @@ public abstract class DetectableObject {
             }
         }
         return this.getFallMouvementSpan();
+    }
+    public double check(String commingFrom) {
+
+        double value = 10000;
+        Rectangle rect = new Rectangle(this.getAppropriateNode().getBoundsInParent().getMaxX() - this.getAppropriateNode().getBoundsInParent().getMinX(), this.getAppropriateNode().getBoundsInParent().getMaxY() - this.getAppropriateNode().getBoundsInParent().getMinY());
+        rect.setX(this.getX());
+        rect.setY(this.getY());
+        for (ObjectLinker objectLinker : Map.objectLinkers) {
+            if (commingFrom.equals("Right")) {
+
+                if ((!this.equals(objectLinker.getDetectableObject1())) && (rect.intersects(objectLinker.getDetectableObject1().getAppropriateNode().getBoundsInParent())) && (objectLinker.getDetectableObject1().getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX() >= 0) && (objectLinker.getDetectableObject1().getAppropriateNode().getBoundsInParent().getMinX() - this.getAppropriateNode().getBoundsInParent().getMaxX() <= this.getHMouvementSpan())) {
+
+                    value = objectLinker.getDetectableObject1().rightMvt(this);
+                }
+            } else if (commingFrom.equals("Up")) {
+                if (rect.intersects(objectLinker.getDetectableObject1().getAppropriateNode().getBoundsInParent())) {
+                    if (!(objectLinker.getDetectableObject1() instanceof UnCollideObject) && !(objectLinker.getDetectableObject1() instanceof Lever)) {
+
+                        if(((DisplayCharacter)this).getCharacter().getName().contains("Serpent")){
+                            rect.setY(rect.getY()- (((DisplayCharacter)this).getAnimationForTheCharacter().getHeightMotionless() - rect.getHeight()));
+                            rect.setHeight(((DisplayCharacter)this).getAnimationForTheCharacter().getHeightMotionless());
+
+                        }
+                        rect.setHeight(rect.getHeight() / 1.5);
+                        if (objectLinker.getDetectableObject1().getAppropriateNode().getBoundsInParent().getMinY() - rect.getBoundsInParent().getMaxY() < 0) {
+                            if ((objectLinker.getDetectableObject1().leftMvt(this) != 0 && objectLinker.getDetectableObject1().getAppropriateNode().getBoundsInParent().getMinX() - rect.getBoundsInParent().getMaxX() != 0)) {
+
+                                value = objectLinker.getDetectableObject1().upMvt(this);
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+        return value;
     }
 
     /**

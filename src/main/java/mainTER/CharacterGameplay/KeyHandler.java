@@ -19,10 +19,11 @@ public class KeyHandler {
     private final Stage stage;
     private final DisplayCharacter displayCharacter;
     private final ArrayList<Character> listCharacter;
-    private final SwitchCharacter sc ;
+    private final SwitchCharacter sc;
     private String switchUp;
     private String switchDown;
     String nameOfFriend = "";
+    private boolean test = false;
 
 
     public KeyHandler(Stage stage, DisplayCharacter displayCharacter, ArrayList<Character> listCharacter, SwitchCharacter sc) {
@@ -42,135 +43,169 @@ public class KeyHandler {
 
     /**
      * handle event of the player
+     *
      * @param event2
      */
 
-    public void handleEvend( KeyEvent event2){
+    public void handleEvend(KeyEvent event2) {
         String event = event2.getCode().getChar().toLowerCase();
+
         if (displayCharacter.getNumSkillThatIsActive() == -1) {
-            if (event.equals(switchUp)) {
+            if (displayCharacter.check("Up") > 0 || test) {
+                if (event.equals(switchUp)) {
 
 
-                int k = 0;
-                for (int i = 0; i < listCharacter.size(); i++) {
-                    if (listCharacter.get(i) == displayCharacter.getCharacter()) {
-                        k = i;
+                    int k = 0;
+                    for (int i = 0; i < listCharacter.size(); i++) {
+                        if (listCharacter.get(i) == displayCharacter.getCharacter()) {
+                            k = i;
+                        }
                     }
-                }
-                displayCharacter.setCharacter(listCharacter.get((k + 1) % listCharacter.size()));
-                sc.changeToUp();
 
-
-            } else if (event.equals(switchDown)) {
-                int k = 0;
-                for (int i = 0; i < listCharacter.size(); i++) {
-                    if (listCharacter.get(i) == displayCharacter.getCharacter()) {
-                        k = i;
+                    displayCharacter.setCharacter(listCharacter.get((k + 1) % listCharacter.size()));
+                    sc.changeToUp();
+                    if (displayCharacter.check("Up") < 0) {
+                        test = true;
+                        handleEvend(event2);
                     }
+                    else
+                        test = false;
+
+                } else if (event.equals(switchDown)) {
+                    int k = 0;
+                    for (int i = 0; i < listCharacter.size(); i++) {
+                        if (listCharacter.get(i) == displayCharacter.getCharacter()) {
+                            k = i;
+                        }
+                    }
+                    if (k == 0) {
+                        displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 1));
+                    } else {
+                        displayCharacter.setCharacter(listCharacter.get((k - 1) % listCharacter.size()));
+                    }
+
+                    sc.changeToDown();
+                    if (displayCharacter.check("Up") < 0) {
+                        test = true;
+                        handleEvend(event2);
+                    }
+                    else
+                        test = false;
                 }
-                if (k == 0) {
-                    displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 1));
-                } else {
-                    displayCharacter.setCharacter(listCharacter.get((k - 1) % listCharacter.size()));
-                }
-                sc.changeToDown();
             }
+            condi(event2);
         }
-        condi(event2);
     }
 
     /**
      * handle the event for multiplayers
+     *
      * @param event2
      */
 
 
-    public void handleEvendFriend( KeyEvent event2){
+    public void handleEvendFriend(KeyEvent event2) {
         String event = event2.getCode().getChar().toLowerCase();
+
         if (displayCharacter.getNumSkillThatIsActive() == -1) {
-            if (event.equals(switchUp)) {
-                int k = 0;
-                for (int i = 0; i < listCharacter.size(); i++) {
-                    if (listCharacter.get(i) == displayCharacter.getCharacter()) {
-                        k = i;
-                    }
-                }
-                if (listCharacter.get((k + 1) % listCharacter.size()).getName().equals(nameOfFriend)) {
-                    displayCharacter.setCharacter(listCharacter.get((k + 2) % listCharacter.size()));
-                    sc.changeToUp();
-                } else {
-
-                    displayCharacter.setCharacter(listCharacter.get((k + 1) % listCharacter.size()));
-                }
-                sc.changeToUp();
-
-            } else if (event.equals(switchDown)) {
-                int k = 0;
-                for (int i = 0; i < listCharacter.size(); i++) {
-                    if (listCharacter.get(i) == displayCharacter.getCharacter()) {
-                        k = i;
-                    }
-                }
-                if (k == 0) {
-                    if (listCharacter.get(listCharacter.size() - 1).getName().equals(nameOfFriend)) {
-                        displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 2));
-                        sc.changeToDown();
-                    } else {
-                        displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 1));
-                    }
-                } else {
-
-                    if (listCharacter.get((k - 1) % listCharacter.size()).getName().equals(nameOfFriend)) {
-                        if (k == 1) {
-                            displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 1));
-                        } else {
-
-                            displayCharacter.setCharacter(listCharacter.get((k - 2) % listCharacter.size()));
+            if (displayCharacter.check("Up") > 0 || test) {
+                if (event.equals(switchUp)) {
+                    int k = 0;
+                    for (int i = 0; i < listCharacter.size(); i++) {
+                        if (listCharacter.get(i) == displayCharacter.getCharacter()) {
+                            k = i;
                         }
-                        sc.changeToDown();
-                    } else {
-                        displayCharacter.setCharacter(listCharacter.get((k - 1) % listCharacter.size()));
                     }
-                }
-                sc.changeToDown();
+                    if (listCharacter.get((k + 1) % listCharacter.size()).getName().equals(nameOfFriend)) {
+                        displayCharacter.setCharacter(listCharacter.get((k + 2) % listCharacter.size()));
+                        sc.changeToUp();
+                    } else {
 
+                        displayCharacter.setCharacter(listCharacter.get((k + 1) % listCharacter.size()));
+                    }
+                    sc.changeToUp();
+                    if (displayCharacter.check("Up") < 0) {
+                        test = true;
+                        handleEvend(event2);
+                    }
+                    else
+                        test = false;
+
+                } else if (event.equals(switchDown)) {
+                    int k = 0;
+                    for (int i = 0; i < listCharacter.size(); i++) {
+                        if (listCharacter.get(i) == displayCharacter.getCharacter()) {
+                            k = i;
+                        }
+                    }
+                    if (k == 0) {
+                        if (listCharacter.get(listCharacter.size() - 1).getName().equals(nameOfFriend)) {
+                            displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 2));
+
+                            sc.changeToDown();
+                        } else {
+                            displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 1));
+                        }
+                    } else {
+
+                        if (listCharacter.get((k - 1) % listCharacter.size()).getName().equals(nameOfFriend)) {
+                            if (k == 1) {
+                                displayCharacter.setCharacter(listCharacter.get(listCharacter.size() - 1));
+                            } else {
+
+                                displayCharacter.setCharacter(listCharacter.get((k - 2) % listCharacter.size()));
+                            }
+                            sc.changeToDown();
+                        } else {
+                            displayCharacter.setCharacter(listCharacter.get((k - 1) % listCharacter.size()));
+                        }
+                    }
+                    sc.changeToDown();
+                    if (displayCharacter.check("Up") < 0) {
+                        test = true;
+                        handleEvend(event2);
+                    }
+                    else
+                        test = false;
+
+                }
             }
-        }
 
             condi(event2);
+        }
 
     }
 
     /**
      * the condition if the event is escape or tab
+     *
      * @param event2
      */
     private void condi(KeyEvent event2) {
-        if(event2.getCode() == KeyCode.ESCAPE) {
+        if (event2.getCode() == KeyCode.ESCAPE) {
 
             Stage stagea = new Stage(StageStyle.TRANSPARENT);
-            MenuPause menuPause = new MenuPause(stage,stagea);
+            MenuPause menuPause = new MenuPause(stage, stagea);
             stagea.initOwner(stage);
             stagea.initModality(Modality.APPLICATION_MODAL);
             Scene scene = new Scene(menuPause.getVbox(), Color.TRANSPARENT);
             stagea.setScene(scene);
             stagea.show();
             scene.addEventHandler(KeyEvent.KEY_PRESSED, event3 -> {
-                if(event3.getCode() == KeyCode.ESCAPE)
+                if (event3.getCode() == KeyCode.ESCAPE)
                     stagea.close();
             });
 
-        }
-        else if(event2.getCode() == KeyCode.TAB){
+        } else if (event2.getCode() == KeyCode.TAB) {
 
             Stage stagep = new Stage(StageStyle.TRANSPARENT);
-            SkillsMenu skillsMenu = new SkillsMenu(stage,listCharacter,displayCharacter.getCharacter());
+            SkillsMenu skillsMenu = new SkillsMenu(stage, listCharacter, displayCharacter.getCharacter());
             stagep.initOwner(stage);
             stagep.initModality(Modality.APPLICATION_MODAL);
             stagep.setScene(skillsMenu.getScene());
             stagep.show();
             skillsMenu.getScene().addEventHandler(KeyEvent.KEY_PRESSED, event3 -> {
-                if(event3.getCode() == KeyCode.TAB || event3.getCode() == KeyCode.ESCAPE)
+                if (event3.getCode() == KeyCode.TAB || event3.getCode() == KeyCode.ESCAPE)
                     stagep.close();
             });
 

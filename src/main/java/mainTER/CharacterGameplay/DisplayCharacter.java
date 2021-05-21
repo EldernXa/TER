@@ -205,17 +205,32 @@ public class DisplayCharacter extends CollideObject {
 
     public void setCharacter(Character characterToSwitch) {
         if (character.canChangeCharacter()) {
+            boolean isRight = false;
+
+            if(check("Right") == 0) {
+                isRight = true;
+            }
             disableEventForSkill();
             animationForTheCharacter.getTimeline().stop();
             double height = animationForTheCharacter.actualImg().getImage().getHeight();
+            double maxX =animationForTheCharacter.actualImg().getBoundsInParent().getMaxX();
             animationForTheCharacter.changeCharacter(characterToSwitch);
 
             ImageView imgView = animationForTheCharacter.nextImage();
             double newHeight = height - imgView.getImage().getHeight();
+
+            if(isRight){
+
+                double newX = maxX - imgView.getBoundsInParent().getMaxX();
+
+                currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() + newX );
+            }
             currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + newHeight);
             characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
                     currentCoordinateOfTheCharacter.getY());
+            Character oldCharacter = this.character;
             this.character = characterToSwitch;
+
             for (Skill skill : character.getListSkill()) {
                 if (skill.getClass() == ActiveSkill.class) {
                     ((ActiveSkill) skill).init();
@@ -223,7 +238,9 @@ public class DisplayCharacter extends CollideObject {
                             characterMovementAndDisplayManagement, TPS_DURATION_TIMELINE));
                 }
             }
+
         }
+
     }
 
     public void setCharacterFriend(Character characterToSwitch, int pos, int im) {
@@ -458,14 +475,12 @@ public class DisplayCharacter extends CollideObject {
 
 
         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() - newHeight);
-       // calcMvt(CommingFrom.DOWN);
 
 
 
 
         ImageView imgView = animationForTheCharacter.nextImage();
         newHeight = character.getCharacteristics().getHeightMotionless() - imgView.getImage().getHeight();
-        //System.out.println(animationForTheCharacter.actualImg().getImage().getUrl());
 
 
         currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + newHeight);
@@ -540,6 +555,7 @@ public class DisplayCharacter extends CollideObject {
             listCurrentKeyCode.remove(event.getCode());
 
             if (listCurrentKeyCode.isEmpty() && animationForTheCharacter.canMotionless()) {
+
                 timelineForMotionlessCharacter();
             }
         });
