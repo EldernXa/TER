@@ -23,7 +23,6 @@ import mainTER.Tools.Coordinate;
 import mainTER.exception.ControlsDataGetException;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -588,18 +587,18 @@ public class DisplayCharacter extends CollideObject {
 //            System.out.println("Action F");
 //            System.out.println("Taille de la liste : " + MapFileReader.detectableObjectArrayList.size());
             for (ObjectLinker objectLinker : Map.objectLinkers) {
-                if (objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent().intersects(this.getAppropriateNode().getBoundsInParent())) {
+                if (objectLinker.getDetectableObject1().getAppropriateNode().getBoundsInParent().intersects(this.getAppropriateNode().getBoundsInParent())) {
                     try {
-                        ((InteractiveObject) objectLinker.getCollideObject1()).actionGenuine();
-                        ((InteractiveObject) objectLinker.getCollideObject2()).actionGenuine();
+                        ((InteractiveObject) objectLinker.getDetectableObject1()).actionGenuine();
+                        ((InteractiveObject) objectLinker.getDetectableObject2()).actionGenuine();
                     } catch (Exception e) {
                         //Not interactiveObject
                     }
                 }
-                else if(objectLinker.getCollideObject2().getAppropriateNode().getBoundsInParent().intersects(this.getAppropriateNode().getBoundsInParent())){
+                else if((objectLinker.getDetectableObject2()!= null)&&(objectLinker.getDetectableObject2().getAppropriateNode().getBoundsInParent().intersects(this.getAppropriateNode().getBoundsInParent()))){
                     try{
-                        ((InteractiveObject) objectLinker.getCollideObject1()).actionGenuine();
-                        ((InteractiveObject) objectLinker.getCollideObject2()).actionGenuine();
+                        ((InteractiveObject) objectLinker.getDetectableObject1()).actionGenuine();
+                        ((InteractiveObject) objectLinker.getDetectableObject2()).actionGenuine();
                     }catch (Exception e){
                         //Not interactiveObject
                     }

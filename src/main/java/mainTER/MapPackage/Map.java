@@ -59,6 +59,17 @@ public class Map {
         return mapFileReader;
     }
 
+    public void addCollisionObject(){
+        for (DetectableObject detectableObject : this.getReadFileMap().getDetectableObjectArrayList()){
+            pane.getChildren().add(detectableObject.getAppropriateNode());
+            objectLinkers.add(new ObjectLinker(detectableObject, null));
+            if(detectableObject instanceof Lever){
+                pane.getChildren().add(((Lever)detectableObject).getInteractiveObject().getAppropriateNode());
+            }
+        }
+//        System.out.println(this.getReadFileMap().getDetectableObjectArrayList().size());
+    }
+
     /**
      * Add all the Detectable object's nodes to the appropriate pane
      * @param bool

@@ -336,7 +336,7 @@ public class MenuItem extends StackPane {
         stackPane.getChildren().add(pane);
         Map map =  new Map(pane,mapName);
         map.displayMap();
-        map.addCollisionObjectNetwork(true);
+        map.addCollisionObject();
         ImageView background = map.getBackgroundImage();
         var ref = new Object() {
             int timeSeconds = 0;

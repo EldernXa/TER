@@ -22,7 +22,7 @@ public class ObjectLinker {
      * Get the first DetectableObject
      * @return
      */
-    public DetectableObject getCollideObject1() {
+    public DetectableObject getDetectableObject1() {
         return detectableObject1;
     }
 
@@ -30,7 +30,7 @@ public class ObjectLinker {
      * Get the second DetectableObject
      * @return
      */
-    public DetectableObject getCollideObject2() {
+    public DetectableObject getDetectableObject2() {
         return detectableObject2;
     }
 
