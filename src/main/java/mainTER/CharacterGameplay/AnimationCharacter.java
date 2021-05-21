@@ -54,6 +54,9 @@ public class AnimationCharacter {
     public double getHeightMotionless(){
         return listOfImageViewForTheAnimation.get(Position.MOTIONLESS.ordinal()).get(0).getImage().getHeight();
     }
+    public double getWidthMotionless(){
+        return listOfImageViewForTheAnimation.get(Position.MOTIONLESS.ordinal()).get(0).getImage().getWidth();
+    }
 
     public Position getCurrentPosition(){
         return Position.values()[posToAnimate];
@@ -99,6 +102,17 @@ public class AnimationCharacter {
             }
         }
         indImgToAnimate = (indImgToAnimate+1) % listOfImageViewForTheAnimation.get(posToAnimate).size();
+        return imgView;
+    }
+
+    public  ImageView testnextImg(){
+        int ind;
+        try {
+            ind = (indImgToAnimate) % listOfImageViewForTheAnimation.get(posToAnimate).size();
+        }catch(ArithmeticException arithmeticException){
+            ind = 0;
+        }
+        ImageView imgView = listOfImageViewForTheAnimation.get(posToAnimate).get(ind);
         return imgView;
     }
 
