@@ -46,12 +46,12 @@ public class EndObject extends InteractiveObject {
 
             if(isExist()){
 
-                detectableObject.setCoordinate(new Coordinate(-100,-100));
+
                 MenuItem.timeline.stop();
 
 
                 ((Stage) detectableObject.getAppropriateNode().getScene().getWindow()).close();
-
+                detectableObject.setCoordinate(new Coordinate(-100,-100));
 
                 if(Player.multi == null){
                     nameProfile = MenuItem.pseudo.getText();
