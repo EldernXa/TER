@@ -333,6 +333,37 @@ public class ActiveSkill implements Skill{
             }catch(Exception ignored){
 
             }
+            Thread thread = new Thread(()->{
+                try{
+                    threadIsRunning = true;
+                    TimeUnit.SECONDS.sleep((long) timeSkill);
+                    try {
+                        initAnimateForWalk(character);
+                        initAnimateForReverseWalk(character);
+                        initAnimateForMotionless(character);
+                        initAnimateForReverseMotionless(character);
+                    } catch (Exception ignored) {
+
+                    }
+                    isEnabled = false;
+                    threadIsRunning = false;
+                }catch(InterruptedException ignored){
+
+                }
+
+                Thread thread2 = new Thread(() -> {
+                    try {
+                        threadIsRunning = true;
+                        TimeUnit.SECONDS.sleep((long) timeCooldown);
+                        cooldownFinished = true;
+                        threadIsRunning = false;
+                    } catch (InterruptedException ignored) {
+
+                    }
+                });
+                thread2.start();
+            });
+            thread.start();
         }else{
             if(!threadIsRunning) {
                 isEnabled = false;
