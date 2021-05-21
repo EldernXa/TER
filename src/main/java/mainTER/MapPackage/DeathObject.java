@@ -29,9 +29,8 @@ public class DeathObject extends InteractiveObject {
             super.setCoordinate(new Coordinate(-100,-100));
 
         }
-
-
     }
+
     @Override
     public void actionTriggered() {
 
