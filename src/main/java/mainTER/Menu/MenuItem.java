@@ -31,6 +31,7 @@ import mainTER.LoadOfFXML;
 import mainTER.MapPackage.Map;
 import mainTER.Network.GameServer;
 import mainTER.Network.Player;
+import mainTER.Tools.Coordinate;
 import mainTER.Tools.DataInsert;
 import mainTER.exception.CheckpointsCharacterDoesntExistException;
 import mainTER.exception.CheckpointsMapDoesntExistException;
@@ -56,6 +57,7 @@ public class MenuItem extends StackPane {
     public static TextField pseudo;
     public static Label timerLabel = new Label();
     public static String mapName;
+    public static DisplayCharacter displayCharacter;
 
     public static Timeline timeline = new Timeline();
 
@@ -98,10 +100,10 @@ public class MenuItem extends StackPane {
            // Music.stopMusique();
 
             switch (name) {
-
+                case "BACK TO CHOICE OF MAP" :
+                    displayCharacter.setCoordinate(new Coordinate(0,0));
                 case "SINGLEPLAYER":
-                case "BACK TO CHOICE OF MAP" : {
-                     //Stage.getWindows().stream().filter(Window::isShowing).close();
+                {
                     stage.close();
                     Stage newStage = new Stage();
                     MenuLevel menuLevel = new MenuLevel(newStage);
@@ -371,7 +373,7 @@ public class MenuItem extends StackPane {
         stage.setResizable(false);
         stage.sizeToScene();
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        DisplayCharacter displayCharacter = new DisplayCharacter(scene, pane, mapName, listCharacter, stackPane, background,stage);
+        displayCharacter = new DisplayCharacter(scene, pane, mapName, listCharacter, stackPane, background,stage);
         displayCharacter.startDisplay();
         //Make the scene scale if the screen is larger
 

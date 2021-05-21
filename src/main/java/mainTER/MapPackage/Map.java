@@ -18,12 +18,13 @@ public class Map {
     private Pane pane;
     private ImageView backgroundImage;
     private String fileName;
-    public static ArrayList<ObjectLinker> objectLinkers = new ArrayList<>();
+    public static ArrayList<ObjectLinker> objectLinkers;
 
 
 
 
     public Map( Pane pane,String fileName) {
+        objectLinkers =  new ArrayList<>();
 
         this.pane = pane;
         String url = "./src/main/resources/mainTER/MapPackage/Files/";
