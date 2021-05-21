@@ -362,7 +362,7 @@ public abstract class DetectableObject {
                         objectLinker.getCollideObject1().interaction(this);
 
                         if(!(objectLinker.getCollideObject1() instanceof Point)) {
-//                        multiInteractions(objectLinker.getCollideObject1());
+                            multiInteractions(objectLinker.getCollideObject1());
                         }
 //                    System.out.println("distance between " + this + " and " + detectableObject2 + " = " + detectableObject2.downMvt(this));
 
