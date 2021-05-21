@@ -4,6 +4,9 @@ import javafx.scene.Node;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
 
+/**
+ * Create a Portcullis
+ */
 public class Portcullis extends InteractiveObject{
 
     boolean isOpen;
@@ -15,11 +18,17 @@ public class Portcullis extends InteractiveObject{
         this.name = name;
     }
 
+    /**
+     * Basic action of the Porcullis, here it doesn't do anything
+     */
     @Override
     public void actionGenuine() {
         System.out.println("Genuine");
     }
 
+    /**
+     * Activate the action triggered of portcullis, it opens or close it
+     */
     @Override
     public void actionTriggered() {
         if(!isOpen){
