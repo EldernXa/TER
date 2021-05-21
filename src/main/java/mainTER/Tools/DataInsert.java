@@ -11,19 +11,20 @@ public class DataInsert {
 
     public static void insertPerson() {
         PersonDBManager personDBManager = new PersonDBManager();
-        if(!personDBManager.verifyDBPersonExist()) {
+       // if(!personDBManager.verifyDBPersonExist()) {
+        personDBManager.removeTablePerson();
             personDBManager.createTablePerson();
             try {
-                personDBManager.insertIntoTablePerson("Paladin", 5, 20, 5, 5, true);
-                personDBManager.insertIntoTablePerson("Demon", 10, 5, 8, 2, true);
-                personDBManager.insertIntoTablePerson("Serpent", 8, 10, 0, 3, false);
-                personDBManager.insertIntoTablePerson("HommeDragon", 10, 5, 8, 2, true);
+                personDBManager.insertIntoTablePerson("Paladin", 15, 20, 12, 5, true);
+                personDBManager.insertIntoTablePerson("Demon", 25, 5,15 , 2, true);
+                personDBManager.insertIntoTablePerson("Serpent", 24, 10, 0, 3, false);
+                personDBManager.insertIntoTablePerson("HommeDragon", 20, 5, 8, 2, true);
             } catch (PersonDataAlreadyExistException personDataAlreadyExistException) {
                 System.out.println("Problème dans l'insertion des données des Personnages.");
             } catch (PersonDataNotCorrectException personDataDoesntCorrectException) {
                 System.out.println("Les données inséres ne sont pas correcte.");
             }
-        }
+        //}
     }
 
     public static void insertControls() {
@@ -68,7 +69,7 @@ public class DataInsert {
             mapDBManager.removeTableMap();
             mapDBManager.createTableMap();
             try {
-                mapDBManager.insertIntoTableMap("Forest", "Demon", 500, 600);
+                mapDBManager.insertIntoTableMap("Forest", "Demon", 10, 600);
                 mapDBManager.insertIntoTableMap("Castle", "Demon", 10, 2250);
                 mapDBManager.insertIntoTableMap("City", "Demon", 10, 4000);
             } catch (MapCharacterNotExistException | MapAlreadyExistException exception) {

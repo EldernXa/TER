@@ -238,7 +238,7 @@ public class ActiveSkill implements Skill{
                         e.printStackTrace();
                     }
 
-                    character.getCharacteristics().setSpeed(character.getSpeed() * 3);
+                    character.getCharacteristics().setSpeed(character.getSpeed() * 1.5);
                     try {
                         TimeUnit.SECONDS.sleep((long)timeSkill);
 
