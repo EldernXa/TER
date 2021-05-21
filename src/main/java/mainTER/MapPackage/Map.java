@@ -19,6 +19,7 @@ public class Map {
     private ImageView backgroundImage;
     private String fileName;
     public static ArrayList<ObjectLinker> objectLinkers;
+    public static double mapHeight;
 
 
 
@@ -32,7 +33,7 @@ public class Map {
 
         this.backgroundImage = new ImageView(new Image(new File("src/main/resources/mainTER/MapPackage/Sprites/Back/Background"+fileName +".png").toURI().toString()));
 
-
+        mapHeight = backgroundImage.getImage().getHeight();
 
         mapFileReader = new MapFileReader(url , fileName);
 

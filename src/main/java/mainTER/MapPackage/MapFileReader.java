@@ -33,7 +33,6 @@ public class MapFileReader {
 
             checkpointArrayList = new ArrayList<>();
             detectableObjectArrayList = new ArrayList<>();
-        System.out.println("aaad");
             this.pathName = pathName;
             Path path = Paths.get(url + pathName + ".txt");
             try {

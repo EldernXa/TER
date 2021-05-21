@@ -11,25 +11,25 @@ public class DataInsert {
 
     public static void insertPerson() {
         PersonDBManager personDBManager = new PersonDBManager();
-       // if(!personDBManager.verifyDBPersonExist()) {
+        // if(!personDBManager.verifyDBPersonExist()) {
         personDBManager.removeTablePerson();
-            personDBManager.createTablePerson();
-            try {
-                personDBManager.insertIntoTablePerson("Paladin", 15, 20, 12, 5, true);
-                personDBManager.insertIntoTablePerson("Demon", 25, 5,15 , 2, true);
-                personDBManager.insertIntoTablePerson("Serpent", 24, 10, 0, 3, false);
-                personDBManager.insertIntoTablePerson("HommeDragon", 20, 5, 8, 2, true);
-            } catch (PersonDataAlreadyExistException personDataAlreadyExistException) {
-                System.out.println("Problème dans l'insertion des données des Personnages.");
-            } catch (PersonDataNotCorrectException personDataDoesntCorrectException) {
-                System.out.println("Les données inséres ne sont pas correcte.");
-            }
+        personDBManager.createTablePerson();
+        try {
+            personDBManager.insertIntoTablePerson("Paladin", 10, 15, 12, 5, true);
+            personDBManager.insertIntoTablePerson("Demon", 19, 5, 12, 2, true);
+            personDBManager.insertIntoTablePerson("Serpent", 20, 10, 0, 3, false);
+            personDBManager.insertIntoTablePerson("HommeDragon", 15, 5, 8, 2, true);
+        } catch (PersonDataAlreadyExistException personDataAlreadyExistException) {
+            System.out.println("Problème dans l'insertion des données des Personnages.");
+        } catch (PersonDataNotCorrectException personDataDoesntCorrectException) {
+            System.out.println("Les données inséres ne sont pas correcte.");
+        }
         //}
     }
 
     public static void insertControls() {
         ControlsDBManager controlsDBManager = new ControlsDBManager();
-        if(!controlsDBManager.verifyTableControlsExist()) {
+        if (!controlsDBManager.verifyTableControlsExist()) {
             controlsDBManager.createTableControls();
             try {
                 controlsDBManager.insertIntoTableControls("d", "q", " ", "a", "e", "f");
@@ -41,7 +41,7 @@ public class DataInsert {
 
     public static void insertSkill() {
         SkillDBManager skillDBManager = new SkillDBManager();
-        if(!skillDBManager.verifyTableSkillExist()) {
+        if (!skillDBManager.verifyTableSkillExist()) {
             skillDBManager.createTableSkill();
             try {
                 skillDBManager.insertIntoTableSkill("SHIELD", "1", "Paladin", true, false, true,
@@ -54,8 +54,7 @@ public class DataInsert {
                         10, 3, "Increase the speed for a short time");
                 skillDBManager.insertIntoTableSkill("MOULT", "1", "Serpent", false, false, false,
                         10, 6, "Create a moult of himself. The moult is usable as a \nplatform for one time");
-                skillDBManager.insertIntoTableSkill("WALL_JUMP", "1", "HommeDragon", false, false, false,
-                        0, 0, "Will grab walls while jumping");
+
             } catch (SkillAlreadyExistException | SkillCtrlAlreadyUsedException | SkillDataNotCorrectException |
                     SkillCtrlAlreadyUsedByMovementControlException | SkillCharacterNotExistException exception) {
                 System.out.println(exception.getMessage());
@@ -66,21 +65,21 @@ public class DataInsert {
     public static void insertMap() {
         MapDBManager mapDBManager = new MapDBManager();
 //        if(!mapDBManager.verifyTableMapExist()) {
-            mapDBManager.removeTableMap();
-            mapDBManager.createTableMap();
-            try {
-                mapDBManager.insertIntoTableMap("Forest", "Demon", 10, 600);
-                mapDBManager.insertIntoTableMap("Castle", "Demon", 10, 2250);
-                mapDBManager.insertIntoTableMap("City", "Demon", 10, 4000);
-            } catch (MapCharacterNotExistException | MapAlreadyExistException exception) {
-                exception.printStackTrace();
-            }
+        mapDBManager.removeTableMap();
+        mapDBManager.createTableMap();
+        try {
+            mapDBManager.insertIntoTableMap("Forest", "Demon", 10, 600);
+            mapDBManager.insertIntoTableMap("Castle", "Demon", 10, 2250);
+            mapDBManager.insertIntoTableMap("City", "Demon", 10, 4000);
+        } catch (MapCharacterNotExistException | MapAlreadyExistException exception) {
+            exception.printStackTrace();
+        }
 //        }
     }
 
     public static void insetCheckpoints() {
         CheckpointsDBManager checkpointsDBManager = new CheckpointsDBManager();
-        if(!checkpointsDBManager.verifyTableCheckpointsExist()) {
+        if (!checkpointsDBManager.verifyTableCheckpointsExist()) {
             checkpointsDBManager.createTableCheckPoints();
 
             try {
@@ -93,7 +92,8 @@ public class DataInsert {
 
     public static void insertUpgradeSkillsValue() {
         UpgradeSkillDBManager upgradeSkillDBManager = new UpgradeSkillDBManager();
-        if(!upgradeSkillDBManager.verifyTableUpgradeSkillExist()) {
+        /*if (!upgradeSkillDBManager.verifyTableUpgradeSkillExist()) {*/
+            upgradeSkillDBManager.removeTableUpgradeSkill();
             upgradeSkillDBManager.createTableUpgradeSkill();
             SkillDBManager skillDBManager = new SkillDBManager();
 
@@ -110,14 +110,17 @@ public class DataInsert {
                 upgradeSkillDBManager.insertIntoTableUpgradeSkill("Paladin", 3, "Increase the duration",
                         skillDBManager.getTimeSkill("Paladin", 3), 1, "increase the barrier duration");
 
-                upgradeSkillDBManager.insertIntoTableUpgradeSkill("Paladin", 1, "Reduce the cooldown",
-                        skillDBManager.getTimeCooldown("Paladin", 1), 1, "reduce the barrier cooldown");
+
+                upgradeSkillDBManager.insertIntoTableUpgradeSkill("Serpent", 1, "Reduce the cooldown",
+                        skillDBManager.getTimeCooldown("Serpent", 1), 1, "reduce the barrier cooldown");
+                upgradeSkillDBManager.insertIntoTableUpgradeSkill("Serpent", 1, "Increase the duration",
+                        skillDBManager.getTimeCooldown("Serpent", 1), 1, "Increase the duration");
 
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        /*}*/
 
     }
 
