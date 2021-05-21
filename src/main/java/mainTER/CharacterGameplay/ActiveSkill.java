@@ -169,18 +169,17 @@ public class ActiveSkill implements Skill{
                     characterMovementAndDisplayManagement.getCoordinateOfTheActualImg().getY()
             );
             FirstMoultSerpent firstMoultSerpent = new FirstMoultSerpent(coordinateMoult, isReversed);
-            ObjectLinker objectLinkerFirst = new ObjectLinker(firstMoultSerpent, firstMoultSerpent.clone());
-            Map.objectLinkers.add(objectLinkerFirst);
+            ObjectLinker objectLinkerFirstForSerpent = new ObjectLinker(firstMoultSerpent, firstMoultSerpent.clone());
+            Map.objectLinkers.add(objectLinkerFirstForSerpent);
             characterMovementAndDisplayManagement.displayOtherNode((ImageView)firstMoultSerpent.getAppropriateNode(), coordinateMoult.getX(), coordinateMoult.getY());
             Thread t = new Thread(()->{
                 try {
                     TimeUnit.SECONDS.sleep(3);
-                }catch(Exception ignored){
-
+                } catch (InterruptedException ignored) {
                 }
                 Platform.runLater(()->{
                     characterMovementAndDisplayManagement.removeOtherNode((ImageView)firstMoultSerpent.getAppropriateNode());
-                    Map.objectLinkers.remove(objectLinkerFirst);
+                    Map.objectLinkers.remove(objectLinkerFirstForSerpent);
                     SecondMoultSerpent secondMoultSerpent = new SecondMoultSerpent(coordinateMoult, isReversed);
                     ObjectLinker objectLinkerSecond = new ObjectLinker(secondMoultSerpent, secondMoultSerpent.clone());
                     isEnabled = false;
@@ -225,33 +224,7 @@ public class ActiveSkill implements Skill{
             isEnabled = true;
             cooldownFinished = false;
             try {
-                Thread t = new Thread(() -> {
-                    try {
-                        changeAnimateForWalk(nameSkill, character);
-                        changeAnimateForReverseWalk(nameSkill, character);
-                    } catch (URISyntaxException e) {
-                        e.printStackTrace();
-                    }
-
-                    character.getCharacteristics().setSpeed(character.getSpeed() * 1.5);
-                    try {
-                        TimeUnit.SECONDS.sleep((long)timeSkill);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    try {
-                        initAnimateForWalk(character);
-                        initAnimateForReverseWalk(character);
-                    } catch (URISyntaxException e) {
-                        e.printStackTrace();
-                    }
-                    character.getCharacteristics().resetSpeed();
-                    isEnabled = false;
-                    runThreadForCooldown();
-                });
-                t.start();
+                threadForFlySkill();
             } catch (Exception ignored) {
             }
         } else {
@@ -267,6 +240,36 @@ public class ActiveSkill implements Skill{
                 runThreadForCooldown();
             }
         }
+    }
+
+    private void threadForFlySkill(){
+        Thread t = new Thread(()->{
+            try {
+                changeAnimateForWalk(nameSkill, character);
+                changeAnimateForReverseWalk(nameSkill, character);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+
+            character.getCharacteristics().setSpeed(character.getSpeed() * 1.5);
+            try {
+                TimeUnit.SECONDS.sleep((long)timeSkill);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                initAnimateForWalk(character);
+                initAnimateForReverseWalk(character);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            character.getCharacteristics().resetSpeed();
+            isEnabled = false;
+            runThreadForCooldown();
+        });
+        t.start();
     }
 
     private void shieldSkill(AnimationCharacter animationCharacter, CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement){
@@ -314,17 +317,14 @@ public class ActiveSkill implements Skill{
                 try{
                     threadIsRunning = true;
                     TimeUnit.SECONDS.sleep((long) timeSkill);
-                    try {
-                        initAnimateForWalk(character);
-                        initAnimateForReverseWalk(character);
-                        initAnimateForMotionless(character);
-                        initAnimateForReverseMotionless(character);
-                    } catch (Exception ignored) {
-
-                    }
+                    initAnimateForWalk(character);
+                    initAnimateForReverseWalk(character);
+                    initAnimateForMotionless(character);
+                    initAnimateForReverseMotionless(character);
+                    character.setCanDie(true);
                     isEnabled = false;
                     threadIsRunning = false;
-                }catch(InterruptedException ignored){
+                }catch(Exception ignored){
 
                 }
 
