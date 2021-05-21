@@ -369,7 +369,11 @@ public abstract class DetectableObject {
 
             for (ObjectLinker objectLinker : Map.objectLinkers) {
 
+                        if(this.getAppropriateNode().getBoundsInParent().getMaxY() >= Map.mapHeight){
 
+
+                            ((DisplayCharacter)this).death();
+                        }
 
 
                     if ((!this.equals(objectLinker.getCollideObject1()))&&(rect.intersects(objectLinker.getCollideObject1().getAppropriateNode().getBoundsInParent()))&&

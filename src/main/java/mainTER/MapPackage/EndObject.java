@@ -45,6 +45,8 @@ public class EndObject extends InteractiveObject {
         try {
 
             if(isExist()){
+
+                detectableObject.setCoordinate(new Coordinate(-100,-100));
                 MenuItem.timeline.stop();
 
 
@@ -61,7 +63,6 @@ public class EndObject extends InteractiveObject {
                     if(!profileDBManager.nameExist(nameProfile,mapName)){
                         profileDBManager.insertIntoTableProfile(nameProfile,time,mapName);
                     }else{
-                        System.out.println(time +" " + profileDBManager.getTime(nameProfile,mapName));
                         if(time< profileDBManager.getTime(nameProfile,mapName)){
                             profileDBManager.setTime(nameProfile,time,mapName);
                         }
@@ -77,7 +78,6 @@ public class EndObject extends InteractiveObject {
                         bestProfileDBManager.insertIntoTableBestProfile(nameProfile,time,mapName);
                     }
 
-                    detectableObject.setCoordinate(new Coordinate(0,0));
                     Stage stage = new Stage();
 
                     MenuProfile menuProfile = new MenuProfile(stage,nameProfile,time,mapName);

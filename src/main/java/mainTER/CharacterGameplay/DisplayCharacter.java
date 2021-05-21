@@ -368,7 +368,7 @@ public class DisplayCharacter extends CollideObject {
     private void moveWalkJumping() {
 
         animationForTheCharacter.setWalk();
-        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() + calcMvt(CommingFrom.LEFT));
+        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() + calcMvt(CommingFrom.LEFT)/2);
 
 
         doJump();
@@ -411,7 +411,8 @@ public class DisplayCharacter extends CollideObject {
         double height = character.getCharacteristics().getBestHeightOfAPosition(animationForTheCharacter.getCurrentPosition());
         ImageView imgView = animationForTheCharacter.nextImage();
         double newHeight = height - imgView.getImage().getHeight();
-        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + newHeight);
+        currentCoordinateOfTheCharacter.setY(currentCoordinateOfTheCharacter.getY() + newHeight-4);
+        calcMvt(CommingFrom.DOWN);
         characterMovementAndDisplayManagement.displayNode(imgView, currentCoordinateOfTheCharacter.getX(),
                 currentCoordinateOfTheCharacter.getY());
 
@@ -419,7 +420,8 @@ public class DisplayCharacter extends CollideObject {
 
     private void moveReverseWalkJumping() {
         animationForTheCharacter.setReverseWalk();
-        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - calcMvt(CommingFrom.RIGHT));
+        currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - calcMvt(CommingFrom.RIGHT)/2);
+
         doJump();
     }
 
@@ -438,6 +440,7 @@ public class DisplayCharacter extends CollideObject {
         double height = animationForTheCharacter.actualImg().getImage().getHeight();
         animationForTheCharacter.setReverseWalk();
         currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() - calcMvt(CommingFrom.RIGHT));
+
         adaptYToHeight(height);
     }
 
