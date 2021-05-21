@@ -372,45 +372,48 @@ public class ActiveSkill implements Skill{
                                    CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement, Coordinate c){
         animationCharacter.getTimeline().stop();
         animationCharacter.getTimeline().getKeyFrames().clear();
-        List<ImageView> finalListPersonalizedAnimate = listPersonalizedAnimate;
         AtomicInteger i = new AtomicInteger();
         animationCharacter.setCanMotionLess(false);
         animationCharacter.getTimeline().getKeyFrames().add(new KeyFrame(
                         Duration.millis(tpsDuration),
-                        tps -> {
-                            if (finalListPersonalizedAnimate != null) {
-                                if(i.get()<finalListPersonalizedAnimate.size()) {
-                                    characterMovementAndDisplayManagement.displayNode(finalListPersonalizedAnimate.get(i.getAndIncrement()),
-                                            c.getX(), c.getY());
-                                }else{
-                                    i.incrementAndGet();
-                                }
-                                if (i.get() > finalListPersonalizedAnimate.size()) {
-                                    animationCharacter.setCanMove(true);
-                                    animationCharacter.setCanMotionLess(true);
-                                    animationCharacter.setMotionless();
-                                    characterMovementAndDisplayManagement.displayNode(animationCharacter.nextImage(),
-                                            c.getX(), c.getY());
-                                    animationCharacter.getTimeline().stop();
-                                    animationCharacter.getTimeline().getKeyFrames().clear();
-                                    isEnabled = false;
-                                    if(!threadIsRunning) {
-                                        runThreadForCooldown();
-                                    }
-                                }
-                            } else {
-                                animationCharacter.setCanMove(true);
-                                animationCharacter.setCanMotionLess(true);
-                                isEnabled = false;
-                                if(!threadIsRunning) {
-                                    runThreadForCooldown();
-                                }
-                            }
-                        }
+                        tps -> insideTimelineForAttack(listPersonalizedAnimate, i, characterMovementAndDisplayManagement, c, animationCharacter)
                 )
         );
         animationCharacter.getTimeline().setCycleCount(Animation.INDEFINITE);
         animationCharacter.getTimeline().play();
+    }
+
+    private void insideTimelineForAttack(List<ImageView> listPersonalizedAnimate, AtomicInteger i,
+                                         CharacterMovementAndDisplayManagement characterMovementAndDisplayManagement, Coordinate c,
+                                         AnimationCharacter animationCharacter){
+        if (listPersonalizedAnimate != null) {
+            if(i.get()< listPersonalizedAnimate.size()) {
+                characterMovementAndDisplayManagement.displayNode(listPersonalizedAnimate.get(i.getAndIncrement()),
+                        c.getX(), c.getY());
+            }else{
+                i.incrementAndGet();
+            }
+            if (i.get() > listPersonalizedAnimate.size()) {
+                animationCharacter.setCanMove(true);
+                animationCharacter.setCanMotionLess(true);
+                animationCharacter.setMotionless();
+                characterMovementAndDisplayManagement.displayNode(animationCharacter.nextImage(),
+                        c.getX(), c.getY());
+                animationCharacter.getTimeline().stop();
+                animationCharacter.getTimeline().getKeyFrames().clear();
+                isEnabled = false;
+                if(!threadIsRunning) {
+                    runThreadForCooldown();
+                }
+            }
+        } else {
+            animationCharacter.setCanMove(true);
+            animationCharacter.setCanMotionLess(true);
+            isEnabled = false;
+            if(!threadIsRunning) {
+                runThreadForCooldown();
+            }
+        }
     }
 
     private List<ImageView> listPersonalizedAnimate(boolean isReverse) throws URISyntaxException{
@@ -421,7 +424,7 @@ public class ActiveSkill implements Skill{
         else
             replace = "reverse"+nameSkill.toLowerCase();
         URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/"+nameCharacter+"/"+replace);
-        File file = Paths.get(url.toURI()).toFile();
+        File file = Paths.get(Objects.requireNonNull(url).toURI()).toFile();
         if(file.exists() && file.isDirectory()){
             for(File fileForOneSprite : Objects.requireNonNull(file.listFiles())){
                 listPersonalizedAnimate.add(new ImageView(new Image(fileForOneSprite.toURI().toString())));
@@ -435,7 +438,7 @@ public class ActiveSkill implements Skill{
     private static void changeAnimate(String replace, Position pos, Character character) throws URISyntaxException {
         URL url = ActiveSkill.class.getResource("/mainTER/CharacterGameplay/images/"+character.getName()+"/"+replace.replace("_mode",""));
 
-        File file = Paths.get(url.toURI()).toFile();
+        File file = Paths.get(Objects.requireNonNull(url).toURI()).toFile();
         if(file.exists() && file.isDirectory()){
             character.getCharacteristics().getListOfPictureOfTheCharacter().get(pos.ordinal()).clear();
             for(File fileForOneSprite : Objects.requireNonNull(file.listFiles())){
