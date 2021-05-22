@@ -1,12 +1,9 @@
 package mainTER.MapPackage;
 
 import javafx.scene.Node;
-import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.DBManage.CheckpointsDBManager;
 import mainTER.Tools.Coordinate;
 import mainTER.Tools.ImageViewSizePos;
-import mainTER.exception.CheckpointsCharacterDoesntExistException;
-import mainTER.exception.CheckpointsMapDoesntExistException;
 
 /**
  * Create a checkpoint item that will be placed on the map
@@ -17,7 +14,6 @@ public class Checkpoint extends UnCollideObject {
     private final ImageViewSizePos activatedImage;
     private final ImageViewSizePos currentImage;
     private final String mapName;
-    private CheckpointsDBManager checkpointsDBManager;
     static public Coordinate lastCheckpointCoord;
 
     public Checkpoint(Coordinate coordinate, String mapName) {
@@ -40,14 +36,7 @@ public class Checkpoint extends UnCollideObject {
 
 
         effect();
-/*            for (Checkpoint checkpoint : MapFileReader.checkpointArrayList){
 
-                if(this.coordinate.getX() != checkpoint.getX() || this.coordinate.getY() != checkpoint.getY() ){
-
-                    checkpoint.setImage(defaultImage);
-
-                }q
-            }*/
 
         for (ObjectLinker objectLinker : Map.objectLinkers) {
             if (objectLinker.getDetectableObject1() instanceof Checkpoint) {
@@ -56,12 +45,13 @@ public class Checkpoint extends UnCollideObject {
                 }
                 else {
                     ((Checkpoint)objectLinker.getDetectableObject1()).setImage(defaultImage);
-                    ((Checkpoint)objectLinker.getDetectableObject2()).setImage(defaultImage);
+                    if(((Checkpoint)objectLinker.getDetectableObject2())!= null){
+
+                        ((Checkpoint)objectLinker.getDetectableObject2()).setImage(defaultImage);
+                    }
                 }
             }
         }
-
-        //setImage(activatedImage);
 
 
     }
