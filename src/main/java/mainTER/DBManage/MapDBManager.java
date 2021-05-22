@@ -60,6 +60,10 @@ public class MapDBManager {
         dbManager.createTable("Map", listName, 1, listSize);
     }
 
+    /**
+     * verify if the table map exist already.
+     * @return true if the table map exist, false otherwise.
+     */
     public boolean verifyTableMapExist(){
         ResultSet resultSet = dbManager.selectIntoTable("SELECT * FROM Map");
         try{
