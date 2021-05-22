@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when we insert a data into checkpoint and the map given doesn't exist.
+ */
 public class CheckpointsMapDoesntExistException extends Exception{
 
     private final String message;
