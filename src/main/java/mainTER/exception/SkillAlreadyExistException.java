@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when the data for the skill we want to insert already exist.
+ */
 public class SkillAlreadyExistException extends Exception{
 
     private final String message;
