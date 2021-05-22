@@ -51,6 +51,8 @@ public class DisplayCharacter extends CollideObject {
     private double tempNewHeigt;
     KeyHandler keyHandler;
 
+    ControlsDBManager controlsDBManager = new ControlsDBManager();
+
     /**
      * @param scene scene of the game.
      * @param pane  is the level of the game.
@@ -132,7 +134,6 @@ public class DisplayCharacter extends CollideObject {
         initialCoordinateOfTheMap =coordinate;
         initCoord =  new Coordinate(coordinate.getX(), coordinate.getY());
         animationForTheCharacter = new AnimationCharacter(character);
-        ControlsDBManager controlsDBManager = new ControlsDBManager();
         camera = null;
 
         left = "";
@@ -562,7 +563,12 @@ public class DisplayCharacter extends CollideObject {
     }
 
     private void eventForRightMovement(KeyEvent eventForPressedKey) {
-        KeyCode keyCode = KeyCode.getKeyCode(right);
+        KeyCode keyCode = null;
+        try {
+            keyCode = KeyCode.getKeyCode(controlsDBManager.getRight().toUpperCase());
+        } catch (ControlsDataGetException e) {
+            e.printStackTrace();
+        }
 
         if (eventForPressedKey.getCode() == keyCode && !listCurrentKeyCode.contains(keyCode)) {
             walkToRight = true;
@@ -572,7 +578,12 @@ public class DisplayCharacter extends CollideObject {
     }
 
     private void eventForLeftMovement(KeyEvent eventForPressedKey) {
-        KeyCode keyCode = KeyCode.getKeyCode(left);
+        KeyCode keyCode = null;
+        try {
+            keyCode = KeyCode.getKeyCode(controlsDBManager.getLeft().toUpperCase());
+        } catch (ControlsDataGetException e) {
+            e.printStackTrace();
+        }
         if (eventForPressedKey.getCode() == keyCode && !listCurrentKeyCode.contains(keyCode)) {
             walkToRight = false;
             listCurrentKeyCode.add(keyCode);
@@ -581,7 +592,12 @@ public class DisplayCharacter extends CollideObject {
     }
 
     private void eventForJumpMovement(KeyEvent eventForPressedKey) {
-        KeyCode keyCode = KeyCode.getKeyCode(jump);
+        KeyCode keyCode = null;
+        try {
+            keyCode = KeyCode.getKeyCode(controlsDBManager.getJump());
+        } catch (ControlsDataGetException e) {
+            e.printStackTrace();
+        }
         if (jump.equals(" ")) {
             keyCode = KeyCode.SPACE;
         }
@@ -597,7 +613,12 @@ public class DisplayCharacter extends CollideObject {
     }
 
     private void eventForAction(KeyEvent eventForPressedKey) {
-        KeyCode keyCode = KeyCode.getKeyCode(action);
+        KeyCode keyCode = null;
+        try {
+            keyCode = KeyCode.getKeyCode(action = controlsDBManager.getAction().toUpperCase());
+        } catch (ControlsDataGetException e) {
+            e.printStackTrace();
+        }
         if (eventForPressedKey.getCode() == keyCode && !listCurrentKeyCode.contains(keyCode)) {
             listCurrentKeyCode.add(keyCode);
 //            System.out.println("Action F");
