@@ -506,6 +506,12 @@ public class ActiveSkill implements Skill{
         }
     }
 
+    /**
+     *
+     * @param isReverse if the character is reverted or not.
+     * @return a list of imageview for animation.
+     * @throws URISyntaxException if the path doesn't exist.
+     */
     private List<ImageView> listPersonalizedAnimate(boolean isReverse) throws URISyntaxException{
         ArrayList<ImageView> listPersonalizedAnimate = new ArrayList<>();
         final String replace;
@@ -525,6 +531,13 @@ public class ActiveSkill implements Skill{
         return listPersonalizedAnimate;
     }
 
+    /**
+     * change animation for a character
+     * @param replace a string who contains the name of the new animation.
+     * @param pos the position we want to change.
+     * @param character the character we want to change animation.
+     * @throws URISyntaxException if the path doesn't exist.
+     */
     private static void changeAnimate(String replace, Position pos, Character character) throws URISyntaxException {
         URL url = ActiveSkill.class.getResource("/mainTER/CharacterGameplay/images/"+character.getName()+"/"+replace.replace("_mode",""));
 
@@ -539,46 +552,88 @@ public class ActiveSkill implements Skill{
 
     /*** CHANGE ***/
 
+    /**
+     * Change animation for position walk.
+     * @param nameSkill for getting the right folder.
+     * @param character the character we want to change animation.
+     * @throws URISyntaxException if the path doesn't exist.
+     */
     private static void changeAnimateForWalk(String nameSkill, Character character) throws URISyntaxException {
         final String replace = nameSkill.toLowerCase()+Position.WALK.toString().toLowerCase().replace("_", "");
         changeAnimate(replace, Position.WALK, character);
     }
 
+    /**
+     * Change animation for position reverse walk.
+     * @param nameSkill for getting the right folder.
+     * @param character the character we want to change animation.
+     * @throws URISyntaxException if the path doesn't exist.
+     */
     private static void changeAnimateForReverseWalk(String nameSkill, Character character) throws URISyntaxException{
         final String replace = nameSkill.toLowerCase()+Position.REVERSE_WALK.toString().toLowerCase().replace("_", "");
         changeAnimate(replace, Position.REVERSE_WALK, character);
 
     }
 
+    /**
+     * Change animation for position motionless.
+     * @param nameSkill for getting the right folder.
+     * @param character the character we want to change animation.
+     * @throws URISyntaxException if the path doesn't exist.
+     */
     private static void changeAnimateForMotionless(String nameSkill, Character character) throws URISyntaxException {
         final String replace = nameSkill.toLowerCase() + Position.MOTIONLESS.toString().toLowerCase().replace("_", "");
         changeAnimate(replace, Position.MOTIONLESS, character);
 
     }
 
-
+    /**
+     * Change animation for position reverse motionless.
+     * @param nameSkill for getting the right folder.
+     * @param character the character we want to change animation.
+     * @throws URISyntaxException if the path doesn't exist.
+     */
     private static void changeAnimateForReverseMotionless(String nameSkill, Character character) throws URISyntaxException {
         final String replace = nameSkill.toLowerCase() + Position.REVERSE_MOTIONLESS.toString().toLowerCase().replace("_", "");
         changeAnimate(replace, Position.REVERSE_MOTIONLESS, character);
 
     }
 
-    /*** INIT ***/
+    /**
+     * Initialise animation for position walk.
+     * @param character the character we want to change animation.
+     * @throws URISyntaxException if the path doesn't exist.
+     */
     private static void initAnimateForWalk(Character character) throws URISyntaxException {
         final String replace = Position.WALK.toString().toLowerCase().replace("_", "");
         changeAnimate(replace, Position.WALK, character);
     }
 
+    /**
+     * Initialise animation for position reverse walk.
+     * @param character the character we want to change animation.
+     * @throws URISyntaxException if the path doesn't exist.
+     */
     private static void initAnimateForReverseWalk(Character character) throws URISyntaxException {
         final String replace = Position.REVERSE_WALK.toString().toLowerCase().replace("_", "");
         changeAnimate(replace, Position.REVERSE_WALK, character);
     }
 
+    /**
+     * Initialise animation for position motionless.
+     * @param character the character we want to change animation.
+     * @throws URISyntaxException if the path doesn't exist.
+     */
     private static void initAnimateForMotionless(Character character) throws URISyntaxException {
         final String replace = Position.MOTIONLESS.toString().toLowerCase().replace("_", "");
         changeAnimate(replace, Position.MOTIONLESS, character);
     }
 
+    /**
+     * Initialise animation for position reverse motionless.
+     * @param character the character we want to change animation.
+     * @throws URISyntaxException if the path doesn't exist.
+     */
     private static void initAnimateForReverseMotionless(Character character) throws URISyntaxException {
         final String replace = Position.REVERSE_MOTIONLESS.toString().toLowerCase().replace("_", "");
         changeAnimate(replace, Position.REVERSE_MOTIONLESS, character);
