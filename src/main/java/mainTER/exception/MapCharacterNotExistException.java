@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when we try to insert data into a map and the character given doesn't exist.
+ */
 public class MapCharacterNotExistException extends Exception{
 
     private final String message;
