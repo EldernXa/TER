@@ -605,16 +605,34 @@ public class DisplayCharacter extends CollideObject {
             for (ObjectLinker objectLinker : Map.objectLinkers) {
                 if (objectLinker.getDetectableObject1().getAppropriateNode().getBoundsInParent().intersects(this.getAppropriateNode().getBoundsInParent())) {
                     try {
+                        System.out.println("cas1");
                         ((InteractiveObject) objectLinker.getDetectableObject1()).actionGenuine();
                         ((InteractiveObject) objectLinker.getDetectableObject2()).actionGenuine();
+                        System.out.println("Action de " + objectLinker.getDetectableObject1());
+                        if (objectLinker.getDetectableObject1() instanceof Lever){
+                            System.out.println("Action également de " + ((Lever)objectLinker.getDetectableObject1()).getInteractiveObject());
+                        }
+                        System.out.println("Action de " + objectLinker.getDetectableObject2());
+                        if (objectLinker.getDetectableObject2() instanceof Lever){
+                            System.out.println("Action également de " + ((Lever)objectLinker.getDetectableObject2()).getInteractiveObject());
+                        }
                     } catch (Exception e) {
                         //Not interactiveObject
                     }
                 }
                 else if((objectLinker.getDetectableObject2()!= null)&&(objectLinker.getDetectableObject2().getAppropriateNode().getBoundsInParent().intersects(this.getAppropriateNode().getBoundsInParent()))){
                     try{
+                        System.out.println("cas2");
                         ((InteractiveObject) objectLinker.getDetectableObject1()).actionGenuine();
                         ((InteractiveObject) objectLinker.getDetectableObject2()).actionGenuine();
+                        System.out.println("Action de " + objectLinker.getDetectableObject1());
+                        if (objectLinker.getDetectableObject1() instanceof Lever){
+                            System.out.println("Action également de " + ((Lever)objectLinker.getDetectableObject1()).getInteractiveObject());
+                        }
+                        System.out.println("Action de " + objectLinker.getDetectableObject2());
+                        if (objectLinker.getDetectableObject2() instanceof Lever){
+                            System.out.println("Action également de " + ((Lever)objectLinker.getDetectableObject2()).getInteractiveObject());
+                        }
                     }catch (Exception e){
                         //Not interactiveObject
                     }

@@ -29,6 +29,7 @@ import mainTER.CharacterGameplay.DisplayCharacter;
 import mainTER.DBManage.*;
 import mainTER.LoadOfFXML;
 import mainTER.MapPackage.Map;
+import mainTER.MapPackage.MapFileReader;
 import mainTER.Network.GameServer;
 import mainTER.Network.Player;
 import mainTER.Tools.Coordinate;
@@ -60,6 +61,8 @@ public class MenuItem extends StackPane {
     public static DisplayCharacter displayCharacter;
 
     public static Timeline timeline = new Timeline();
+
+    public static MapFileReader mapFileReader;
 
     /**
      * Constructor to create items
@@ -186,6 +189,7 @@ public class MenuItem extends StackPane {
                     Thread t = new Thread(gs);
                     t.start();
                     Player p = new Player();
+                    System.out.println("fini P1");
                     p.connectToServer(newStage, pane,listCharacter,"localhost");
                     newStage.show();
                     newStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
@@ -309,7 +313,9 @@ public class MenuItem extends StackPane {
     public void setButton(Button button,Stage newStage,Pane pane,TextField addr){
         button.setOnMouseClicked(mouseEvent->{
             pane.getChildren().clear();
+            System.out.println("Commence P2");
             Player p = new Player();
+            System.out.println("Fini P2");
             p.connectToServer(newStage, pane,listCharacter,addr.getText());
             newStage.show();
 

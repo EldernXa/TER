@@ -39,6 +39,15 @@ public class Map {
 
     }
 
+    public Map( Pane pane,String fileName, MapFileReader mapFileReader) {
+        objectLinkers =  new ArrayList<>();
+        this.pane = pane;
+        this.fileName = fileName;
+        this.backgroundImage = new ImageView(new Image(new File("src/main/resources/mainTER/MapPackage/Sprites/Back/Background"+fileName +".png").toURI().toString()));
+        mapHeight = backgroundImage.getImage().getHeight();
+        this.mapFileReader = mapFileReader;
+    }
+
     /**
      * Set the map background
      */
@@ -59,6 +68,9 @@ public class Map {
         return mapFileReader;
     }
 
+    /**
+     * Add all the Detectable object's nodes to the solo pane
+     */
     public void addCollisionObject(){
         for (DetectableObject detectableObject : this.getReadFileMap().getDetectableObjectArrayList()){
             pane.getChildren().add(detectableObject.getAppropriateNode());
@@ -76,28 +88,33 @@ public class Map {
      * @param bool
      */
     public void addCollisionObjectNetwork(boolean bool){
+        System.out.println("Size " + getReadFileMap().getDetectableObjectArrayList().size()) ;
         Iterator<DetectableObject> list = this.getReadFileMap().getDetectableObjectArrayList().iterator();
         while (list.hasNext()) {
             DetectableObject detectableObject = list.next();
-            DetectableObject detectableObject2 = detectableObject.clone();
-            objectLinkers.add(new ObjectLinker(detectableObject, detectableObject2));
-            if(detectableObject instanceof Lever){
-                ((Lever)detectableObject2).setInteractiveObject(((Lever)detectableObject).getInteractiveObject().clone());
-                objectLinkers.add(new ObjectLinker(((Lever)detectableObject).getInteractiveObject(),((Lever)detectableObject2).getInteractiveObject()));
-            }
             //TODO finir ça
             if(bool){
                 pane.getChildren().add(detectableObject.getAppropriateNode());
                 if(detectableObject instanceof Lever){
+                    System.out.println("Ajout de " + detectableObject + " dans la liste");
                     pane.getChildren().add(((Lever)detectableObject).getInteractiveObject().getAppropriateNode());
                 }
             }
             else {
+                DetectableObject detectableObject2 = detectableObject.clone();
+                objectLinkers.add(new ObjectLinker(detectableObject, detectableObject2));
                 pane.getChildren().add(detectableObject2.getAppropriateNode());
+
                 if(detectableObject instanceof Lever){
-                    pane.getChildren().add(((Lever)detectableObject2).getInteractiveObject().getAppropriateNode());                }
+                    System.out.println("liste 2 " + detectableObject);
+                    ((Lever) detectableObject2).setInteractiveObject(((Lever) detectableObject).getInteractiveObject().clone());
+                    objectLinkers.add(new ObjectLinker(((Lever) detectableObject).getInteractiveObject(), ((Lever) detectableObject2).getInteractiveObject()));
+                    pane.getChildren().add(((Lever)detectableObject2).getInteractiveObject().getAppropriateNode());
+                }
+
             }
         }
+        System.out.println("Obj Linker size " + objectLinkers.size());
     }
 
     /**
