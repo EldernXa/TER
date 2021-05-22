@@ -250,7 +250,7 @@ public class UpgradeSkillMenu {
     }
 
     /**
-     * Funtion that swap characters with a key pressed.
+     * Swap characters with a key pressed.
      */
     public void changePerso() {
 

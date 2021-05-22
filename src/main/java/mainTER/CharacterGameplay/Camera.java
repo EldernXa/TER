@@ -2,15 +2,17 @@ package mainTER.CharacterGameplay;
 
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.*;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import mainTER.MapPackage.SwitchCharacter;
 
 import static mainTER.Menu.MenuItem.timerLabel;
 
+/**
+ * Create a camera that follow the displayCharacter
+ */
 public class Camera {
     private Scene scene;
     private javafx.scene.Camera camera;
@@ -31,25 +33,23 @@ public class Camera {
         this.scalingValue = scalingValue;
         this.background = background;
         this.stage = stage;
-
-
-
-
         camera = new PerspectiveCamera();
         scene.setCamera(camera);
         moveCamera();
     }
 
-
+    /**
+     * Move the camera if no key is pressed
+     */
     public void moveOnlyCamera() {
         if (!isActivated) {
             coordCamera();
         }
-
-
     }
 
-
+    /**
+     * Move the camera on key pressed
+     */
     private void moveCamera() {
 
         initTranslateCamera();
@@ -64,6 +64,9 @@ public class Camera {
 
     }
 
+    /**
+     * Initiate the camera on the Character
+     */
     private void initTranslateCamera() {
 
         camera.translateXProperty().set(displayCharacter.getCurrentCoordinateOfTheCharacter().getX() * scalingValue - Screen.getPrimary().getBounds().getWidth() / 2);
@@ -101,7 +104,9 @@ public class Camera {
 
     }
 
-
+    /**
+     * Move the camera, the timer and the characters icons
+     */
     private void coordCamera() {
 
         double xCamera = camera.getTranslateX();

@@ -330,7 +330,6 @@ public abstract class DetectableObject {
 
 
                             this.setY( objectLinker.detectableObject1.getAppropriateNode().getBoundsInParent().getMaxY() +5 );
-                            //verifTrackUp();
                         }
                     }
 
@@ -371,7 +370,6 @@ public abstract class DetectableObject {
                         calc = true;
                         objectLinker.getDetectableObject1().interaction(this);
                         multiInteractions(objectLinker.getDetectableObject1());
-//                    System.out.println("distance between " + this + " and " + detectableObject2 + " = " + detectableObject2.downMvt(this));
 
                         if ((objectLinker.getDetectableObject1().downMvt(this) < miniDownMvt)  ) {
 
@@ -387,6 +385,12 @@ public abstract class DetectableObject {
         }
         return this.getFallMouvementSpan();
     }
+
+    /**
+     * Check if their is a collision between the class object and the list of collide.
+     * @param commingFrom
+     * @return the distance between the two objects
+     */
     public double check(String commingFrom) {
 
         double value = 10000;
@@ -436,7 +440,6 @@ public abstract class DetectableObject {
             if ((objectLinker.getDetectableObject2() != null)){
                 if (objectLinker.getDetectableObject1().equals(detectableObject)) {
                     objectLinker.detectableObject2.interaction(this);
-//                System.out.println("I touched " + objectLinker.getDetectableObject1());
                 } else if (objectLinker.getDetectableObject2().equals(detectableObject)) {
                     objectLinker.detectableObject1.interaction(this);
 
@@ -448,7 +451,5 @@ public abstract class DetectableObject {
         }
     }
 
-    /*private int objectOneOrTwo(){
 
-    }*/
 }

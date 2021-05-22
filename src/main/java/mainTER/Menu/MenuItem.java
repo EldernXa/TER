@@ -322,7 +322,10 @@ public class MenuItem extends StackPane {
         });
     }
 
-
+    /**
+     * Create the map with all items on it
+     * @param mapName Name of the map.
+     */
     public void createLvl(String mapName) {
 
         CheckpointsDBManager checkpointsDBManager = new CheckpointsDBManager();
@@ -381,7 +384,6 @@ public class MenuItem extends StackPane {
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         displayCharacter = new DisplayCharacter(scene, pane, mapName, listCharacter, stackPane, background,stage);
         displayCharacter.startDisplay();
-        //Make the scene scale if the screen is larger
 
         stage.setScene(scene);
         stage.centerOnScreen();

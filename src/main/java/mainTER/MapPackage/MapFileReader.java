@@ -174,22 +174,16 @@ public class MapFileReader {
                             case "metalDoor":
                             case "pont3":
                             case "blockDisapear2":
-//                                HideOnActionObject hideOnActionObject = new HideOnActionObject(new Coordinate(doubles[3], doubles[4]), line[2], (int)doubles[5]);
                                 detectableObjectArrayList.add(new Lever(new HideOnActionObject(new Coordinate(doubles[3], doubles[4]), line[2], (int)doubles[5]), new Coordinate(doubles[0], doubles[1])));
-//                                detectableObjectArrayList.add(hideOnActionObject);
                                 break;
 
                             case "forgottensword":
-//                                EndObject endObject = new EndObject(line[2], new Coordinate(doubles[3], doubles[4]),false);
                                 detectableObjectArrayList.add(new Lever(new EndObject(line[2], new Coordinate(doubles[3], doubles[4]),false), new Coordinate(doubles[0], doubles[1])));
-//                                detectableObjectArrayList.add(endObject);
                                 break;
 
                             case "eau1" :
                             case "spikesRet" :
-//                                DeathObject deathObject = new DeathObject(line[2], new Coordinate(doubles[3], doubles[4]),false);
                                 detectableObjectArrayList.add(new Lever(new DeathObject(line[2], new Coordinate(doubles[3], doubles[4]),false), new Coordinate(doubles[0], doubles[1])));
-//                                detectableObjectArrayList.add(deathObject);
                                 break;
 
                         }

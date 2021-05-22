@@ -10,6 +10,9 @@ import mainTER.Tools.ImageViewSizePos;
 import mainTER.exception.CheckpointsCharacterDoesntExistException;
 import mainTER.exception.CheckpointsMapDoesntExistException;
 
+/**
+ * Create a collecatable Point object
+ */
 public class Point extends UnCollideObject{
 
     private final Coordinate coordinate;
@@ -46,7 +49,7 @@ public class Point extends UnCollideObject{
     }
 
     /**
-     * Setup the checkpointsDBManager
+     * Setup the pointsDBManager
      */
 
     public void effect() {
