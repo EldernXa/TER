@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when the data request for the table UpgradeSkill doesn't exist.
+ */
 public class UpgradeSkillDataGetException extends Exception{
 
     private final String message;
