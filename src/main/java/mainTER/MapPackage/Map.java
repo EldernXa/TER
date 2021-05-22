@@ -89,7 +89,6 @@ public class Map {
      * @param bool
      */
     public void addCollisionObjectNetwork(boolean bool){
-        System.out.println("Size " + getReadFileMap().getDetectableObjectArrayList().size()) ;
         Iterator<DetectableObject> list = this.getReadFileMap().getDetectableObjectArrayList().iterator();
         while (list.hasNext()) {
             DetectableObject detectableObject = list.next();
@@ -106,14 +105,12 @@ public class Map {
 
                 if(detectableObject instanceof Lever){
                     ((Lever) detectableObject2).setInteractiveObject(((Lever) detectableObject).getInteractiveObject().clone());
-                    System.out.println("Interactif = " + ((Lever) detectableObject2).getInteractiveObject());
                     objectLinkers.add(new ObjectLinker(((Lever) detectableObject).getInteractiveObject(), ((Lever) detectableObject2).getInteractiveObject()));
                     pane.getChildren().add(((Lever)detectableObject2).getInteractiveObject().getAppropriateNode());
                 }
 
             }
         }
-        System.out.println("Obj Linker size " + objectLinkers.size());
     }
 
     /**

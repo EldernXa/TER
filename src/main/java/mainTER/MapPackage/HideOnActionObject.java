@@ -20,7 +20,6 @@ public class HideOnActionObject extends InteractiveObject{
         this.imageView = new ImageViewSizePos("/mainTER/MapPackage/Objects/"+name +".png", coordinate);
         this.isOpen = isOpen;
         this.name = name;
-        System.out.println("Coordonnées = " + coordinate);
         this.coordinate = coordinate;
 
         if (isOpen==0){
@@ -39,10 +38,6 @@ public class HideOnActionObject extends InteractiveObject{
      */
     @Override
     public void actionTriggered() {
-        System.out.println("ACTION !!" + this);
-        System.out.println(this.name);
-        System.out.println(isOpen);
-        System.out.println(coordinate);
         if(isOpen==0){
             this.getImageView().setImage(imageView.getImageView().getImage());
             this.setCoordinate(coordinate);

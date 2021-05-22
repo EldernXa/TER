@@ -189,7 +189,6 @@ public class MenuItem extends StackPane {
                     Thread t = new Thread(gs);
                     t.start();
                     Player p = new Player();
-                    System.out.println("fini P1");
                     p.connectToServer(newStage, pane,listCharacter,"localhost");
                     newStage.show();
                     newStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
@@ -313,9 +312,7 @@ public class MenuItem extends StackPane {
     public void setButton(Button button,Stage newStage,Pane pane,TextField addr){
         button.setOnMouseClicked(mouseEvent->{
             pane.getChildren().clear();
-            System.out.println("Commence P2");
             Player p = new Player();
-            System.out.println("Fini P2");
             p.connectToServer(newStage, pane,listCharacter,addr.getText());
             newStage.show();
 

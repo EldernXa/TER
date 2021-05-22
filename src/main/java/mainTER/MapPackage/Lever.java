@@ -91,7 +91,6 @@ public class Lever extends InteractiveObject{
      */
     @Override
     public void actionGenuine() {
-        System.out.println("Action levier declenche " + getInteractiveObject());
         if (this.getImageView().getImage().getUrl().contains("lever_left")){
             this.getImageView().setImage(new Image(new File("./src/main/resources/mainTER/MapPackage/Objects/lever_right.png").toURI().toString()));
             interactiveObject.actionTriggered();
