@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when the key control we want to insert in the table Skill are already used.
+ */
 public class SkillCtrlAlreadyUsedException extends Exception{
 
     private final String message;
