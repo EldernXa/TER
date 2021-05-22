@@ -49,6 +49,10 @@ public class PersonDBManager {
 
      }
 
+    /**
+     * verify if the table Person exist.
+     * @return true if the table Person exist, false otherwise.
+     */
      public boolean verifyDBPersonExist(){
          ResultSet resultSet = dbManager.selectIntoTable("Select * FROM " + NAME_TABLE);
          try{
@@ -119,6 +123,12 @@ public class PersonDBManager {
         return listCharacter.contains(nameCharacter);
     }
 
+    /**
+     * get an instance of character depending on the name of the character.
+     * @param nameCharacter the name of the character.
+     * @return an instance of character.
+     * @throws PersonDataGetException if we cannot get values from table Person.
+     */
     public Character getCharacter(String nameCharacter) throws PersonDataGetException{
         if(isCharacterExist(nameCharacter))
             return new Character(nameCharacter);
@@ -242,6 +252,12 @@ public class PersonDBManager {
         }
     }
 
+    /**
+     * return an array of the different values of a character depending on the name.
+     * @param nameCharacter name of the character.
+     * @return an array of the different values of a character.
+     * @throws SQLException if we cannot get values from the tables.
+     */
     public List<String> toArray(String nameCharacter) throws  SQLException {
         ArrayList<String> result = new ArrayList<>();
         ResultSet rs = selectIntoTablePerson(nameCharacter);
