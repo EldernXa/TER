@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when the character given doesn't exist when inserting for skill.
+ */
 public class SkillCharacterNotExistException extends Exception{
 
     private final String message;
