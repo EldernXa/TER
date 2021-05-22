@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when the data requested for map doesn't exist.
+ */
 public class MapDataGetException extends Exception{
 
     private final String message;
