@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when the directory for a position doesn't exist.
+ */
 public class PositionDirectoryDoesntExist extends Exception{
 
     private final String message;
