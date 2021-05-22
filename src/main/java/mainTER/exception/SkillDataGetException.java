@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when the data requested for the table Skill doesn't exist.
+ */
 public class SkillDataGetException extends Exception{
 
     private final String message;
