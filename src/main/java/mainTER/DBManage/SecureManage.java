@@ -15,6 +15,11 @@ public class SecureManage {
 
     }
 
+    /**
+     * Encrypt a string.
+     * @param textToEncrypt text we want to encrypt.
+     * @return a string who is encrypted.
+     */
     protected static String getEncrypted(String textToEncrypt){
         try {
             Cipher cipher = Cipher.getInstance("AES");
@@ -31,6 +36,11 @@ public class SecureManage {
         return "";
     }
 
+    /**
+     * Decrypt a string.
+     * @param textToDecrypt text we want to decrypt.
+     * @return a string who is decrypted.
+     */
     protected static String getDecrypted(String textToDecrypt){
         try {
             Cipher cipher = Cipher.getInstance("AES");
