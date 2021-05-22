@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when the table Controls is empty.
+ */
 public class ControlsDataGetException extends Exception {
 
     private final String message;
