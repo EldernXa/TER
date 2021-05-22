@@ -104,10 +104,26 @@ public class SkillDBManager {
     public String getNameSkill(String nameCharacter, int numSkill) throws SkillDataGetException {
         return gettingData(nameCharacter, numSkill, NAME_ATTRIBUTE_FOR_NAME_SKILL);
     }
+
+    /**
+     * Get the description of a skill with the name of the character and the skill number.
+     * @param nameCharacter the name of the character.
+     * @param numSkill the skill number we want to get the description.
+     * @return the description of a skill with the name of the character and the skill number.
+     * @throws SkillDataGetException when the skill asked doesn't exist.
+     */
     public String getDescription(String nameCharacter,int numSkill) throws SkillDataGetException {
         return gettingData(nameCharacter,numSkill,NAME_ATTRIBUTE_FOR_DESCRIPTION_OF_SKILL);
     }
 
+    /**
+     * Get different values from databases.
+     * @param nameCharacter the name of the character.
+     * @param numSkill the num of skill.
+     * @param valueToGet the name of the attribute we want to get.
+     * @return get a value from databases.
+     * @throws SkillDataGetException when the skill asked doesn't exist.
+     */
     private String returnFromDatabases(String nameCharacter, int numSkill, String valueToGet) throws SkillDataGetException{
         ArrayList<String> listNameLine = new ArrayList<>();
         ArrayList<Object> listRealValueOfLine = new ArrayList<>();
@@ -132,11 +148,25 @@ public class SkillDBManager {
         return returnFromDatabases(nameCharacter, numSkill, valueToGet);
     }
 
+    /**
+     * Get the timeCooldown of a skill with the name of the character and the skill number.
+     * @param nameCharacter the name of the character.
+     * @param numSkill the skill number we want to get the timeCooldown.
+     * @return the timeCooldown of a skill with the name of the character and the skill number.
+     * @throws SkillDataGetException when the skill asked doesn't exist.
+     */
     public float getTimeCooldown(String nameCharacter, int numSkill) throws SkillDataGetException{
         return Float.parseFloat(returnFromDatabases(nameCharacter, numSkill, NAME_ATTRIBUTE_FOR_TIME_COOLDOWN));
 
     }
 
+    /**
+     * Get the timeSkill of a skill with the name of the character and the skill number.
+     * @param nameCharacter the name of the character.
+     * @param numSkill the skill number we want to get the timeSkill.
+     * @return the timeSkill of a skill with the name of the character and the skill number.
+     * @throws SkillDataGetException when the skill asked doesn't exist.
+     */
     public float getTimeSkill(String nameCharacter, int numSkill) throws SkillDataGetException{
         return Float.parseFloat(returnFromDatabases(nameCharacter, numSkill, NAME_ATTRIBUTE_FOR_TIME_SKILL));
     }
@@ -196,6 +226,10 @@ public class SkillDBManager {
         }
     }
 
+    /**
+     * verify it table skill exist.
+     * @return true if table skill exist, false otherwise.
+     */
     public boolean verifyTableSkillExist(){
         ResultSet resultSet = dbManager.selectIntoTable("SELECT * FROM " + NAME_TABLE);
 
@@ -211,6 +245,11 @@ public class SkillDBManager {
         return false;
     }
 
+    /**
+     * verify if a ctrl is not used by the movement.
+     * @param ctrlKey the ctrl key we want to verify.
+     * @throws SkillCtrlAlreadyUsedByMovementControlException if the ctrl is already used by a movement.
+     */
     private void verifyCtrlNotUsedByControlMovement(String ctrlKey) throws SkillCtrlAlreadyUsedByMovementControlException{
         ControlsDBManager controlsDBManager;
         if(isForTest){
@@ -228,6 +267,11 @@ public class SkillDBManager {
         }
     }
 
+    /**
+     * verify if a character exist.
+     * @param nameCharacter the name of the character.
+     * @throws SkillCharacterNotExistException if the character doesn't exist.
+     */
     private void verifyCharacterExist(String nameCharacter) throws SkillCharacterNotExistException {
         PersonDBManager personDBManager;
         if(isForTest){
@@ -347,14 +391,33 @@ public class SkillDBManager {
 
     }
 
+    /**
+     * Update table for timeCooldown.
+     * @param nameCharacter the name of the character we want to change timeCooldown.
+     * @param nameSkill the name of the skill we want to change timeCooldown.
+     * @param newTimeCooldown the new timeCooldown.
+     */
     public void modifyTimeCooldown(String nameCharacter, String nameSkill, float newTimeCooldown){
         update(nameCharacter, nameSkill, NAME_ATTRIBUTE_FOR_TIME_COOLDOWN, newTimeCooldown);
     }
 
+    /**
+     * Update table for timeSkill.
+     * @param nameCharacter the name of the character we want to change timeSkill.
+     * @param nameSkill the name of the skill we want to change timeSkill.
+     * @param newTimeSkill the new timeSkill.
+     */
     public void modifyTimeSkill(String nameCharacter, String nameSkill, float newTimeSkill){
         update(nameCharacter, nameSkill, NAME_ATTRIBUTE_FOR_TIME_SKILL, newTimeSkill);
     }
 
+    /**
+     * Update generally for the table Skill.
+     * @param nameCharacter the name of the character we want to update.
+     * @param nameSkill the name of the skill we want to update.
+     * @param valToModify the name of the attribute we want to update.
+     * @param newValue the new value we want to change.
+     */
     private void update(String nameCharacter, String nameSkill, String valToModify, Object newValue){
         ArrayList<String> listNameLine = new ArrayList<>();
         ArrayList<Object> listRealValueOfLine = new ArrayList<>();
