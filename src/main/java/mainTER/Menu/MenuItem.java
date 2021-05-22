@@ -75,6 +75,7 @@ public class MenuItem extends StackPane {
         this.stage = stage;
         LoadOfFXML.loadFXML("/mainTER/Menu/FXML/MenuItem.fxml", this, this);
         textMenu.setText(name);
+        textMenu.setFill(Color.WHITE);
         PersonDBManager personDBManager = new PersonDBManager();
         listCharacter = new ArrayList<>();
         try {
@@ -83,6 +84,7 @@ public class MenuItem extends StackPane {
             exception.printStackTrace();
         }
         setUpMouse(name);
+
 
 
 
@@ -293,14 +295,15 @@ public class MenuItem extends StackPane {
                 new Stop(0.9, Color.BLACK),
                 new Stop(1, Color.DARKVIOLET));
 
+
         setOnMouseEntered(event -> {
             rectangleText.setFill(gradient);
-            textMenu.setFill(Color.WHITE);
+            textMenu.setFill(Color.LIGHTGRAY);
         });
 
         setOnMouseExited(event -> {
             rectangleText.setFill(Color.BLACK);
-            textMenu.setFill(Color.DARKGREY);
+            textMenu.setFill(Color.WHITE);
         });
 
         clickOn( name);
