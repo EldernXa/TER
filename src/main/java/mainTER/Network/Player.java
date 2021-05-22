@@ -18,7 +18,9 @@ import mainTER.CharacterGameplay.Character;
 import mainTER.DBManage.CheckpointsDBManager;
 import mainTER.DBManage.MapDBManager;
 import mainTER.MapPackage.Map;
+import mainTER.MapPackage.MapFileReader;
 import mainTER.MapPackage.SwitchCharacter;
+import mainTER.Menu.MenuItem;
 import mainTER.exception.CheckpointsCharacterDoesntExistException;
 import mainTER.exception.CheckpointsMapDoesntExistException;
 import mainTER.exception.MapDataGetException;
@@ -124,6 +126,7 @@ public class Player {
                         confirmButton.setDisable(false);
                 });
             }
+
             pane.getChildren().add(confirmButton);
             confirmButton.setTranslateX(300);
 
@@ -238,6 +241,8 @@ public class Player {
         confirmMap.setTranslateY(200);
 
         confirmMap.setOnMouseClicked(mouseEvent -> {
+
+            MenuItem.mapFileReader = new MapFileReader("./src/main/resources/mainTER/MapPackage/Files/",nameOfMap);
             confirmMap.setDisable(true);
 
             finito = true;
@@ -414,7 +419,10 @@ public class Player {
                     if(playerID == 1){
                         Platform.runLater(()-> button.setDisable(false));
                     }
-                    map = new Map(pane1,nameOfMap);
+
+                    System.out.println("Null ? " + MenuItem.mapFileReader);
+                    map = new Map(pane1,nameOfMap,MenuItem.mapFileReader);
+
                     ImageView background = map.getBackgroundImage();
 
 
@@ -503,6 +511,4 @@ public class Player {
 
         }
     }
-
-
 }
