@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when the inserting data for the table Character aren't correct.
+ */
 public class PersonDataNotCorrectException extends Exception{
 
     private final String message;
