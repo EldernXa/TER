@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when the data we want to insert for the table Character already exist.
+ */
 public class PersonDataAlreadyExistException extends Exception{
 
     private final String message;
