@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when the data requires for the table BestProfile doesn't exist.
+ */
 public class BestProfileDataGetException extends Exception{
 
     private final String message;
