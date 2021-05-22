@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when the folder for the images of the character doesn't exist.
+ */
 public class CharacterImageFileDoesntExist extends Exception{
 
     private final String message;
