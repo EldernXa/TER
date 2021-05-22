@@ -10,10 +10,12 @@ import mainTER.Tools.ImageViewSizePos;
 public abstract class InteractiveObject extends DetectableObject {
 
     private Coordinate coordinate;
+    private final Coordinate baseCoordinate;
     private final ImageViewSizePos imageViewSizePos;
 
     public InteractiveObject(Coordinate coordinate, ImageViewSizePos imageViewSizePos) {
         this.imageViewSizePos = imageViewSizePos;
+        this.baseCoordinate = coordinate;
         this.setCoordinate(coordinate);
     }
 
@@ -81,5 +83,9 @@ public abstract class InteractiveObject extends DetectableObject {
     @Override
     public double getHeight() {
         return this.imageViewSizePos.getImageView().getImage().getWidth();
+    }
+
+    public Coordinate getBaseCoordinate() {
+        return baseCoordinate;
     }
 }

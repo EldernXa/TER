@@ -48,7 +48,7 @@ public class Portcullis extends InteractiveObject{
 
     @Override
     public Portcullis clone() {
-        return new Portcullis(new Coordinate(this.getX(),this.getY()),name);
+        return new Portcullis(new Coordinate(super.getBaseCoordinate().getX(),super.getBaseCoordinate().getY()),name);
     }
 
     @Override

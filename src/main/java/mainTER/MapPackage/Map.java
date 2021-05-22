@@ -1,5 +1,6 @@
 package mainTER.MapPackage;
 
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -92,11 +93,9 @@ public class Map {
         Iterator<DetectableObject> list = this.getReadFileMap().getDetectableObjectArrayList().iterator();
         while (list.hasNext()) {
             DetectableObject detectableObject = list.next();
-            //TODO finir ça
             if(bool){
                 pane.getChildren().add(detectableObject.getAppropriateNode());
                 if(detectableObject instanceof Lever){
-                    System.out.println("Ajout de " + detectableObject + " dans la liste");
                     pane.getChildren().add(((Lever)detectableObject).getInteractiveObject().getAppropriateNode());
                 }
             }
@@ -106,8 +105,8 @@ public class Map {
                 pane.getChildren().add(detectableObject2.getAppropriateNode());
 
                 if(detectableObject instanceof Lever){
-                    System.out.println("liste 2 " + detectableObject);
                     ((Lever) detectableObject2).setInteractiveObject(((Lever) detectableObject).getInteractiveObject().clone());
+                    System.out.println("Interactif = " + ((Lever) detectableObject2).getInteractiveObject());
                     objectLinkers.add(new ObjectLinker(((Lever) detectableObject).getInteractiveObject(), ((Lever) detectableObject2).getInteractiveObject()));
                     pane.getChildren().add(((Lever)detectableObject2).getInteractiveObject().getAppropriateNode());
                 }

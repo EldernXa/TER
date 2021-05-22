@@ -124,7 +124,7 @@ public class EndObject extends InteractiveObject {
 
     @Override
     public EndObject clone() {
-        return new EndObject(name,new Coordinate(this.getX(),this.getY()),this.isExist());
+        return new EndObject(name,new Coordinate(super.getBaseCoordinate().getX(),super.getBaseCoordinate().getY()),this.isExist());
     }
 
     @Override

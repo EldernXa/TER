@@ -42,7 +42,7 @@ public class Lever extends InteractiveObject{
 
     @Override
     public Lever clone() {
-        return new Lever(null, new Coordinate(this.getX(),this.getY()));
+        return new Lever(null, new Coordinate(super.getBaseCoordinate().getX(),super.getBaseCoordinate().getY()));
     }
 
     @Override
@@ -91,6 +91,7 @@ public class Lever extends InteractiveObject{
      */
     @Override
     public void actionGenuine() {
+        System.out.println("Action levier declenche " + getInteractiveObject());
         if (this.getImageView().getImage().getUrl().contains("lever_left")){
             this.getImageView().setImage(new Image(new File("./src/main/resources/mainTER/MapPackage/Objects/lever_right.png").toURI().toString()));
             interactiveObject.actionTriggered();

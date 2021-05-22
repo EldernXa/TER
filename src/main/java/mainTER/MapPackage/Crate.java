@@ -49,7 +49,7 @@ public class Crate extends InteractiveObject {
      */
     @Override
     public Crate clone() {
-        return new Crate(new Coordinate(this.getX(),this.getY()),name);
+        return new Crate(new Coordinate(super.getBaseCoordinate().getX(),super.getBaseCoordinate().getY()),name);
     }
 
     /**

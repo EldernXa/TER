@@ -69,7 +69,7 @@ public class DeathObject extends InteractiveObject {
 
     @Override
     public DeathObject clone() {
-        return new DeathObject(pathName,new Coordinate(this.getX(),this.getY()),this.isExist());
+        return new DeathObject(pathName,new Coordinate(super.getBaseCoordinate().getX(),super.getBaseCoordinate().getY()),this.isExist());
     }
 
     @Override
