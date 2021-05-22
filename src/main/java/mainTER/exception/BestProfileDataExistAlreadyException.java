@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when the data for the table BestProfile exist already.
+ */
 public class BestProfileDataExistAlreadyException extends Exception{
 
     private final String message;
