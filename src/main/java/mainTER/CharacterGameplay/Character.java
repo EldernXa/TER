@@ -27,6 +27,10 @@ public class Character {
 
     // TODO Put error on graphics interface.
 
+    /**
+     * Constructor for creating a new character.
+     * @param name the name of the character we want to create (the name must be in the databases).
+     */
     public Character(String name) {
         listSkill = new ArrayList<>();
         this.name = name;
@@ -37,6 +41,10 @@ public class Character {
         initListSkill();
     }
 
+    /**
+     * Initialise characteristics for a character thanks to databases.
+     * @return the characteristics for a character.
+     */
     private Characteristics initCharacterWithDatabase(){
         Characteristics characteristicsToReturn = null;
         PersonDBManager personDBManager = new PersonDBManager();
@@ -50,14 +58,26 @@ public class Character {
         return characteristicsToReturn;
     }
 
+    /**
+     *
+     * @return true if the character can die, false otherwise.
+     */
     public boolean canDie(){
         return canDie;
     }
 
+    /**
+     * set if the character can die or not.
+     * @param canDie if the character can die or not.
+     */
     public void setCanDie(boolean canDie){
         this.canDie = canDie;
     }
 
+    /**
+     *
+     * @return true if we can change character (if skill are not used), false otherwise.
+     */
     public boolean canChangeCharacter(){
         for(Skill skill : listSkill){
             if(skill.getClass() == ActiveSkill.class && ((ActiveSkill) skill).isEnabled()){
@@ -67,10 +87,17 @@ public class Character {
         return true;
     }
 
+    /**
+     *
+     * @return characteristics of the character.
+     */
     public Characteristics getCharacteristics(){
         return characteristics;
     }
 
+    /**
+     * Initialise all the skill of a character.
+     */
     private void initListSkill(){
         int nbActiveSkill = 1;
         SkillDBManager skillDBManager = new SkillDBManager();
@@ -93,10 +120,17 @@ public class Character {
         }
     }
 
+    /**
+     *
+     * @return a list containing all skill of a character.
+     */
     public List<Skill> getListSkill(){
         return listSkill;
     }
 
+    /**
+     * Initialise the list containing all image for the animation purpose.
+     */
     private void initListAnimate(){
         for(int i=0; i<Position.values().length; i++){
             characteristics.getListOfPictureOfTheCharacter().add(new ArrayList<>());
@@ -110,10 +144,10 @@ public class Character {
                 final String replace = pos.toString().toLowerCase().replace("_", "");
                 URL url = this.getClass().getResource("/mainTER/CharacterGameplay/images/" + name + "/" + replace);
                 if(pos != Position.JUMP && pos != Position.REVERSE_JUMP) {
-                    extractImgFromPos(pos, replace, url);
+                    extractImgFromPos(pos, replace, Objects.requireNonNull(url));
                 }
                 if((pos==Position.JUMP || pos==Position.REVERSE_JUMP) && canJump()){
-                    extractImgFromPos(pos, replace, url);
+                    extractImgFromPos(pos, replace, Objects.requireNonNull(url));
                 }
             }
         }catch(URISyntaxException uriSyntaxException){
@@ -125,6 +159,14 @@ public class Character {
         }
     }
 
+    /**
+     * Getting all image for a position.
+     * @param pos the position we want the image.
+     * @param replace the name of the folder.
+     * @param url the path of the images.
+     * @throws URISyntaxException if the path doesn't exist.
+     * @throws PositionDirectoryDoesntExist if the directory for this position doesn't exist.
+     */
     private void extractImgFromPos(Position pos, String replace, URL url) throws URISyntaxException, PositionDirectoryDoesntExist {
         File file = Paths.get(url.toURI()).toFile();
         if (file.exists() && file.isDirectory()) {
@@ -138,31 +180,58 @@ public class Character {
         }
     }
 
+    /**
+     * get the name of the character.
+     * @return the name of the character.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * get the speed of the character.
+     * @return the speed of the character.
+     */
     public double getSpeed(){
         return characteristics.getSpeed();
     }
 
+    /**
+     * get the weight of the character.
+     * @return the weight of the character.
+     */
     public double getWeight(){
         return characteristics.getWeight();
     }
 
+    /**
+     * get the jump strength of the character.
+     * @return the jump strength of the character.
+     */
     public double getJumpStrength(){
         return characteristics.getJumpStrength();
     }
 
+    /**
+     * if the character can jump or not.
+     * @return true if the character can jump, false otherwise.
+     */
     public boolean canJump(){
         return characteristics.canJump();
     }
 
+    /**
+     * get a list containing all image for animation purpose.
+     * @return a list containing all image for animation purpose.
+     */
     public List<ArrayList<ImageView>> getListOfPictureOfTheCharacter(){
         return characteristics.getListOfPictureOfTheCharacter();
     }
 
-
+    /**
+     * get a logo for a character.
+     * @return a logo for a character.
+     */
     public ImageViewSizePos getLogo() {
         return logo;
     }
