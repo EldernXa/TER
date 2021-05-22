@@ -1,6 +1,7 @@
 package mainTER.MapPackage;
 
 import javafx.scene.image.Image;
+import mainTER.DBManage.CheckpointsDBManager;
 import mainTER.DBManage.PointsUpgradeDBManager;
 import mainTER.Network.GameServer;
 import mainTER.Network.Player;
@@ -33,6 +34,9 @@ public class MapFileReader {
 
             checkpointArrayList = new ArrayList<>();
             detectableObjectArrayList = new ArrayList<>();
+            CheckpointsDBManager checkpointsDBManager = new CheckpointsDBManager();
+            Checkpoint.lastCheckpointCoord = new Coordinate(checkpointsDBManager.getX(),checkpointsDBManager.getY());
+
             this.pathName = pathName;
             Path path = Paths.get(url + pathName + ".txt");
             try {

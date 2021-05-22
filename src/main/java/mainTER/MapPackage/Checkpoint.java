@@ -18,38 +18,50 @@ public class Checkpoint extends UnCollideObject {
     private final ImageViewSizePos currentImage;
     private final String mapName;
     private CheckpointsDBManager checkpointsDBManager;
-    static private boolean isActivated;
+    static public Coordinate lastCheckpointCoord;
 
-    public Checkpoint( Coordinate coordinate, String mapName) {
+    public Checkpoint(Coordinate coordinate, String mapName) {
 
         this.coordinate = coordinate;
         this.mapName = mapName;
 
         this.defaultImage = new ImageViewSizePos("/mainTER/MapPackage/Objects/checkpointDefault.png", coordinate);
         this.activatedImage = new ImageViewSizePos("/mainTER/MapPackage/Objects/checkpointActivated.png", coordinate);
-        this.currentImage = new ImageViewSizePos(defaultImage.getPathImage(),defaultImage.getCoordinate());
-        checkpointsDBManager = new CheckpointsDBManager();
+        this.currentImage = new ImageViewSizePos(defaultImage.getPathImage(), defaultImage.getCoordinate());
 
 
     }
 
     /**
-     *  Create the interaction on contact.
+     * Create the interaction on contact.
      */
     @Override
     public void interaction(DetectableObject detectableObject) {
 
-        if(checkpointsDBManager.getX() != getX() || checkpointsDBManager.getY() != getY()){
-            effect((DisplayCharacter) detectableObject);
-            for (Checkpoint checkpoint : MapFileReader.checkpointArrayList){
-                if(!this.equals(checkpoint)){
+
+        effect();
+/*            for (Checkpoint checkpoint : MapFileReader.checkpointArrayList){
+
+                if(this.coordinate.getX() != checkpoint.getX() || this.coordinate.getY() != checkpoint.getY() ){
+
                     checkpoint.setImage(defaultImage);
+
+                }q
+            }*/
+
+        for (ObjectLinker objectLinker : Map.objectLinkers) {
+            if (objectLinker.getDetectableObject1() instanceof Checkpoint) {
+                if (this == objectLinker.getDetectableObject1() || this == objectLinker.getDetectableObject2()) {
+                    setImage(activatedImage);
+                }
+                else {
+                    ((Checkpoint)objectLinker.getDetectableObject1()).setImage(defaultImage);
+                    ((Checkpoint)objectLinker.getDetectableObject2()).setImage(defaultImage);
                 }
             }
-            setImage(activatedImage);
-
-
         }
+
+        //setImage(activatedImage);
 
 
     }
@@ -58,28 +70,20 @@ public class Checkpoint extends UnCollideObject {
      * Setup the checkpointsDBManager
      */
 
-    public void effect(DisplayCharacter displayCharacter) {
+    public void effect() {
 
 
-
-            checkpointsDBManager.setX(getX());
-            checkpointsDBManager.setY(getY());
-            try {
-                checkpointsDBManager.setMapName(mapName);
-                checkpointsDBManager.setCharacterName(displayCharacter.getCharacter().getName());
-            } catch (CheckpointsCharacterDoesntExistException | CheckpointsMapDoesntExistException e) {
-                e.printStackTrace();
-            }
-
-
+        lastCheckpointCoord.setX(getX());
+        lastCheckpointCoord.setY(getY());
 
 
     }
 
 
-    public void setImage(ImageViewSizePos imageViewSizePos){
+    public void setImage(ImageViewSizePos imageViewSizePos) {
         currentImage.getImageView().setImage(imageViewSizePos.getImageView().getImage());
     }
+
     @Override
     public Node getAppropriateNode() {
         return currentImage.getImageView();
@@ -87,7 +91,7 @@ public class Checkpoint extends UnCollideObject {
 
     @Override
     public DetectableObject clone() {
-        return new Checkpoint(new Coordinate(this.getX(),this.getY()),mapName);
+        return new Checkpoint(new Coordinate(this.getX(), this.getY()), mapName);
     }
 
     @Override
