@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when the inserting data for checkpoint aren't correct.
+ */
 public class CheckpointsDataNotCorrectException extends Exception{
 
     private final String message;
