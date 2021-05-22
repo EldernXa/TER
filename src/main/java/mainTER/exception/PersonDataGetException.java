@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when the data requested doesn't exist.
+ */
 public class PersonDataGetException extends Exception{
 
     private final String message;
