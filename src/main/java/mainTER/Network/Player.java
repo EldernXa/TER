@@ -420,7 +420,6 @@ public class Player {
                         Platform.runLater(()-> button.setDisable(false));
                     }
 
-                    System.out.println("Null ? " + MenuItem.mapFileReader);
                     map = new Map(pane1,nameOfMap,MenuItem.mapFileReader);
 
                     ImageView background = map.getBackgroundImage();
