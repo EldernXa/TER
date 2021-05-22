@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when the data for the checkpoint already exist.
+ */
 public class CheckpointsDataAlreadyExistException extends Exception{
 
     private final String message;
