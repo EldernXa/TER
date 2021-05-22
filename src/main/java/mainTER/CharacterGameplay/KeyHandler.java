@@ -209,6 +209,8 @@ public class KeyHandler {
                     stagep.close();
             });
 
+        }else if(event2.getCode() == KeyCode.SHIFT){
+            displayCharacter.death();
         }
     }
 
