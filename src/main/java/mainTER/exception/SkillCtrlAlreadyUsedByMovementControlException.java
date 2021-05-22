@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when the key control we try to insert in the table Skill are already used by the movement.
+ */
 public class SkillCtrlAlreadyUsedByMovementControlException extends Exception{
 
     private final String message;
