@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when the data we want to insert for control already exist.
+ */
 public class ControlsDataAlreadyExistsException extends Exception{
     private final String message;
 
