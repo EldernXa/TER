@@ -9,14 +9,24 @@ public class UpgradeCharacteristicsDBManager {
 
     private final DBManager dbManager;
 
+    /**
+     * Constructor for the application.
+     */
     public UpgradeCharacteristicsDBManager(){
         this.dbManager = new DBManager();
     }
 
+    /**
+     * Constructor for the test purpose.
+     * @param nameDatabase the name of the databases.
+     */
     public UpgradeCharacteristicsDBManager(String nameDatabase){
         this.dbManager = new DBManager(nameDatabase, "test");
     }
 
+    /**
+     * Create table for UpgradeCharacteristics.
+     */
     public void createTableUpgradeCharacteristics(){
         dbManager.createTableOrInsert("CREATE TABLE UpgradeCharacteristics (" +
                 "nameCharacter VARCHAR(40)," +
@@ -29,6 +39,14 @@ public class UpgradeCharacteristicsDBManager {
                 ");");
     }
 
+    /**
+     * insert values into the table UpgradeCharacteristics.
+     * @param nameCharacter the name of the character.
+     * @param nameUpgrade the name of the upgrade.
+     * @param newValue the new values.
+     * @param price the price for the upgrade.
+     * @param description the description for the upgrade.
+     */
     public void insertIntoTableUpgradeCharacteristics(String nameCharacter, String nameUpgrade, float newValue, int price, String description){
         String reqValues = "INSERT INTO UpgradeCharacteristics VALUES ('" +
                 SecureManage.getEncrypted(nameCharacter) + "','" +
@@ -41,6 +59,11 @@ public class UpgradeCharacteristicsDBManager {
         dbManager.createTableOrInsert(reqValues);
     }
 
+    /**
+     * Get list upgrade for a character.
+     * @param nameCharacter a name of a character.
+     * @return a list of upgrade for a character.
+     */
     public List<String> getListUpgrade(String nameCharacter){
         ArrayList<String> listUpgrade = new ArrayList<>();
         ResultSet resultSet = selectIntoTable(nameCharacter);
@@ -54,6 +77,12 @@ public class UpgradeCharacteristicsDBManager {
         return listUpgrade;
     }
 
+    /**
+     * Get description for a character and the name of the upgrade.
+     * @param nameCharacter the name of a character.
+     * @param nameUpgrade the name of an upgrade.
+     * @return the description for an upgrade.
+     */
     public String getDescription(String nameCharacter, String nameUpgrade){
         ResultSet resultSet = selectIntoTable(nameCharacter);
         try{
@@ -69,6 +98,12 @@ public class UpgradeCharacteristicsDBManager {
         return null;
     }
 
+    /**
+     * Get the Price for an upgrade.
+     * @param nameCharacter the name of a character.
+     * @param nameUpgrade the name of an upgrade.
+     * @return the price for an upgrade.
+     */
     public int getPrice(String nameCharacter, String nameUpgrade){
         ResultSet resultSet = selectIntoTable(nameCharacter);
         try{
@@ -84,6 +119,11 @@ public class UpgradeCharacteristicsDBManager {
         return -1;
     }
 
+    /**
+     * set an upgrade is done.
+     * @param nameCharacter the name of a character.
+     * @param nameUpgrade the name of an upgrade.
+     */
     public void setUpgradeDone(String nameCharacter, String nameUpgrade){
         String request = "UPDATE UpgradeCharacteristics SET isAlreadyLearned = '" + SecureManage.getEncrypted("true")+"'" +
                 " WHERE nameCharacter = '" + SecureManage.getEncrypted(nameCharacter) + "'" +
@@ -91,6 +131,12 @@ public class UpgradeCharacteristicsDBManager {
         dbManager.updateTable(request);
     }
 
+    /**
+     * get if the upgrade is already learned.
+     * @param nameCharacter the name of the character.
+     * @param nameUpgrade the name of the upgrade.
+     * @return true if the upgrade is already learned, false otherwise.
+     */
     public boolean getIsAlreadyLearned(String nameCharacter, String nameUpgrade){
         ResultSet resultSet = selectIntoTable(nameCharacter);
         try{
@@ -106,6 +152,12 @@ public class UpgradeCharacteristicsDBManager {
         return false;
     }
 
+    /**
+     * Get the new value of the upgrade.
+     * @param nameCharacter the name of the character.
+     * @param nameUpgrade the name of the upgrade.
+     * @return the new value of the upgrade.
+     */
     public float getNewValue(String nameCharacter, String nameUpgrade){
         ResultSet resultSet = selectIntoTable(nameCharacter);
         try{
@@ -121,6 +173,11 @@ public class UpgradeCharacteristicsDBManager {
         return -1;
     }
 
+    /**
+     * do a select request for the table UpgradeCharacteristics.
+     * @param nameCharacter the name of a character.
+     * @return a select request for the table UpgradeCharacteristics.
+     */
     private ResultSet selectIntoTable(String nameCharacter){
         ResultSet resultSet;
         resultSet = dbManager.selectIntoTable("SELECT * From UpgradeCharacteristics WHERE nameCharacter = '"+
@@ -128,10 +185,16 @@ public class UpgradeCharacteristicsDBManager {
         return resultSet;
     }
 
+    /**
+     * Delete the table UpgradeCharacteristics.
+     */
     public void deleteTableCharacteristics(){
         dbManager.dropTable("UpgradeCharacteristics");
     }
 
+    /**
+     * Drop cascade.
+     */
     public void dropCascade(){
         dbManager.dropCascade();
     }
