@@ -364,19 +364,24 @@ public abstract class DetectableObject {
                             ((DisplayCharacter)this).death();
                         }
 
+                        if (rect.intersects(objectLinker.getDetectableObject1().getAppropriateNode().getBoundsInParent())) {
 
-                    if ((!this.equals(objectLinker.getDetectableObject1()))&&(rect.intersects(objectLinker.getDetectableObject1().getAppropriateNode().getBoundsInParent()))&&
-                            (objectLinker.getDetectableObject1().leftMvt(this) != 0 && objectLinker.getDetectableObject1().rightMvt(this) != 0)) {
-                        calc = true;
-                        objectLinker.getDetectableObject1().interaction(this);
-                        multiInteractions(objectLinker.getDetectableObject1());
+                            if ((objectLinker.getDetectableObject1() instanceof UnCollideObject) || (objectLinker.getDetectableObject1() instanceof Lever)) {
+                                objectLinker.getDetectableObject1().interaction(this);
+                            }
 
-                        if ((objectLinker.getDetectableObject1().downMvt(this) < miniDownMvt)  ) {
+                            else if ((!this.equals(objectLinker.getDetectableObject1()))&&(objectLinker.getDetectableObject1().leftMvt(this) != 0 && objectLinker.getDetectableObject1().rightMvt(this) != 0)) {
+                                calc = true;
+                                objectLinker.getDetectableObject1().interaction(this);
+                                multiInteractions(objectLinker.getDetectableObject1());
 
-                            miniDownMvt = objectLinker.getDetectableObject1().downMvt(this);
+                                if ((objectLinker.getDetectableObject1().downMvt(this) < miniDownMvt)) {
+
+                                    miniDownMvt = objectLinker.getDetectableObject1().downMvt(this);
+                                }
+
+                            }
                         }
-
-                    }
 
             }
             if (calc) {

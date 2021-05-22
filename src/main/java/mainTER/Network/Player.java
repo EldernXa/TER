@@ -317,6 +317,7 @@ public class Player {
         thread.start();
 
         }
+
         public void readForMap(DataInputStream dis){
             try {
                 nameOfMap = dis.readUTF();
