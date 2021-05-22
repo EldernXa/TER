@@ -62,7 +62,13 @@ public class DBManager {
         return connection;
     }
 
-
+    /**
+     * Create a table generally.
+     * @param nameTable the name of the table.
+     * @param listName the list of the name of attribute the table must contains (will all be varchar type).
+     * @param numPrimaryKey the number of primary key (the primary key must be first in listName.
+     * @param listSize the list of size the different attribute will have.
+     */
     public void createTable(String nameTable, List<String> listName, int numPrimaryKey, List<Integer> listSize){
         StringBuilder requestCreateTable = new StringBuilder("CREATE TABLE IF NOT EXISTS " + nameTable + " ( \n");
         for(int i = 0; i<listName.size();i++){
@@ -84,10 +90,14 @@ public class DBManager {
             requestCreateTable.append(")");
         }
         requestCreateTable.append(");");
-        //System.out.println(requestCreateTable);
         createTableOrInsert(requestCreateTable.toString());
     }
 
+    /**
+     * Inserting values generally.
+     * @param nameTable the name of the table.
+     * @param listInsert a list who contains the values we must insert.
+     */
     public void insertIntoTable(String nameTable, List<Object> listInsert){
         StringBuilder stringBuilderInsert = new StringBuilder("INSERT INTO ");
         stringBuilderInsert.append(nameTable).append(" VALUES (");
@@ -104,6 +114,15 @@ public class DBManager {
         createTableOrInsert(stringBuilderInsert.toString());
     }
 
+    /**
+     * get a list of values depending of different param.
+     * @param nameTable the name of the table.
+     * @param listNameLine a list containing all name of attributes who will be in the where clause.
+     * @param listRealValueOfLine a list containing all values who must be equals to the attribute in the previous list.
+     * @param nameRequest the attribute we want to get in the result list.
+     * @return a list of values depending of different param.
+     * @throws SQLException if we cannot get values from the databases.
+     */
     public List<String> getList(String nameTable, List<String> listNameLine, List<Object> listRealValueOfLine, String nameRequest) throws SQLException{
         ArrayList<String> listRequested = new ArrayList<>();
         ResultSet resultSet = selectIntoTable(nameTable, listNameLine, listRealValueOfLine);
@@ -114,12 +133,31 @@ public class DBManager {
         return listRequested;
     }
 
+    /**
+     * get only one data from the databases thanks to different param.
+     * @param nameTable the name of the table.
+     * @param listNameLine a list containing all name of attributes who will be in the where clause.
+     * @param listRealValueOfLine a list containing all values who must be equals to the attribute in the previous list.
+     * @param nameRequest the attribute we want to get for the result.
+     * @return only one data from the databases thanks to different param.
+     * @throws SQLException if we cannot get values from the databases.
+     */
     public String getData(String nameTable, List<String> listNameLine, List<Object> listRealValueOfLine, String nameRequest) throws SQLException {
         ResultSet resultSet = selectIntoTable(nameTable, listNameLine, listRealValueOfLine);
         resultSet.next();
         return SecureManage.getDecrypted(resultSet.getString(nameRequest));
     }
 
+    /**
+     * get only one data from the databases thanks to different param.
+     * @param nameTable the name of the table.
+     * @param nameAtt the name of the attribute who will be in the where clause.
+     * @param realValueOfAtt the values who must be equals to the attribute in the previous param.
+     * @param nameRequest the attribute we want to get for the result.
+     * @param useless a boolean who must be at true.
+     * @return only one data from the databases.
+     * @throws SQLException if we cannot get values from the databases.
+     */
     public String getData(String nameTable, String nameAtt, Object realValueOfAtt, String nameRequest, boolean useless) throws SQLException{
         if(useless) {
             ResultSet resultSet = selectIntoTable(nameTable, nameAtt, realValueOfAtt);
@@ -129,6 +167,13 @@ public class DBManager {
         return null;
     }
 
+    /**
+     * Give a result for a select.
+     * @param nameTable the name of the table.
+     * @param listName a list containing all name of attributes who will be in the where clause.
+     * @param listRequest a list containing all values who must be equals to the attribute in the previous list.
+     * @return a result for a select.
+     */
     private ResultSet selectIntoTable(String nameTable, List<String> listName, List<Object> listRequest){
         ResultSet resultSet;
         StringBuilder stringBuilder = new StringBuilder("SELECT * FROM ");
@@ -147,6 +192,13 @@ public class DBManager {
         return resultSet;
     }
 
+    /**
+     * Give a result for a select.
+     * @param nameTable the name of the table.
+     * @param name the name of the one attribute who will be in the where clause.
+     * @param request the values who must be equals to the previous attribute.
+     * @return a result for a select.
+     */
     private ResultSet selectIntoTable(String nameTable, String name, Object request){
         ResultSet resultSet;
         String stringBuilder = "SELECT * FROM " + nameTable +
@@ -157,6 +209,14 @@ public class DBManager {
         return resultSet;
     }
 
+    /**
+     * update table generally.
+     * @param tableName the name of the table.
+     * @param listNameLine a list containing all name of attributes who will be in the where clause.
+     * @param listRealValueOfLine a list containing all values who must be equals to the attribute in the previous list.
+     * @param nameValToModify the name of the attribute we want to modify.
+     * @param newVal the new value.
+     */
     public void updateTable(String tableName, List<String> listNameLine, List<Object> listRealValueOfLine, String nameValToModify, Object newVal){
         StringBuilder stringBuilderToUpdate = new StringBuilder("Update ");
         stringBuilderToUpdate.append(tableName).append(" \nSET ");
@@ -173,18 +233,40 @@ public class DBManager {
         updateTable(stringBuilderToUpdate.toString());
     }
 
+    /**
+     * Get a boolean from a resultSet.
+     * @param resultSet resultSet who permit us to verify the value.
+     * @param nameAttribute the name of the attribute we want to check.
+     * @param valueAttribute the comparison value.
+     * @return true if the value of nameAttribute is equals to valueAttribute, false otherwise.
+     * @throws SQLException if we cannot get values from databases.
+     */
     public boolean getFromResultSet(ResultSet resultSet, String nameAttribute, Object valueAttribute) throws SQLException{
         return resultSet.getString(nameAttribute).compareTo(SecureManage.getEncrypted(String.valueOf(valueAttribute)))==0;
     }
 
+    /**
+     * Get a string who is encrypted from a object.
+     * @param valueObject the value we want to encrypt.
+     * @return a string who is the values encrypted from a object.
+     */
     public String getEncryptedFromObject(Object valueObject){
         return SecureManage.getEncrypted(String.valueOf(valueObject));
     }
 
+    /**
+     * Get a string who is the values decrypted from a string.
+     * @param valueString the value we want to decrypt.
+     * @return a string who is the values decrypted from a string.
+     */
     public String getDecryptedFromString(String valueString){
         return SecureManage.getDecrypted(valueString);
     }
 
+    /**
+     * Update the table (not generally, we must insert the request by hand).
+     * @param strCreateTable the request for update table.
+     */
     public void updateTable(String strCreateTable){
         this.getConnection();
         try(Statement statement = connection.createStatement()) {
@@ -250,6 +332,12 @@ public class DBManager {
         }
     }
 
+    /**
+     * Give an array from one table (must have only one line inside).
+     * @param nameTable  the name of the table.
+     * @return an array from one table.
+     * @throws SQLException if we cannot get values from the table (or the databases).
+     */
     public List<String> toArray(String nameTable) throws SQLException{
         ArrayList<String> returnArray = new ArrayList<>();
         ResultSet resultSet = selectIntoTable("SELECT * FROM " + nameTable);
