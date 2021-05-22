@@ -1,5 +1,8 @@
 package mainTER.exception;
 
+/**
+ * Exception for when the map already exist.
+ */
 public class MapAlreadyExistException extends Exception{
 
     private final String message;
