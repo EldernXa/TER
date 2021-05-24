@@ -112,7 +112,6 @@ platG L 2876 1071 19 18
 levers
 57 2314 portcullis2 316 1141 1
 472 1376 portcullis 135 2173 1
-1361 1835 portcullis 100 100 0
 1361 1835 blockDisapear2 1512 1708 1
 objects
 lava 1132 2330
