@@ -214,7 +214,7 @@ public class DisplayCharacter extends CollideObject {
             disableEventForSkill();
             animationForTheCharacter.getTimeline().stop();
             double height = animationForTheCharacter.actualImg().getImage().getHeight();
-            double maxX =animationForTheCharacter.actualImg().getBoundsInParent().getMaxX();
+            double maxX =animationForTheCharacter.actualImg().getBoundsInParent().getWidth();
             animationForTheCharacter.changeCharacter(characterToSwitch);
 
             ImageView imgView = animationForTheCharacter.nextImage();
@@ -222,7 +222,8 @@ public class DisplayCharacter extends CollideObject {
 
             if(isRight){
 
-                double newX = maxX - imgView.getBoundsInParent().getMaxX();
+                double newX = maxX - imgView.getBoundsInParent().getWidth();
+
 
                 currentCoordinateOfTheCharacter.setX(currentCoordinateOfTheCharacter.getX() + newX );
             }
