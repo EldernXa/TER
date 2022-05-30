@@ -11,7 +11,7 @@ import static mainTER.Menu.MainMenu.createContent;
 /**
  * JavaFX App
  */
-public class App extends Application {
+public class App extends Application { 
 
 
 
