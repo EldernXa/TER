@@ -6,6 +6,7 @@ module mainTER {
     requires java.sql;
     requires java.desktop;
     requires javafx.media;
+	requires javafx.graphics;
     exports mainTER;
     opens mainTER.Menu;
     opens mainTER.Tools;
